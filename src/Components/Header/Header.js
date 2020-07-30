@@ -1,10 +1,7 @@
 import React from "react";
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import classes from "./Header.module.css";
-import { useParams } from "react-router-dom";
 const Header = (props) => {
-    const { id } = useParams();
-    // console.log(props,id)
     return (
         <div>
             <Container style={{paddingTop:"0.5%"}}>

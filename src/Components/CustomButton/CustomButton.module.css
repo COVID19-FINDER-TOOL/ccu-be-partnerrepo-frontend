@@ -37,6 +37,7 @@ button:focus{
     border-radius: 300px !important;
     background-color: #d8410d !important;
     border-color:  #d8410d !important;
+    margin-top: 2%;
   }
 
   .buttonColor1:hover{

@@ -1,9 +1,9 @@
 import React from 'react';
 import classes from './App.module.css';
 import Header from './Components/Header/Header';
-// import Login from './Components/Login/Login';
+import WelcomePage from './Components/WelcomePage/WelcomePage';
 import { Container } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, withRouter, Switch, } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
 import Footers from './Components/Footers/Footers';
 import CacheCleaner from './CacheCleaner.js'
 
@@ -23,7 +23,7 @@ function App() {
             <Header />
             <Container className={classes.App}>
               <Switch>
-                <Route exact path='/' component={Login} />
+                <Route exact path='/' component={WelcomePage} />
               </Switch>
             </Container >
             <Footers />

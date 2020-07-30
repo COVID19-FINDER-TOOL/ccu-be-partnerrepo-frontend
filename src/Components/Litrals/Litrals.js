@@ -1,11 +1,15 @@
-import React from "react";
+
 
 const litrals = {
     buttons : {
         loginButton:{
                 buttonText : "Login",
                 variant:"primary",
-        }
+        },
+        nextStep:{
+            buttonText : "Next Step",
+            variant:"primary",
+    }
     }
 };
 

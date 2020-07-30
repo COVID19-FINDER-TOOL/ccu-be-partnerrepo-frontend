@@ -1,7 +1,7 @@
-import React,{Component} from 'react'
+import React from 'react'
 import classes from './CustomButton.module.css';
 import {Button} from 'react-bootstrap' 
-import classNames from 'classnames'
+
 
 
 const CustomButton =  (props)=>{
