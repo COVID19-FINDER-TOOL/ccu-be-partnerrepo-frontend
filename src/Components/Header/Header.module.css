@@ -1,0 +1,44 @@
+
+.links{
+    margin-left: auto;
+    margin-bottom: 1%;
+}
+
+.linkElement{
+    color: #a60726;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    padding: 0.5rem;
+}
+
+.linkElement:hover{
+    color: #a60726;
+    border-bottom: #a60726;
+}
+
+.caption{
+    padding: 1.3% 0 1% 0%;
+    color: whitesmoke;
+    background: #a60726  url("../../assets/Images/Header_bg.jpg") bottom center no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 40px 60px rgba(0, 0, 0, 0.2) inset;
+    margin-top: 0.5%;
+    
+}
+
+.captionText{
+    margin-left: 1.2%;
+    font-size: larger;
+}
+
+
+@media screen and (max-width:600px){
+    .caption{
+        padding: 4% 0 4% 0%;
+        background-size: auto;
+    }
+
+    .captionText{
+        margin-left: 4.2%;
+    }
+}

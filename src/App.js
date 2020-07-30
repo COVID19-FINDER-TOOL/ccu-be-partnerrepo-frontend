@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import classes from './App.module.css';
+import Header from './Components/Header/Header';
+// import Login from './Components/Login/Login';
+import { Container } from 'react-bootstrap';
+import { BrowserRouter as Router, Route, withRouter, Switch, } from 'react-router-dom';
+import Footers from './Components/Footers/Footers';
+import CacheCleaner from './CacheCleaner.js'
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CacheCleaner>
+      {({ loading, isLatestVersion, refreshCacheAndReload }) => {
+        if (loading) return null;
+        if (!loading && !isLatestVersion) {
+          // You can decide how and when you want to force reload
+          refreshCacheAndReload();
+        }
+
+        return (
+          <Router basename="/csf">
+            <Header />
+            <Container className={classes.App}>
+              <Switch>
+                <Route exact path='/' component={Login} />
+              </Switch>
+            </Container >
+            <Footers />
+          </Router>
+        );
+      }}
+    </CacheCleaner>
   );
+
 }
 
 export default App;

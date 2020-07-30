@@ -1,0 +1,51 @@
+.buttonPadding{
+    border-radius: 0;
+     border-color: white; 
+     background-color: #b5b3b3;
+    
+}
+ 
+button:nth-child(2){
+
+    float: left;
+    margin-left: 20px;
+}
+button:nth-child(3){
+    float: left;
+}
+.exitandsaveButtoncss{
+    padding: 5px 30px 5px 30px;
+}
+.nextButton{
+    padding: 5px 30px 5px 30px;
+}
+button:active{
+    color: #ffff !important
+}
+button:focus{
+    color: #ffff !important
+}
+
+.buttonColor1{
+    color: white !important;
+    box-shadow: none !important;
+    padding: 12px 30px !important;
+    line-height: 21px !important;
+    text-transform: capitalize;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    border-radius: 300px !important;
+    background-color: #d8410d !important;
+    border-color:  #d8410d !important;
+  }
+
+  .buttonColor1:hover{
+    background-color: darkorange !important;
+    border-color:  darkorange !important;
+  }
+
+  @media screen and (max-width:600px){
+    .buttonColor1{
+        width: 100% !important;
+    }
+}
