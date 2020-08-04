@@ -17,7 +17,7 @@
     border-radius: 50%;
     margin-right: 0%;
     box-sizing: border-box;
-    padding: 9%;
+    padding: 10px;
     
 }
 
@@ -39,7 +39,7 @@
 
 .radio_input:checked + .radio_radio{
     border: 5px solid #e10b35; 
-    padding: 7%;
+    padding: 5px;
     background: rgb(243, 243, 243);
 
 }

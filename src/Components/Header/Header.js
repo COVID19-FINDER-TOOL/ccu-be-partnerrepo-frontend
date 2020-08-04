@@ -26,7 +26,7 @@ const Header = (props) => {
             </Navbar>
             </Container>
             <div className={classes.caption}>
-                <Container > <p className={classes.captionText}><u>Covid 19 Support Finder</u> / Personal Information</p> </Container>
+                <Container > <p className={classes.captionText}><u>Covid 19 Support Finder</u></p> </Container>
 
             </div>
         </div>

@@ -1,15 +1,23 @@
 
 
 const litrals = {
-    buttons : {
-        loginButton:{
-                buttonText : "Login",
-                variant:"primary",
+    buttons: {
+        loginButton: {
+            buttonText: "Login",
+            variant: "primary",
         },
-        nextStep:{
-            buttonText : "Next Step",
-            variant:"primary",
-    }
+        startButton: {
+            buttonText: "Start",
+            variant: "primary",
+        },
+        nextStep: {
+            buttonText: "Next Step",
+            variant: "primary",
+        },
+        back: {
+            buttonText: "Home",
+            variant: "primary",
+        }
     }
 };
 

@@ -8,7 +8,7 @@
 button:nth-child(2){
 
     float: left;
-    margin-left: 20px;
+    /* margin-left: 20px; */
 }
 button:nth-child(3){
     float: left;
@@ -41,8 +41,8 @@ button:focus{
   }
 
   .buttonColor1:hover{
-    background-color: darkorange !important;
-    border-color:  darkorange !important;
+    background-color: #ff7149 !important;
+    border-color:  #ff7149 !important;
   }
 
   @media screen and (max-width:600px){

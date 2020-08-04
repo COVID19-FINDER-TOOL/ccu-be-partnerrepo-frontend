@@ -20,20 +20,3 @@
 .nameInput{
     margin-top: 3%;
 }
-.cardContainer{
-    display: flex;
-}
-
-.cardClass{
-    width: '15rem';
-    margin: "1%";
-    color: "whitesmoke";
-    background-color: #a60726
-}
-
-@media screen and (max-width:600px){
-    .cardContainer{
-        display: block;
-    }
-
-}
