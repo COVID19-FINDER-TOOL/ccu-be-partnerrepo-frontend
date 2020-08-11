@@ -1,7 +1,21 @@
 import React from "react";
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import classes from "./Header.module.css";
+import { makeStyles } from '@material-ui/core/styles';
+import ShareSharpIcon from '@material-ui/icons/ShareSharp';
+import AddToQueueIcon from '@material-ui/icons/AddToQueue';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > span': {
+        margin: theme.spacing(2),
+        fill:"red"
+      },
+    },
+  }));
+
 const Header = (props) => {
+    const muiclasses = useStyles();
     return (
         <div>
             <Container style={{paddingTop:"0.5%"}}>
@@ -19,8 +33,8 @@ const Header = (props) => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className={classes.links}>
-                        <Nav.Link bsPrefix={classes.linkElement} href="">Details</Nav.Link> 
-                        <Nav.Link bsPrefix={classes.linkElement} href="">Link</Nav.Link> 
+                        <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}>Share<ShareSharpIcon  fontSize="large" style={{fill:"#a60726"}}></ShareSharpIcon></Nav.Link></div>
+                        <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}>Invite<AddToQueueIcon  fontSize="large" style={{fill:"#a60726"}}></AddToQueueIcon></Nav.Link></div>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

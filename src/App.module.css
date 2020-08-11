@@ -10,7 +10,9 @@ body {
   display: flex;
   text-align: left;
   flex: 1 0 auto;
+  flex-grow: 1;
 }
+
 
 
 

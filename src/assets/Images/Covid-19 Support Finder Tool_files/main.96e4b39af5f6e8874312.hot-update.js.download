@@ -1,0 +1,391 @@
+webpackHotUpdate("main",{
+
+/***/ "./src/Components/Chatbot/Chatbot.js":
+/*!*******************************************!*\
+  !*** ./src/Components/Chatbot/Chatbot.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Chatbot.module.css */ "./src/Components/Chatbot/Chatbot.module.css");
+/* harmony import */ var _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap */ "./node_modules/react-bootstrap/esm/index.js");
+/* harmony import */ var _CustomRadio_CustomRadio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../CustomRadio/CustomRadio */ "./src/Components/CustomRadio/CustomRadio.js");
+/* harmony import */ var _CustomButton_CustomButton__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../CustomButton/CustomButton */ "./src/Components/CustomButton/CustomButton.js");
+/* harmony import */ var _Litrals_Litrals__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Litrals/Litrals */ "./src/Components/Litrals/Litrals.js");
+/* harmony import */ var _AxiosHandler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../AxiosHandler */ "./src/AxiosHandler.js");
+/* harmony import */ var _store_Action_SurveyAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../store/Action/SurveyAction */ "./src/store/Action/SurveyAction.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_Action_LoginAction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../store/Action/LoginAction */ "./src/store/Action/LoginAction.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_10__);
+var _jsxFileName = "D:\\csf_cp\\src\\Components\\Chatbot\\Chatbot.js";
+
+
+
+
+
+
+
+
+
+
+
+
+class Chatbot extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+
+    this.componentDidMount = () => {
+      this.fetch();
+      Object(_store_Action_LoginAction__WEBPACK_IMPORTED_MODULE_9__["onEditInspection"])({
+        questionStack: []
+      });
+    };
+
+    this.fetch = () => {
+      const body = this.state.requestBody;
+      this.setState(() => {
+        return {
+          showSpinner: true,
+          questionStack: this.state.questionStack.concat({
+            body
+          })
+        };
+      });
+      _AxiosHandler__WEBPACK_IMPORTED_MODULE_6__["axiosInstance"].post("generateAnswer", this.state.requestBody).then(res => {
+        const data = res.data.answers[0];
+        this.setState(() => {
+          return {
+            data: data,
+            showSpinner: false
+          };
+        });
+        console.log(data, this.state);
+      }).catch(error => {
+        console.log(error);
+        this.setState(() => {
+          return {
+            showSpinner: false
+          };
+        });
+      });
+      const {
+        questionStack
+      } = this.state;
+      this.props.onEditInspection({
+        questionStack
+      });
+    };
+
+    this.handleRadio = event => {
+      const id = event.target.id ? event.target.id : "";
+      const type = event.target.type;
+      const selectOption = event.target.value;
+      const {
+        CREATEJOURNEY
+      } = this.props.payload;
+      const {
+        metadata
+      } = CREATEJOURNEY ? CREATEJOURNEY : '';
+      const meta = metadata ? metadata + event.target.value.slice(0, 3).toLowerCase() : event.target.value.slice(0, 3).toLowerCase();
+      const reqbody = {
+        "question": selectOption,
+        "top": 1,
+        "strictFilters": [{
+          "name": "context",
+          "value": meta
+        }]
+      };
+      const resbody = {
+        "question_id": this.state.data.id,
+        "answer_id": id ? id : "",
+        "answer_time": moment__WEBPACK_IMPORTED_MODULE_10___default.a.utc().format('DD/MM/YY hh:mm:ss'),
+        "descriptive_answer": type == "input" ? selectOption : ""
+      };
+      this.setState(() => {
+        return {
+          condition: id,
+          requestBody: reqbody,
+          metadata: meta,
+          user_response: resbody,
+          responseStack: this.state.responseStack.concat(resbody),
+          msg: false
+        };
+      });
+    };
+
+    this.saveInStorage = user_response => {
+      const {
+        LOGIN
+      } = this.props.payload;
+      const {
+        user
+      } = LOGIN ? LOGIN : JSON.parse(window.localStorage.getItem("csf_user")).user_id;
+      user_response["user_id"] = user.user_id;
+      user_response["topic_id"] = this.state.topicId;
+      console.log(user_response);
+      this.setState(() => {
+        return {
+          showSpinner: true
+        };
+      });
+      _AxiosHandler__WEBPACK_IMPORTED_MODULE_6__["axiosLoginInstance"].post("CFTUserJourneyTrigger/answer", user_response).then(res => {
+        const data = res.data;
+        console.log(data);
+        this.fetch();
+      }).catch(error => {
+        console.log(error);
+        this.setState(() => {
+          return {
+            showSpinner: false
+          };
+        });
+      });
+    };
+
+    this.handleSubmit = () => {
+      const {
+        metadata,
+        data,
+        user_response,
+        responseStack
+      } = this.state;
+
+      if (this.state.topicId === -1) {
+        const topicId = data.id;
+        this.setState(() => {
+          return {
+            topicId
+          };
+        });
+        this.props.onEditInspection({
+          topicId: topicId
+        });
+        this.fetch();
+      } else if (this.state.user_response) {
+        // this.saveInStorage(user_response)
+        this.fetch();
+      } else this.setState(() => {
+        return {
+          msg: true
+        };
+      });
+
+      this.props.onEditInspection({
+        metadata,
+        responseStack
+      });
+    };
+
+    this.createForm = prompts => {
+      const radios = prompts.map((x, index) => {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CustomRadio_CustomRadio__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          radioLabel: x.displayText,
+          id: x.qnaId,
+          key: x.qnaId,
+          onClick: this.handleRadio,
+          __self: this,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 118,
+            columnNumber: 17
+          }
+        });
+      });
+      return radios;
+    };
+
+    this.filterQuestionData = array => {//    const array.map((x)=>{
+      //         console.log(x)
+      //     })
+    };
+
+    this.splitQuestionData = () => {
+      const text = this.state.data.answer;
+      const textarray = text.split("\n");
+      const paragraphs = textarray.map((x, index) => {
+        if (x.startsWith("#")) {
+          const x_ = x.split(" "); // console.log(x_)
+
+          const n = x_[0].length;
+          const CustomTag = `h${n}`;
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CustomTag, {
+            className: _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default.a.heading,
+            key: index,
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 140,
+              columnNumber: 21
+            }
+          }, " ", x.slice(n), " ");
+        } else if (x.trim().startsWith("[")) {
+          const link = x.slice(12).replace(/^\((.+)\)$/, '$1');
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            key: index,
+            className: _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default.a.linkElement,
+            href: link,
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 147,
+              columnNumber: 21
+            }
+          }, link);
+        } else if (x.trim().startsWith("_<insert text field>_")) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
+            key: index,
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 152,
+              columnNumber: 21
+            }
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"].Group, {
+            controlId: "_<insert text field_",
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 153,
+              columnNumber: 25
+            }
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"].Control, {
+            type: "text",
+            onChange: this.handleRadio,
+            defaultValue: "",
+            autoComplete: "off",
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 154,
+              columnNumber: 29
+            }
+          })));
+        } else if (x.trim().startsWith("*")) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            key: index,
+            className: _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default.a.para,
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 161,
+              columnNumber: 21
+            }
+          }, x.trim().slice(4));
+        } else {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            key: index,
+            className: _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default.a.para,
+            __self: this,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 166,
+              columnNumber: 21
+            }
+          }, x.trim());
+        }
+      });
+      return paragraphs;
+    };
+
+    this.state = {
+      data: "",
+      requestBody: {
+        "question": "Yes"
+      },
+      msg: false,
+      condition: "",
+      showSpinner: true,
+      metadata: "",
+      topicId: -1,
+      questionStack: [],
+      responseStack: []
+    };
+  }
+
+  render() {
+    const paragraphs = this.state.data ? this.splitQuestionData() : console.log();
+    const question = this.state.data ? this.state.data.answer : console.log();
+    const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts) : console.log();
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 182,
+        columnNumber: 13
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      style: {
+        display: this.state.showSpinner ? "block" : "none"
+      },
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 183,
+        columnNumber: 17
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      alt: "Loading...!!! ",
+      className: _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default.a.spinner,
+      src: __webpack_require__(/*! ../../assets/Images/Spinner-1s-200px.gif */ "./src/assets/Images/Spinner-1s-200px.gif"),
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 183,
+        columnNumber: 85
+      }
+    })), paragraphs, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_2__["Form"], {
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 185,
+        columnNumber: 17
+      }
+    }, this.state.msg ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+      className: _Chatbot_module_css__WEBPACK_IMPORTED_MODULE_1___default.a.error,
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 186,
+        columnNumber: 39
+      }
+    }, "*Please select an option") : null, radios ? radios : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CustomButton_CustomButton__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      type: "submit",
+      onClick: this.handleSubmit,
+      data: _Litrals_Litrals__WEBPACK_IMPORTED_MODULE_5__["default"].buttons.nextStep,
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 188,
+        columnNumber: 21
+      }
+    })));
+  }
+
+}
+
+const mapStateToProps = state => {
+  return {
+    payload: state.surveyData
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onEditInspection: data => dispatch(Object(_store_Action_LoginAction__WEBPACK_IMPORTED_MODULE_9__["onEditInspection"])(data)),
+    surveyData: data => dispatch(Object(_store_Action_SurveyAction__WEBPACK_IMPORTED_MODULE_7__["surveyData"])(data))
+  };
+};
+
+const ChatbotData = Object(react_redux__WEBPACK_IMPORTED_MODULE_8__["connect"])(mapStateToProps, mapDispatchToProps)(Chatbot);
+/* harmony default export */ __webpack_exports__["default"] = (ChatbotData);
+
+/***/ })
+
+})
+//# sourceMappingURL=main.96e4b39af5f6e8874312.hot-update.js.map

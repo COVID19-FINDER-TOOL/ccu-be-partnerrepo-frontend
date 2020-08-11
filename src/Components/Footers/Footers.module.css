@@ -1,15 +1,17 @@
 .footers{
    padding-right:0.8%;
    flex-shrink: 0;
-   position: fixed;
-   height: inherit;
+   position: relative;
+   height: 170px;
    bottom:0;
+   top:15;
    width:100%;
    margin-top: auto;
+   flex-shrink: 0;
 }
 .footer1{
-    padding-top: 2.5%;
-    padding-bottom: 2.5%;
+    padding-top: 1%;
+    padding-bottom: 1%;
     background-color: #f2f2f2;
 }
 

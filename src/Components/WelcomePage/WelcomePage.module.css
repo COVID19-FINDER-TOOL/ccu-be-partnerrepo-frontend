@@ -11,6 +11,7 @@
     font-size: 19px;
     font-size: 1.1875rem;
     line-height: 1.31579;
+    text-align: justify;
 }
 
 .error{
@@ -30,6 +31,7 @@
     color: "whitesmoke";
     background-color: #a60726
 }
+
 
 @media screen and (max-width:600px){
     .cardContainer{

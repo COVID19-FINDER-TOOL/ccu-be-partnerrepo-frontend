@@ -1,0 +1,8 @@
+
+export const LOGIN="LOGIN";
+export const LOGOUT="LOGOUT";
+export const CREATEJOURNEY="CREATEJOURNEY";
+export const CLEANCREATEJOURNEY="CLEANCREATEJOURNEY";
+export const SURVEY="SURVEY";
+
+ 

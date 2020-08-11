@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
 import Footers from './Components/Footers/Footers';
 import CacheCleaner from './CacheCleaner.js'
 import Feedback from './Components/Feedback/Feedback';
+import { connect } from "react-redux";
 
 
 
@@ -42,5 +43,13 @@ function App() {
   );
 
 }
+const mapStateToProps = state => {
+  let payload=state.oppSerch
 
-export default App;
+  return {payload};
+};
+
+export default connect(mapStateToProps,null,null,{pure:false})(App);
+
+
+ 

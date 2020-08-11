@@ -1,9 +1,9 @@
-.headingH1{
+.heading{
     font-weight: bolder;
     color: #333333;
-    font-size: 38px;
-    line-height: 45px;
-    margin-top: 5%;
+    /* font-size: 38px; */
+    /* line-height: 45px; */
+    margin-top: 2%;
     margin-bottom: 2%;
 }
 
@@ -21,4 +21,16 @@
 .spinner{
     display: block;
     margin: auto;
+}
+
+.linkElement{
+    color: #a60726;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    padding: 0.5rem;
+}
+
+.linkElement:hover{
+    color: #a60726;
+    border-bottom: #a60726;
 }
