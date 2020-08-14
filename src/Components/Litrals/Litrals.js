@@ -17,6 +17,10 @@ const litrals = {
         back: {
             buttonText: "Home",
             variant: "primary",
+        },
+        backNav:{
+            buttonText: "Previous Step",
+            variant: "primary",
         }
     },
     welcome:{

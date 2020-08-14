@@ -202,7 +202,7 @@ class WelcomePage extends React.Component {
             :
 
             <Form>
-              <legend className="legend">{this.state.data.answer}</legend>
+              <legend className="legend">{this.state.data.answer.slice(3)}</legend>
               {this.state.msg ? <h5 className={classes.error}>*Please select an option</h5> : null}
               {radios ? radios : ""}
               <CustomButton type="submit" onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton>

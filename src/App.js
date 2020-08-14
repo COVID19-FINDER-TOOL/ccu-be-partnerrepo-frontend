@@ -26,7 +26,8 @@ function App() {
         return (
           <Router basename="/csf">
             <Header />
-            <Container className={classes.App}>
+            <div className={classes.App}>
+            <Container>
               <Switch>
                 <Route path='/enter-name' component={EnterName}
                 />
@@ -35,6 +36,7 @@ function App() {
                 <Route exact path='/' component={WelcomePage} />
               </Switch>
             </Container >
+            </div>
             <Footers />
           </Router>
         );

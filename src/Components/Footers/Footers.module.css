@@ -1,13 +1,11 @@
 .footers{
    padding-right:0.8%;
-   flex-shrink: 0;
-   position: relative;
-   height: 170px;
+   position: absolute;
+   /* height: 170px; */
    bottom:0;
-   top:15;
+   /* top:100; */
    width:100%;
    margin-top: auto;
-   flex-shrink: 0;
 }
 .footer1{
     padding-top: 1%;
