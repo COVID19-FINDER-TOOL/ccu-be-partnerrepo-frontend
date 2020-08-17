@@ -5,7 +5,7 @@ import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
-import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
+import { axiosInstance, axiosLoopbackInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
@@ -70,16 +70,15 @@ class Chatbot extends React.Component {
         const selectOption = event.target.value;
         const { CREATEJOURNEY } = this.props.payload
         const { metadata } = CREATEJOURNEY ? CREATEJOURNEY : ''
-        const meta = metadata && metadata!=="yes" ? (metadata + event.target.value.slice(0, 3).toLowerCase()) : event.target.value.slice(0, 3).toLowerCase();
+        const meta = metadata && metadata !== "yes" ? (metadata + event.target.value.slice(0, 3).toLowerCase()) : event.target.value.slice(0, 3).toLowerCase();
         var reqbody = "";
-        if (meta !== "yes") 
-        {
+        if (meta !== "yes") {
             reqbody = {
                 "question": selectOption,
                 "top": 1,
                 "strictFilters": [{ "name": "context", "value": meta }]
             }
-        }else{
+        } else {
             reqbody = {
                 "question": selectOption,
             }
@@ -125,6 +124,9 @@ class Chatbot extends React.Component {
     }
 
     handleSubmit = () => {
+        const { CREATEJOURNEY, LOGIN } = this.props.payload
+        const { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : "";
+        const { user } = LOGIN ? LOGIN : "";
         console.log(this.state)
         var noRadio = false
         if (this.state.data.context && this.state.data.context.prompts.length == 1) {
@@ -138,8 +140,8 @@ class Chatbot extends React.Component {
                 metadata: "",
 
             })
-            this.setState(() => { return { requestBody: reqbody, responseStack:"" } });
-            
+            this.setState(() => { return { requestBody: reqbody, responseStack: "" } });
+
             noRadio = true;
         }
 
@@ -152,6 +154,19 @@ class Chatbot extends React.Component {
         }
         if (noRadio) {
             this.props.onEditInspection({ metadata: '' })
+        }
+        if (metadata=="yes") {
+            this.setState(() => { return { showSpinner: true } })
+            axiosLoopbackInstance.post("loopback?user_id=UID070820T10535764")
+                .then(res => {
+                    const data = res.data;
+                    console.log(data);
+                    this.fetch();
+                }).catch(error => {
+                    console.log(error);
+                    this.setState(() => { return { showSpinner: false } })
+
+                });
         }
         if (this.state.topicId === -1) {
             const topicId = data.id;
@@ -166,10 +181,10 @@ class Chatbot extends React.Component {
     }
 
     downloadActionPlan = () => {
-        return(
-            <PDFDownloadLink document={<DownloadActionPlan/>} fileName="sample.pdf">
-            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
-          </PDFDownloadLink>
+        return (
+            <PDFDownloadLink document={<DownloadActionPlan />} fileName="sample.pdf">
+                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+            </PDFDownloadLink>
         )
     }
 

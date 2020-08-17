@@ -21,6 +21,15 @@ export const axiosLoginInstance = axios.create({
     'Access-Control-Allow-Origin': '*'
   }
 });
+
+export const axiosLoopbackInstance = axios.create({
+  baseURL: "https://cft-pythondbtest.azurewebsites.net/api/CFTLoopBackTrigger/",
+  timeout: 30000, //10 seconds before request timeout
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  }
+});
+
 axiosLoginInstance.defaults.headers.common['cache-control'] = `no-cache, no-store`;
 axiosLoginInstance.defaults.headers.common['Pragma'] = `no-cache`;
 

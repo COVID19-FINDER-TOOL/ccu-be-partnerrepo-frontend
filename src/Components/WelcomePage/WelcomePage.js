@@ -94,7 +94,7 @@ class WelcomePage extends React.Component {
   handleStart = () => {
     if (window.localStorage.getItem("csf_user")) {
       const user = JSON.parse(window.localStorage.getItem("csf_user"))
-      this.props.login({ user: user })
+      
       this.props.history.push("/enter-name");
 
     } else {
@@ -109,14 +109,15 @@ class WelcomePage extends React.Component {
   }
 
   generateUID = () => {
+
     const user = {
       user_id: "UID" + moment.utc().format('DDMMYYThhmmssSS'),
-      creation_time: moment.utc().format('DD/MM/YY hh:mm:ss')
+      creation_time: moment.utc().format('YYYY-MM-DD hh:mm:ss')
     }
 
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
       .then(res => {
-
+        this.props.login({ user: user })
         window.localStorage.setItem('csf_user', JSON.stringify(user));
         this.props.history.push("/enter-name");
 
