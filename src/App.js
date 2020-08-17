@@ -24,7 +24,7 @@ function App() {
         }
 
         return (
-          <Router basename="/csf">
+          <Router basename="/">
             <Header />
             <div className={classes.App}>
             <Container>

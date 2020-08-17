@@ -149,13 +149,21 @@ class Chatbot extends React.Component {
         this.setState(() => { return { responseStack: this.state.responseStack.concat(user_response) } })
         if (this.state.change) {
             const { responseStack } = this.state
-            var responseStack_ = responseStack.concat(user_response);
+            const index = responseStack.findIndex((x) =>  x.question_id === user_response.question_id );
+            if (responseStack && index !== -1) {
+                responseStack[index].answer_id = user_response.answer_id;
+                responseStack[index].answer_time = user_response.answer_time;
+                var responseStack_ = responseStack
+            } else {
+                var responseStack_ = responseStack.concat(user_response);
+            }
+
             this.props.onEditInspection({ metadata, responseStack: responseStack_ })
         }
         if (noRadio) {
             this.props.onEditInspection({ metadata: '' })
         }
-        if (metadata=="yes") {
+        if (metadata == "yes") {
             this.setState(() => { return { showSpinner: true } })
             axiosLoopbackInstance.post("loopback?user_id=UID070820T10535764")
                 .then(res => {
@@ -246,7 +254,7 @@ class Chatbot extends React.Component {
                 return (
                     <Form key={index}>
                         <Form.Group controlId={index}>
-                            <Form.Control type="text" onChange={""} defaultValue={""} autoComplete="off" />
+                            <Form.Control type="text" defaultValue={""} autoComplete="off" />
                         </Form.Group>
                     </Form>
                 )

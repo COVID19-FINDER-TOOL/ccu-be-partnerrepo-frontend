@@ -25,7 +25,7 @@ const Header = (props) => {
     return (
         <div>
             <Container style={{ paddingTop: "0.5%" }}>
-                <Navbar collapseOnSelect variant="light" expand="lg">
+                <Navbar variant="light">
                     <Navbar.Brand href="">
                         <img
                             alt="SSlogo"
@@ -39,8 +39,8 @@ const Header = (props) => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className={classes.links}>
-                            <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><WhatsappShareButton title = 'Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.blob.core.windows.net/webapp/index.html"} ><WhatsAppIcon fontSize="large" style={{ fill: "#a60726" }}></WhatsAppIcon></WhatsappShareButton ></Nav.Link></div>
-                            <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><EmailShareButton  subject = 'Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.blob.core.windows.net/webapp/index.html"}><MailIcon fontSize="large" style={{ fill: "#a60726" }}></MailIcon></EmailShareButton></Nav.Link></div>
+                            <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><WhatsappShareButton title = 'Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon fontSize="large" style={{ fill: "#a60726" }}></WhatsAppIcon></WhatsappShareButton ></Nav.Link></div>
+                            <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><EmailShareButton  subject = 'Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" style={{ fill: "#a60726" }}></MailIcon></EmailShareButton></Nav.Link></div>
                             
                         </Nav>
                     </Navbar.Collapse>
