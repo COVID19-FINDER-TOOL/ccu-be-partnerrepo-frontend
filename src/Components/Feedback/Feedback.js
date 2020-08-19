@@ -4,7 +4,11 @@ import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGrinAlt, faSmileBeam, faMeh, faFrown, faAngry } from "@fortawesome/free-solid-svg-icons";
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/Form';
+import { surveyData } from "../../store/Action/SurveyAction";
+import { connect } from "react-redux";
+import { onEditInspection } from "../../store/Action/LoginAction";
+import { axiosFeedbackInstance } from '../../AxiosHandler';
 
 class Feedback extends React.Component {
     constructor(props) {
@@ -15,12 +19,22 @@ class Feedback extends React.Component {
             section3: false,
             positives: false,
             negatives: false,
-            feedback : []
-            
+            answers: { "101": [], "102": [], "103": [] }
+
         }
     }
 
+    componentDidMount = () => {
+        this.props.onEditInspection({ Feedback: { answers: { "101": [], "102": [] }, other_experience:"",feedback:"" } })
+    }
+
     smilySelector = (id) => {
+        const { CREATEJOURNEY } = this.props.payload;
+        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        const feedback = Feedback
+        feedback.answers["101"].push(id.toString())
+        console.log(feedback)
+        this.props.onEditInspection({ Feedback: feedback })
         id <= 2 ? this.setState(() => { return { section2: true, section1: false, positives: true } }) : this.setState(() => { return { section2: true, section1: false, positives: false } })
     }
 
@@ -28,9 +42,49 @@ class Feedback extends React.Component {
         this.setState(() => { return { section3: true, section2: false } })
     }
 
-    optionChecked = (event) =>{
+    optionChecked = (event) => {
         const val = event.target;
-         val.id==3 ? val.checked ? this.setState(() => { return { others :true } }) : this.setState(() => { return { others :false } }) : console.log()
+        const id = event.target.id
+        const { CREATEJOURNEY } = this.props.payload;
+        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        var feedback = Feedback
+        if (val.checked) {
+            feedback.answers["102"].push(id)
+        }
+        else if (!val.checked) {
+            feedback.answers["102"] = feedback.answers["102"].filter(x => x != id)
+        }
+        this.props.onEditInspection({ Feedback: feedback })
+
+        id == 9 ? val.checked ? this.setState(() => { return { others: true } }) : this.setState(() => { return { others: false } }) : console.log()
+    }
+
+    handleTextBox = (e) =>{
+       var text = e.target.value
+       var id = e.target.id
+       const { CREATEJOURNEY } = this.props.payload;
+       const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+       var feedback = Feedback
+       id == 10 ? feedback.other_experience = text : feedback.feedback = text;
+       this.props.onEditInspection({ Feedback: feedback })
+    }
+
+    submitFeedback =  () =>{
+       const { CREATEJOURNEY } = this.props.payload;
+       const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+       var feedback = Feedback
+       feedback.user_id = JSON.parse(window.localStorage.getItem("csf_user")).user_id;
+       axiosFeedbackInstance.post("feedback",feedback)
+       .then(res => {
+           const data = res.data;
+           console.log(data);
+           this.props.history.push("/")
+       }).catch(error => {
+           console.log(error);
+           this.props.history.push("/")
+       });
+       
+       
     }
 
     createButtons = (arr) => {
@@ -40,7 +94,7 @@ class Feedback extends React.Component {
                     <div>
 
                         <label className={classes.label}>
-                            <input type="checkbox" className={classes.checkbox} id={index} onChange={this.optionChecked}></input>
+                            <input type="checkbox" className={classes.checkbox} id={index + 6} key={index + 6} onChange={this.optionChecked}></input>
                             <div className={classes.optionButtons}>{x}</div>
                         </label>
                     </div>
@@ -75,8 +129,8 @@ class Feedback extends React.Component {
                         {optionButtons}
                     </div>
                     <div style={{ display: this.state.others ? "block" : "none" }} >
-                        <Form.Group controlId="exampleForm.ControlTextarea2">
-                            <Form.Control bsPrefix={classes.textareasmall} as="textarea" rows="3" placeholder={'Please type here'} />
+                        <Form.Group>
+                            <Form.Control id={10} onChange={this.handleTextBox} bsPrefix={classes.textareasmall} as="textarea" rows="3" placeholder={'Please type here'} />
                         </Form.Group>
                     </div>
                     <CustomButton type="submit" float={"right"} onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton>
@@ -85,14 +139,27 @@ class Feedback extends React.Component {
 
                 <div style={{ display: this.state.section3 ? "block" : "none" }}>
                     <h3 className={classes.headingH1}>Your feedback on how the tool can be improved to support more people would be greatly appreciated.</h3>
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Control bsPrefix={classes.textarea} as="textarea" rows="3" placeholder={'Please share your thoughts and ideas here……'} />
+                    <Form.Group >
+                        <Form.Control id={11} onChange={this.handleTextBox} bsPrefix={classes.textarea} as="textarea" rows="3" placeholder={'Please share your thoughts and ideas here……'} />
                     </Form.Group>
-                    <CustomButton type="submit" float={"right"} onClick={() => { this.props.history.push("/") }} data={litrals.buttons.SubmitNav}></CustomButton>
+                    <CustomButton type="submit" float={"right"} onClick={ this.submitFeedback } data={litrals.buttons.SubmitNav}></CustomButton>
                 </div>
             </div>
         )
     }
 }
 
-export default Feedback;
+const mapStateToProps = state => {
+    return { payload: state.surveyData };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onEditInspection: data => dispatch(onEditInspection(data)),
+        surveyData: data => dispatch(surveyData(data))
+    };
+};
+
+const FeedbackData = connect(mapStateToProps, mapDispatchToProps)(Feedback);
+
+export default FeedbackData;
