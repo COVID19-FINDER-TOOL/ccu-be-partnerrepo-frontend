@@ -21,6 +21,10 @@ const litrals = {
         backNav:{
             buttonText: "Previous Step",
             variant: "primary",
+        },
+        SubmitNav:{
+            buttonText: "Submit",
+            variant: "primary",
         }
     },
     welcome:{
