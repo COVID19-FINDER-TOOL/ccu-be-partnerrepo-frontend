@@ -37,7 +37,7 @@ function App() {
               </Switch>
             </Container >
             </div>
-            <Footers />
+            {/* <Footers /> */}
           </Router>
         );
       }}

@@ -9,8 +9,6 @@ body {
 .App {
   display: flex;
   text-align: left;
-  max-height: 70vh;
-  overflow-y: scroll;
 }
 
 
