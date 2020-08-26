@@ -11,7 +11,7 @@ const litrals = {
             variant: "primary",
         },
         nextStep: {
-            buttonText: "Next Step",
+            buttonText: "Next",
             variant: "primary",
         },
         back: {
@@ -29,8 +29,14 @@ const litrals = {
     },
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
-        text1: "The Government, charities and community groups are offering financial and emotional support to those who are struggling with various issues that impact the way we interact with our money, home life, responsibilities and social interactions. Make sure you are aware what your options are and what you are entitled to espectially before making big decisions (e.g applying for credit). Know what to expect from organisations and how to react when you find yourself in unfamiliar stressful situations. Find the support you need to help you make better decisons for you and your family.",
-        links:[{buttonText:"Listen to expert"}, {buttonText:"Walking in my shoes"},{buttonText:"Money savings tips"}]
+        text1: "The Government, Charities and Community Groups are offering financial and emotional support to those who are finding themselves in stressful and unfamiliar situations.",
+        text2: "This Support Finder tool, developed by the University of Edinburgh and Sopra Steria in collaboration with various charities collates information on options available to you based on your circumstances allowing you to stay informed before making big decisions, such as applying for credit.",
+        text3: "How does it work?",
+        ribbonButtons : [{displayText:"We will ask you a few question about your situation. Any of your personal informantion will not be stored or shared."},
+                        {displayText:"We will also explain the implication of choosing certain options and explain your rights in difficult circumstances."},
+                        {displayText:"We will also share with you some stories of how others overcame similar challenges and tips from some experts."},
+                        {displayText:"Walk away with the set of instructions to get you started on the way to long term financial & emotional resiliance."},
+                        {displayText:"Based on the repsonses, you will receive information on the free support available from various organisations."}]
     }
 };
 

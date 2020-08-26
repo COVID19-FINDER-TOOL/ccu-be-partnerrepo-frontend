@@ -1,0 +1,101 @@
+@import "../../theme.scss"; 
+.headingH1{
+    font-weight: bolder;
+    color: #333333;
+    line-height: 45px;
+    margin-top: 3%;
+    text-align: center;
+}
+
+.headingHx{
+    font-weight: bolder;
+    color: #333333;
+    line-height: 45px;
+    margin-top: 3%;
+    text-align: left;
+}
+
+.headingPara{
+    font-weight: bolder;
+    color: #333333;
+    line-height: 45px;
+    text-align: center;
+}
+
+.smilyContainer{
+    padding-top: 2%;
+    display: block;
+    margin: auto;
+    text-align: center;
+    text-align: -webkit-center
+}
+.smily{
+    font-size: 50px;
+    color: darkorange;
+    margin: 1%;
+}
+
+.smily:hover{
+    transform: scale(1.2);
+    color: #ffc107;
+}
+
+.checkbox{
+    position: absolute;
+    display: none
+}
+.label{
+    margin-top: 10px;
+}
+
+.optionButtons{
+    line-height: 1;
+    color: black;
+    width: 15rem;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+}
+
+.checkbox:checked+.optionButtons{
+    background-color: $primary-color;
+    color: whitesmoke;
+}
+.checkbox:not(:checked)+.optionButtons:hover{
+    background-color: white;
+}
+
+.textarea{
+    max-width: 40rem;
+    min-width: 20rem;
+    height: 15rem;
+    background-color: white;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    color: black;
+    display: block;
+    margin: auto;
+    margin-top: 3%;
+    padding-top: 2rem;
+    text-align: center;
+}
+
+.textareasmall{
+    width: 20rem;
+    height: 7rem;  
+    background-color: white;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    color: black;
+    display: block;
+    margin: auto;
+    margin-top: 1%;
+    padding-top: 2rem;
+    text-align: center;
+}
+
+.textarea:focus , .textareasmall:focus{
+    border: 1px solid $primary-color;
+    outline: none;
+}

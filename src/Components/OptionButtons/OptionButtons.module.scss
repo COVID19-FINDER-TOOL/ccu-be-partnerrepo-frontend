@@ -1,0 +1,31 @@
+@import "../../theme.scss"; 
+
+.container{
+    color: #202124;
+    font-weight: bold;
+    text-align: left;
+    border: 1px solid;
+    border-color: $secondary-color;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: grey 2px;
+    transition: background-color 0.5s;
+}
+
+.container:hover, .container:active{
+    color: whitesmoke;
+    border: none;
+    background-color: $primary-color;
+}
+
+.index{
+    display: inline-block;
+    margin: auto;
+    font-size: x-large;
+}
+.text{
+    padding: 2px;
+}

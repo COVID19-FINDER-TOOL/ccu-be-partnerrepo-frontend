@@ -1,0 +1,67 @@
+@import "../../theme.scss"; 
+
+.backgrondImage{
+    // background-image: url($background-welcome) ;
+    // background-position: center; /* Center the image */
+    // background-repeat: no-repeat; /* Do not repeat the image */
+    // background-size: cover;
+}
+
+.headingH1{
+    font-weight: bolder;
+    color: #333333;
+    font-size: 38px;
+    line-height: 45px;
+    margin-top: 5%;
+}
+
+.para{
+    margin-top: 2%;
+    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+    text-align: justify;
+}
+
+.text3{
+    color: #55667c;
+    margin-top: 2%;
+    line-height: 1.31579;
+    text-align: center;
+    font-size:2.5rem;
+    // font-weight: 800;
+    font-family: fantasy;
+}
+
+.line{
+    border-bottom: 1px solid;
+    border-color: $secondary-color;
+    width: 100%;
+    margin: 2%;
+}
+
+.error{
+    color: brown
+}
+
+.nameInput{
+    margin-top: 3%;
+}
+.cardContainer{
+    display: flex;
+}
+
+.cardClass{
+    width: '15rem';
+    margin: "1%";
+    color: "whitesmoke";
+    background-color: $primary-color
+}
+
+
+@media screen and (max-width:600px){
+    .cardContainer{
+        display: block;
+    }
+
+}

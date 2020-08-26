@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './Feedback.module.css';
+import classes from './Feedback.module.scss';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -138,7 +138,7 @@ class Feedback extends React.Component {
                 </div>
 
                 <div style={{ display: this.state.section3 ? "block" : "none" }}>
-                    <h3 className={classes.headingH1}>Your feedback on how the tool can be improved to support more people would be greatly appreciated.</h3>
+                    <h3 className={classes.headingHx}>Your feedback on how the tool can be improved to support more people would be greatly appreciated.</h3>
                     <Form.Group >
                         <Form.Control id={11} onChange={this.handleTextBox} bsPrefix={classes.textarea} as="textarea" rows="3" placeholder={'Please share your thoughts and ideas here……'} />
                     </Form.Group>
