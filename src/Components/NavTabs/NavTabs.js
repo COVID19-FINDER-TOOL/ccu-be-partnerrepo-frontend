@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import MDReactComponent from 'markdown-react-js';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -64,27 +64,11 @@ const assembleData = (data) => {
 }
 
 const generateLinks = (data) => {
-    const re1 = /\((.*)\)/
-    const re2 = /\[(.*)\]/
     const links = data.map((x) => {
-        if (!x.startsWith("[")) {
-            return (
-                <h6>{ x.startsWith("_") ? x.slice(1, -1) : x.slice(0, -1)}</h6>
-
-            )
-        }
-        else {
-            var label = x.match(re1)[1];
-            var lin = x.match(re2)[1];
-            console.log(label, lin)
-            return (
-                <div>
-                    <a href={label} target="_blank">
-                        <label ><u><span style={{ marginRight: "10px", color: 'blue' }}>{lin}</span></u><img style={{ fill: "#D4121E" }} width="15px" src={require("../../assets/Images/newtab.svg")}></img></label>
-                    </a>
-                </div>
-            )
-        }})
+        return(
+            <MDReactComponent text={x} /> 
+        )
+    })
     return (links)
 }
 

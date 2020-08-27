@@ -5,13 +5,14 @@ import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
-import { axiosInstance, axiosLoopbackInstance } from '../../AxiosHandler';
+import { axiosInstance, axiosLoopbackInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import moment from "moment";
 import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
+import MDReactComponent from 'markdown-react-js';
 
 
 class Chatbot extends React.Component {
@@ -26,7 +27,7 @@ class Chatbot extends React.Component {
             condition: "",
             showSpinner: true,
             metadata: "",
-            topicId: -1,
+            topicId: 1,
             questionStack: [],
             responseStack: [],
             change: false,
@@ -40,6 +41,34 @@ class Chatbot extends React.Component {
         this.fetch();
 
 
+    }
+
+    saveQuestion = (data,response) =>{
+        var dataBody={}
+        var kb = data.metadata.find((x)=> x.name === "idprefix") ? data.metadata.find((x)=> x.name === "idprefix").value : "kb0";
+        dataBody.question_id = kb.concat("q").concat(data.id.toString());
+        dataBody.question = data.answer;
+        dataBody.answers = data.context.prompts.map((x)=>{
+            return {aid:kb.concat("a").concat(x.qnaId.toString()),answer:x.displayText.toString()}
+        })
+        response.question_id = kb.concat("q").concat(response.question_id.toString())
+        response.answer_id = kb.concat("a").concat(response.answer_id.toString())
+
+        console.log(response)
+        if(data.metadata.find((x)=>x.name==="topic" && x.value!="1")){
+            this.fetch();
+        }
+        else{
+        this.saveInStorage(response)
+        axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                this.fetch();
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     }
 
     fetch = () => {
@@ -62,7 +91,8 @@ class Chatbot extends React.Component {
                 console.log(error);
                 this.setState(() => { return { showSpinner: false } })
             });
-        const { questionStack } = this.state;
+        const { questionStack,data } = this.state;
+
         this.props.onEditInspection({ questionStack })
     }
 
@@ -77,8 +107,8 @@ class Chatbot extends React.Component {
         const resbody = {
             "question_id": this.state.data.id,
             "answer_id": id ? id : "",
-            "answer_time": moment.utc().format('DD/MM/YY hh:mm:ss'),
-            "descriptive_answer": value
+            "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
+            "descriptive_answer": ""
         }
         const { CREATEJOURNEY } = this.props.payload;
         var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
@@ -107,7 +137,7 @@ class Chatbot extends React.Component {
             const requestBody = { "question": nextques };
             console.log(requestBody)
 
-            this.setState(() => { return { queryIndex: queryIndex, requestBody } }, () => { this.fetch() });
+            this.setState(() => { return { queryIndex: queryIndex, requestBody } }, () => { this.saveQuestion(this.state.data, resbody) });
 
         }
         else {
@@ -120,9 +150,10 @@ class Chatbot extends React.Component {
                 "top": 1,
                 "strictFilters": [{ "name": "context", "value": meta }]
             };
-            this.setState(() => { return { requestBody } }, () => { this.fetch() });
+            this.setState(() => { return { requestBody } }, () => { this.saveQuestion(this.state.data, resbody) });
         }
 
+        // this.saveQuestion(this.state.data)
 
 
     }
@@ -132,22 +163,22 @@ class Chatbot extends React.Component {
         const { user } = LOGIN ? LOGIN : ''
         const { user_id } = user ? user : JSON.parse(window.localStorage.getItem("csf_user"));
         user_response["user_id"] = user_id;
-        user_response["topic_id"] = this.state.topicId;
+        user_response["topic_id"] = Number(this.state.queryIndex);
 
 
-        this.setState(() => { return { showSpinner: true, change: false } });
-        this.fetch();
+        this.setState(() => { return { showSpinner: true } });
+  
 
-        // axiosLoginInstance.post("CFTUserJourneyTrigger/answer", user_response)
-        //     .then(res => {
-        //         const data = res.data;
-        //         console.log(data);
-        //         this.fetch();
-        //     }).catch(error => {
-        //         console.log(error);
-        //         this.setState(() => { return { showSpinner: false } })
+        axiosLoginInstance.post("CFTUserJourneyTrigger/answer", user_response)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                // this.fetch();
+            }).catch(error => {
+                console.log(error);
+                this.setState(() => { return { showSpinner: false } })
 
-        //     });
+            });
     }
 
     handleSubmit = () => {
@@ -195,46 +226,74 @@ class Chatbot extends React.Component {
 
     }
 
+    handleIterate = (Tag, props, children, level) => {
+        // console.log(Tag)
+        if (Tag === 'h4' || Tag === 'h3' || Tag === 'h2') {
+            props = {
+              ...props,
+              className: classes.heading
+            };
+          }
+
+        if (Tag === 'p') {
+            props = {
+              ...props,
+              className: classes.para
+            };
+          }
+        
+        if (Tag === 'a') {
+          props = {
+            ...props,
+            className: classes.linkElement,
+            target : "_blank",
+            href : props.href
+          };
+        }
+        
+        return <Tag {...props}>{children}</Tag>;
+      }
 
     splitQuestionData = () => {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
         const paragraphs = textarray.map((x, index) => {
-            if (x.startsWith("#")) {
-                const x_ = x.split(" ");
-                const n = x_[0].length;
-                const CustomTag = `h${n}`;
-                return (
-                    <CustomTag className={classes.heading} key={index}> {x.slice(n)} </CustomTag>
-                )
+            return <MDReactComponent text={x} onIterate={this.handleIterate} /> 
+            // if (x.startsWith("#")) {
+            //     const x_ = x.split(" ");
+            //     const n = x_[0].length;
+            //     const CustomTag = `h${n}`;
+            //     return (
+            //         <CustomTag className={classes.heading} key={index}> {x.slice(n)} </CustomTag>
+            //     )
 
-            }
-            else if (x.trim().startsWith("[")) {
-                const link = x.slice(12).replace(/^\((.+)\)$/, '$1');
-                return (
-                    <a target="_blank" key={index} className={classes.linkElement} href={link}>Click Here</a>
-                )
-            }
-            else if (x.trim().startsWith("_<insert text field>_")) {
-                return (
-                    <Form key={index}>
-                        <Form.Group controlId={index}>
-                            <Form.Control type="text" defaultValue={""} autoComplete="off" />
-                        </Form.Group>
-                    </Form>
-                )
-            }
-            else if (x.trim().startsWith("*")) {
-                return (
-                    <p key={index} className={classes.para}>{x.trim().slice(4)}</p>
-                )
-            }
+            // }
+            // else if (x.trim().startsWith("[")) {
+            //     const link = x.slice(12).replace(/^\((.+)\)$/, '$1');
+            //     return (
+            //         <a target="_blank" key={index} className={classes.linkElement} href={link}>Click Here</a>
+            //     )
+            // }
+            // else if (x.trim().startsWith("_<insert text field>_")) {
+            //     return (
+            //         <Form key={index}>
+            //             <Form.Group controlId={index}>
+            //                 <Form.Control type="text" defaultValue={""} autoComplete="off" />
+            //             </Form.Group>
+            //         </Form>
+            //     )
+            // }
+            // else if (x.trim().startsWith("*")) {
+            //     return (
+            //         <p key={index} className={classes.para}>{x.trim().slice(4)}</p>
+            //     )
+            // }
             
-            else {
-                return (
-                    <p key={index} className={classes.para}>{x.trim()}</p>
-                )
-            }
+            // else {
+            //     return (
+            //         <p key={index} className={classes.para}>{x.trim()}</p>
+            //     )
+            // }
 
 
 
@@ -277,7 +336,6 @@ class Chatbot extends React.Component {
                 <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                     {paragraphs}
                     <Form>
-                        {this.state.msg ? <h5 className={classes.error}>*Please select an option</h5> : null}
                         {radios ? radios : ""}
 
                     </Form>

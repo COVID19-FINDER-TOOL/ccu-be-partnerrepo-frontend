@@ -43,14 +43,14 @@ class WelcomePage extends React.Component {
 
       });
 
-    const data = { "question": "mark one testing done" }
-    axiosInstance.post("generateAnswer", data)
-      .then(res => {
-        const data = res.data.answers[0];
-        this.setState(() => { return { data: data } });
-      }).catch(error => {
-        console.log(error);
-      });
+    // const data = { "question": "mark one testing done" }
+    // axiosInstance.post("generateAnswer", data)
+    //   .then(res => {
+    //     const data = res.data.answers[0];
+    //     this.setState(() => { return { data: data } });
+    //   }).catch(error => {
+    //     console.log(error);
+    //   });
   }
 
 
@@ -61,15 +61,10 @@ class WelcomePage extends React.Component {
       this.props.history.push("/Chatbot");
 
     } else {
-      this.setState(() => { return { start: true } });
+      this.handleSubmit()
     }
   }
 
-  handleRadio = (event) => {
-    const id = event.target.id
-    this.setState(() => { return { agree: id } });
-    this.setState(() => { return { msg: false } });
-  }
 
   generateUID = () => {
 
@@ -82,7 +77,7 @@ class WelcomePage extends React.Component {
       .then(res => {
         this.props.login({ user: user })
         window.localStorage.setItem('csf_user', JSON.stringify(user));
-        this.props.history.push("/enter-name");
+        this.props.history.push("/Chatbot");
 
       }).catch(error => {
         console.log(error);
@@ -90,13 +85,8 @@ class WelcomePage extends React.Component {
   }
 
   handleSubmit = () => {
-
-    switch (this.state.agree) {
-      case 0: this.setState(() => { return { msg: true } }); break;
-      case "1": this.generateUID(); break;
-      case "2": this.props.history.push("/feedback"); break;
-      default: console.log(); break;
-    }
+    this.generateUID()
+    
   }
 
   handleBack = () => {
