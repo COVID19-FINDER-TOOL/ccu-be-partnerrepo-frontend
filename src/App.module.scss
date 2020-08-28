@@ -1,0 +1,70 @@
+@import "/theme.scss"; 
+html, body {
+  height: 100%;
+  margin: 0; padding: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.App {
+  display: flex;
+  text-align: left;
+}
+
+.containertransform{
+  animation: ease-out;
+}
+
+.containerCover{
+  margin-top: 6vh;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.logoImage{
+  width:8vw;
+  margin: 4vw;
+}
+
+.appNameRow{
+  display: flex;
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+.appName{
+  text-align: left;
+  font: normal normal bold 3vw Roboto;
+  letter-spacing: 0px;
+  color: $primary-color;
+  text-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+}
+
+.signature{
+  margin-top: 10vh;
+  text-align: center;
+letter-spacing: NaNpx;
+color: $primary-color;
+text-shadow: 0px 3px 6px #00000029;
+opacity: 1;
+text-align: center;
+font: normal normal 300 2vw Basic Sans;
+letter-spacing: 0px;
+color: $primary-color;
+}
+
+.span{
+  text-align: center;
+font: normal normal 300 1vw Basic Sans;
+color: $primary-color;
+}
+
+@media screen and (max-width:600px) {
+  .logoImage{
+    width:13vw;
+  }
+
+}

@@ -258,7 +258,7 @@ class Chatbot extends React.Component {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
         const paragraphs = textarray.map((x, index) => {
-            return <MDReactComponent text={x} onIterate={this.handleIterate} /> 
+            return <MDReactComponent text={x} key={index} onIterate={this.handleIterate} /> 
             // if (x.startsWith("#")) {
             //     const x_ = x.split(" ");
             //     const n = x_[0].length;
@@ -315,7 +315,6 @@ class Chatbot extends React.Component {
                     key = x
                 }
                 else{
-                    console.log(temp)
                     temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
                 }
             })

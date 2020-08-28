@@ -56,40 +56,53 @@ const useStyles = makeStyles((theme) => ({
 const assembleData = (data) => {
     const keys = Object.keys(data)
     const values = Object.values(data)
-    console.log(keys, values)
-    // const values = data.map((x)=>{
-    //     return {x.}
-    // })
     return [keys, values]
 }
 
 const generateLinks = (data) => {
-    const links = data.map((x) => {
-        return(
-            <MDReactComponent text={x} /> 
+    const links = data.map((x, index) => {
+        return (
+            <MDReactComponent key={index} text={x} />
         )
     })
     return (links)
 }
 
+const generatetabs = (data, value) => {
+    const tabs = data[0].map((x, index) => {
+        return (
+            <Tab key={index}
+                style={{
+                    maxWidth: "7rem",
+                    color: "#f5f5f5",
+                    borderRight: "2px solid darkgray",
+                    outline: 0,
+                    borderLeft: index == 0 ? "2px solid darkgray" : "none",
+                    backgroundColor: value === index ? "#F07D29" : "#D4121E",                    
+                }}
+                wrapped
+                label={x.slice(3)}
+                {...a11yProps(index)} />
+        )
+    })
+    return (tabs)
+}
+
 
 export default function NavTabs(props) {
     const classes = useStyles();
+    const mobile = window.matchMedia("(max-width: 600px)");
     const [value, setValue] = React.useState(0);
     const rights = assembleData(props.data);
-    console.log(rights)
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    console.log(value)
 
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Tabs centered value={value} onChange={handleChange} aria-label="simple tabs example" style={{ backgroundColor: "#D4121E" }}>
-                    <Tab style={{ maxWidth: "7rem", backgroundColor: value == 0 ? "#F07D29" : "#D4121E", color: "#f5f5f5", "focus": { outline: "none" } }} wrapped label={rights[0][0].slice(3)} {...a11yProps(0)} />
-                    <Tab style={{ maxWidth: "7rem", backgroundColor: value == 1 ? "#F07D29" : "#D4121E", color: "#f5f5f5", "focus": { outline: "none" } }} wrapped label={rights[0][1].slice(3)} {...a11yProps(1)} />
-                    <Tab style={{ maxWidth: "7.4rem", backgroundColor: value == 2 ? "#F07D29" : "#D4121E", color: "#f5f5f5", "focus": { outline: "none" } }} wrapped label={rights[0][2].slice(3)} {...a11yProps(2)} />
+                <Tabs centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#D4121E" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#D4121E" }}>
+                    {generatetabs(rights, value)}
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
