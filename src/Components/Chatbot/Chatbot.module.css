@@ -1,3 +1,6 @@
+
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
+
 .heading{
     font-weight: bolder;
     color: #333333;
@@ -13,7 +16,13 @@
     font-size: 1.1875rem;
     line-height: 1.31579;
 }
-
+.actionPlanPara{
+    text-align: center;
+    font: normal normal normal 24px/29px Helvetica Neue;
+    letter-spacing: 0px;
+    color: #707070;
+    opacity: 1;
+}
 .error{
     color: brown
 }
@@ -24,13 +33,86 @@
 }
 
 .linkElement{
-    color: #a60726;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bolder;
-    padding: 0.5rem;
+    text-align: left;
+    /* text-decoration: underline; */
+    font: normal normal normal 24px/26px Basic Sans;
+    letter-spacing: 0px;
+    color: #1592E6;
+    opacity: 1; 
 }
 
-.linkElement:hover{
+.linkElement:link{
     color: #a60726;
     border-bottom: #a60726;
+}
+.actionPlanFlex{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    /* flex-direction: column; */
+}
+.actionPlanLinks{
+    display: flex;
+    width: 45%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #F07D29;
+    border-radius: 10px;
+    opacity: 1;
+    margin: 2%;
+    padding: 2%;
+}
+
+.linkSpan{
+    margin: auto;
+    border-right: #F07D29 1px solid;
+
+}
+
+.linkSpanContent::before{
+    font-family: "Font Awesome 5 Free";
+    color: #9597A6;
+    content: "\f017";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:2rem;
+}
+
+.linkSpanContentChecked::before{
+    font-family: "Font Awesome 5 Free";
+    color: #00FF00;
+    content: "\f058";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:2rem;
+}
+
+.iconCenter{
+    display: block;
+    margin: auto;
+}
+
+.linkElement:visited+.linkSpanContent::before{    
+    color: green;
+    content: "\f058";
+}
+
+.bullets{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+@media screen and (max-width:600px){
+    .actionPlanPara{
+        font: normal normal normal 18px/25px Helvetica Neue;
+    }
+    .linkElement{
+        font: normal normal normal 16px/22px Basic Sans;
+    }
+    .actionPlanLinks{
+        width: 90%;
+        margin: auto;
+        margin-bottom: 2%;
+    }
 }

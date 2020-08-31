@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Chatbot.module.css';
-import { Form } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
@@ -13,17 +13,19 @@ import moment from "moment";
 import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
 import MDReactComponent from 'markdown-react-js';
-
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 class Chatbot extends React.Component {
-
+    visitedLinks = [];
+    key = -1;
     constructor(props) {
         super(props);
-
+        
         this.state = {
             data: "",
             requestBody: { "question": "Start the flow" },
             msg: false,
+            pdf: false,
             condition: "",
             showSpinner: true,
             metadata: "",
@@ -39,35 +41,37 @@ class Chatbot extends React.Component {
     componentDidMount = () => {
         this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" })
         this.fetch();
-
+        this.setPdf();
 
     }
 
-    saveQuestion = (data,response) =>{
-        var dataBody={}
-        var kb = data.metadata.find((x)=> x.name === "idprefix") ? data.metadata.find((x)=> x.name === "idprefix").value : "kb0";
+    saveQuestion = (data, response) => {
+        var dataBody = {}
+        var kb = data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
         dataBody.question = data.answer;
-        dataBody.answers = data.context.prompts.map((x)=>{
-            return {aid:kb.concat("a").concat(x.qnaId.toString()),answer:x.displayText.toString()}
+        dataBody.answers = data.context.prompts.map((x) => {
+            return { aid: kb.concat("a").concat(x.qnaId.toString()), answer: x.displayText.toString() }
         })
         response.question_id = kb.concat("q").concat(response.question_id.toString())
         response.answer_id = kb.concat("a").concat(response.answer_id.toString())
 
         console.log(response)
-        if(data.metadata.find((x)=>x.name==="topic" && x.value!="1")){
+        if (data.metadata.find((x) => x.name === "topic" && x.value != "1")) {
             this.fetch();
         }
-        else{
-        this.saveInStorage(response)
-        axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
-            .then(res => {
-                const data = res.data;
-                console.log(data);
-                this.fetch();
-            }).catch(error => {
-                console.log(error);
-            });
+        else {
+            // this.saveInStorage(response)
+            // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
+            //     .then(res => {
+            //         const data = res.data;
+            //         console.log(data);
+            //         this.fetch();
+            //     }).catch(error => {
+            //         console.log(error);
+            //     });
+            this.fetch();
+
         }
     }
 
@@ -91,7 +95,7 @@ class Chatbot extends React.Component {
                 console.log(error);
                 this.setState(() => { return { showSpinner: false } })
             });
-        const { questionStack,data } = this.state;
+        const { questionStack, data } = this.state;
 
         this.props.onEditInspection({ questionStack })
     }
@@ -102,7 +106,7 @@ class Chatbot extends React.Component {
         const queryIndex = event.target.name
         const id = event.target.id
         const type = event.target.type
-        console.log(value,id)
+        console.log(value, id)
 
         const resbody = {
             "question_id": this.state.data.id,
@@ -121,10 +125,10 @@ class Chatbot extends React.Component {
         if (this.state.queryIndex === 0) {
             var nextques = "" //? this.setState(()=>{return{queryIndex}}): console.log();
             console.log(queryIndex)
-            if(queryIndex==1){
+            if (queryIndex == 1) {
                 nextques = "Work flow started"
             }
-            else{
+            else {
                 nextques = "Money Flow Started"
             }
             // switch (queryIndex) {
@@ -167,7 +171,7 @@ class Chatbot extends React.Component {
 
 
         this.setState(() => { return { showSpinner: true } });
-  
+
 
         axiosLoginInstance.post("CFTUserJourneyTrigger/answer", user_response)
             .then(res => {
@@ -187,10 +191,26 @@ class Chatbot extends React.Component {
 
     downloadActionPlan = () => {
         return (
-            <PDFDownloadLink document={<DownloadActionPlan />} fileName="sample.pdf">
-                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+            <PDFDownloadLink
+                document={<DownloadActionPlan />}
+                fileName="movielist.pdf"
+                style={{
+                    textDecoration: "none",
+                    padding: "10px",
+                    color: "#4a4a4a",
+                    backgroundColor: "red",
+                    border: "1px solid #4a4a4a"
+                }}
+            >
+                {({ blob, url, loading, error }) =>
+                    loading ? "Loading document..." : "Download Pdf"
+                }
             </PDFDownloadLink>
         )
+    }
+
+    setPdf = () => {
+        this.setState({ pdf: true })
     }
 
     createForm = (prompts, id) => {
@@ -206,7 +226,7 @@ class Chatbot extends React.Component {
         const radios = prompts.map((x, index) => {
             const checked = res && x.qnaId == res.answer_id ? "cheched" : ''
             return (
-                <CustomRadio radioLabel={x.displayText} margin={(x.displayText=="Next" || x.displayText=="Action Plan")?true:""} width={x.displayText=="Next"?"7rem" : x.displayText=="Action Plan"?"10rem":""} id={x.qnaId} key={x.qnaId} name={index + 1} checked={checked} onClick={this.handleRadio} />
+                <CustomRadio radioLabel={x.displayText} margin={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={index + 1} checked={checked} onClick={this.handleRadio} />
             )
         })
         return (radios);
@@ -226,95 +246,127 @@ class Chatbot extends React.Component {
 
     }
 
+
+
     handleIterate = (Tag, props, children, level) => {
-        // console.log(Tag)
+
+
         if (Tag === 'h4' || Tag === 'h3' || Tag === 'h2') {
             props = {
-              ...props,
-              className: classes.heading
+                ...props,
+                className: classes.heading
             };
-          }
+        }
 
+        
         if (Tag === 'p') {
             props = {
-              ...props,
-              className: classes.para
+                ...props,
+                className: classes.para
             };
-          }
-        
-        if (Tag === 'a') {
-          props = {
-            ...props,
-            className: classes.linkElement,
-            target : "_blank",
-            href : props.href
-          };
         }
-        
+
+        if (Tag === 'ol') {
+            props = {
+                ...props,
+                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value ==4 ? classes.bullets : "" : ""
+            };
+        }
+
+        if (Tag === 'a') {
+            props = {
+                ...props,
+                className: classes.linkElement,
+                target: "_blank",
+                onClick:this.changeIcon,
+                href: "https://www."+props.href+"?v=1"
+            };
+        }
+        // console.log(key)
         return <Tag {...props}>{children}</Tag>;
-      }
-
-    splitQuestionData = () => {
-        const text = this.state.data.answer;
-        const textarray = text.split("\n");
-        const paragraphs = textarray.map((x, index) => {
-            return <MDReactComponent text={x} key={index} onIterate={this.handleIterate} /> 
-            // if (x.startsWith("#")) {
-            //     const x_ = x.split(" ");
-            //     const n = x_[0].length;
-            //     const CustomTag = `h${n}`;
-            //     return (
-            //         <CustomTag className={classes.heading} key={index}> {x.slice(n)} </CustomTag>
-            //     )
-
-            // }
-            // else if (x.trim().startsWith("[")) {
-            //     const link = x.slice(12).replace(/^\((.+)\)$/, '$1');
-            //     return (
-            //         <a target="_blank" key={index} className={classes.linkElement} href={link}>Click Here</a>
-            //     )
-            // }
-            // else if (x.trim().startsWith("_<insert text field>_")) {
-            //     return (
-            //         <Form key={index}>
-            //             <Form.Group controlId={index}>
-            //                 <Form.Control type="text" defaultValue={""} autoComplete="off" />
-            //             </Form.Group>
-            //         </Form>
-            //     )
-            // }
-            // else if (x.trim().startsWith("*")) {
-            //     return (
-            //         <p key={index} className={classes.para}>{x.trim().slice(4)}</p>
-            //     )
-            // }
-            
-            // else {
-            //     return (
-            //         <p key={index} className={classes.para}>{x.trim()}</p>
-            //     )
-            // }
-
-
-
-        })
-
-        return (paragraphs);
     }
 
-    displayNextTopic = (topic) =>{
-        console.log(topic)
-        if(topic == 3){
+    changeIcon = (event) =>{
+        const id = event.target.parentNode.parentNode
+        this.visitedLinks = this.state.visitedLinks ? this.state.visitedLinks : []
+        this.visitedLinks[id.start-1] = true
+        this.setState(()=>{return{visitedLinks:this.visitedLinks}}, )
+
+
+    }
+
+
+
+    splitQuestionData = (topic) => {
+        const text = this.state.data.answer;
+        const textarray = text.split("\n");
+
+        var texts = [];
+        var links = [];
+        var visitedLinks = [];
+        if (topic == 4) {
+            textarray.map((x) => {
+                if (x.match(/^\d/)) {
+                    links.push(x)
+                    visitedLinks.push(false)
+                
+                } else {
+                    texts.push(x)
+                }
+            this.visitedLinks = visitedLinks
+            })
+            return (
+                <>
+                    <div style={{ display: !this.state.showActionPlan ? "block" : "none" }}>
+                        {
+                            texts.map((x) => {
+                                return <MDReactComponent text={x} onIterate={this.handleIterate} />
+
+                            })
+                        }
+                        <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton>
+                    </div>
+                    <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan ? "block" : "none" }}>
+                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara1}<br></br>{litrals.actionPlanPara2}</p>
+                        <div className={classes.actionPlanFlex} >
+                            {
+                                links.map((x,index) => {
+                                    this.key = index
+                                
+                                    return (
+                                        <div className={classes.actionPlanLinks}>
+                                            <Col md={11} xs={10} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate.bind(index)} /></Col>
+                                            <Col md={1} xs={2} className={classes.iconCenter}> <span className={this.state.visitedLinks && this.state.visitedLinks[index]?classes.linkSpanContentChecked:classes.linkSpanContent}></span></Col>
+                                        </div>)
+                                })
+                            }
+                        </div>
+                    </div>
+                </>
+            )
+        }
+        else {
+            return <MDReactComponent text={text} onIterate={this.handleIterate} />
+        }
+
+    }
+
+    showActionPlan = () => {
+        this.setState({ showActionPlan: true })
+    }
+
+    displayNextTopic = (topic) => {
+        if (topic == 3) {
             const text = this.state.data.answer;
             const textarray = text.split("\n");
             var temp = {}
             var count = 0
             var key = ""
-            textarray.map((x)=>{
-                if(/^\d/.test(x.trim())){
+            textarray.map((x) => {
+                if (/^\d/.test(x.trim())) {
                     key = x
                 }
-                else{
+                else {
                     temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
                 }
             })
@@ -324,8 +376,7 @@ class Chatbot extends React.Component {
 
     render() {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
-        const paragraphs = this.state.data ? topic == 3 ? this.displayNextTopic(topic):this.splitQuestionData(): console.log()
-        const question = this.state.data ? this.state.data.answer : console.log()
+        const paragraphs = this.state.data ? topic == 3 ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         return (
@@ -342,7 +393,14 @@ class Chatbot extends React.Component {
                         {/* <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
                         <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> */}
                     </div>
-                    {/* {downloadActionPlan} */}
+                    {topic == 0 ? (
+                        <>
+                            <CustomButton type="submit" onClick={this.setPdf} data={litrals.buttons.DownloadActionPlan}></CustomButton>
+                            <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnEmail}></CustomButton>
+                            <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton>
+                        </>
+                    ) : ""}
+                    {/* {this.state.pdf ? downloadActionPlan : console.log()} */}
                 </div>
 
             </div>

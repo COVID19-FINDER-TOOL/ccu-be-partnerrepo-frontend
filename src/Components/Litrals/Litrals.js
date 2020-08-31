@@ -1,3 +1,4 @@
+import DownloadActionPlan from "../DownloadActionPlan/DownloadActionPlan";
 
 
 const litrals = {
@@ -25,7 +26,21 @@ const litrals = {
         SubmitNav:{
             buttonText: "Submit",
             variant: "primary",
+        },
+        DownloadActionPlan:{
+            buttonText: "Download Action Plan",
+            variant: "primary",
+        },
+        shareOnEmail:{
+            buttonText: "Share On Email",
+            variant: "primary",
+        },
+        shareOnWhatsapp:{
+            buttonText: "Share On Whatsapp",
+            variant: "primary",
         }
+
+
     },
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
@@ -37,7 +52,9 @@ const litrals = {
                         {displayText:"We will also share with you some stories of how others overcame similar challenges and tips from some experts."},
                         {displayText:"Walk away with the set of instructions to get you started on the way to long term financial & emotional resiliance."},
                         {displayText:"Based on the repsonses, you will receive information on the free support available from various organisations."}]
-    }
+    },
+    actionPlanPara1 : `Peace of mind, one step at a time.`,
+    actionPlanPara2 : "Action plan to manage your debt based on insight from Citizens Advice."
 };
 
 export default litrals;

@@ -77,7 +77,7 @@ const generatetabs = (data, value) => {
                     color: "#f5f5f5",
                     borderRight: "2px solid darkgray",
                     outline: 0,
-                    borderLeft: index == 0 ? "2px solid darkgray" : "none",
+                    borderLeft: index === 0 ? "2px solid darkgray" : "none",
                     backgroundColor: value === index ? "#F07D29" : "#D4121E",                    
                 }}
                 wrapped
@@ -91,7 +91,6 @@ const generatetabs = (data, value) => {
 
 export default function NavTabs(props) {
     const classes = useStyles();
-    const mobile = window.matchMedia("(max-width: 600px)");
     const [value, setValue] = React.useState(0);
     const rights = assembleData(props.data);
     const handleChange = (event, newValue) => {

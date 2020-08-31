@@ -20,9 +20,8 @@ function App() {
 
   useEffect(() => {
     setTimeout(function () {
-      // var sass = require('node-sass');
       setShowCover(false)
-    }, 4000)
+    }, 1000)
   });
 
   return (
