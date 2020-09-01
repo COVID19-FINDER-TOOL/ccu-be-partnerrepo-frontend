@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './CustomButton.module.css';
+import classes from './CustomButton.module.scss';
 import {Button} from 'react-bootstrap' 
 
 

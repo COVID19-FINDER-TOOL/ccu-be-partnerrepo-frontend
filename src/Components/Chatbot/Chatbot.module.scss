@@ -1,5 +1,6 @@
 
 @import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
+@import "../../theme.scss"; 
 
 .heading{
     font-weight: bolder;
@@ -75,7 +76,7 @@
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
-    font-size:2rem;
+    font-size:3vh;
 }
 
 .linkSpanContentChecked::before{
@@ -85,7 +86,7 @@
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
-    font-size:2rem;
+    font-size:3.5vh;
 }
 
 .iconCenter{
@@ -93,15 +94,42 @@
     margin: auto;
 }
 
-.linkElement:visited+.linkSpanContent::before{    
-    color: green;
-    content: "\f058";
-}
-
 .bullets{
     list-style-type: none;
     padding-left: 0;
+    margin: auto;
 }
+
+.buttonColor1{
+    color: $secondary-color;
+    box-shadow: none;
+    padding: 12px 30px;
+    line-height: 21px;
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 18px;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: white;
+    border-color:  $secondary-color;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    transition: background-color 0.5s;
+
+  }
+
+  .buttonColor1:hover{
+    background-color: $primary-color;
+    border-color:  $primary-color;
+    color: whitesmoke;
+    text-decoration: none;
+  }
+
+  .downloadbtndiv{
+    margin: 2rem 1rem;
+  }
+
+
 
 @media screen and (max-width:600px){
     .actionPlanPara{
@@ -115,4 +143,10 @@
         margin: auto;
         margin-bottom: 2%;
     }
+    .buttonColor1{
+        width: 100% !important;
+    }
+    .downloadbtndiv{
+        margin: 1rem;
+      }
 }

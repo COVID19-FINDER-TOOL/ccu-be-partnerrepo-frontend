@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './Chatbot.module.css';
+import classes from './Chatbot.module.scss';
 import { Form, Row, Col } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
@@ -10,7 +10,7 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import moment from "moment";
-import { PDFDownloadLink, Document, Page } from '@react-pdf/renderer'
+import { PDFDownloadLink, Document, Page,PDFViewer } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
 import MDReactComponent from 'markdown-react-js';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
@@ -112,14 +112,15 @@ class Chatbot extends React.Component {
             "question_id": this.state.data.id,
             "answer_id": id ? id : "",
             "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
-            "descriptive_answer": ""
+            "descriptive_answer": value,
+            "topic":this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0
         }
         const { CREATEJOURNEY } = this.props.payload;
         var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
         responseStack = responseStack.concat(resbody)
-        // console.log(responseStack,resbody)
+        console.log(responseStack,resbody)
 
-        // this.props.onEditInspection({ responseStack : responseStack})
+        this.props.onEditInspection({ responseStack : responseStack})
 
 
         if (this.state.queryIndex === 0) {
@@ -190,22 +191,22 @@ class Chatbot extends React.Component {
     }
 
     downloadActionPlan = () => {
+        const {CREATEJOURNEY} = this.props.payload
+        const {responseStack} = CREATEJOURNEY ? CREATEJOURNEY: []
         return (
+
             <PDFDownloadLink
-                document={<DownloadActionPlan />}
-                fileName="movielist.pdf"
-                style={{
-                    textDecoration: "none",
-                    padding: "10px",
-                    color: "#4a4a4a",
-                    backgroundColor: "red",
-                    border: "1px solid #4a4a4a"
-                }}
+                document={<DownloadActionPlan data = {this.state.data.answer} summary ={responseStack}/>}
+                fileName="ActionPlan.pdf"
+                className={classes.buttonColor1}
             >
                 {({ blob, url, loading, error }) =>
-                    loading ? "Loading document..." : "Download Pdf"
+                    loading ? "Loading document..." : "Download Action Plan"
                 }
             </PDFDownloadLink>
+           
+                
+           
         )
     }
 
@@ -324,7 +325,7 @@ class Chatbot extends React.Component {
 
                             })
                         }
-                        <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton>
+                        <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton>
                     </div>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan ? "block" : "none" }}>
                         <p className={classes.actionPlanPara}>{litrals.actionPlanPara1}<br></br>{litrals.actionPlanPara2}</p>
@@ -335,7 +336,7 @@ class Chatbot extends React.Component {
                                 
                                     return (
                                         <div className={classes.actionPlanLinks}>
-                                            <Col md={11} xs={10} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate.bind(index)} /></Col>
+                                            <Col md={11} xs={10} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></Col>
                                             <Col md={1} xs={2} className={classes.iconCenter}> <span className={this.state.visitedLinks && this.state.visitedLinks[index]?classes.linkSpanContentChecked:classes.linkSpanContent}></span></Col>
                                         </div>)
                                 })
@@ -393,14 +394,13 @@ class Chatbot extends React.Component {
                         {/* <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
                         <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> */}
                     </div>
-                    {topic == 0 ? (
-                        <>
-                            <CustomButton type="submit" onClick={this.setPdf} data={litrals.buttons.DownloadActionPlan}></CustomButton>
-                            <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnEmail}></CustomButton>
-                            <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton>
-                        </>
+                    {topic == 4 && this.state.showActionPlan ?  (
+                        <div className={classes.downloadbtndiv}>  
+                        { downloadActionPlan }
+                            {/* <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
+                        </div>
                     ) : ""}
-                    {/* {this.state.pdf ? downloadActionPlan : console.log()} */}
+                    
                 </div>
 
             </div>

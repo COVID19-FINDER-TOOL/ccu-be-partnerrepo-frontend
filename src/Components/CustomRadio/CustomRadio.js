@@ -2,7 +2,6 @@ import React from 'react'
 import './CustomRadio.scss';
 
 const CustomRadio = (props) => {
-    console.log(props.margin)
     return (
         
         <div className='radioWrap' onChange={props.onClick}>

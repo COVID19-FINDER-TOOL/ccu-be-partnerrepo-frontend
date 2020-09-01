@@ -31,6 +31,10 @@ const litrals = {
             buttonText: "Download Action Plan",
             variant: "primary",
         },
+        viewActionPlan:{
+            buttonText: "View Action Plan",
+            variant: "primary",
+        },
         shareOnEmail:{
             buttonText: "Share On Email",
             variant: "primary",

@@ -1,3 +1,5 @@
+@import "../../theme.scss"; 
+
 .buttonPadding{
     border-radius: 0;
      border-color: white; 
@@ -27,27 +29,32 @@ button:focus{
 }
 
 .buttonColor1{
-    color: white !important;
+    color: $secondary-color !important;
     box-shadow: none !important;
     padding: 12px 30px !important;
     line-height: 21px !important;
     text-transform: capitalize;
     font-weight: 700 !important;
     font-size: 18px !important;
-    border-radius: 300px !important;
-    background-color: #d8410d !important;
-    border-color:  #d8410d !important;
+    border: 1px solid !important;
+    border-radius: 10px !important;
+    background-color: white !important;
+    border-color:  $secondary-color !important;
     margin-top: 2%;
     margin-bottom: 2%;
+    transition: background-color 0.5s !important;
+
   }
 
   .buttonColor1:hover{
-    background-color: #ff7149 !important;
-    border-color:  #ff7149 !important;
+    background-color: $primary-color !important;
+    border-color:  $primary-color !important;
+    color: whitesmoke !important;
   }
 
   @media screen and (max-width:600px){
     .buttonColor1{
         width: 100% !important;
+        
     }
 }
