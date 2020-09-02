@@ -14,7 +14,13 @@ import { PDFDownloadLink, Document, Page,PDFViewer } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
 import MDReactComponent from 'markdown-react-js';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import MailIcon from '@material-ui/icons/Mail';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import {
+    EmailShareButton,
+    WhatsappShareButton,
 
+} from "react-share";
 class Chatbot extends React.Component {
     visitedLinks = [];
     key = -1;
@@ -280,7 +286,7 @@ class Chatbot extends React.Component {
                 className: classes.linkElement,
                 target: "_blank",
                 onClick:this.changeIcon,
-                href: "https://www."+props.href+"?v=1"
+                href: props.href
             };
         }
         // console.log(key)
@@ -397,7 +403,8 @@ class Chatbot extends React.Component {
                     {topic == 4 && this.state.showActionPlan ?  (
                         <div className={classes.downloadbtndiv}>  
                         { downloadActionPlan }
-                            {/* <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
+                            {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
+                            <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
                         </div>
                     ) : ""}
                     

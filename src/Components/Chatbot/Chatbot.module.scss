@@ -42,10 +42,10 @@
     opacity: 1; 
 }
 
-.linkElement:link{
-    color: #a60726;
-    border-bottom: #a60726;
-}
+// .linkElement:link{
+//     color: #a60726;
+//     border-bottom: #a60726;
+// }
 .actionPlanFlex{
     display: flex;
     flex-wrap: wrap;
@@ -95,12 +95,13 @@
 }
 
 .bullets{
-    list-style-type: none;
-    padding-left: 0;
+    padding-left: 10px;
     margin: auto;
+    font-size: 20px;
 }
 
 .buttonColor1{
+    float: right;
     color: $secondary-color;
     box-shadow: none;
     padding: 12px 30px;
@@ -112,10 +113,10 @@
     border-radius: 10px;
     background-color: white;
     border-color:  $secondary-color;
-    margin-top: 2%;
+    // margin-top: 2%;
     margin-bottom: 2%;
     transition: background-color 0.5s;
-
+    text-align: center;
   }
 
   .buttonColor1:hover{
@@ -126,7 +127,7 @@
   }
 
   .downloadbtndiv{
-    margin: 2rem 1rem;
+    margin: 0rem 2rem;
   }
 
 
@@ -145,8 +146,12 @@
     }
     .buttonColor1{
         width: 100% !important;
+        font-size: small;
     }
     .downloadbtndiv{
         margin: 1rem;
+      }
+      .bullets{
+          font-size: 14px;
       }
 }

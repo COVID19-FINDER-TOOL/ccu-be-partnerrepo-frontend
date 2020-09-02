@@ -11,17 +11,23 @@ import CacheCleaner from './CacheCleaner.js'
 import Feedback from './Components/Feedback/Feedback';
 import { connect } from "react-redux";
 import Animate from 'animate.css-react'
-
 import 'animate.css/animate.css'
+import { propTypes } from 'react-bootstrap/esm/Image';
+import { baseUIURL } from './AxiosHandler';
 
 function App() {
 
   const [showCover, setShowCover] = useState(true)
 
   useEffect(() => {
+    // console.log(window.location.href)
+    if (window.location.href === baseUIURL ){
     setTimeout(function () {
       setShowCover(false)
-    }, 1000)
+    }, 5000)
+  }else{
+    setShowCover(false)
+  }
   });
 
   return (

@@ -106,8 +106,8 @@ class Feedback extends React.Component {
     }
 
     render() {
-        const positives = ["I found the support I needed", "I found stories and tips from other people helpful", "I found it easy to use the tool", "Other [Enter Text]"]
-        const negatives = ["I didn’t find any support options", "The support options shown weren’t relevant to me", "I found it difficult to use the tool", "Other [Enter Text]"]
+        const positives = ["I found the support I needed", "I found stories and tips from other people helpful", "I found it easy to use the tool"]
+        const negatives = ["I didn’t find any support options", "The support options shown weren’t relevant to me", "I found it difficult to use the tool"]
         const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : negatives : -1);
         return (
             <div>
@@ -129,9 +129,9 @@ class Feedback extends React.Component {
                         {optionButtons}
                     </div>
                     <div style={{ display: this.state.others ? "block" : "none" }} >
-                        <Form.Group>
+                        {/* <Form.Group>
                             <Form.Control id={10} onChange={this.handleTextBox} bsPrefix={classes.textareasmall} as="textarea" rows="3" placeholder={'Please type here'} />
-                        </Form.Group>
+                        </Form.Group> */}
                     </div>
                     <CustomButton type="submit" float={"right"} onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton>
 

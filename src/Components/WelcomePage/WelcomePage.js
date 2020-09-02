@@ -121,7 +121,7 @@ class WelcomePage extends React.Component {
         <div style={{display:this.state.part?"block":"none"}}>
           <p className={classes.para}>{litrals.welcome.text1}</p>
           <p className={classes.para}>{litrals.welcome.text2}</p>
-          <CustomButton type="submit" onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
+          <CustomButton float={"right"} type="submit" onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
         </div>
 
 
@@ -132,7 +132,7 @@ class WelcomePage extends React.Component {
             <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
           </div>
           <div>
-            <CustomButton type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
+            <CustomButton float={"right"} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
           </div>
         </div>
 
