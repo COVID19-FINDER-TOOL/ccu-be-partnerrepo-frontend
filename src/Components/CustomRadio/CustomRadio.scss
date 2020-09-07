@@ -39,10 +39,11 @@
     transform: scale(1);
 }
 
-.radio_input:checked + .radio_radio{
-    border: 5px solid $primary-color; 
-    padding: 5px;
-    background: rgb(243, 243, 243);
+.radio_input:checked + .label{
+    // border: 5px solid $primary-color; 
+    // padding: 5px;
+    // background: rgb(243, 243, 243);
+    color: $secondary-color;
 
 }
 

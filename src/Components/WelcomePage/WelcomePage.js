@@ -69,7 +69,7 @@ class WelcomePage extends React.Component {
   generateUID = () => {
 
     const user = {
-      user_id: "UID" + moment.utc().format('DDMMYYThhmmssSS'),
+      user_id: "UID" + moment.utc().format('DDMMYYThhmmssSSS'),
       creation_time: moment.utc().format('YYYY-MM-DD hh:mm:ss')
     }
 

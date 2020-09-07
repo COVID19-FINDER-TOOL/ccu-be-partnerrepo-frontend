@@ -14,6 +14,7 @@ import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { baseUIURL } from './AxiosHandler';
+import ProgressWeb from './Components/ProgressWeb/ProgressWeb';
 
 function App() {
 
@@ -21,13 +22,13 @@ function App() {
 
   useEffect(() => {
     // console.log(window.location.href)
-    if (window.location.href === baseUIURL ){
-    setTimeout(function () {
+    if (window.location.href === baseUIURL) {
+      setTimeout(function () {
+        setShowCover(false)
+      }, 5000)
+    } else {
       setShowCover(false)
-    }, 5000)
-  }else{
-    setShowCover(false)
-  }
+    }
   });
 
   return (
@@ -60,13 +61,13 @@ function App() {
                 <Header />
                 <div className={classes.App}>
                   <Container>
-                    <Switch>
-                      <Route path='/enter-name' component={EnterName}
-                      />
-                      <Route path='/chatbot' component={Chatbot} />
-                      <Route path='/feedback' component={Feedback} />
-                      <Route exact path='/' component={WelcomePage} />
-                    </Switch>
+                        <Switch>
+                          <Route path='/enter-name' component={EnterName}
+                          />
+                          <Route path='/chatbot' component={Chatbot} />
+                          <Route path='/feedback' component={Feedback} />
+                          <Route exact path='/' component={WelcomePage} />
+                        </Switch>
                   </Container >
                 </div>
                 {/* <Footers /> */}

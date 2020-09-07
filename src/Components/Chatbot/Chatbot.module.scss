@@ -64,8 +64,13 @@
 }
 
 .linkSpan{
+    display: block;
     margin: auto;
-    border-right: #F07D29 1px solid;
+    position: relative;
+    width: 100%;
+    padding-right: 2px;
+    padding-left: 15px;
+    
 
 }
 
@@ -89,9 +94,14 @@
     font-size:3.5vh;
 }
 
+.verticalLine{
+    border-right: #F07D29 1px solid;
+}
+
 .iconCenter{
     display: block;
     margin: auto;
+    margin-left: 10px;
 }
 
 .bullets{
@@ -101,7 +111,7 @@
 }
 
 .buttonColor1{
-    float: right;
+    // float: right;
     color: $secondary-color;
     box-shadow: none;
     padding: 12px 30px;
@@ -127,7 +137,7 @@
   }
 
   .downloadbtndiv{
-    margin: 0rem 2rem;
+    margin: 0rem 0rem;
   }
 
 

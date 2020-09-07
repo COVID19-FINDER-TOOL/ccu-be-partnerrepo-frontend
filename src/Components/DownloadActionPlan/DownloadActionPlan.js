@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   para: {
     marginTop: "2%",
     fontFamily: 'Hurme Geometric Sans No.4',
+    fontSize:"15"
   },
   pageBackground: {
     position: 'absolute',
