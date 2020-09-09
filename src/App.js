@@ -25,7 +25,7 @@ function App() {
     if (window.location.href === baseUIURL) {
       setTimeout(function () {
         setShowCover(false)
-      }, 5000)
+      }, 4000)
     } else {
       setShowCover(false)
     }
@@ -52,15 +52,15 @@ function App() {
                   <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
                 </Row>
                 <Row className={classes.appNameRow}>
-                  <h3 className={classes.signature}>Developed by <br /> The University of Edinburgh and Sopra Steria <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
+                  <h3 className={classes.signature}>Powered by <br /> The University of Edinburgh and Sopra Steria <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
                 </Row>
               </Container>
             </div>
             <div style={{ display: showCover == false ? "block" : "none" }}>
               <Router basename="/">
-                <Header />
+                {/* <Header /> */}
                 <div className={classes.App}>
-                  <Container>
+                  <Container  fluid={true}>
                         <Switch>
                           <Route path='/enter-name' component={EnterName}
                           />

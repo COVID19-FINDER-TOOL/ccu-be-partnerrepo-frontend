@@ -5,8 +5,9 @@
     display: flex !important;
     -ms-flex-direction: column !important;
     flex-direction: column !important;
-    height: 60vh !important;
+    height: 40vh !important;
     margin-left: 10px;
+    margin-top: 20%;
 }
 
 .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-tail::after {

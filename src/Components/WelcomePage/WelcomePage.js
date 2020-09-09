@@ -1,6 +1,7 @@
 import React from 'react'
+import Header from '../Header/Header';
 import classes from './WelcomePage.module.scss';
-import { Form } from 'react-bootstrap';
+import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
@@ -8,13 +9,13 @@ import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import moment from "moment";
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
-import { login } from "../../store/Action/LoginAction";
+import { login, onEditInspection } from "../../store/Action/LoginAction";
 import axios from 'axios';
 import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
 import OptionButtons from '../OptionButtons/OptionButtons';
+import Footers from '../Footers/Footers';
 global.appVersion = packageJson.version;
-
 
 class WelcomePage extends React.Component {
 
@@ -28,7 +29,8 @@ class WelcomePage extends React.Component {
       toggle: 0,
       msg: 0,
       data: "",
-      links: []
+      links: [],
+
     }
   }
 
@@ -86,7 +88,7 @@ class WelcomePage extends React.Component {
 
   handleSubmit = () => {
     this.generateUID()
-    
+
   }
 
   handleBack = () => {
@@ -109,32 +111,54 @@ class WelcomePage extends React.Component {
     window.open("http://www.google.com")
   }
 
-  handlePart = () =>{
-    this.setState(()=> {return {part:false}})
+  handlePart = () => {
+    this.setState(() => { return { part: false } })
   }
 
   render() {
     const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts) : console.log();
+    const mobile = window.matchMedia("(max-width: 600px)").matches;
+
     return (
       <div className={classes.backgrondImage}>
+        <Header></Header>
         {/* <h1 className={classes.headingH1}>{litrals.welcome.heading}</h1> */}
-        <div style={{display:this.state.part?"block":"none"}}>
+        <Container style={{ display: this.state.part ? "block" : "none" }}>
           <p className={classes.para}>{litrals.welcome.text1}</p>
           <p className={classes.para}>{litrals.welcome.text2}</p>
           <CustomButton float={"right"} type="submit" onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
-        </div>
+        </Container>
 
 
-        <div style={{display:!this.state.part?"block":"none"}}>
-          <h1 className={classes.text3}>{litrals.welcome.text3}</h1>
-          <div className={classes.line}></div>
-          <div>
-            <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
-          </div>
-          <div>
-            <CustomButton float={"right"} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
-          </div>
-        </div>
+        <Container style={{ display: !this.state.part ? "block" : "none" }}>
+          <Row style={{ marginTop: "2%" }}>
+
+            <Col md={5} className={classes.line}>
+
+              <p className={classes.logoPara}>
+                <img
+                  alt="SSlogo"
+                  src={require("../../assets/Images/logoSmall.png")}
+                  width="50"
+                />Support Finder</p>
+              <h1 className={classes.text3}>{litrals.welcome.text3}</h1>
+              {!mobile ? <Footers></Footers> : ""}
+            </Col>
+            <Col md={1}></Col>
+            <Col md={6}>
+              <div>
+                <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
+              </div>
+              <div>
+                <CustomButton float={"right"} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
+              </div>
+            </Col>
+
+
+
+          </Row>
+
+        </Container>
 
       </div>
     );

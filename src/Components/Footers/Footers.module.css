@@ -1,11 +1,11 @@
 .footers{
    padding-right:0.8%;
-   position: absolute;
+   position: relative;
    /* height: 170px; */
    bottom:0;
    /* top:100; */
    width:100%;
-   margin-top: auto;
+   margin-top: 30vh;
 }
 .footer1{
     padding-top: 1%;
@@ -14,9 +14,10 @@
 }
 
 .footer1Links{
-    padding: 0.5rem;
+    padding-right: 1rem ;
     color: #737373;
     border:#737373 2px;
+    text-shadow: 0px 3px 6px #00000029;;
 }
 
 .footer1Links:hover{

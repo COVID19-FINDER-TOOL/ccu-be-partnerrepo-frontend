@@ -24,6 +24,11 @@ body {
   margin: 4vw;
 }
 
+.containertransform{
+  position: relative;
+  height: 80vh;
+}
+
 .appNameRow{
   display: flex;
   justify-content: center;
@@ -40,16 +45,18 @@ body {
 }
 
 .signature{
-  margin-top: 10vh;
+  // margin-top: 10vh;
+  position: absolute;
   text-align: center;
 letter-spacing: NaNpx;
 color: $primary-color;
 text-shadow: 0px 3px 6px #00000029;
 opacity: 1;
 text-align: center;
-font: normal normal 300 2vw Basic Sans;
+font: normal normal 300 1.3vw Basic Sans;
 letter-spacing: 0px;
 color: $primary-color;
+bottom: 0;
 }
 
 .span{
@@ -61,6 +68,10 @@ color: $primary-color;
 @media screen and (max-width:600px) {
   .logoImage{
     width:15vw;
+  }
+
+  .containertransform{
+    height: 60vh;
   }
 
   .appName{

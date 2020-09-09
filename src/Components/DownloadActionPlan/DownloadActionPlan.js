@@ -5,7 +5,7 @@ import LaunchIcon from '@material-ui/icons/Launch';
 
 Font.register({
   family: 'Hurme Geometric Sans No.4',
-  src: "http://db.onlinewebfonts.com/t/e4ea4e6e0be4b50288655273a2d97d34.woff"
+  src: "https://db.onlinewebfonts.com/t/e4ea4e6e0be4b50288655273a2d97d34.woff"
 });
 
 const styles = StyleSheet.create({

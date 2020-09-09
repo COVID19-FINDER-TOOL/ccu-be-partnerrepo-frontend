@@ -20,7 +20,7 @@ const litrals = {
             variant: "primary",
         },
         backNav:{
-            buttonText: "Previous Step",
+            buttonText: "Back",
             variant: "primary",
         },
         SubmitNav:{
@@ -55,7 +55,7 @@ const litrals = {
         ribbonButtons : [{pretext:"Tell us about yourself",displayText:"We will ask you a few question about your situation. Any of your personal informantion will not be stored or shared."},
                         {pretext:"View your options",displayText:"We will also explain the implication of choosing certain options and explain your rights in difficult circumstances."},
                         {pretext:"Know your rights",displayText:"Based on the repsonses, you will receive information on the free support available from various organisations."},
-                        {pretext:"View you Action Plan",displayText:"Walk away with the set of instructions to get you started on the way to long term financial & emotional resiliance."},
+                        {pretext:"View your Action Plan",displayText:"Walk away with the set of instructions to get you started on the way to long term financial & emotional resiliance."},
                         {pretext:"Hear from others",displayText:"We will also share with you some stories of how others overcame similar challenges and tips from some experts."}]
     },
     actionPlanPara1 : `Peace of mind, one step at a time.`,

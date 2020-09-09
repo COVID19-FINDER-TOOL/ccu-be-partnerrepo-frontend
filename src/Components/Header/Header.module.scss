@@ -1,7 +1,12 @@
 @import "../../theme.scss"; 
+
+.Header{
+    background: #EDEDED 0% 0% no-repeat padding-box;
+}
 .links{
     margin-left: auto;
     margin-bottom: 1%;
+    // border: 1px solid $secondary-color;
 }
 
 .linkElement{
@@ -40,15 +45,31 @@
     
 }
 .brand{
-    color: $primary-color;
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-40) var(--unnamed-font-family-tahoma);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-1d1d1b);
+    text-align: center;
+    font: normal normal normal 32px/40px Tahoma;
+    letter-spacing: 0px;
+    color: #1D1D1B;
+    opacity: 1;
     display: inline-block;
     font-size: x-large;
-    margin-left: 3px;
+    font-weight: bold;
 }
 
 .brandImage{
     margin-top: 20px;
-    display: inline-block;
+    display: block;
+    text-align: center;
+    margin-left: 45vw;
+
+}
+
+.dropdown nav-item{
+    margin-left: auto;
+    margin-bottom: 1%;
+    border: 1px solid $secondary-color;
 }
 
 
@@ -60,5 +81,13 @@
 
     .captionText{
         margin-left: 4.2%;
+    }
+
+    .brandImage{
+        margin-left: 5%;
+    }
+
+    .brand{
+        font-size: 20px;
     }
 }

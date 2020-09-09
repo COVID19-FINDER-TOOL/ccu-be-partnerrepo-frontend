@@ -110,6 +110,10 @@
     font-size: 20px;
 }
 
+.Form{
+    margin-top: 10%;
+}
+
 .buttonColor1{
     // float: right;
     color: $secondary-color;
@@ -128,6 +132,14 @@
     transition: background-color 0.5s;
     text-align: center;
   }
+  .logoPara{
+    color: $primary-color;
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-24)/var(--unnamed-line-spacing-28) var(--unnamed-font-family-tahoma);
+    text-align: left;
+    font: normal normal normal 24px/28px Tahoma;
+    letter-spacing: 2.4px;
+    opacity: 1;
+}
 
   .buttonColor1:hover{
     background-color: $primary-color;
@@ -140,6 +152,9 @@
     margin: 0rem 0rem;
   }
 
+  .chatBotRow{
+      margin-top: 5%;
+  }
 
 
 @media screen and (max-width:600px){

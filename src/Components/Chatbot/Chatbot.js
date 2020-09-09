@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classes from './Chatbot.module.scss';
-import { Form, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
@@ -16,6 +16,8 @@ import MDReactComponent from 'markdown-react-js';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import MailIcon from '@material-ui/icons/Mail';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import Header from '../Header/Header';
+
 import {
     EmailShareButton,
     WhatsappShareButton,
@@ -25,6 +27,7 @@ import ProgressWeb from '../ProgressWeb/ProgressWeb';
 
 import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
+import Footers from '../Footers/Footers';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -43,8 +46,9 @@ class Chatbot extends React.Component {
             topicId: 1,
             questionStack: [],
             responseStack: [],
+            backStack: [],
             change: false,
-            section:0,
+            section: 0,
             queryIndex: 0,
             queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer']
         }
@@ -68,12 +72,13 @@ class Chatbot extends React.Component {
         response.question_id = kb.concat("q").concat(response.question_id.toString())
         response.answer_id = kb.concat("a").concat(response.answer_id.toString())
 
-        // console.log(response)
+        console.log(response)
         if (data.metadata.find((x) => x.name === "topic" && x.value != "1")) {
             this.fetch();
         }
         else {
-            // this.saveInStorage(response)
+            console.log(this.state)
+            this.state.section <= 1 ? this.saveInStorage(response) : console.log("Not Saving")
             // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
             //     .then(res => {
             //         const data = res.data;
@@ -87,10 +92,29 @@ class Chatbot extends React.Component {
         }
     }
 
+    endJourney = () => {
+        const { CREATEJOURNEY } = this.props.payload;
+        const { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        const dataBody = {
+            "journey_id": journey_id,
+            "completed": 1,
+            "complete_time": moment.utc().format('YYYY-MM-DD hh:mm:ss')
+        }
+
+        axiosLoginInstance.post("CFTJourneyUpdateTrigger/update", dataBody)
+            .then(res => {
+                const data = res.data;
+                console.log(data);
+                this.fetch();
+            }).catch(error => {
+                console.log(error);
+            });
+    }
+
     fetch = () => {
         const body = this.state.requestBody
         this.setState(() => { return { showSpinner: true, questionStack: this.state.questionStack.concat({ body }) } })
-        axiosInstance.post(this.state.queryString[this.state.queryIndex],body)
+        axiosInstance.post(this.state.queryString[this.state.queryIndex], body)
             .then(res => {
                 const data = res.data.answers[0];
                 const section = data.metadata[1] ? Number(data.metadata[1].value) : this.state.section
@@ -123,34 +147,36 @@ class Chatbot extends React.Component {
         const type = event.target.type
         var requestBody = {}
 
-        console.log(value, queryIndex, id, type)
+        console.log(150, value, queryIndex, id, type, event.target)
 
 
         if (this.state.queryIndex === 0) {
-            var nextques = "" //? this.setState(()=>{return{queryIndex}}): console.log();
 
-            if (queryIndex == 1) {
-                nextques = "Flow started"
-            }
-            else {
-                nextques = "Flow Started"
-            }
-            // switch (queryIndex) {
-            //     case 1: { nextques = "Work flow started"; break; }
-            //     case 2: { nextques = "Money Flow Started"; break; }
-            //     case 3: { nextques = "Mental Health Flow Started"; break; }
-            //     case 4: { nextques = "Work flow started"; break; }
-            //     default: { nextques = "Work flow started"; break; }
-            // }
+            var nextques = "Flow Started" 
             requestBody = { "question": nextques };
             const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
+            const startTime = moment.utc().format('YYYY-MM-DD hh:mm:ss')
+            this.props.onEditInspection({ journey_id })
+            const dataBody = {
 
+                "journey_id": journey_id,
+                "started": 1,
+                "start_time": startTime
+            }
+            axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
+                .then(res => {
+                    const data = res.data;
+                    console.log(data);
+                    // this.fetch();
+                }).catch(error => {
+                    console.log(error);
+                });
+            this.setState(() => { return { queryIndex: id-1 } });
 
-            this.setState(() => { return { queryIndex: queryIndex } });
 
         }
         else {
-            const { metadata} = this.state.data
+            const { metadata } = this.state.data
             let meta = metadata[0].value
             meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
             this.props.onEditInspection({ metadata: meta })
@@ -167,17 +193,18 @@ class Chatbot extends React.Component {
                     requestBody = {
                         "question": "loopback"
                     };
+                    this.endJourney();
                 }
-                else if(value == "Yes" && metadata_ !== "loono"){
-                    this.setState({queryIndex:0, section:0})
+                else if (value == "Yes" && metadata_ !== "loono") {
+                    this.setState({ queryIndex: 0, section: 0 })
                     requestBody = {
                         "question": "Start the flow",
                     };
                 }
-                else if(value == "Yes" && metadata_ === "loono"){
-                    this.setState({section:this.state.section})
+                else if (value == "Yes" && metadata_ === "loono") {
+                    this.setState({ section: this.state.section + 1 })
                 }
-                else if(value == "No" && metadata_ === "loono"){
+                else if (value == "No" && metadata_ === "loono") {
                     this.props.history.push("/feedback")
                 }
 
@@ -193,8 +220,9 @@ class Chatbot extends React.Component {
             "descriptive_answer": value,
             // "topic": this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0
         }
-        
+
         var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
+        console.log(resbody)
         responseStack = responseStack.concat(resbody)
         // console.log(responseStack, resbody)
 
@@ -203,17 +231,29 @@ class Chatbot extends React.Component {
     }
 
     saveInStorage = (user_response) => {
+        const { CREATEJOURNEY } = this.props.payload;
+        var { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : "";
+
         const { LOGIN } = this.props.payload;
         const { user } = LOGIN ? LOGIN : ''
         const { user_id } = user ? user : JSON.parse(window.localStorage.getItem("csf_user"));
+
+
+
         user_response["user_id"] = user_id;
         user_response["topic_id"] = Number(this.state.queryIndex);
+        user_response["journey_id"] = journey_id;
+
+        const responseBody = { ...user_response }
+        responseBody["event_changed"] = "False";
+        responseBody["answered"] = []
+
 
 
         this.setState(() => { return { showSpinner: true } });
 
 
-        axiosLoginInstance.post("CFTUserJourneyTrigger/answer", user_response)
+        axiosLoginInstance.post("CFTUserJourneyTrigger/answer", responseBody)
             .then(res => {
                 const data = res.data;
                 console.log(data);
@@ -258,16 +298,14 @@ class Chatbot extends React.Component {
         const { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
         var res = ""
         if (responseStack) {
-            res = responseStack.find((x) => {
-                return x.question_id == id
-            })
+            res = responseStack.find(x => x.question_id.toString().substring(4) == id)
         }
 
         const radios = prompts.map((x, index) => {
-            const checked = res && x.qnaId == res.answer_id.substring(3) ? "cheched" : ''
-            // console.log(checked, res ? res.answer_id.substring(3):"")
+            // const checked = res && (x.qnaId  == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
+            // console.log(checked, res)
             return (
-                <CustomRadio radioLabel={x.displayText} margin={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} checked={checked} onClick={this.handleRadio} />
+                <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} margin={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} />
             )
         })
         return (radios);
@@ -276,14 +314,19 @@ class Chatbot extends React.Component {
 
     handleBack = () => {
         const { CREATEJOURNEY } = this.props.payload
+        const { backStack } = this.state
         const { metadata, responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : "";
         const previousResponse = responseStack[responseStack.length - 1];
+        backStack.push([previousResponse])
         const previousquestion = questionStack[questionStack.length - 1];
         const newMeta = previousquestion ? previousquestion.body.strictFilters ? previousquestion.body.strictFilters[0].value : { "question": "Start the flow" } : { "question": "Start the flow" }
         const newQueStk = questionStack.slice(0, questionStack.length)
-        console.log(newQueStk, questionStack)
-        this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk })
-        this.setState(() => { return { requestBody: previousquestion ? previousquestion.body : { "question": "Start the flow" }, queryIndex: previousquestion ? this.state.queryIndex : 0, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+        const newResStk = responseStack.slice(0, responseStack.length - 1)
+        this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk })
+        console.log(newQueStk, newResStk, backStack)
+        this.setState(() => { return { backStack, requestBody: previousquestion ? previousquestion.body : { "question": "Start the flow" }, queryIndex: previousquestion ? this.state.queryIndex : 0, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+
+
 
     }
 
@@ -365,7 +408,7 @@ class Chatbot extends React.Component {
 
                             })
                         }
-                        <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton>
+                        <CustomButton margin={"5rem 0 0 0"} type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton>
                     </div>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan ? "block" : "none" }}>
                         <p className={classes.actionPlanPara}>{litrals.actionPlanPara1}<br></br>{litrals.actionPlanPara2}</p>
@@ -417,7 +460,7 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0 ;
+        const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
@@ -426,66 +469,82 @@ class Chatbot extends React.Component {
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <Row>
-                        <Col md={4} xs={1} style={{ padding: "0" }}>
-                            <ProgressWeb section={this.state.section}></ProgressWeb>
-                        </Col>
-                        <Col md={8} xs={11}>
-                            <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+                    <Header heading={this.state.section}></Header>
+                    <Container>
+                        <Row className={classes.chatBotRow}>
+                            <Col md={4} xs={1} style={{ padding: "0" }}>
+                                <ProgressWeb section={this.state.section}></ProgressWeb>
+                            </Col>
+                            <Col md={8} xs={11}>
+                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
-                            <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
-                                {paragraphs}
-                                <Form>
-                                    {radios ? radios : ""}
+                                <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
+                                    {paragraphs}
+                                    <Form className={classes.Form}>
+                                        {radios ? radios : ""}
 
-                                </Form>
-                                <div style={{ width: "100%" }}>
-                                    <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
-                                    {/* <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> */}
-                                </div>
-                                {topic == 4 && this.state.showActionPlan ? (
-                                    <div className={classes.downloadbtndiv}>
-                                        {downloadActionPlan}
-                                        {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
-                            <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
+                                    </Form>
+                                    <div style={{ width: "100%" }}>
+                                        <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
+                                        {this.state.section <2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
                                     </div>
-                                ) : ""}
+                                    {topic == 4 && this.state.showActionPlan ? (
+                                        <div className={classes.downloadbtndiv}>
+                                            {downloadActionPlan}
+                                            {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
+                            <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
+                                        </div>
+                                    ) : ""}
 
-                            </div>
+                                </div>
 
-                        </Col>
-                    </Row>
+                            </Col>
+                        </Row>
+                    </Container>
                 </MenuProvider>
                 :
-                <Row>
-                    <Col md={4} xs={1} style={{ padding: "0" }}>
-                        <ProgressWeb section={this.state.section}></ProgressWeb>
-                    </Col>
-                    <Col md={8} xs={11}>
-                        <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+                <div>
+                    <Header heading={this.state.section}></Header>
+                    <Container>
+                        <Row className={classes.chatBotRow}>
+                            <Col md={4} xs={1} style={{ padding: "0" }}>
+                                <p className={classes.logoPara}>
+                                    <img
+                                        alt="SSlogo"
+                                        src={require("../../assets/Images/logoSmall.png")}
+                                        width="50"
+                                    />Support Finder</p>
+                                <ProgressWeb section={this.state.section}></ProgressWeb>
+                                <Footers></Footers>
+                            </Col>
+                            <Col md={8} xs={11}>
+                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
-                        <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
-                            {paragraphs}
-                            <Form>
-                                {radios ? radios : ""}
+                                <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
+                                    {paragraphs}
+                                    <Form className={classes.Form}>
+                                        {radios ? radios : ""}
 
-                            </Form>
-                            <div style={{ width: "100%" }}>
-                                <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
-                                {/* <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> */}
-                            </div>
-                            {topic == 4 && this.state.showActionPlan ? (
-                                <div className={classes.downloadbtndiv}>
-                                    {downloadActionPlan}
-                                    {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
+                                    </Form>
+                                    <div style={{ width: "100%" }}>
+                                        <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
+                                        {this.state.section <2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
+
+                                    </div>
+                                    {topic == 4 && this.state.showActionPlan ? (
+                                        <div className={classes.downloadbtndiv}>
+                                            {downloadActionPlan}
+                                            {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                             <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
+                                        </div>
+                                    ) : ""}
+
                                 </div>
-                            ) : ""}
 
-                        </div>
-
-                    </Col>
-                </Row>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
 
         );
     }

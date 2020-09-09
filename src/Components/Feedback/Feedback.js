@@ -1,4 +1,5 @@
 import React from 'react'
+import { Container } from 'react-bootstrap';
 import classes from './Feedback.module.scss';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
@@ -9,6 +10,7 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import { axiosFeedbackInstance } from '../../AxiosHandler';
+import Header from '../Header/Header';
 
 class Feedback extends React.Component {
     constructor(props) {
@@ -111,6 +113,8 @@ class Feedback extends React.Component {
         const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : negatives : -1);
         return (
             <div>
+                <Header heading={7}></Header>
+                <Container>
                 <div style={{ display: this.state.section1 ? "block" : "none" }}>
                     <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
                     <div className={classes.smilyContainer}>
@@ -144,7 +148,9 @@ class Feedback extends React.Component {
                     </Form.Group>
                     <CustomButton type="submit" float={"right"} onClick={ this.submitFeedback } data={litrals.buttons.SubmitNav}></CustomButton>
                 </div>
+                </Container>
             </div>
+            
         )
     }
 }
