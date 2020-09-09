@@ -42,6 +42,10 @@ const litrals = {
         shareOnWhatsapp:{
             buttonText: "Share On Whatsapp",
             variant: "primary",
+        },
+        showFeedback:{
+            buttonText: "Feedback",
+            variant: "primary",
         }
 
 

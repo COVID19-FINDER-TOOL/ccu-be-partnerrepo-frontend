@@ -1,4 +1,5 @@
 @import "../../theme.scss";
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
 
 .radio{
     display: inline-flex;
@@ -40,11 +41,18 @@
 }
 
 .radio_input:checked + .label{
-    // border: 5px solid $primary-color; 
-    // padding: 5px;
-    // background: rgb(243, 243, 243);
     color: $secondary-color;
+}
 
+.radio_input:checked + .label::after{
+    font-family: "Font Awesome 5 Free";
+    color:$secondary-color;
+    content: "\f058";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:2.5vh;
+    margin-left: 3px;
 }
 
 .label{

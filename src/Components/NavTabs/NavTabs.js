@@ -59,10 +59,21 @@ const assembleData = (data) => {
     return [keys, values]
 }
 
+const handleIterate = (Tag, props, children, level) => {
+    if (Tag === 'a') {
+        props = {
+            ...props,
+            target: "_blank",
+            href: props.href
+        };
+    }
+    // console.log(key)
+    return <Tag {...props}>{children}</Tag>;
+}
 const generateLinks = (data) => {
     const links = data.map((x, index) => {
         return (
-            <MDReactComponent key={index} text={x} />
+            <MDReactComponent key={index} text={x}  onIterate={handleIterate} />
         )
     })
     return (links)

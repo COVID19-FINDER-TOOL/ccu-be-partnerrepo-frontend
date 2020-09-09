@@ -8,7 +8,7 @@ import litrals from '../Litrals/Litrals';
 import { axiosInstance, axiosLoopbackInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
-import { onEditInspection } from "../../store/Action/LoginAction";
+import { onEditInspection, onCleanCreateJourney } from "../../store/Action/LoginAction";
 import moment from "moment";
 import { PDFDownloadLink, Document, Page, PDFViewer } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
@@ -40,6 +40,8 @@ class Chatbot extends React.Component {
             requestBody: { "question": "Start the flow" },
             msg: false,
             pdf: false,
+            showBack: true,
+            showFeedback:false,
             condition: "",
             showSpinner: true,
             metadata: "",
@@ -105,7 +107,16 @@ class Chatbot extends React.Component {
             .then(res => {
                 const data = res.data;
                 console.log(data);
-                this.fetch();
+                this.props.onEditInspection({
+                    metadata:"",
+                    questionStack:[],
+                    responseStack:[]
+                })
+                this.setState(()=>{return{
+                    questionStack:[],
+                    responseStack:[],
+                    backStack:[]
+                }})
             }).catch(error => {
                 console.log(error);
             });
@@ -145,89 +156,101 @@ class Chatbot extends React.Component {
         const queryIndex = event.target.name
         const id = event.target.id
         const type = event.target.type
-        var requestBody = {}
 
-        console.log(150, value, queryIndex, id, type, event.target)
+        const currentResponses = { value, queryIndex, id, type }
+        this.state.section < 2 ? this.setState(() => { return { currentResponses, selected: true, msg: false } }) : this.setState(() => { return { currentResponses, selected: true, msg: false } }, () => { this.handleSubmit() })
 
 
-        if (this.state.queryIndex === 0) {
+    }
 
-            var nextques = "Flow Started" 
-            requestBody = { "question": nextques };
-            const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
-            const startTime = moment.utc().format('YYYY-MM-DD hh:mm:ss')
-            this.props.onEditInspection({ journey_id })
-            const dataBody = {
+    handleSubmit = () => {
+        if (this.state.selected) {
+            const { CREATEJOURNEY } = this.props.payload
+            const { value, queryString, id, type } = this.state.currentResponses
+            var requestBody = {}
+            if (this.state.queryIndex === 0) {
 
-                "journey_id": journey_id,
-                "started": 1,
-                "start_time": startTime
+                var nextques = "Flow Started"
+                requestBody = { "question": nextques };
+                const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
+                const startTime = moment.utc().format('YYYY-MM-DD hh:mm:ss')
+                this.props.onEditInspection({ journey_id })
+                const dataBody = {
+
+                    "journey_id": journey_id,
+                    "started": 1,
+                    "start_time": startTime
+                }
+                axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
+                    .then(res => {
+                        const data = res.data;
+                        console.log(data);
+                        // this.fetch();
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                this.setState(() => { return { queryIndex: id - 1 } });
+
+
             }
-            axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
-                .then(res => {
-                    const data = res.data;
-                    console.log(data);
-                    // this.fetch();
-                }).catch(error => {
-                    console.log(error);
-                });
-            this.setState(() => { return { queryIndex: id-1 } });
+            else {
+                const { metadata } = this.state.data
+                let meta = metadata[0].value
+                meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
+                this.props.onEditInspection({ metadata: meta })
+                requestBody = {
+                    "question": value,
+                    "top": 1,
+                    "strictFilters": [{ "name": "context", "value": meta }]
+                };
 
+                if (this.state.section == 4) {
+                    const metadata_ = CREATEJOURNEY.metadata
+                    if (value == "Next") {
+                        requestBody = {
+                            "question": "loopback"
+                        };
+                        this.setState({ showBack: false })
+                        this.endJourney();
 
+                    }
+                    else if (value == "Yes" && metadata_ !== "loono") {
+                        this.setState({ queryIndex: 0, section: 0, showActionPlan: false, showBack: true })
+                        requestBody = {
+                            "question": "Start the flow",
+                        };
+                        
+                    }
+                    else if (value == "Yes" && metadata_ === "loono") {
+                        this.setState({ section: this.state.section + 1, showFeedback:true })
+                    }
+                    else if (value == "No" && metadata_ === "loono") {
+                        this.props.history.push("/feedback")
+                    }
+                }
+            }
+
+            const resbody = {
+                "question_id": this.state.data.id,
+                "answer_id": id ? id : "",
+                "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
+                "descriptive_answer": value,
+            }
+
+            var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
+            console.log(resbody)
+            responseStack = responseStack.concat(resbody)
+
+            this.props.onEditInspection({ responseStack: responseStack })
+            this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
         }
         else {
-            const { metadata } = this.state.data
-            let meta = metadata[0].value
-            meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
-            this.props.onEditInspection({ metadata: meta })
-            requestBody = {
-                "question": value,
-                "top": 1,
-                "strictFilters": [{ "name": "context", "value": meta }]
-            };
-
-            if (this.state.section == 4) {
-                const metadata_ = CREATEJOURNEY.metadata
-                console.log(metadata_)
-                if (value == "Next") {
-                    requestBody = {
-                        "question": "loopback"
-                    };
-                    this.endJourney();
+            this.setState(() => {
+                return {
+                    msg: true
                 }
-                else if (value == "Yes" && metadata_ !== "loono") {
-                    this.setState({ queryIndex: 0, section: 0 })
-                    requestBody = {
-                        "question": "Start the flow",
-                    };
-                }
-                else if (value == "Yes" && metadata_ === "loono") {
-                    this.setState({ section: this.state.section + 1 })
-                }
-                else if (value == "No" && metadata_ === "loono") {
-                    this.props.history.push("/feedback")
-                }
-
-            }
-
-
-
+            })
         }
-        const resbody = {
-            "question_id": this.state.data.id,
-            "answer_id": id ? id : "",
-            "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
-            "descriptive_answer": value,
-            // "topic": this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0
-        }
-
-        var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
-        console.log(resbody)
-        responseStack = responseStack.concat(resbody)
-        // console.log(responseStack, resbody)
-
-        this.props.onEditInspection({ responseStack: responseStack })
-        this.setState(() => { return { requestBody } }, () => { this.saveQuestion(this.state.data, resbody) });
     }
 
     saveInStorage = (user_response) => {
@@ -265,9 +288,7 @@ class Chatbot extends React.Component {
             });
     }
 
-    handleSubmit = () => {
 
-    }
 
     downloadActionPlan = () => {
         const { CREATEJOURNEY } = this.props.payload
@@ -313,21 +334,24 @@ class Chatbot extends React.Component {
     }
 
     handleBack = () => {
-        const { CREATEJOURNEY } = this.props.payload
-        const { backStack } = this.state
-        const { metadata, responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : "";
-        const previousResponse = responseStack[responseStack.length - 1];
-        backStack.push([previousResponse])
-        const previousquestion = questionStack[questionStack.length - 1];
-        const newMeta = previousquestion ? previousquestion.body.strictFilters ? previousquestion.body.strictFilters[0].value : { "question": "Start the flow" } : { "question": "Start the flow" }
-        const newQueStk = questionStack.slice(0, questionStack.length)
-        const newResStk = responseStack.slice(0, responseStack.length - 1)
-        this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk })
-        console.log(newQueStk, newResStk, backStack)
-        this.setState(() => { return { backStack, requestBody: previousquestion ? previousquestion.body : { "question": "Start the flow" }, queryIndex: previousquestion ? this.state.queryIndex : 0, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
-
-
-
+        if (this.state.showActionPlan) {
+            this.setState(() => {
+                return { showActionPlan: false }
+            })
+        }
+        else {
+            const { CREATEJOURNEY } = this.props.payload
+            const { backStack } = this.state
+            const { metadata, responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : "";
+            const previousResponse = responseStack[responseStack.length - 1];
+            backStack.push([previousResponse])
+            const previousquestion = questionStack[questionStack.length - 1];
+            const newMeta = previousquestion ? previousquestion.body.strictFilters ? previousquestion.body.strictFilters[0].value : { "question": "Start the flow" } : { "question": "Start the flow" }
+            const newQueStk = questionStack.slice(0, questionStack.length)
+            const newResStk = responseStack.slice(0, responseStack.length - 1)
+            this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk })
+            this.setState(() => { return { backStack, requestBody: previousquestion ? previousquestion.body : { "question": "Start the flow" }, queryIndex: previousquestion ? this.state.queryIndex : 0, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+        }
     }
 
 
@@ -459,6 +483,15 @@ class Chatbot extends React.Component {
         }
     }
 
+    gotoFeedback = () =>{
+        this.setState(()=>{return{
+            showFeedback:false
+        }},
+        ()=>{
+            this.props.history.push("/feedback")
+        })
+    }
+
     render() {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
@@ -480,13 +513,14 @@ class Chatbot extends React.Component {
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                     {paragraphs}
+                                    {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
                                     <Form className={classes.Form}>
                                         {radios ? radios : ""}
 
                                     </Form>
                                     <div style={{ width: "100%" }}>
-                                        <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
-                                        {this.state.section <2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
+                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                                        {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
                                     </div>
                                     {topic == 4 && this.state.showActionPlan ? (
                                         <div className={classes.downloadbtndiv}>
@@ -521,14 +555,18 @@ class Chatbot extends React.Component {
                                 <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
+
                                     {paragraphs}
+                                    {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
+
                                     <Form className={classes.Form}>
                                         {radios ? radios : ""}
 
                                     </Form>
                                     <div style={{ width: "100%" }}>
-                                        <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton>
-                                        {this.state.section <2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
+                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                                        {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
                                     </div>
                                     {topic == 4 && this.state.showActionPlan ? (
@@ -557,7 +595,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onEditInspection: data => dispatch(onEditInspection(data)),
-        surveyData: data => dispatch(surveyData(data))
+        surveyData: data => dispatch(surveyData(data)),
+        onCleanCreateJourney: data => dispatch(onCleanCreateJourney(""))
     };
 };
 
