@@ -34,8 +34,6 @@ class ProgressWeb extends React.Component {
   render() {
     
     const current = this.props.section ? this.props.section-1  : 0
- 
-
     return (
       <>
         <Steps current={current} progressDot style={{height:"50%"}}  onChange={this.onChange} onClick={this.onClick} direction="vertical">
@@ -43,7 +41,7 @@ class ProgressWeb extends React.Component {
           <Step title="View your Options" />
           <Step title="Know your rights" />
           <Step title="Review your action plan" />
-          <Step title="Hear from others" />
+          <Step title="Hear from others" onClick={this.props.callHearFromOthers} />
         </Steps>
       </>
     );

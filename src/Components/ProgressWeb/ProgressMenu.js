@@ -42,7 +42,7 @@ class ProgressMenu extends React.Component {
           <Step title="View your Options" />
           <Step title="Know your rights" />
           <Step title="Review your action plan" />
-          <Step title="Hear from others" />
+          <Step title="Hear from others" onClick={this.props.callHearFromOthers} />
         </Steps>
       </>
     );

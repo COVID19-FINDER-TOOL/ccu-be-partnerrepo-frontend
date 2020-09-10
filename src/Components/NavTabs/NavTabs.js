@@ -6,8 +6,18 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 import MDReactComponent from 'markdown-react-js';
-
+import LaunchIcon from '@material-ui/icons/Launch';
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import MicIcon from '@material-ui/icons/Mic';
+import BookIcon from '@material-ui/icons/Book';
+import { Col, Row } from 'react-bootstrap';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -45,10 +55,17 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
-        border: "1px",
-        borderColor: "orange",
-        borderStyle: "solid",
-        borderRadius: "10px"
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "3%"
+
+    },
+    cardroot: {
+        maxWidth: 345,
+    },
+    media: {
+        height: 140,
     },
 
 }));
@@ -69,11 +86,73 @@ const handleIterate = (Tag, props, children, level) => {
     }
     // console.log(key)
     return <Tag {...props}>{children}</Tag>;
+
 }
-const generateLinks = (data) => {
+
+const sendIcon = (index) => {
+    switch (index) {
+        // case 0: return  <PlayCircleOutlineIcon style={style}></PlayCircleOutlineIcon>; break
+        // case 1: return <MicIcon style={style}></MicIcon>; break
+        // case 2: return <BookIcon style={style}></BookIcon>; break
+        // default: return <PlayCircleOutlineIcon style={style}></PlayCircleOutlineIcon>; break
+
+        case 0: {return "/video.png" ;break}
+        case 1: return "/podcast.png"; break
+        case 2: return "/reading.png";break
+        default: return "/video.png" ;break
+    }
+}
+
+const generateLinks = (data, topic) => {
     const links = data.map((x, index) => {
+        const x1 = x.split(":");
+        const x2 = x1.slice(1).join("");
+        console.log(x2)
+        const icon = sendIcon(index)
+        const style = {
+            display:"block", margin: "auto", borderRadius: "20%", fontSize: "65px"
+        }
         return (
-            <MDReactComponent key={index} text={x}  onIterate={handleIterate} />
+
+            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", maxWidth: "500px" }}>
+                <CardActionArea>
+
+                    {topic == 3 ?
+
+                        <CardContent style={{ display: "flex", paddingBottom: "0px" }}>
+                            <LaunchIcon style={{ backgroundColor: "white", boxShadow: " 0px 3px 6px #00000029", marginRight: "10px", borderRadius: "20%", fontSize: "30px" }}></LaunchIcon>
+                            <Typography gutterBottom variant="body1" component="p">
+                                <MDReactComponent key={index} text={x} onIterate={handleIterate} />
+                            </Typography>
+                        </CardContent>
+
+                        :
+                        <CardContent style={{ paddingBottom: "0px" }}>
+                            <Row>
+                                <Col md={4}>
+                                    <img
+                                        style={style}
+                                        src={require("../../assets/Images"+icon)}
+                                    />
+                                </Col>
+                                <Col md={8} style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: "center" }}>
+                                        {x1[0]}
+                                    </Typography>
+                                    <br></br>
+                                    <Typography gutterBottom variant="body1" component="p">
+                                        <MDReactComponent key={index} text={x2} onIterate={handleIterate} />
+                                    </Typography>
+                                </Col>
+                            </Row>
+                        </CardContent>
+
+                    }
+
+
+                </CardActionArea>
+            </Card >
+
         )
     })
     return (links)
@@ -86,13 +165,15 @@ const generatetabs = (data, value) => {
                 style={{
                     maxWidth: "7rem",
                     color: "#f5f5f5",
-                    borderRight: "2px solid darkgray",
+                    borderRight: "1px solid #f5f5f5",
                     outline: 0,
-                    borderLeft: index === 0 ? "2px solid darkgray" : "none",
-                    backgroundColor: value === index ? "#F07D29" : "#D4121E",                    
+                    borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
+                    backgroundColor: value === index ? "#D4121E" : "#A8A8A7",
+                    fontSize: "0.8rem",
+                    paddingTop: "20px"
                 }}
                 wrapped
-                label={x.slice(3)}
+                label={<MDReactComponent key={index} text={x.slice(3)} onIterate={handleIterate} />}
                 {...a11yProps(index)} />
         )
     })
@@ -101,29 +182,32 @@ const generatetabs = (data, value) => {
 
 
 export default function NavTabs(props) {
+    console.log(props)
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const rights = assembleData(props.data);
+    const topic = props.topic
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    console.log(rights)
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Tabs centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#D4121E" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#D4121E" }}>
+            <AppBar position="static" style={{ width: "fit-content", zIndex: "unset" }}>
+                <Tabs variant="fullWidth" centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#f5f5f5" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#A8A8A7" }}>
                     {generatetabs(rights, value)}
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                {generateLinks(rights[1][0])}
+                {generateLinks(rights[1][0], topic)}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                {generateLinks(rights[1][1])}
+                {generateLinks(rights[1][1], topic)}
 
             </TabPanel>
             <TabPanel value={value} index={2}>
-                {generateLinks(rights[1][2])}
+                {generateLinks(rights[1][2], topic)}
 
             </TabPanel>
         </div>

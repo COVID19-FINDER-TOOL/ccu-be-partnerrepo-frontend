@@ -1,12 +1,30 @@
 @import "../../theme.scss"; 
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
 
 .Header{
     background: #EDEDED 0% 0% no-repeat padding-box;
 }
 .links{
-    margin-left: auto;
-    margin-bottom: 1%;
-    // border: 1px solid $secondary-color;
+
+    // width: 100px; /* set a width so it doesnt change upon hover */
+    border: 1px solid $secondary-color;
+    padding: 9%;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    color:$secondary-color;
+    font-weight: bold;
+    font-size: 17px;
+    text-decoration: none;
+    vertical-align: middle;
+    letter-spacing: 2px;    
+}
+
+.links:focus{
+    background-color: $secondary-color;
+    color: whitesmoke;
+    outline: none;
+    transition: all 0.5s;
 }
 
 .linkElement{
@@ -45,9 +63,7 @@
     
 }
 .brand{
-    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-32)/var(--unnamed-line-spacing-40) var(--unnamed-font-family-tahoma);
-    letter-spacing: var(--unnamed-character-spacing-0);
-    color: var(--unnamed-color-1d1d1b);
+    
     text-align: center;
     font: normal normal normal 32px/40px Tahoma;
     letter-spacing: 0px;
@@ -59,10 +75,8 @@
 }
 
 .brandImage{
-    margin-top: 20px;
-    display: block;
-    text-align: center;
-    margin-left: 45vw;
+    display: flex;
+    justify-content: center;
 
 }
 

@@ -41,7 +41,7 @@ class Chatbot extends React.Component {
             msg: false,
             pdf: false,
             showBack: true,
-            showFeedback:false,
+            showFeedback: false,
             condition: "",
             showSpinner: true,
             metadata: "",
@@ -108,24 +108,26 @@ class Chatbot extends React.Component {
                 const data = res.data;
                 console.log(data);
                 this.props.onEditInspection({
-                    metadata:"",
-                    questionStack:[],
-                    responseStack:[]
+                    metadata: "",
+                    questionStack: [],
+                    responseStack: []
                 })
-                this.setState(()=>{return{
-                    questionStack:[],
-                    responseStack:[],
-                    backStack:[]
-                }})
+                this.setState(() => {
+                    return {
+                        questionStack: [],
+                        responseStack: [],
+                        backStack: []
+                    }
+                })
             }).catch(error => {
                 console.log(error);
             });
     }
 
-    fetch = () => {
-        const body = this.state.requestBody
-        this.setState(() => { return { showSpinner: true, questionStack: this.state.questionStack.concat({ body }) } })
-        axiosInstance.post(this.state.queryString[this.state.queryIndex], body)
+    fetch = (str) => {
+        const body = str ? str.body : this.state.requestBody
+        this.setState(() => { return { showSpinner: true, questionStack: str ? this.state.questionStack : this.state.questionStack.concat({ body }) } })
+        axiosInstance.post(str ? str.query : this.state.queryString[this.state.queryIndex], body)
             .then(res => {
                 const data = res.data.answers[0];
                 const section = data.metadata[1] ? Number(data.metadata[1].value) : this.state.section
@@ -139,14 +141,16 @@ class Chatbot extends React.Component {
                     this.props.history.push("/feedback")
                 }
                 this.props.onEditInspection({ section })
-                this.setState(() => { return { data: data, showSpinner: false, section: section } });
+                this.setState(() => { return { data: data, showSpinner: false, section: section, showHearFromOthers : str ? true : false } });
             }).catch(error => {
                 console.log(error);
                 this.setState(() => { return { showSpinner: false } })
             });
-        const { questionStack, data } = this.state;
+        if (!str) {
+            const { questionStack, data } = this.state;
 
-        this.props.onEditInspection({ questionStack })
+            this.props.onEditInspection({ questionStack })
+        }
     }
 
 
@@ -210,19 +214,19 @@ class Chatbot extends React.Component {
                         requestBody = {
                             "question": "loopback"
                         };
-                        this.setState({ showBack: false })
+                        this.setState(()=>{return{ showBack: false }})
                         this.endJourney();
 
                     }
                     else if (value == "Yes" && metadata_ !== "loono") {
-                        this.setState({ queryIndex: 0, section: 0, showActionPlan: false, showBack: true })
+                        this.setState(()=>{return{ queryIndex: 0, section: 0, showActionPlan: false, showBack: true }})
                         requestBody = {
                             "question": "Start the flow",
                         };
-                        
+
                     }
                     else if (value == "Yes" && metadata_ === "loono") {
-                        this.setState({ section: this.state.section + 1, showFeedback:true })
+                        this.setState(()=>{return{ section: this.state.section + 1, showFeedback: true }})
                     }
                     else if (value == "No" && metadata_ === "loono") {
                         this.props.history.push("/feedback")
@@ -465,36 +469,48 @@ class Chatbot extends React.Component {
     }
 
     displayNextTopic = (topic) => {
-        if (topic == 3) {
-            const text = this.state.data.answer;
-            const textarray = text.split("\n");
-            var temp = {}
-            var count = 0
-            var key = ""
-            textarray.map((x) => {
-                if (/^\d/.test(x.trim())) {
-                    key = x
-                }
-                else {
-                    temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
-                }
-            })
-            return <NavTabs data={temp}></NavTabs>
-        }
+
+        const text = this.state.data.answer;
+        const textarray = text.split("\n");
+        var temp = {}
+        var count = 0
+        var key = ""
+        textarray.map((x) => {
+            if (/^\d/.test(x.trim())) {
+                key = x
+            }
+            else {
+                temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
+            }
+        })
+        return <NavTabs data={temp} topic={topic}></NavTabs>
+
     }
 
-    gotoFeedback = () =>{
-        this.setState(()=>{return{
-            showFeedback:false
-        }},
-        ()=>{
-            this.props.history.push("/feedback")
-        })
+    gotoFeedback = () => {
+        this.setState(() => {
+            return {
+                showFeedback: false
+            }
+        },
+            () => {
+                this.props.history.push("/feedback")
+            })
+    }
+
+    callHearFromOthers = () => {
+
+        const str = {
+            "body": { "question": "hear from others" },
+            "query": this.state.queryString[0]
+        }
+        this.fetch(str)
+
     }
 
     render() {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
-        const paragraphs = this.state.data ? topic == 3 ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
+        const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 600px)").matches;
@@ -502,11 +518,11 @@ class Chatbot extends React.Component {
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <Header heading={this.state.section}></Header>
+                    <Header heading={this.state.section} ></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
                             <Col md={4} xs={1} style={{ padding: "0" }}>
-                                <ProgressWeb section={this.state.section}></ProgressWeb>
+                                <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
                             </Col>
                             <Col md={8} xs={11}>
                                 <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
@@ -538,7 +554,7 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div>
-                    <Header heading={this.state.section}></Header>
+                    <Header heading={this.state.section} ></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
                             <Col md={4} xs={1} style={{ padding: "0" }}>
@@ -548,7 +564,7 @@ class Chatbot extends React.Component {
                                         src={require("../../assets/Images/logoSmall.png")}
                                         width="50"
                                     />Support Finder</p>
-                                <ProgressWeb section={this.state.section}></ProgressWeb>
+                                <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
                                 <Footers></Footers>
                             </Col>
                             <Col md={8} xs={11}>
