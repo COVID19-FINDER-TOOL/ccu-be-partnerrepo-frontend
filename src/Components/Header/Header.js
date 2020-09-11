@@ -12,6 +12,8 @@ import {
     WhatsappShareButton,
 
 } from "react-share";
+import { axiosLoginInstance } from '../../AxiosHandler';
+
 
 const heading = {
     "0": "Tell us about yourself",
@@ -21,6 +23,23 @@ const heading = {
     "4": "Review your action plan",
     "5": "Hear from others",
     "7": "Feedback"
+}
+
+const sendShareInfo = (event) => {
+    console.log(event.target)
+    const user = JSON.parse(window.localStorage.getItem("csf_user"))
+    const medium = event.target.id
+    const body = {
+        "user_id": user.user_id,
+        "medium": medium
+    }
+    axiosLoginInstance.post("CFTUserShareTrigger/invite", body)
+        .then(res => {
+            const data = res.data;
+            console.log(data);
+        }).catch(error => {
+            console.log(error);
+        });
 }
 
 const Header = (props) => {
@@ -35,33 +54,14 @@ const Header = (props) => {
                     </Col>
                     <Col md={1}>
 
-                    <DropdownButton id="dropdown-item-button" title='Share' bsPrefix={classes.links}>
-                        <Dropdown.Item as="div"><div className={classes.iconsbar}><span bsPrefix={classes.linkElement}><WhatsappShareButton title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon fontSize="large" className={classes.linkElement}></WhatsAppIcon></WhatsappShareButton >WhatsApp</span></div></Dropdown.Item>
-                        <Dropdown.Item as="div"><div className={classes.iconsbar}><span bsPrefix={classes.linkElement}><EmailShareButton subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>Email</span></div></Dropdown.Item>
-                    </DropdownButton>
+                        <DropdownButton id="dropdown-item-button" title='Share' bsPrefix={classes.links}>
+                            <Dropdown.Item as="div" id={"whatsapp"} onClick={sendShareInfo}><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"}  className={classes.linkElement}><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon></WhatsappShareButton >WhatsApp</span></div></Dropdown.Item>
+                            <Dropdown.Item as="div" id={"email"} onClick={sendShareInfo}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>Email</span></div></Dropdown.Item>
+                        </DropdownButton>
                     </Col>
                     <Col md={1}>NEXT</Col>
 
                 </Row>
-
-
-
-                {/* <DropdownButton id="dropdown-item-button" title="Share" bsPrefix={classes.links}>
-                        <Dropdown.Item as="div"><div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><WhatsappShareButton title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon fontSize="large" className={classes.linkElement}></WhatsAppIcon></WhatsappShareButton ></Nav.Link></div></Dropdown.Item>
-                        <Dropdown.Item as="div"><div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><EmailShareButton subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton></Nav.Link></div></Dropdown.Item>
-                        {/* <Dropdown.Item as="div">Something else</Dropdown.Item> */}
-                {/* </DropdownButton> */}
-                {/* <NavDropdown title="Share">
-                        <NavDropdown.Item><div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><WhatsappShareButton title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon fontSize="large" className={classes.linkElement}></WhatsAppIcon></WhatsappShareButton ></Nav.Link></div></NavDropdown.Item>
-                        <NavDropdown.Item><div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><EmailShareButton subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton></Nav.Link></div>
-                        </NavDropdown.Item>
-                    </NavDropdown> */}
-                {/* <Nav className={classes.links}>
-                        <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><WhatsappShareButton title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon fontSize="large" className={classes.linkElement}></WhatsAppIcon></WhatsappShareButton ></Nav.Link></div>
-                        <div className={classes.iconsbar}><Nav.Link bsPrefix={classes.linkElement}><EmailShareButton subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton></Nav.Link></div>
-
-                    </Nav> */}
-
             </Navbar>
         </div>
     );

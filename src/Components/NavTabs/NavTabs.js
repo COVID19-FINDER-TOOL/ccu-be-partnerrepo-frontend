@@ -84,18 +84,12 @@ const handleIterate = (Tag, props, children, level) => {
             href: props.href
         };
     }
-    // console.log(key)
     return <Tag {...props}>{children}</Tag>;
 
 }
 
 const sendIcon = (index) => {
     switch (index) {
-        // case 0: return  <PlayCircleOutlineIcon style={style}></PlayCircleOutlineIcon>; break
-        // case 1: return <MicIcon style={style}></MicIcon>; break
-        // case 2: return <BookIcon style={style}></BookIcon>; break
-        // default: return <PlayCircleOutlineIcon style={style}></PlayCircleOutlineIcon>; break
-
         case 0: {return "/video.png" ;break}
         case 1: return "/podcast.png"; break
         case 2: return "/reading.png";break
@@ -106,15 +100,14 @@ const sendIcon = (index) => {
 const generateLinks = (data, topic) => {
     const links = data.map((x, index) => {
         const x1 = x.split(":");
-        const x2 = x1.slice(1).join("");
-        console.log(x2)
+        const x2 = x1.slice(1).join(":");
         const icon = sendIcon(index)
         const style = {
-            display:"block", margin: "auto", borderRadius: "20%", fontSize: "65px"
+            display:"block", margin: "auto", borderRadius: "5%"
         }
         return (
 
-            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", maxWidth: "500px" }}>
+            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", minWidth: "100%" }}>
                 <CardActionArea>
 
                     {topic == 3 ?
@@ -127,9 +120,9 @@ const generateLinks = (data, topic) => {
                         </CardContent>
 
                         :
-                        <CardContent style={{ paddingBottom: "0px" }}>
+                        <CardContent >
                             <Row>
-                                <Col md={4}>
+                                <Col md={4} style={{display:"flex"}}>
                                     <img
                                         style={style}
                                         src={require("../../assets/Images"+icon)}
@@ -139,7 +132,6 @@ const generateLinks = (data, topic) => {
                                     <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: "center" }}>
                                         {x1[0]}
                                     </Typography>
-                                    <br></br>
                                     <Typography gutterBottom variant="body1" component="p">
                                         <MDReactComponent key={index} text={x2} onIterate={handleIterate} />
                                     </Typography>
@@ -199,14 +191,14 @@ export default function NavTabs(props) {
                     {generatetabs(rights, value)}
                 </Tabs>
             </AppBar>
-            <TabPanel value={value} index={0}>
+            <TabPanel style={{minWidth:"70%"}} value={value} index={0}>
                 {generateLinks(rights[1][0], topic)}
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel style={{minWidth:"70%"}} value={value} index={1}>
                 {generateLinks(rights[1][1], topic)}
 
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            <TabPanel style={{minWidth:"70%"}} value={value} index={2}>
                 {generateLinks(rights[1][2], topic)}
 
             </TabPanel>
