@@ -110,7 +110,9 @@ class Chatbot extends React.Component {
                 this.props.onEditInspection({
                     metadata: "",
                     questionStack: [],
-                    responseStack: []
+                    responseStack: [],
+                    journey_id:"",
+                    start_time:""
                 })
                 this.setState(() => {
                     return {
@@ -153,7 +155,6 @@ class Chatbot extends React.Component {
         }
     }
 
-
     handleRadio = (event) => {
         const { CREATEJOURNEY } = this.props.payload;
         const value = event.target.value
@@ -170,29 +171,34 @@ class Chatbot extends React.Component {
     handleSubmit = () => {
         if (this.state.selected) {
             const { CREATEJOURNEY } = this.props.payload
+            const { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
             const { value, queryString, id, type } = this.state.currentResponses
             var requestBody = {}
             if (this.state.queryIndex === 0) {
 
                 var nextques = "Flow Started"
                 requestBody = { "question": nextques };
-                const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
-                const startTime = moment.utc().format('YYYY-MM-DD hh:mm:ss')
-                this.props.onEditInspection({ journey_id })
-                const dataBody = {
+                console.log(journey_id,start_time)
+                if (!(journey_id && start_time)) {
+                    const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
+                    const start_time = moment.utc().format('YYYY-MM-DD hh:mm:ss')
+                    const dataBody = {
+            
+                        "journey_id": journey_id,
+                        "started": 1,
+                        "start_time": start_time
+                    }
+                    this.props.onEditInspection({ journey_id, start_time })
 
-                    "journey_id": journey_id,
-                    "started": 1,
-                    "start_time": startTime
+                    axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
+                        .then(res => {
+                            const data = res.data;
+                            console.log(data);
+                        }).catch(error => {
+                            console.log(error);
+                        });
                 }
-                axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
-                    .then(res => {
-                        const data = res.data;
-                        console.log(data);
-                        // this.fetch();
-                    }).catch(error => {
-                        console.log(error);
-                    });
+
                 this.setState(() => { return { queryIndex: id - 1 } });
 
 
@@ -241,11 +247,11 @@ class Chatbot extends React.Component {
                 "descriptive_answer": value,
             }
 
-            var { responseStack,backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
-            const currentResponse = backStack ? backStack[backStack.length-1] : ""
-
+            var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
+            const currentResponse = backStack ? backStack[backStack.length - 1] : ""
+            console.log(currentResponse)
             if (backStack && currentResponse) {
-                if ( currentResponse.answer_id.toString().substring(4) !== id) {
+                if (currentResponse.answer_id.toString().substring(4) !== id) {
                     resbody["event_changed"] = "True";
                     resbody["answered"] = backStack
                     console.log("Condition1", backStack)
@@ -254,11 +260,11 @@ class Chatbot extends React.Component {
                     console.log("Condition2", backStack)
                     resbody["event_changed"] = "False";
                     resbody["answered"] = backStack
-                    
+
 
                 }
-                backStack = backStack.slice(0,-1)
-            } 
+                backStack = backStack.slice(0, -1)
+            }
             else {
                 resbody["event_changed"] = "False";
                 resbody["answered"] = []
@@ -317,14 +323,14 @@ class Chatbot extends React.Component {
     sendDownloadInfo = (jid) => {
         const { CREATEJOURNEY } = this.props.payload
         const { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : []
-        axiosLoginInstance.post("CFTUserShareTrigger/download?journey_id="+journey_id)
+        axiosLoginInstance.post("CFTUserShareTrigger/download?journey_id=" + journey_id)
             .then(res => {
                 const data = res.data;
                 console.log(data);
             }).catch(error => {
                 console.log(error);
             });
-      }
+    }
 
     downloadActionPlan = () => {
         const { CREATEJOURNEY } = this.props.payload
@@ -332,14 +338,14 @@ class Chatbot extends React.Component {
         return (
 
             <PDFDownloadLink
-                onClick = {this.sendDownloadInfo}
+                onClick={this.sendDownloadInfo}
                 document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} journey_id={journey_id} />}
                 fileName="ActionPlan.pdf"
                 className={classes.buttonColor1}
             >
                 {
-                ({ blob, url, loading, error }) =>
-                    loading ? "Loading document..." : "Download Action Plan"
+                    ({ blob, url, loading, error }) =>
+                        loading ? "Loading document..." : "Download Action Plan"
                 }
             </PDFDownloadLink>
 
@@ -382,15 +388,22 @@ class Chatbot extends React.Component {
             const { backStack } = this.state
             const { metadata, responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
             const previousResponse = responseStack[responseStack.length - 1];
-            section < 2 ? backStack.push(previousResponse) : console.log()
+            if (section < 3) {
+                backStack.push(previousResponse)
+            }
             const previousquestion = questionStack[questionStack.length - 1];
-            const newMeta = previousquestion ? previousquestion.body.strictFilters ? previousquestion.body.strictFilters[0].value : { "question": "Start the flow" } : { "question": "Start the flow" }
+            const newMeta = previousquestion ? previousquestion.body.strictFilters ? previousquestion.body.strictFilters[0].value : "" : ""
             const newQueStk = questionStack.slice(0, questionStack.length)
             const newResStk = responseStack.slice(0, responseStack.length - 1)
-            console.log(backStack,section)
-            this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk,backStack })
-            this.setState(() => { return { backStack, requestBody: previousquestion ? previousquestion.body : { "question": "Start the flow" }, queryIndex: previousquestion ? this.state.queryIndex : 0, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+            this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk, backStack })
+            const requestBody = previousquestion ? previousquestion.body : { "question": "Start the flow" }
+            const queryIndex = requestBody.question !== "Start the flow" ? this.state.queryIndex : 0
+            console.log(newMeta, requestBody, queryIndex, previousquestion)
+
+            this.setState(() => { return { backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+
         }
+
     }
 
 
@@ -621,7 +634,7 @@ class Chatbot extends React.Component {
 
                                     </div>
                                     {topic == 4 && this.state.showActionPlan ? (
-                                        <div className={classes.downloadbtndiv}  onClick={this.sendDownloadInfo}>
+                                        <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                             {downloadActionPlan}
                                             {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                             <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
