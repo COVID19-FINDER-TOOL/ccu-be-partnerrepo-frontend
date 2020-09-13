@@ -91,8 +91,43 @@
     background-color: $primary-color;
 }
 
+.displayAsButton{
+    color: $secondary-color;
+    line-height: 21px;
+    font-weight: 700;
+    font-size: 18px;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: white;
+    border-color:  $secondary-color;
+    transition: background-color 0.5s;
+    float: right;
+    margin-top: 1rem;
+    padding: 12px;
+    text-align: center;
+}
+.displayAsButton:hover{
+    background-color: $primary-color !important;
+    border-color:  $primary-color !important;
+    color: whitesmoke !important;
+  }
+
 .index{
     display: inline-block;
     margin: auto;
     font-size: x-large;
+}
+
+@media screen and (max-width:600px){
+    .displayAsButton{
+        width: 100% !important;
+        text-align: center;
+        padding-left: 0;
+    }
+    .label{
+        padding-left: 15px;
+        font-size: 90%;
+        line-height: 1.31579;
+        display: block;
+    }
 }

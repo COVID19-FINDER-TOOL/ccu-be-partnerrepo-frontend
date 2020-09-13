@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./Login.module.css";
+import classes from "./Login.module.scss";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import CustomButton from "../CustomButton/CustomButton";

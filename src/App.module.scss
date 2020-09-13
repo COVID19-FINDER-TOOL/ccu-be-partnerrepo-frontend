@@ -10,10 +10,15 @@ body {
 .App {
   display: flex;
   text-align: left;
+  width: 100%;
+}
+
+.coverPage{
+  background: url("./assets/Images/654680605.jpg") left center;
 }
 
 .containerCover{
-  margin-top: 6vh;
+  
   display: flex;
   justify-content: center;
   
@@ -37,32 +42,46 @@ body {
 
 .appName{
   text-align: left;
-  font: normal normal bold 3vw Roboto;
+  font: normal normal normal 2.5vw Tahoma;
   letter-spacing: 0px;
-  color: $primary-color;
+  color: $secondary-color;
   text-shadow: 0px 3px 6px #00000029;
   opacity: 1;
 }
 
+.main{
+  padding-bottom: 30px
+}
+
+.appSignatureRow{
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left:20vw;
+  right: 20vw;
+
+}
+
 .signature{
-  // margin-top: 10vh;
-  position: absolute;
-  text-align: center;
-letter-spacing: NaNpx;
-color: $primary-color;
+color: #4A4A49;
 text-shadow: 0px 3px 6px #00000029;
 opacity: 1;
 text-align: center;
-font: normal normal 300 1.3vw Basic Sans;
+font: normal normal normal 1.3vw Tahoma;
 letter-spacing: 0px;
-color: $primary-color;
-bottom: 0;
 }
 
 .span{
   text-align: center;
-font: normal normal 300 1vw Basic Sans;
-color: $primary-color;
+  font: normal normal normal 1vw Tahoma;
+  color: #4A4A49;
+}
+
+.vl {
+    border-left: 4px solid #CF022B;
+    height: 11vh;
+    margin-top: 4vw;
+    border-radius: 10px;
 }
 
 @media screen and (max-width:600px) {
@@ -70,18 +89,22 @@ color: $primary-color;
     width:15vw;
   }
 
+  .containerCover{
+    margin-top: 6vh;
+  }
+
   .containertransform{
     height: 60vh;
   }
 
   .appName{
-    font: normal normal bold 5vw Roboto;
+    font: normal normal normal 5vw Tahoma ;
   }
    .signature{
-    font: normal normal 300 3.5vw Basic Sans;
+    font: normal normal normal 3.5vw Tahoma;
    }
    .span{
-    font: normal normal 300 2vw Basic Sans;
+    font: normal normal normal 2vw Tahoma; 
    }
 
 }

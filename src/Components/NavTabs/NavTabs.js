@@ -13,11 +13,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import MDReactComponent from 'markdown-react-js';
-import LaunchIcon from '@material-ui/icons/Launch';
-import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import MicIcon from '@material-ui/icons/Mic';
-import BookIcon from '@material-ui/icons/Book';
+import InfoIcon from '@material-ui/icons/Info';
 import { Col, Row } from 'react-bootstrap';
+import * as themeClass from '../../theme.json';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -58,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "3%"
+        marginTop: "3%",
+        width:"100%"
 
     },
     cardroot: {
@@ -107,14 +106,14 @@ const generateLinks = (data, topic) => {
         }
         return (
 
-            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", minWidth: "100%" }}>
+            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029" }}>
                 <CardActionArea>
 
                     {topic == 3 ?
 
-                        <CardContent style={{ display: "flex", paddingBottom: "0px" }}>
-                            <LaunchIcon style={{ backgroundColor: "white", boxShadow: " 0px 3px 6px #00000029", marginRight: "10px", borderRadius: "20%", fontSize: "30px" }}></LaunchIcon>
-                            <Typography gutterBottom variant="body1" component="p">
+                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"7rem" }}>
+                            <InfoIcon style={{ margin: "15px", fontSize: "3rem",color:themeClass.primaryColor }}></InfoIcon>
+                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
                         </CardContent>
@@ -122,13 +121,13 @@ const generateLinks = (data, topic) => {
                         :
                         <CardContent >
                             <Row>
-                                <Col md={4} style={{display:"flex"}}>
+                                <Col md={3} style={{display:"flex"}}>
                                     <img
                                         style={style}
                                         src={require("../../assets/Images"+icon)}
                                     />
                                 </Col>
-                                <Col md={8} style={{ display: 'flex', flexDirection: 'column' }}>
+                                <Col md={9} style={{ display: 'flex', flexDirection: 'column' }}>
                                     <Typography gutterBottom variant="h6" component="h2" style={{ textAlign: "center" }}>
                                         {x1[0]}
                                     </Typography>
@@ -155,14 +154,15 @@ const generatetabs = (data, value) => {
         return (
             <Tab key={index}
                 style={{
-                    maxWidth: "7rem",
+                    maxWidth: "33.34%",
                     color: "#f5f5f5",
                     borderRight: "1px solid #f5f5f5",
                     outline: 0,
                     borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
-                    backgroundColor: value === index ? "#D4121E" : "#A8A8A7",
-                    fontSize: "0.8rem",
-                    paddingTop: "20px"
+                    backgroundColor: value === index ? themeClass.primaryColor : themeClass.tertiaryColor2,
+                    fontSize: "1.6vh",
+                    paddingTop: "20px",
+                    height:"80px"
                 }}
                 wrapped
                 label={<MDReactComponent key={index} text={x.slice(3)} onIterate={handleIterate} />}
@@ -186,19 +186,19 @@ export default function NavTabs(props) {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" style={{ width: "fit-content", zIndex: "unset" }}>
-                <Tabs variant="fullWidth" centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#f5f5f5" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#A8A8A7" }}>
+            <AppBar position="static" style={{ width: "fit-content", zIndex: "unset", width:"100%" }}>
+                <Tabs variant="fullWidth" centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#f5f5f5" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#A8A8A7"}}>
                     {generatetabs(rights, value)}
                 </Tabs>
             </AppBar>
-            <TabPanel style={{minWidth:"70%"}} value={value} index={0}>
+            <TabPanel style={{minWidth:"100%"}} value={value} index={0}>
                 {generateLinks(rights[1][0], topic)}
             </TabPanel>
-            <TabPanel style={{minWidth:"70%"}} value={value} index={1}>
+            <TabPanel style={{minWidth:"100%"}} value={value} index={1}>
                 {generateLinks(rights[1][1], topic)}
 
             </TabPanel>
-            <TabPanel style={{minWidth:"70%"}} value={value} index={2}>
+            <TabPanel style={{minWidth:"100%"}} value={value} index={2}>
                 {generateLinks(rights[1][2], topic)}
 
             </TabPanel>

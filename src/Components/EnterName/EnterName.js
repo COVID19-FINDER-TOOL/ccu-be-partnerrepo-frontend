@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form } from 'react-bootstrap';
 import CustomButton from '../CustomButton/CustomButton';
-import classes from './EnterName.module.css';
+import classes from './EnterName.module.scss';
 import litrals from '../Litrals/Litrals';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { onEditInspection } from "../../store/Action/LoginAction";

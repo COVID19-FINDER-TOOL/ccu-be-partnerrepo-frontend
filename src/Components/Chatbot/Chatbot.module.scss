@@ -4,9 +4,6 @@
 
 .heading{
     font-weight: bolder;
-    color: #333333;
-    /* font-size: 38px; */
-    /* line-height: 45px; */
     margin-top: 2%;
     margin-bottom: 2%;
 }
@@ -19,9 +16,9 @@
 }
 .actionPlanPara{
     text-align: center;
-    font: normal normal normal 24px/29px Helvetica Neue;
+    font: normal normal normal 24px/29px Tahoma;
     letter-spacing: 0px;
-    color: #707070;
+    color: $tertiary-color;
     opacity: 1;
 }
 .error{
@@ -38,7 +35,7 @@
 .linkElement{
     text-align: left;
     /* text-decoration: underline; */
-    font: normal normal normal 24px/26px Basic Sans;
+    font: normal normal normal 24px/26px ;
     letter-spacing: 0px;
     color: #1592E6;
     opacity: 1; 
@@ -58,7 +55,7 @@
     display: flex;
     width: 45%;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid #F07D29;
+    border: 1px solid $secondary-color;
     border-radius: 10px;
     opacity: 1;
     margin: 2%;
@@ -78,7 +75,7 @@
 
 .linkSpanContent::before{
     font-family: "Font Awesome 5 Free";
-    color: #9597A6;
+    color: $tertiary-color;
     content: "\f017";
     vertical-align: middle;
     font-style: normal;
@@ -97,7 +94,7 @@
 }
 
 .verticalLine{
-    border-right: #F07D29 1px solid;
+    border-right: $secondary-color 1px solid;
 }
 
 .iconCenter{
@@ -135,11 +132,10 @@
     text-align: center;
   }
   .logoPara{
-    color: $primary-color;
-    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-24)/var(--unnamed-line-spacing-28) var(--unnamed-font-family-tahoma);
+    color: $secondary-color;
     text-align: left;
-    font: normal normal normal 24px/28px Tahoma;
-    letter-spacing: 2.4px;
+    font: normal normal bold 24px/28px Tahoma ;
+    letter-spacing: 1.44px;
     opacity: 1;
 }
 
@@ -161,10 +157,10 @@
 
 @media screen and (max-width:600px){
     .actionPlanPara{
-        font: normal normal normal 18px/25px Helvetica Neue;
+        font: normal normal normal 18px/25px Tahoma ;
     }
     .linkElement{
-        font: normal normal normal 16px/22px Basic Sans;
+        font: normal normal normal 16px/22px Tahoma;
     }
     .actionPlanLinks{
         width: 90%;

@@ -25,7 +25,7 @@ function App() {
     if (window.location.href === baseUIURL) {
       setTimeout(function () {
         setShowCover(false)
-      }, 4000)
+      }, 400000)
     } else {
       setShowCover(false)
     }
@@ -42,16 +42,23 @@ function App() {
 
         return (
           <>
-            <div style={{ display: showCover == true ? "block" : "none" }}>
+            <div style={{ display: showCover == true ? "block" : "none" }} className={classes.coverPage}>
               <Container className={classes.containertransform}>
-                <Row className={classes.containerCover}>
-                  <img className={classes.logoImage} src={require("./assets/Images/Image 7.png")}></img>
-                  <img className={classes.logoImage} src={require("./assets/Images/Image 8.png")}></img>
-                </Row>
-                <Row className={classes.appNameRow}>
-                  <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
-                </Row>
-                <Row className={classes.appNameRow}>
+                <div className={classes.main}>
+                  <Row className={classes.containerCover}>
+                    <img className={classes.logoImage} src={require("./assets/Images/Image 8.png")}></img>
+                    {/* <div class={classes.vl}></div> */}
+                    <img className={classes.logoImage} src={require("./assets/Images/Image 7.png")}></img>
+                  </Row>
+                  <Row className={classes.appNameRow}>
+                    <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
+                  </Row>
+                  <Row className={classes.containerCover}>
+                    <img className={classes.logoImage} src={require("./assets/Images/Support_finder_logo2x.png")}></img>
+
+                  </Row>
+                </div>
+                <Row className={classes.appSignatureRow}>
                   <h3 className={classes.signature}>Powered by <br /> The University of Edinburgh and Sopra Steria <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
                 </Row>
               </Container>
@@ -60,14 +67,14 @@ function App() {
               <Router basename="/">
                 {/* <Header /> */}
                 <div className={classes.App}>
-                  <Container  fluid={true}>
-                        <Switch>
-                          <Route path='/enter-name' component={EnterName}
-                          />
-                          <Route path='/chatbot' component={Chatbot} />
-                          <Route path='/feedback' component={Feedback} />
-                          <Route exact path='/' component={WelcomePage} />
-                        </Switch>
+                  <Container fluid={true}>
+                    <Switch>
+                      <Route path='/enter-name' component={EnterName}
+                      />
+                      <Route path='/chatbot' component={Chatbot} />
+                      <Route path='/feedback' component={Feedback} />
+                      <Route exact path='/' component={WelcomePage} />
+                    </Switch>
                   </Container >
                 </div>
                 {/* <Footers /> */}

@@ -1,19 +1,19 @@
+@import "/theme.scss"; 
+
 html, body {
   min-height: 100%;
   position: relative;
 
 }
-body {
-  display: flex;
-  flex-direction: column;
-}
+
 
 body {
   margin: 0;
-  
-    font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    text-rendering: optimizeLegibility;
-
+  display: flex;
+  flex-direction: column;
+  color: $font-color !important ;
+  font-family: $font-family !important;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

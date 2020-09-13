@@ -370,7 +370,7 @@ class Chatbot extends React.Component {
             // const checked = res && (x.qnaId  == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
             // console.log(checked, res)
             return (
-                <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} margin={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} />
+                <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} btn={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} />
             )
         })
         return (radios);
@@ -609,7 +609,7 @@ class Chatbot extends React.Component {
                                 <p className={classes.logoPara}>
                                     <img
                                         alt="SSlogo"
-                                        src={require("../../assets/Images/logoSmall.png")}
+                                        src={require("../../assets/Images/Support_finder_logo.png")}
                                         width="50"
                                     />Support Finder</p>
                                 <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
