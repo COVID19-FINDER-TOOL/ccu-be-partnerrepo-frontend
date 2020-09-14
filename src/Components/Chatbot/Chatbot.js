@@ -85,7 +85,6 @@ class Chatbot extends React.Component {
             //     .then(res => {
             //         const data = res.data;
             //         console.log(data);
-            //         this.fetch();
             //     }).catch(error => {
             //         console.log(error);
             //     });
@@ -156,6 +155,9 @@ class Chatbot extends React.Component {
     }
 
     handleRadio = (event) => {
+        console.log(event.target)
+        console.log("IN RADIO")
+
         const { CREATEJOURNEY } = this.props.payload;
         const value = event.target.value
         const queryIndex = event.target.name
@@ -169,9 +171,10 @@ class Chatbot extends React.Component {
     }
 
     handleSubmit = () => {
+        console.log("IN SUBMIT")
         if (this.state.selected) {
             const { CREATEJOURNEY } = this.props.payload
-            const { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
+            var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
             const { value, queryString, id, type } = this.state.currentResponses
             var requestBody = {}
             const resbody = {
@@ -186,9 +189,12 @@ class Chatbot extends React.Component {
             console.log(currentResponse)
             if (backStack && currentResponse) {
                 if (currentResponse.answer_id.toString().substring(4) !== id) {
+                    var dummy = [...backStack]
+                    dummy.pop()
                     resbody["event_changed"] = "True";
-                    resbody["answered"] = backStack
+                    resbody["answered"] = dummy
                     console.log("Condition1", backStack)
+                    backStack = []
                 }
                 else {
                     console.log("Condition2", backStack)
@@ -209,21 +215,26 @@ class Chatbot extends React.Component {
             responseStack = responseStack.concat(resbody)
 
             this.props.onEditInspection({ responseStack: responseStack, backStack })
-            if (this.state.queryIndex === 0) {
+            console.log(">>>>>>>>>>>>>>>>>>", this.state.queryIndex)
+
+            if (this.state.queryIndex == 0) {
 
                 var nextques = "Flow Started"
                 requestBody = { "question": nextques };
                 console.log(journey_id, start_time)
+
                 if (!(journey_id && start_time)) {
-                    const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
-                    const start_time = moment.utc().format('YYYY-MM-DD hh:mm:ss')
+                    journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
+                    start_time = moment.utc().format('YYYY-MM-DD hh:mm:ss')
+
+                    this.props.onEditInspection({ journey_id, start_time })
                     const dataBody = {
 
                         "journey_id": journey_id,
                         "started": 1,
                         "start_time": start_time
                     }
-                    this.props.onEditInspection({ journey_id, start_time })
+                    this.setState({ showSpinner: true })
 
                     axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
                         .then(res => {
@@ -235,14 +246,14 @@ class Chatbot extends React.Component {
                             console.log(error);
                         });
                 }
-
+                else {
+                    this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
+                }
                 this.setState(() => { return { queryIndex: id - 1 } });
-
-
             }
             else {
                 const { metadata } = this.state.data
-                let meta = metadata[0].value
+                let meta = metadata[0] ? metadata[0].value : ""
                 meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
                 this.props.onEditInspection({ metadata: meta })
                 requestBody = {
@@ -275,7 +286,7 @@ class Chatbot extends React.Component {
                         this.props.history.push("/feedback")
                     }
                 }
-            this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
+                this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
 
             }
 
@@ -370,15 +381,23 @@ class Chatbot extends React.Component {
             res = responseStack.find(x => x.question_id.toString().substring(4) == id)
         }
 
-        const radios = prompts.map((x, index) => {
-            // const checked = res && (x.qnaId  == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
-            // console.log(checked, res)
-            return (
-                <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} btn={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} />
-            )
-        })
-        return (radios);
-
+        if (prompts.length == 1) {
+            const data = {
+                buttonText: prompts[0].displayText,
+                variant: "primary",
+            }
+            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} onClick={this.handleRadio}><CustomButton float={"right"} data={data} id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
+        }
+        else {
+            const radios = prompts.map((x, index) => {
+                // const checked = res && (x.qnaId  == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
+                // console.log(checked, res)
+                return (
+                    <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} btn={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} />
+                )
+            })
+            return (radios);
+        }
     }
 
     handleBack = () => {
@@ -488,7 +507,7 @@ class Chatbot extends React.Component {
 
                             })
                         }
-                        <CustomButton margin={"5rem 0 0 0"} type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton>
+                        {/* <CustomButton margin={"5rem 0 0 0"} type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton> */}
                     </div>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan ? "block" : "none" }}>
                         <p className={classes.actionPlanPara}>{litrals.actionPlanPara1}<br></br>{litrals.actionPlanPara2}</p>
@@ -566,11 +585,12 @@ class Chatbot extends React.Component {
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 600px)").matches;
+        
         return (
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <Header heading={this.state.section} ></Header>
+                    <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} ></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
                             <Col md={4} xs={1} style={{ padding: "0" }}>
@@ -583,13 +603,14 @@ class Chatbot extends React.Component {
                                     {paragraphs}
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
                                     <Form className={classes.Form}>
-                                        {radios ? radios : ""}
+                                    {radios && radios.length > 1 ? radios : ""}
+
 
                                     </Form>
-                                    <div style={{ width: "100%" }}>
-                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                                    {/* <div style={{ width: "100%" }}>
+                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
-                                    </div>
+                                    </div> */}
                                     {topic == 4 && this.state.showActionPlan ? (
                                         <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                             {downloadActionPlan}
@@ -606,7 +627,7 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div>
-                    <Header heading={this.state.section} ></Header>
+                    <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
                             <Col md={4} xs={1} style={{ padding: "0" }}>
@@ -628,12 +649,13 @@ class Chatbot extends React.Component {
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
                                     <Form className={classes.Form}>
-                                        {radios ? radios : ""}
+                                    {radios && radios.length > 1 ? radios : ""}
+
 
                                     </Form>
                                     <div style={{ width: "100%" }}>
-                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
-                                        {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
+                                        {/* {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                                        {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""} */}
                                         {this.state.showFeedback ? <CustomButton type="submit" float={"right"} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
                                     </div>

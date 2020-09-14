@@ -138,7 +138,7 @@ class WelcomePage extends React.Component {
               <p className={classes.logoPara}>
                 <img
                   alt="SSlogo"
-                  src={require("../../assets/Images/logoSmall.png")}
+                  src={require("../../assets/Images/Support_finder_logo.png")}
                   width="50"
                 />Support Finder</p>
               <h1 className={classes.text3}>{litrals.welcome.text3}</h1>

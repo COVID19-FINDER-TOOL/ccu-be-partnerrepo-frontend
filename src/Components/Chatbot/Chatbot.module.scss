@@ -147,7 +147,7 @@
   }
 
   .downloadbtndiv{
-    margin: 0rem 0rem;
+    margin: -2rem 0rem;
   }
 
   .chatBotRow{
@@ -172,7 +172,9 @@
         font-size: small;
     }
     .downloadbtndiv{
-        margin: 1rem;
+    margin: 0;
+    margin-top: 10rem;
+    padding-top: 1rem;
       }
       .bullets{
           font-size: 14px;
