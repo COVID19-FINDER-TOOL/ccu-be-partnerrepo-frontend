@@ -111,8 +111,8 @@ class Chatbot extends React.Component {
                     metadata: "",
                     questionStack: [],
                     responseStack: [],
-                    journey_id:"",
-                    start_time:""
+                    journey_id: "",
+                    start_time: ""
                 })
                 this.setState(() => {
                     return {
@@ -174,16 +174,51 @@ class Chatbot extends React.Component {
             const { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
             const { value, queryString, id, type } = this.state.currentResponses
             var requestBody = {}
+            const resbody = {
+                "question_id": this.state.data.id,
+                "answer_id": id ? id : "",
+                "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
+                "descriptive_answer": value,
+            }
+
+            var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
+            const currentResponse = backStack ? backStack[backStack.length - 1] : ""
+            console.log(currentResponse)
+            if (backStack && currentResponse) {
+                if (currentResponse.answer_id.toString().substring(4) !== id) {
+                    resbody["event_changed"] = "True";
+                    resbody["answered"] = backStack
+                    console.log("Condition1", backStack)
+                }
+                else {
+                    console.log("Condition2", backStack)
+                    resbody["event_changed"] = "False";
+                    resbody["answered"] = backStack
+
+
+                }
+                backStack = backStack.slice(0, -1)
+            }
+            else {
+                resbody["event_changed"] = "False";
+                resbody["answered"] = []
+                console.log("Condition3", backStack)
+
+            }
+            console.log(resbody)
+            responseStack = responseStack.concat(resbody)
+
+            this.props.onEditInspection({ responseStack: responseStack, backStack })
             if (this.state.queryIndex === 0) {
 
                 var nextques = "Flow Started"
                 requestBody = { "question": nextques };
-                console.log(journey_id,start_time)
+                console.log(journey_id, start_time)
                 if (!(journey_id && start_time)) {
                     const journey_id = "JID" + moment.utc().format('DDMMYYThhmmssSSS');
                     const start_time = moment.utc().format('YYYY-MM-DD hh:mm:ss')
                     const dataBody = {
-            
+
                         "journey_id": journey_id,
                         "started": 1,
                         "start_time": start_time
@@ -194,6 +229,8 @@ class Chatbot extends React.Component {
                         .then(res => {
                             const data = res.data;
                             console.log(data);
+                            this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
+
                         }).catch(error => {
                             console.log(error);
                         });
@@ -238,44 +275,11 @@ class Chatbot extends React.Component {
                         this.props.history.push("/feedback")
                     }
                 }
-            }
-
-            const resbody = {
-                "question_id": this.state.data.id,
-                "answer_id": id ? id : "",
-                "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
-                "descriptive_answer": value,
-            }
-
-            var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
-            const currentResponse = backStack ? backStack[backStack.length - 1] : ""
-            console.log(currentResponse)
-            if (backStack && currentResponse) {
-                if (currentResponse.answer_id.toString().substring(4) !== id) {
-                    resbody["event_changed"] = "True";
-                    resbody["answered"] = backStack
-                    console.log("Condition1", backStack)
-                }
-                else {
-                    console.log("Condition2", backStack)
-                    resbody["event_changed"] = "False";
-                    resbody["answered"] = backStack
-
-
-                }
-                backStack = backStack.slice(0, -1)
-            }
-            else {
-                resbody["event_changed"] = "False";
-                resbody["answered"] = []
-                console.log("Condition3", backStack)
-
-            }
-            console.log(resbody)
-            responseStack = responseStack.concat(resbody)
-
-            this.props.onEditInspection({ responseStack: responseStack, backStack })
             this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
+
+            }
+
+
         }
         else {
             this.setState(() => {
