@@ -55,6 +55,8 @@
     margin-left: 3px;
 }
 
+
+
 .label{
     padding-left: 15px;
     font-size: 1.1875rem;
@@ -71,17 +73,18 @@
  
 
 .containerr{
-    color: black;
+    color: $primary-color;
     font-weight: bold;
     text-align: left;
     border: 1px solid;
-    border-color: $secondary-color;
-    border-radius: 10px;
+    border-color: $primary-color;
+    border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
     margin: 1rem;
     padding: 1rem;
-    box-shadow: grey 2px;
+    background-color: #ffffff;
+    // box-shadow: grey 2px;
     transition: background-color 0.5s;
 }
 
@@ -91,13 +94,14 @@
     background-color: $primary-color;
 }
 
+
 .displayAsButton{
     color: $secondary-color;
     line-height: 21px;
     font-weight: 700;
     font-size: 18px;
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: white;
     border-color:  $secondary-color;
     transition: background-color 0.5s;

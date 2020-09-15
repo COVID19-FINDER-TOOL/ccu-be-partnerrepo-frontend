@@ -1,4 +1,16 @@
 @import "../../theme.scss"; 
+
+.backgrondImage{
+  background-image: url("../../assets/Images/Thank-you.png") ;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top;
+//   background-size: cover;
+  object-fit: scale-down;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  
+}
 .headingH1{
     font-weight: bolder;
     color: #333333;
@@ -10,7 +22,8 @@
 .headingHx{
     font-weight: bolder;
     color: #333333;
-    line-height: 45px;
+    font-size: 25px;
+    // line-height: 45px;
     margin-top: 3%;
     text-align: left;
 }
@@ -18,7 +31,7 @@
 .headingPara{
     font-weight: bolder;
     color: #333333;
-    line-height: 45px;
+    line-height: 32px;
     text-align: center;
 }
 
@@ -31,13 +44,13 @@
 }
 .smily{
     font-size: 50px;
-    color: darkorange;
+    color: $secondary-color;
     margin: 1%;
 }
 
 .smily:hover{
     transform: scale(1.2);
-    color: #ffc107;
+    color: $primary-color
 }
 
 .checkbox{
@@ -56,6 +69,7 @@
     cursor: pointer;
     border: 1px solid $secondary-color;
     border-radius: 5px;
+    background-color: #ffffff;
 }
 
 .checkbox:checked+.optionButtons{
@@ -66,9 +80,15 @@
     background-color: white;
 }
 
+.nextBtnDiv{
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+}
+
 .textarea{
     max-width: 40rem;
-    min-width: 80%;
+    min-width: 60%;
     height: 15rem;
     background-color: white;
     border: 1px solid $secondary-color;

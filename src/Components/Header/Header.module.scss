@@ -9,10 +9,10 @@
 
     // width: 100px; /* set a width so it doesnt change upon hover */
     border: 1px solid $secondary-color;
-    padding: 9%;
+    padding: 10px 30px;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
-    border-radius: 8px;
+    border-radius: 5px;
     color:$secondary-color;
     font-weight: bold;
     font-size: 17px;
@@ -87,19 +87,6 @@
 
 
 @media screen and (max-width:600px){
-    .caption{
-        padding: 4% 0 4% 0%;
-        background-size: auto;
-    }
-
-    .captionText{
-        margin-left: 4.2%;
-    }
-
-    .brandImage{
-        margin-left: 5%;
-    }
-
     .brand{
         font-size: 20px;
     }

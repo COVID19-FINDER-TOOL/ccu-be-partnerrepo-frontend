@@ -52,7 +52,7 @@ class Chatbot extends React.Component {
             change: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer']
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer',"0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"]
         }
     }
 
@@ -262,8 +262,9 @@ class Chatbot extends React.Component {
                     "strictFilters": [{ "name": "context", "value": meta }]
                 };
 
-                if (this.state.section == 4) {
+                if (this.state.section == 4 || (this.state.queryIndex == 4 && this.state.section == 2)) {
                     const metadata_ = CREATEJOURNEY.metadata
+                    console.log(metadata_)
                     if (value == "Next") {
                         requestBody = {
                             "question": "loopback"
@@ -579,38 +580,54 @@ class Chatbot extends React.Component {
 
     }
 
+    imageSelector = (section) =>{
+        switch(section){
+            case 0 : {return "tell_uss.png"; break;}
+            case 1 : {return "tell_uss.png"; break;}
+            case 2 : {return "Hear_from_other.png"; break;}
+            case 3 : {return "Hear_from_other.png"; break;}
+            case 4 : {return "Hear_from_other.png"; break;}
+            case 5 : {return "Hear_from_other.png"; break;}
+            default : {return "Hear_from_other.png"; break;}
+            
+        }
+
+    }
+
     render() {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 600px)").matches;
-        
+        const imageSelector = this.imageSelector(this.state.section)
+        console.log(imageSelector)
         return (
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} ></Header>
+                    <div style={{backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})`}} className={classes.backgrondImage}>
+                    <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
                             <Col md={4} xs={1} style={{ padding: "0" }}>
                                 <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
                             </Col>
                             <Col md={8} xs={11}>
-                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                     {paragraphs}
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
-                                    <Form className={classes.Form}>
-                                    {radios && radios.length > 1 ? radios : ""}
+                                    
+                                    {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
 
-
-                                    </Form>
                                     {/* <div style={{ width: "100%" }}>
                                         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
                                     </div> */}
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+
                                     {topic == 4 && this.state.showActionPlan ? (
                                         <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                             {downloadActionPlan}
@@ -624,9 +641,10 @@ class Chatbot extends React.Component {
                             </Col>
                         </Row>
                     </Container>
+                    </div>
                 </MenuProvider>
                 :
-                <div>
+                <div style={{backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})`}} className={classes.backgrondImage}>
                     <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
@@ -641,18 +659,15 @@ class Chatbot extends React.Component {
                                 <Footers></Footers>
                             </Col>
                             <Col md={8} xs={11}>
-                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
 
                                     {paragraphs}
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
-                                    <Form className={classes.Form}>
-                                    {radios && radios.length > 1 ? radios : ""}
+                                    {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
 
-
-                                    </Form>
                                     <div style={{ width: "100%" }}>
                                         {/* {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""} */}

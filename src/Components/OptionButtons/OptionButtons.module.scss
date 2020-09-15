@@ -1,6 +1,7 @@
 @import "../../theme.scss"; 
 
 .container{
+    background-color: white;
     color: $secondary-color;
     font-weight: bold;
     text-align: left;
@@ -10,6 +11,7 @@
     display: flex;
     flex-wrap: wrap;
     margin: 1rem;
+    margin-left: 5rem;
     padding: 1rem;
     box-shadow: grey 2px;
     transition: background-color 0.5s;
@@ -28,4 +30,11 @@
 }
 .text{
     padding: 2px;
+}
+
+@media screen and (max-width:600px){
+   
+    .container{
+        margin-left: 1rem;
+    }
 }

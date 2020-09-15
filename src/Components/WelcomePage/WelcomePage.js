@@ -123,7 +123,7 @@ class WelcomePage extends React.Component {
       <div className={classes.backgrondImage}>
         <Header></Header>
         {/* <h1 className={classes.headingH1}>{litrals.welcome.heading}</h1> */}
-        <Container style={{ display: this.state.part ? "block" : "none" }}>
+        <Container style={{ display: this.state.part ? "block" : "none", height:"90vh" }}>
           <p className={classes.para}>{litrals.welcome.text1}</p>
           <p className={classes.para}>{litrals.welcome.text2}</p>
           <CustomButton float={"right"} type="submit" onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
@@ -131,20 +131,20 @@ class WelcomePage extends React.Component {
 
 
         <Container style={{ display: !this.state.part ? "block" : "none" }}>
-          <Row style={{ marginTop: "2%" }}>
+          <Row style={{ paddingTop: "10%" }} noGutters={true}>
 
-            <Col md={5} className={classes.line}>
+            <Col md={6} className={classes.line}>
 
-              <p className={classes.logoPara}>
+              {/* <p className={classes.logoPara}>
                 <img
                   alt="SSlogo"
                   src={require("../../assets/Images/Support_finder_logo.png")}
                   width="50"
-                />Support Finder</p>
+                />Support Finder</p> */}
               <h1 className={classes.text3}>{litrals.welcome.text3}</h1>
               {!mobile ? <Footers></Footers> : ""}
             </Col>
-            <Col md={1}></Col>
+            {/* <Col md={1}></Col> */}
             <Col md={6}>
               <div>
                 <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
@@ -153,9 +153,6 @@ class WelcomePage extends React.Component {
                 <CustomButton float={"right"} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
               </div>
             </Col>
-
-
-
           </Row>
 
         </Container>

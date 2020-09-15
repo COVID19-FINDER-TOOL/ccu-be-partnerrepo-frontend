@@ -63,7 +63,7 @@ function App() {
                 </Row>
               </Container>
             </div>
-            <div style={{ display: showCover == false ? "block" : "none" }}>
+            <div style={{ display: showCover == false ? "block" : "none", minHeight:"100%" }}>
               <Router basename="/">
                 {/* <Header /> */}
                 <div className={classes.App}>

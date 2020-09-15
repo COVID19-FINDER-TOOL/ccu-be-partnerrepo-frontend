@@ -21,6 +21,7 @@ class Feedback extends React.Component {
             section3: false,
             positives: false,
             negatives: false,
+            showNext:true,
             answers: { "101": [], "102": [], "103": [] }
 
         }
@@ -37,11 +38,11 @@ class Feedback extends React.Component {
         feedback.answers["101"].push(id.toString())
         console.log(feedback)
         this.props.onEditInspection({ Feedback: feedback })
-        id <= 2 ? this.setState(() => { return { section2: true, section1: false, positives: true } }) : this.setState(() => { return { section2: true, section1: false, positives: false } })
+        id <= 2 ? this.setState(() => { return { section2: true, positives: true } }) : this.setState(() => { return { section2: true, positives: false } })
     }
 
     handleNext = () => {
-        this.setState(() => { return { section3: true, section2: false } })
+        this.setState(() => { return { section3: true, showNext:false } })
     }
 
     optionChecked = (event) => {
@@ -112,7 +113,7 @@ class Feedback extends React.Component {
         const negatives = ["I didn’t find any support options", "The support options shown weren’t relevant to me", "I found it difficult to use the tool"]
         const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : negatives : -1);
         return (
-            <div>
+            <div className={classes.backgrondImage}>
                 <Header heading={7}></Header>
                 <Container>
                 <div style={{ display: this.state.section1 ? "block" : "none" }}>
@@ -127,7 +128,7 @@ class Feedback extends React.Component {
                 </div>
 
                 <div style={{ display: this.state.section2 ? "block" : "none" }}>
-                    <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
+                    <h3 className={classes.headingH1}>Please select from the following options</h3>
                     <p className={classes.headingPara}><em>Note: you can select multiple options</em></p>
                     <div className={classes.smilyContainer}>
                         {optionButtons}
@@ -137,7 +138,7 @@ class Feedback extends React.Component {
                             <Form.Control id={10} onChange={this.handleTextBox} bsPrefix={classes.textareasmall} as="textarea" rows="3" placeholder={'Please type here'} />
                         </Form.Group> */}
                     </div>
-                    <CustomButton type="submit" float={"right"} onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton>
+                    {this.state.showNext ? <div className={classes.nextBtnDiv}><CustomButton type="submit" onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton></div>:''}
 
                 </div>
 
