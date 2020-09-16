@@ -6,6 +6,7 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import { MenuContext } from 'react-flexible-sliding-menu';
+import Footers from '../Footers/Footers';
 
 const { Step } = Steps;
 
@@ -35,15 +36,16 @@ class ProgressMenu extends React.Component {
 
     return (
       <>
-      <p className={"logodiv"}> <img   className={"logoImage"} width={"30px"} src={require('../../assets/Images/logoSmall.png')}></img>Support Finder</p>
+      <p className={"logodiv"}> <img   className={"logoImage"} width={"30px"} src={require('../../assets/Images/Support_finder_logo.png')}></img>Support Finder</p>
 
         <Steps current={current} progressDot onChange={this.onChange} onClick={this.onClick} direction="vertical">
           <Step title="Tell us about yourself"  />
-          <Step title="View your Options" />
+          <Step title="View your options" />
           <Step title="Know your rights" />
           <Step title="Review your action plan" />
           <Step title="Hear from others" onClick={this.props.callHearFromOthers} />
         </Steps>
+        <div style={{marginLeft:"1rem"}}><Footers></Footers></div>
       </>
     );
   }

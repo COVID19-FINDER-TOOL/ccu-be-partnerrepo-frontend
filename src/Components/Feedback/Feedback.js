@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import { axiosFeedbackInstance } from '../../AxiosHandler';
 import Header from '../Header/Header';
+import moment from "moment";
 
 class Feedback extends React.Component {
     constructor(props) {
@@ -22,23 +23,31 @@ class Feedback extends React.Component {
             positives: false,
             negatives: false,
             showNext:true,
-            answers: { "101": [], "102": [], "103": [] }
+            answers: [],
+            smilySelected:0
 
         }
     }
 
     componentDidMount = () => {
-        this.props.onEditInspection({ Feedback: { answers: { "101": [], "102": [] }, other_experience:"",feedback:"" } })
+        this.props.onEditInspection({ Feedback: { experience:"", answers: [],feedback:"" } })
     }
 
     smilySelector = (id) => {
+        const exp = {
+            1 : "Satisfied",
+            2 : "Happy",
+            3 : "Unsatisfied",
+            4 : "Sad",
+            5 : "Angry"
+        }
         const { CREATEJOURNEY } = this.props.payload;
         const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
         const feedback = Feedback
-        feedback.answers["101"].push(id.toString())
+        feedback.experience = exp[id]
         console.log(feedback)
         this.props.onEditInspection({ Feedback: feedback })
-        id <= 2 ? this.setState(() => { return { section2: true, positives: true } }) : this.setState(() => { return { section2: true, positives: false } })
+        id <= 2 ? this.setState(() => { return { section2: true, positives: true, smilySelected:id } }) : this.setState(() => { return { section2: true, positives: false, smilySelected:id  } })
     }
 
     handleNext = () => {
@@ -49,13 +58,13 @@ class Feedback extends React.Component {
         const val = event.target;
         const id = event.target.id
         const { CREATEJOURNEY } = this.props.payload;
-        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : []
         var feedback = Feedback
         if (val.checked) {
-            feedback.answers["102"].push(id)
+            feedback.answers.push(id)
         }
         else if (!val.checked) {
-            feedback.answers["102"] = feedback.answers["102"].filter(x => x != id)
+            feedback.answers = feedback.answers.filter(x => x != id)
         }
         this.props.onEditInspection({ Feedback: feedback })
 
@@ -68,7 +77,7 @@ class Feedback extends React.Component {
        const { CREATEJOURNEY } = this.props.payload;
        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
        var feedback = Feedback
-       id == 10 ? feedback.other_experience = text : feedback.feedback = text;
+       feedback.feedback = text;
        this.props.onEditInspection({ Feedback: feedback })
     }
 
@@ -77,6 +86,7 @@ class Feedback extends React.Component {
        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
        var feedback = Feedback
        feedback.user_id = JSON.parse(window.localStorage.getItem("csf_user")).user_id;
+       feedback.feedback_time = moment.utc().format('YYYY-MM-DD hh:mm:ss');
        axiosFeedbackInstance.post("feedback",feedback)
        .then(res => {
            const data = res.data;
@@ -119,24 +129,19 @@ class Feedback extends React.Component {
                 <div style={{ display: this.state.section1 ? "block" : "none" }}>
                     <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
                     <div className={classes.smilyContainer}>
-                        <FontAwesomeIcon id={1} icon={faGrinAlt} className={classes.smily} onClick={this.smilySelector.bind(this, 1)} />
-                        <FontAwesomeIcon id={2} icon={faSmileBeam} className={classes.smily} onClick={this.smilySelector.bind(this, 2)} />
-                        <FontAwesomeIcon id={3} icon={faMeh} className={classes.smily} onClick={this.smilySelector.bind(this, 3)} />
-                        <FontAwesomeIcon id={4} icon={faFrown} className={classes.smily} onClick={this.smilySelector.bind(this, 4)} />
-                        <FontAwesomeIcon id={5} icon={faAngry} className={classes.smily} onClick={this.smilySelector.bind(this, 5)} />
+                        <FontAwesomeIcon id={1} icon={faGrinAlt} className={ this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 1)} />
+                        <FontAwesomeIcon id={2} icon={faSmileBeam} className={ this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} />
+                        <FontAwesomeIcon id={3} icon={faMeh} className={ this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} />
+                        <FontAwesomeIcon id={4} icon={faFrown} className={ this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} />
+                        <FontAwesomeIcon id={5} icon={faAngry} className={ this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} />
                     </div>
                 </div>
 
                 <div style={{ display: this.state.section2 ? "block" : "none" }}>
-                    <h3 className={classes.headingH1}>Please select from the following options</h3>
+                    <h3 className={classes.headingH1}>Please select from the following options:</h3>
                     <p className={classes.headingPara}><em>Note: you can select multiple options</em></p>
                     <div className={classes.smilyContainer}>
                         {optionButtons}
-                    </div>
-                    <div style={{ display: this.state.others ? "block" : "none" }} >
-                        {/* <Form.Group>
-                            <Form.Control id={10} onChange={this.handleTextBox} bsPrefix={classes.textareasmall} as="textarea" rows="3" placeholder={'Please type here'} />
-                        </Form.Group> */}
                     </div>
                     {this.state.showNext ? <div className={classes.nextBtnDiv}><CustomButton type="submit" onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton></div>:''}
 
@@ -147,7 +152,7 @@ class Feedback extends React.Component {
                     <Form.Group >
                         <Form.Control id={11} onChange={this.handleTextBox} bsPrefix={classes.textarea} as="textarea" rows="3" placeholder={'Please share your thoughts and ideas here……'} />
                     </Form.Group>
-                    <CustomButton type="submit" float={"right"} onClick={ this.submitFeedback } data={litrals.buttons.SubmitNav}></CustomButton>
+                    <div className={classes.nextBtnDiv}><CustomButton type="submit" float={"right"} onClick={ this.submitFeedback } data={litrals.buttons.SubmitNav}></CustomButton></div>
                 </div>
                 </Container>
             </div>

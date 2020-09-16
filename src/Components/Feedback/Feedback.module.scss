@@ -14,7 +14,7 @@
 .headingH1{
     font-weight: bolder;
     color: #333333;
-    line-height: 45px;
+    line-height: 32px;
     margin-top: 3%;
     text-align: center;
 }
@@ -23,7 +23,7 @@
     font-weight: bolder;
     color: #333333;
     font-size: 25px;
-    // line-height: 45px;
+    // line-height: 32px;
     margin-top: 3%;
     text-align: left;
 }
@@ -50,8 +50,28 @@
 
 .smily:hover{
     transform: scale(1.2);
-    color: $primary-color
+    color: $primary-color;
 }
+
+
+.selected{
+    transform: scale(1.2);
+    color: $primary-color;
+    cursor: default;
+    pointer-events: none;
+    font-size: 50px;
+    margin: 1%;
+}
+
+.disabled{
+    color: $tertiary-color-2;
+    cursor: default;
+    pointer-events: none;
+    font-size: 50px;
+    margin: 1%;
+}
+
+
 
 .checkbox{
     position: absolute;
@@ -118,4 +138,19 @@
 .textarea:focus , .textareasmall:focus{
     border: 1px solid $primary-color;
     outline: none;
+}
+
+@media screen and (max-width:600px){
+    .headingH1{
+        font-size: 24px;
+    }
+
+    .headingPara{
+        font-size: 16px;
+    }
+
+    .headingHx{
+        font-size: 24px;
+
+    }
 }

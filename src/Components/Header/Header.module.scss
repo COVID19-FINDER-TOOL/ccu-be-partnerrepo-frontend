@@ -32,6 +32,7 @@
     color: $primary-color;
     font-weight: bolder;
     margin-right: 0.5rem;
+    cursor: pointer;
 }
 
 .linkElement:hover{
@@ -46,6 +47,8 @@
     background-size: cover;
     box-shadow: 0 0 40px 60px rgba(0, 0, 0, 0.2) inset;
     margin-top: 0.5%;
+    cursor: pointer;
+
     
 }
 
