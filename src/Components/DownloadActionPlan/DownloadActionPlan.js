@@ -106,7 +106,7 @@ const handleIterate = (Tag, props, children, level) => {
       target: "_blank",
       src: props.href
     };
-    return <Link style={styles.links} {...props}>{children}</Link>;
+    return <Link target="_blank" style={styles.links} {...props}>{children}</Link>;
   }
 
 }

@@ -117,7 +117,8 @@ class Chatbot extends React.Component {
                     return {
                         questionStack: [],
                         responseStack: [],
-                        backStack: []
+                        backStack: [],
+                        metadata:""
                     }
                 })
             }).catch(error => {
@@ -131,7 +132,7 @@ class Chatbot extends React.Component {
         axiosInstance.post(str ? str.query : this.state.queryString[this.state.queryIndex], body)
             .then(res => {
                 const data = res.data.answers[0];
-                const section = data.metadata[1] ? Number(data.metadata[1].value) : this.state.section
+                const section = data.metadata[1] ? Number(data.metadata[1].value) : body.question == "Start the flow" ? 0 : this.state.section
                 if (data.id === -1) {
                     this.props.onEditInspection({
                         responseStack: [],
@@ -142,7 +143,7 @@ class Chatbot extends React.Component {
                     this.props.history.push("/feedback")
                 }
                 this.props.onEditInspection({ section })
-                this.setState(() => { return { data: data, showSpinner: false, section: section, showHearFromOthers: str ? true : false } });
+                this.setState(() => { return { data: data, showSpinner: false, section: section, showHearFromOthers: str ? true : false, } });
             }).catch(error => {
                 console.log(error);
                 this.setState(() => { return { showSpinner: false } })
@@ -255,6 +256,7 @@ class Chatbot extends React.Component {
                 const { metadata } = this.state.data
                 let meta = metadata && metadata[0] ? metadata[0].value : ""
                 meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
+                // console.log(">>>>>>>>>>>",meta)
                 this.props.onEditInspection({ metadata: meta })
                 requestBody = {
                     "question": value,
@@ -264,7 +266,7 @@ class Chatbot extends React.Component {
 
                 if (this.state.section == 4 || (this.state.queryIndex == 4 && this.state.section == 2)) {
                     const metadata_ = CREATEJOURNEY.metadata
-                    // console.log(metadata_)
+                    // console.log(metadata_, this.state.metadata)
                     if (value == "Next") {
                         requestBody = {
                             "question": "loopback"
@@ -274,21 +276,19 @@ class Chatbot extends React.Component {
 
                     }
 
-                    
-                   
-                    else if (value == "Yes" && metadata_ === "loono") {
-                        console.log("To Hear from others", metadata_)
+                    else if (value == "Yes" && meta === "loonoyes" || value == "Yes" && meta === "cornexnoyes") {
+                        // console.log("To Hear from others", metadata_)
                         this.setState(() => { return { section: this.state.section + 1, showFeedback: true } })
                     }
 
-                    else if (value == "No" && metadata_ === "loono") {
-                        console.log("To Feedback", metadata_)
+                    else if (value == "No" && meta === "loonono" || value == "No" && meta === "cornexnono") {
+                        // console.log("To Feedback", metadata_)
                         console.log("Inside loopback")
                         this.props.history.push("/feedback")
                     }
 
-                    else if (value == "Yes" && metadata_ !== "loono") {
-                        console.log("to loopback", metadata_)
+                    else if (value == "Yes" && meta !== "loonoyes") {
+                        // console.log("to loopback", metadata_)
                         this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, } })
                         requestBody = {
                             "question": "Start the flow",
@@ -402,7 +402,7 @@ class Chatbot extends React.Component {
         else {
             const radios = prompts.map((x, index) => {
                 const checked = res && (x.qnaId  == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
-                console.log(checked, res)
+                // console.log(checked, res)
                 return (
                     <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} btn={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
                 )
@@ -432,7 +432,7 @@ class Chatbot extends React.Component {
             this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk, backStack })
             const requestBody = previousquestion ? previousquestion.body : { "question": "Start the flow" }
             const queryIndex = requestBody.question !== "Start the flow" ? this.state.queryIndex : 0
-            // console.log(newMeta, requestBody, queryIndex, previousquestion)
+            console.log(previousquestion)
 
             this.setState(() => { return { backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
