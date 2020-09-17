@@ -10,14 +10,15 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection, onCleanCreateJourney } from "../../store/Action/LoginAction";
 import moment from "moment";
-import { PDFDownloadLink, Document, Page, PDFViewer } from '@react-pdf/renderer'
+import { PDFDownloadLink, Document, Page, BlobProvider } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
 import MDReactComponent from 'markdown-react-js';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import MailIcon from '@material-ui/icons/Mail';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Header from '../Header/Header';
-
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import {
     EmailShareButton,
     WhatsappShareButton,
@@ -34,7 +35,8 @@ class Chatbot extends React.Component {
     key = -1;
     constructor(props) {
         super(props);
-
+        this.blobData = null;
+        this.blobUrl = ""
         this.state = {
             data: "",
             requestBody: { "question": "Start the flow" },
@@ -52,7 +54,7 @@ class Chatbot extends React.Component {
             change: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer',"0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"]
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"]
         }
     }
 
@@ -118,7 +120,7 @@ class Chatbot extends React.Component {
                         questionStack: [],
                         responseStack: [],
                         backStack: [],
-                        metadata:""
+                        metadata: ""
                     }
                 })
             }).catch(error => {
@@ -295,7 +297,7 @@ class Chatbot extends React.Component {
                         };
 
                     }
-                    
+
                 }
                 this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
 
@@ -365,18 +367,32 @@ class Chatbot extends React.Component {
 
             <PDFDownloadLink
                 onClick={this.sendDownloadInfo}
-                document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} journey_id={journey_id} />}
+                document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} />}
                 fileName="ActionPlan.pdf"
                 className={classes.buttonColor1}
             >
                 {
-                    ({ blob, url, loading, error }) =>
-                        loading ? "Loading document..." : "Download Action Plan"
+                    ({ blob, url, loading, error }) => {
+                        this.blobData = blob ? blob.text() : ""
+                        this.blobUrl = url
+                        return (loading ? "Loading document..." : "Download Action Plan")
+                    }
+
                 }
             </PDFDownloadLink>
+        )
+    }
 
+    shareActionPlan = () => {
+        const { CREATEJOURNEY } = this.props.payload
+        const { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : []
 
-
+        return (
+            <BlobProvider onClick={this.sendDownloadInfo} document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} />}>
+                {({ blob, url, loading, error }) => {
+                    console.log(blob)
+                }}
+            </BlobProvider>
         )
     }
 
@@ -401,7 +417,7 @@ class Chatbot extends React.Component {
         }
         else {
             const radios = prompts.map((x, index) => {
-                const checked = res && (x.qnaId  == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
+                const checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                 // console.log(checked, res)
                 return (
                     <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} btn={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
@@ -494,7 +510,7 @@ class Chatbot extends React.Component {
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
-
+        console.log(textarray.join(" "))
         var texts = [];
         var links = [];
         var visitedLinks = [];
@@ -590,16 +606,16 @@ class Chatbot extends React.Component {
 
     }
 
-    imageSelector = (section) =>{
-        switch(section){
-            case 0 : {return "tell_uss.png"; break;}
-            case 1 : {return "tell_uss.png"; break;}
-            case 2 : {return "Hear_from_other.png"; break;}
-            case 3 : {return "Hear_from_other.png"; break;}
-            case 4 : {return "Hear_from_other.png"; break;}
-            case 5 : {return "Hear_from_other.png"; break;}
-            default : {return "Hear_from_other.png"; break;}
-            
+    imageSelector = (section) => {
+        switch (section) {
+            case 0: { return "tell_uss.png"; break; }
+            case 1: { return "tell_uss.png"; break; }
+            case 2: { return "Hear_from_other.png"; break; }
+            case 3: { return "Hear_from_other.png"; break; }
+            case 4: { return "Hear_from_other.png"; break; }
+            case 5: { return "Hear_from_other.png"; break; }
+            default: { return "Hear_from_other.png"; break; }
+
         }
 
     }
@@ -611,50 +627,55 @@ class Chatbot extends React.Component {
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 600px)").matches;
         const imageSelector = this.imageSelector(this.state.section)
-        // console.log(imageSelector)
+        // const shareActionPlan = this.shareActionPlan();
         return (
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <div style={{backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})`}} className={classes.backgrondImage}>
-                    <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
-                    <Container>
-                        <Row className={classes.chatBotRow}>
-                            <Col md={4} xs={1} style={{ padding: "0" }}>
-                                <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
-                            </Col>
-                            <Col md={8} xs={11}>
-                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
+                    <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
+                        <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
+                        <Container>
+                            <Row className={classes.chatBotRow}>
+                                <Col md={4} xs={1} style={{ padding: "0" }}>
+                                    <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
+                                </Col>
+                                <Col md={8} xs={11}>
+                                    <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
-                                <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
-                                    {paragraphs}
-                                    {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
-                                    
-                                    {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
+                                    <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
+                                        {paragraphs}
+                                        {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
-                                    {/* <div style={{ width: "100%" }}>
+                                        {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
+
+                                        {/* <div style={{ width: "100%" }}>
                                         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
                                     </div> */}
                                         {this.state.showFeedback ? <CustomButton type="submit" float={"right"} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
-                                    {topic == 4 && this.state.showActionPlan ? (
-                                        <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                            {downloadActionPlan}
-                                            {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
+                                        {topic == 4 && this.state.showActionPlan ? (
+                                            <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
+                                                <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
+                                                    <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
+                                                    <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite - Action Plan' body={this.state.data.answer.split("\n").join(" ").toString()} separator={"\n"} url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item>
+                                                </DropdownButton>
+                                                {downloadActionPlan}
+
+                                                {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                             <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
-                                        </div>
-                                    ) : ""}
+                                            </div>
+                                        ) : ""}
 
-                                </div>
+                                    </div>
 
-                            </Col>
-                        </Row>
-                    </Container>
+                                </Col>
+                            </Row>
+                        </Container>
                     </div>
                 </MenuProvider>
                 :
-                <div style={{backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})`}} className={classes.backgrondImage}>
+                <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
                     <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                     <Container>
                         <Row className={classes.chatBotRow}>
@@ -664,6 +685,8 @@ class Chatbot extends React.Component {
                                         alt="SSlogo"
                                         src={require("../../assets/Images/Support_finder_logo.png")}
                                         width="50"
+                                        style={{ marginRight: "1.2rem", cursor: "pointer", "box-boxShadow": "0px 3px 6px #00000029" }}
+                                        onClick={() => { this.props.history.push("/") }}
                                     />Support Finder</p>
                                 <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
                                 <Footers></Footers>
@@ -687,8 +710,12 @@ class Chatbot extends React.Component {
                                     {topic == 4 && this.state.showActionPlan ? (
                                         <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                             {downloadActionPlan}
+                                            <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
+                                                <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
+                                                <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.state.data.answer} separator={"\n"} url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item>
+                                            </DropdownButton>
                                             {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
-                            <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
+                                                <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
                                         </div>
                                     ) : ""}
 

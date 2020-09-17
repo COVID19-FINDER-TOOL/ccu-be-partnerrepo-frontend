@@ -25,7 +25,7 @@ function App() {
     if (window.location.href === baseUIURL) {
       setTimeout(function () {
         setShowCover(false)
-      }, 4000)
+      }, 8000)
     } else {
       setShowCover(false)
     }

@@ -25,7 +25,7 @@
     line-height: 1.31579;
 }
 .actionPlanPara{
-    text-align: center;
+    text-align: left;
     font: normal normal normal 24px/29px Tahoma;
     letter-spacing: 0px;
     color: $tertiary-color;
@@ -134,10 +134,9 @@
     font-weight: 700;
     font-size: 18px;
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: white;
     border-color:  $secondary-color;
-    // margin-top: 2%;
     margin-bottom: 2%;
     transition: background-color 0.5s;
     text-align: center;
@@ -155,6 +154,10 @@
     border-color:  $primary-color;
     color: whitesmoke;
     text-decoration: none;
+  }
+
+  .buttonColor1:focus{
+      outline: none;
   }
 
   .downloadbtndiv{
