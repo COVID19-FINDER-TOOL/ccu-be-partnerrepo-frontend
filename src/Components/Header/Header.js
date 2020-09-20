@@ -69,7 +69,7 @@ const sendShareInfo = (event) => {
 
 
 const Header = (props) => {
-    console.log(props.heading)
+    // console.log(props.heading)
     const navBack = () => {
 
         props.heading == 7 ? props.history.push('/chatbot') : props.history.push('/')
@@ -93,7 +93,7 @@ const Header = (props) => {
                                 <Dropdown.Item as="div" id={"email"} onClick={sendShareInfo}><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item>
                             </DropdownButton>
                         </Col>}
-                        {props.heading !== undefined ?
+                        {props.heading !== undefined && props.heading != "5" ?
                             <Col md={"auto"} sm={"auto"} xs={4} style={{ margin: "auto" }}>
                                 {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}</Col>
                             : ""}

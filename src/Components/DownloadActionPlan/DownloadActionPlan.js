@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
     orientation: 'portrait',
-    color: "#f5f5f5"
     // margin: "2%",
     // padding: " 10%",
   },
@@ -135,7 +134,7 @@ const DownloadActionPlan = (props) => {
   return (
     <Document>
       <Page size="A4" object-fit="fill" style={styles.page}>
-        <Image src={require("../../assets/Images/106617165.jpg")} style={styles.pageBackground} />
+        <Image src={require("../../assets/Images/Action_PlanPDF.png")} style={styles.pageBackground} />
         <View style={styles.View}>
           <Text style={styles.sumHeading}>Summary of your response to Support Finder’s questions</Text>
           <View><Text style={styles.summary}>{Journey.join(" > ")}</Text></View>

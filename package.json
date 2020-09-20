@@ -17,6 +17,7 @@
     "antd": "^4.6.2",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "file-saver": "^2.0.2",
     "fs": "0.0.1-security",
     "markdown-react-js": "^1.0.2",
     "moment": "^2.27.0",

@@ -29,6 +29,7 @@ import ProgressWeb from '../ProgressWeb/ProgressWeb';
 import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
 import Footers from '../Footers/Footers';
+import { saveAs } from 'file-saver';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -291,7 +292,7 @@ class Chatbot extends React.Component {
 
                     else if (value == "Yes" && meta !== "loonoyes") {
                         // console.log("to loopback", metadata_)
-                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, } })
+                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true } })
                         requestBody = {
                             "question": "Start the flow",
                         };
@@ -373,8 +374,9 @@ class Chatbot extends React.Component {
             >
                 {
                     ({ blob, url, loading, error }) => {
-                        this.blobData = blob ? blob.text() : ""
+                        this.blobData = blob ? blob : ""
                         this.blobUrl = url
+
                         return (loading ? "Loading document..." : "Download Action Plan")
                     }
 
@@ -510,7 +512,7 @@ class Chatbot extends React.Component {
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
-        console.log(textarray.join(" "))
+        // console.log(textarray)
         var texts = [];
         var links = [];
         var visitedLinks = [];
@@ -612,9 +614,9 @@ class Chatbot extends React.Component {
             case 1: { return "tell_uss.png"; break; }
             case 2: { return "Hear_from_other.png"; break; }
             case 3: { return "Hear_from_other.png"; break; }
-            case 4: { return "Hear_from_other.png"; break; }
+            case 4: { return "Action_Plan.png"; break; }
             case 5: { return "Hear_from_other.png"; break; }
-            default: { return "Hear_from_other.png"; break; }
+            default: { return "Action Plan.png"; break; }
 
         }
 
@@ -627,7 +629,15 @@ class Chatbot extends React.Component {
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 600px)").matches;
         const imageSelector = this.imageSelector(this.state.section)
-        // const shareActionPlan = this.shareActionPlan();
+
+        // if (this.blobData) {
+        //     // console.log(this.blobData)
+        //     // var lastModified = moment.utc().format('YYYY-MM-DD hh:mm:ss')
+        //     // var file = new File([this.blobData], "Action Plan", lastModified)
+        //     var FileSaver = require('file-saver');
+        //     // var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
+        //     FileSaver.saveAs(this.blobData, "Action Plan.pdf");
+        // }
         return (
 
             mobile ?
@@ -712,8 +722,9 @@ class Chatbot extends React.Component {
                                             {downloadActionPlan}
                                             <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
-                                                <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.state.data.answer} separator={"\n"} url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item>
+                                                <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> : ""}
                                             </DropdownButton>
+
                                             {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                                                 <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
                                         </div>
