@@ -15,10 +15,13 @@ import 'animate.css/animate.css'
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { baseUIURL } from './AxiosHandler';
 import ProgressWeb from './Components/ProgressWeb/ProgressWeb';
+import FloatingButton from './Components/FloatingButton/FloatingButton';
 
 function App() {
 
   const [showCover, setShowCover] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
+  const mobile = window.matchMedia("(max-width: 600px)").matches;
 
   useEffect(() => {
     // console.log(window.location.href)
@@ -63,7 +66,7 @@ function App() {
                 </Row>
               </Container>
             </div>
-            <div style={{ display: showCover == false ? "block" : "none", minHeight:"100%" }}>
+            <div style={{ display: showCover == false ? "block" : "none", minHeight: "100%" }}>
               <Router basename="/">
                 {/* <Header /> */}
                 <div className={classes.App}>
@@ -75,9 +78,9 @@ function App() {
                       <Route path='/feedback' component={Feedback} />
                       <Route exact path='/' component={WelcomePage} />
                     </Switch>
+                    {mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:""}
                   </Container >
                 </div>
-                {/* <Footers /> */}
               </Router>
             </div>
           </>

@@ -32,7 +32,7 @@ const heading = {
 const setUser = (user) => {
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
         .then(res => {
-            
+
             window.localStorage.setItem('csf_user', JSON.stringify(user));
 
         }).catch(error => {
@@ -79,26 +79,44 @@ const Header = (props) => {
     return (
         <div className={classes.Header}>
             <Navbar variant="light" style={{ padding: "0%" }}>
-                <Container>
-                    <Row style={{ width: "100%", paddingTop: "5px" }}>
-                        <Col md={2} sm={2} xs={4} style={{ margin: "auto" }}>
-                            {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}</Col>
-                        <Col md={6} sm={6} xs={4} className={classes.brandImage}>
-                            <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>
-                        </Col>
-                        {mobile ? "" : <Col md={"auto"} sm={"auto"} xs={2} style={{ marginLeft: "auto" }}>
+                {mobile ?
+                    <Container className={classes.mobileHeading}>
+                        <Row>
+                            <Col sm={6} xs={12} className={classes.brandImage}>
+                                <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>
+                            </Col>
+                        </Row>
+                        <Row style={{width:"100%", paddingBottom:"10px"}}>
+                            <Col sm={6} xs={6} style={{ margin: "auto" }}>
+                                {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                            </Col>
+                            {props.heading !== undefined && props.heading != "5" ?
+                                <Col sm={"auto"} xs={6} style={{ margin: "auto" }}>
+                                    {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}
+                                </Col>
+                                : ""}
+                        </Row>
+                    </Container> :
+                    <Container>
+                        <Row style={{ width: "100%", paddingTop: "5px" }}>
+                            <Col md={2} sm={2} xs={4} style={{ margin: "auto" }}>
+                                {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}</Col>
+                            <Col md={6} sm={6} xs={4} className={classes.brandImage}>
+                                <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>
+                            </Col>
+                            {mobile ? "" : <Col md={"auto"} sm={"auto"} xs={2} style={{ marginLeft: "auto" }}>
 
-                            <DropdownButton id="dropdown-item-button" title='Share' bsPrefix={classes.links}>
-                                <Dropdown.Item as="div" id={"whatsapp"} onClick={sendShareInfo}><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
-                                <Dropdown.Item as="div" id={"email"} onClick={sendShareInfo}><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item>
-                            </DropdownButton>
-                        </Col>}
-                        {props.heading !== undefined && props.heading != "5" ?
-                            <Col md={"auto"} sm={"auto"} xs={4} style={{ margin: "auto" }}>
-                                {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}</Col>
-                            : ""}
-                    </Row>
-                </Container>
+                                <DropdownButton id="dropdown-item-button" title='Share' bsPrefix={classes.links}>
+                                    <Dropdown.Item as="div" id={"whatsapp"} onClick={sendShareInfo}><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
+                                    <Dropdown.Item as="div" id={"email"} onClick={sendShareInfo}><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item>
+                                </DropdownButton>
+                            </Col>}
+                            {props.heading !== undefined && props.heading != "5" ?
+                                <Col md={"auto"} sm={"auto"} xs={4} style={{ margin: "auto" }}>
+                                    {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}</Col>
+                                : ""}
+                        </Row>
+                    </Container>}
             </Navbar>
         </div>
     );

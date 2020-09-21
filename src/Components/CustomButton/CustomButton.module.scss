@@ -36,7 +36,7 @@ button:focus{
     text-transform: capitalize;
     font-weight: 700 !important;
     font-size: 18px !important;
-    border: 1px solid !important;
+    border: 2px solid !important;
     border-radius: 5px !important;
     background-color: $tertiary-color-3 !important;
     border-color:  $secondary-color !important;
@@ -57,7 +57,7 @@ button:focus{
 
   @media screen and (max-width:600px){
     .buttonColor1{
-        width: 100% !important;
+        // width: 100% !important;
         font-size: 16px !important;
         padding: 12px 15px !important;
 

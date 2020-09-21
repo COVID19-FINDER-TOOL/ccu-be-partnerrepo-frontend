@@ -30,6 +30,7 @@ import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
 import Footers from '../Footers/Footers';
 import { saveAs } from 'file-saver';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -53,6 +54,7 @@ class Chatbot extends React.Component {
             responseStack: [],
             backStack: [],
             change: false,
+            showHomeModal: false,
             section: 0,
             queryIndex: 0,
             queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"]
@@ -82,7 +84,7 @@ class Chatbot extends React.Component {
             this.fetch();
         }
         else {
-            console.log(this.state)
+            // console.log(this.state)
             this.state.section <= 1 ? this.saveInStorage(response) : console.log("Not Saving")
             // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
             //     .then(res => {
@@ -175,11 +177,24 @@ class Chatbot extends React.Component {
     }
 
     handleSubmit = () => {
-        // console.log("IN SUBMIT")
-        if (this.state.selected) {
-            const { CREATEJOURNEY } = this.props.payload
-            var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
-            const { value, queryString, id, type } = this.state.currentResponses
+        const { CREATEJOURNEY } = this.props.payload
+        var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        const currentResponse = backStack ? backStack[backStack.length - 1] : ""
+        // console.log("STATE:", this.state)
+        if (this.state.selected || currentResponse) {
+            var value = ""
+            var id = ""
+
+            if (this.state.currentResponses.value) {
+                value = this.state.currentResponses.value
+                id = this.state.currentResponses.id
+            }
+            else {
+                // console.log("HEYYYYY")
+                value = currentResponse.descriptive_answer
+                id = currentResponse.answer_id.toString().substring(4)
+            }
             var requestBody = {}
             const resbody = {
                 "question_id": this.state.data.id,
@@ -187,9 +202,6 @@ class Chatbot extends React.Component {
                 "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
                 "descriptive_answer": value,
             }
-
-            var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
-            const currentResponse = backStack ? backStack[backStack.length - 1] : ""
             // console.log(currentResponse)
             if (backStack && currentResponse) {
                 if (currentResponse.answer_id.toString().substring(4) !== id) {
@@ -197,11 +209,13 @@ class Chatbot extends React.Component {
                     dummy.pop()
                     resbody["event_changed"] = "True";
                     resbody["answered"] = dummy
-                    // console.log("Condition1", backStack)
+                    console.log("Condition1", backStack)
                     backStack = []
+                    this.setState(() => { return { backStack: [] } })
+
                 }
                 else {
-                    // console.log("Condition2", backStack)
+                    console.log("Condition2", backStack)
                     resbody["event_changed"] = "False";
                     resbody["answered"] = backStack
 
@@ -212,14 +226,15 @@ class Chatbot extends React.Component {
             else {
                 resbody["event_changed"] = "False";
                 resbody["answered"] = []
-                // console.log("Condition3", backStack)
+                console.log("Condition3", backStack)
 
             }
             // console.log(resbody)
             responseStack = responseStack.concat(resbody)
 
             this.props.onEditInspection({ responseStack: responseStack, backStack })
-            // console.log(">>>>>>>>>>>>>>>>>>", this.state.queryIndex)
+            // this.setState(()=>{return{backStack}})
+
 
             if (this.state.queryIndex == 0) {
 
@@ -285,14 +300,15 @@ class Chatbot extends React.Component {
                     }
 
                     else if (value == "No" && meta === "loonono" || value == "No" && meta === "cornexnono") {
-                        // console.log("To Feedback", metadata_)
-                        console.log("Inside loopback")
+
+                        //console.log("Inside loopback")
                         this.props.history.push("/feedback")
                     }
 
                     else if (value == "Yes" && meta !== "loonoyes") {
                         // console.log("to loopback", metadata_)
-                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true } })
+                        this.visitedLinks = []
+                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks:[] } })
                         requestBody = {
                             "question": "Start the flow",
                         };
@@ -300,7 +316,7 @@ class Chatbot extends React.Component {
                     }
 
                 }
-                this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
+                this.setState(() => { return { requestBody, selected: false, currentResponses: {} } }, () => { this.saveQuestion(this.state.data, resbody) });
 
             }
 
@@ -450,7 +466,7 @@ class Chatbot extends React.Component {
             this.props.onEditInspection({ metadata: newMeta, questionStack: newQueStk, responseStack: newResStk, backStack })
             const requestBody = previousquestion ? previousquestion.body : { "question": "Start the flow" }
             const queryIndex = requestBody.question !== "Start the flow" ? this.state.queryIndex : 0
-            console.log(previousquestion)
+            //console.log(previousquestion)
 
             this.setState(() => { return { backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
@@ -622,6 +638,28 @@ class Chatbot extends React.Component {
 
     }
 
+    showHomeModal = () => {
+        this.setState(() => { return { showHomeModal: true } })
+    }
+
+    gotoHome = () => {
+        this.props.onEditInspection({
+            backStack: [],
+            journey_id: "",
+            metadata: "",
+            questionStack:[],
+            responseStack:[],
+            section: 0,
+            start_time: ""
+        })
+        this.props.history.push('/')
+
+    }
+
+    closeHomeModal = () => {
+        this.setState(() => { return { showHomeModal: false } })
+    }
+
     render() {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
@@ -629,15 +667,7 @@ class Chatbot extends React.Component {
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 600px)").matches;
         const imageSelector = this.imageSelector(this.state.section)
-
-        // if (this.blobData) {
-        //     // console.log(this.blobData)
-        //     // var lastModified = moment.utc().format('YYYY-MM-DD hh:mm:ss')
-        //     // var file = new File([this.blobData], "Action Plan", lastModified)
-        //     var FileSaver = require('file-saver');
-        //     // var blob = new Blob(["Hello, world!"], { type: "text/plain;charset=utf-8" });
-        //     FileSaver.saveAs(this.blobData, "Action Plan.pdf");
-        // }
+        // this.props.onEditInspection({topic})
         return (
 
             mobile ?
@@ -687,6 +717,7 @@ class Chatbot extends React.Component {
                 :
                 <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
                     <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
+                    <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                     <Container>
                         <Row className={classes.chatBotRow}>
                             <Col md={4} xs={1} style={{ padding: "0" }}>
@@ -696,7 +727,7 @@ class Chatbot extends React.Component {
                                         src={require("../../assets/Images/Support_finder_logo.png")}
                                         width="50"
                                         style={{ marginRight: "1.2rem", cursor: "pointer", "box-boxShadow": "0px 3px 6px #00000029" }}
-                                        onClick={() => { this.props.history.push("/") }}
+                                        onClick={this.showHomeModal}
                                     />Support Finder</p>
                                 <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
                                 <Footers></Footers>

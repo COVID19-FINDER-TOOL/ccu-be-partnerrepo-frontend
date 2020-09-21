@@ -3,15 +3,15 @@ import { Page, Text, View, Document, StyleSheet, Image, Font, Link } from '@reac
 import MDReactComponent from 'markdown-react-js';
 import LaunchIcon from '@material-ui/icons/Launch';
 
-// Font.register({
-//   family: 'Hurme Geometric Sans No.4',
-//   src: "https://db.onlinewebfonts.com/t/e4ea4e6e0be4b50288655273a2d97d34.woff"
-// });
+Font.register({
+  family: 'Hurme Geometric Sans No.4',
+  src: "https://db.onlinewebfonts.com/t/e4ea4e6e0be4b50288655273a2d97d34.woff"
+});
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     width: '100%',
     orientation: 'portrait',
     // margin: "2%",
@@ -19,17 +19,17 @@ const styles = StyleSheet.create({
   },
   sumHeading: {
     textAlign: "center",
-    // fontFamily: 'Hurme Geometric Sans No.4',
+    fontFamily: 'Hurme Geometric Sans No.4',
     fontSize: "1.5vh",
   },
   summary: {
     textAlign: "center",
-    // fontFamily: 'Hurme Geometric Sans No.4',
+    fontFamily: 'Hurme Geometric Sans No.4',
     fontSize: "1vh"
   },
   heading: {
     textAlign: "center",
-    // fontFamily: 'Hurme Geometric Sans No.4',
+    fontFamily: 'Hurme Geometric Sans No.4',
     fontSize: "3vh",
     fontWeight: "bold",
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   para: {
     marginTop: "2%",
-    // fontFamily: 'Hurme Geometric Sans No.4',
+    fontFamily: 'Hurme Geometric Sans No.4',
     fontSize:"15"
   },
   pageBackground: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     width: 210,
     minHeight: "5vh",
     borderColor: "Azure",
-    backgroundColor: "#4a5e72",
+    backgroundColor: "#EDEDED",
     borderStyle: "solid",
     borderWidth: 1,
     borderRadius: "1mm",
@@ -73,13 +73,13 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 25,
     fontSize: 12,
-    color: "#f5f5f5",
+    color: "#007bff",
 
   },
   links: {
     display: "block",
     margin: "auto",
-    // fontFamily: 'Hurme Geometric Sans No.4',
+    fontFamily: 'Hurme Geometric Sans No.4',
   },
   iconImage: {
     width: "3m",
@@ -134,10 +134,10 @@ const DownloadActionPlan = (props) => {
   return (
     <Document>
       <Page size="A4" object-fit="fill" style={styles.page}>
-        <Image src={require("../../assets/Images/Action_PlanPDF.png")} style={styles.pageBackground} />
+        <Image src={require("../../assets/Images/Magnifying glass buterflies.jpg")} style={styles.pageBackground} />
         <View style={styles.View}>
-          <Text style={styles.sumHeading}>Summary of your response to Support Finder’s questions</Text>
-          <View><Text style={styles.summary}>{Journey.join(" > ")}</Text></View>
+          {/* <Text style={styles.sumHeading}>Summary of your response to Support Finder’s questions</Text> */}
+          {/* <View><Text style={styles.summary}>{Journey.join(" > ")}</Text></View> */}
           <View style={{ marginTop: "2%" }}>
             <Text style={styles.heading}>Your Action Plan</Text>
             {texts.map((x) => {

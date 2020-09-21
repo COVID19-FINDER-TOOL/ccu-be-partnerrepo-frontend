@@ -1,0 +1,18 @@
+@import "../../theme.scss"; 
+
+.shareButton{
+    color: $secondary-color;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.linkElement{
+    color: $primary-color;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.linkElement:hover{
+    color: $primary-color;
+    border-bottom: $primary-color;
+}

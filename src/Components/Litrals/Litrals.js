@@ -63,7 +63,8 @@ const litrals = {
                         {pretext:"Hear from others",displayText:"We will also share with you some stories of how others overcame similar challenges and tips from some experts."}]
     },
     actionPlanPara1 : `Peace of mind, one step at a time.`,
-    actionPlanPara2 : "Action plan to manage your debt based on insight from Citizens Advice."
+    actionPlanPara2 : "Action plan to manage your debt based on insight from Citizens Advice.",
+    gotoHome: "If you go to home page, your current journey will be discarded.\nDo you want to continue?"
 };
 
 export default litrals;
