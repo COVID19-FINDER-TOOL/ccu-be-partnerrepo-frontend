@@ -72,13 +72,11 @@ function App() {
                 <div className={classes.App}>
                   <Container fluid={true}>
                     <Switch>
-                      <Route path='/enter-name' component={EnterName}
-                      />
                       <Route path='/chatbot' component={Chatbot} />
                       <Route path='/feedback' component={Feedback} />
                       <Route exact path='/' component={WelcomePage} />
                     </Switch>
-                    {!mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:""}
+                    <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>
                   </Container >
                 </div>
               </Router>
