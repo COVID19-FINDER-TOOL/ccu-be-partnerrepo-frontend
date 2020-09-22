@@ -88,11 +88,11 @@ const Header = (props) => {
                         </Row>
                         <Row style={{width:"100%", paddingBottom:"10px"}}>
                             <Col sm={6} xs={6} style={{ margin: "auto" }}>
-                                {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                                {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={ props.loading ? console.log("Loading") : props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                             </Col>
                             {props.heading !== undefined && props.heading != "5" ?
                                 <Col sm={"auto"} xs={6} style={{ margin: "auto" }}>
-                                    {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}
+                                    {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={ props.loading ? console.log("Loading") : props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}
                                 </Col>
                                 : ""}
                         </Row>
@@ -100,7 +100,7 @@ const Header = (props) => {
                     <Container>
                         <Row style={{ width: "100%", paddingTop: "5px" }}>
                             <Col md={2} sm={2} xs={4} style={{ margin: "auto" }}>
-                                {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}</Col>
+                                {props.heading && props.showBack ? <CustomButton float={"left"} type="submit" onClick={ props.loading ? console.log("Loading") : props.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}</Col>
                             <Col md={6} sm={6} xs={4} className={classes.brandImage}>
                                 <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>
                             </Col>
@@ -113,7 +113,7 @@ const Header = (props) => {
                             </Col>}
                             {props.heading !== undefined && props.heading != "5" ?
                                 <Col md={"auto"} sm={"auto"} xs={4} style={{ margin: "auto" }}>
-                                    {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}</Col>
+                                    {props.heading < 2 ? <CustomButton type="submit" float={"right"} onClick={ props.loading ? console.log("Loading") : props.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : props.CustomButton ? <CustomButton type="submit" float={"right"} onClick={props.CustomButton} data={litrals.buttons.nextStep}></CustomButton> : props.dynamicOptions && props.dynamicOptions.length == 1 ? props.dynamicOptions : ""}</Col>
                                 : ""}
                         </Row>
                     </Container>}

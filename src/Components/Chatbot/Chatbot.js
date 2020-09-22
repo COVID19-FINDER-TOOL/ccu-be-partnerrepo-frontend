@@ -86,13 +86,13 @@ class Chatbot extends React.Component {
         else {
             // console.log(this.state)
             this.state.section <= 1 ? this.saveInStorage(response) : console.log("Not Saving")
-            // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
-            //     .then(res => {
-            //         const data = res.data;
-            //         console.log(data);
-            //     }).catch(error => {
-            //         console.log(error);
-            //     });
+            axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
+                .then(res => {
+                    const data = res.data;
+                    console.log(data);
+                }).catch(error => {
+                    console.log(error);
+                });
             this.fetch();
 
         }
@@ -132,6 +132,7 @@ class Chatbot extends React.Component {
     }
 
     fetch = (str) => {
+        console.log(this.state, str)
         const body = str ? str.body : this.state.requestBody
         this.setState(() => { return { showSpinner: true, questionStack: str ? this.state.questionStack : this.state.questionStack.concat({ body }) } })
         axiosInstance.post(str ? str.query : this.state.queryString[this.state.queryIndex], body)
@@ -166,11 +167,8 @@ class Chatbot extends React.Component {
         // event.preventDefault();
         const { CREATEJOURNEY } = this.props.payload;
         const value = event.target.value
-        const queryIndex = event.target.name
         const id = event.target.id
-        const type = event.target.type
-
-        const currentResponses = { value, queryIndex, id, type }
+        const currentResponses = { value, id }
         this.state.section < 2 ? this.setState(() => { return { currentResponses, selected: true, msg: false } }) : this.setState(() => { return { currentResponses, selected: true, msg: false } }, () => { this.handleSubmit() })
 
 
@@ -191,7 +189,7 @@ class Chatbot extends React.Component {
                 id = this.state.currentResponses.id
             }
             else {
-                // console.log("HEYYYYY")
+                console.log("HEYYYYY")
                 value = currentResponse.descriptive_answer
                 id = currentResponse.answer_id.toString().substring(4)
             }
@@ -308,7 +306,7 @@ class Chatbot extends React.Component {
                     else if (value == "Yes" && meta !== "loonoyes") {
                         // console.log("to loopback", metadata_)
                         this.visitedLinks = []
-                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks:[] } })
+                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks: [] } })
                         requestBody = {
                             "question": "Start the flow",
                         };
@@ -456,7 +454,8 @@ class Chatbot extends React.Component {
             const { backStack } = this.state
             const { metadata, responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
             const previousResponse = responseStack[responseStack.length - 1];
-            if (section < 3) {
+            const exists = backStack.find((x)=>x.answer_id == previousResponse.answer_id)
+            if (section < 3 && !exists) {
                 backStack.push(previousResponse)
             }
             const previousquestion = questionStack[questionStack.length - 1];
@@ -468,7 +467,7 @@ class Chatbot extends React.Component {
             const queryIndex = requestBody.question !== "Start the flow" ? this.state.queryIndex : 0
             //console.log(previousquestion)
 
-            this.setState(() => { return { backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+            this.setState(() => { return { currentResponses:{}, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
         }
 
@@ -647,8 +646,8 @@ class Chatbot extends React.Component {
             backStack: [],
             journey_id: "",
             metadata: "",
-            questionStack:[],
-            responseStack:[],
+            questionStack: [],
+            responseStack: [],
             section: 0,
             start_time: ""
         })
@@ -673,7 +672,7 @@ class Chatbot extends React.Component {
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
                     <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
-                        <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
+                        <Header heading={this.state.section} loading={this.state.showSpinner} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                         <Container>
                             <Row className={classes.chatBotRow}>
                                 <Col md={4} xs={1} style={{ padding: "0" }}>
@@ -716,7 +715,7 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
-                    <Header heading={this.state.section} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
+                    <Header heading={this.state.section} loading={this.state.showSpinner} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                     <Container>
                         <Row className={classes.chatBotRow}>
