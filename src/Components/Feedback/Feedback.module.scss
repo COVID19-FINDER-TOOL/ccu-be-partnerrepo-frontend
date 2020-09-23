@@ -35,6 +35,13 @@
     text-align: center;
 }
 
+.logoPara{
+    color: $secondary-color;
+    text-align: left;
+    font: normal normal bold 24px/28px Tahoma ;
+    letter-spacing: 1.44px;
+    opacity: 1;
+}
 .smilyContainer{
     padding-top: 2%;
     display: block;
@@ -140,6 +147,34 @@
     outline: none;
 }
 
+.homebtn{
+    color: $secondary-color !important;
+    box-shadow: none !important;
+    padding: 12px 30px !important;
+    line-height: 21px !important;
+    text-transform: capitalize;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    border: 2px solid !important;
+    border-radius: 5px !important;
+    background-color: $tertiary-color-3 !important;
+    border-color:  $secondary-color !important;
+    margin: auto;
+    margin-top: 2%;
+    // margin-bottom: 2%;
+    transition: background-color 0.5s !important;
+    width: 150px;
+  }
+
+  .homebtn:hover{
+    background-color: $primary-color !important;
+    border-color:  $primary-color !important;
+    color: whitesmoke !important;
+  }
+  .homebtn:focus{
+    outline: none;
+}
+
 @media screen and (max-width:600px){
     .headingH1{
         font-size: 24px;
@@ -152,5 +187,12 @@
     .headingHx{
         font-size: 24px;
 
+    }
+    .textarea{
+        width: 70%;
+    }
+    .homebtn{
+        width: 100%;
+        text-align: center;
     }
 }

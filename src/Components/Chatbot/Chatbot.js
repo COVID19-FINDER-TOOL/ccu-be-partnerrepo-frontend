@@ -86,13 +86,13 @@ class Chatbot extends React.Component {
         else {
             // console.log(this.state)
             this.state.section <= 1 ? this.saveInStorage(response) : console.log("Not Saving")
-            axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
-                .then(res => {
-                    const data = res.data;
-                    console.log(data);
-                }).catch(error => {
-                    console.log(error);
-                });
+            // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
+            //     .then(res => {
+            //         const data = res.data;
+            //         console.log(data);
+            //     }).catch(error => {
+            //         console.log(error);
+            //     });
             this.fetch();
 
         }
@@ -691,7 +691,7 @@ class Chatbot extends React.Component {
                                         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
                                     </div> */}
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile?"100%":""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
                                         {topic == 4 && this.state.showActionPlan ? (
                                             <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
@@ -743,7 +743,7 @@ class Chatbot extends React.Component {
                                     <div style={{ width: "100%" }}>
                                         {/* {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""} */}
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile?"100%":""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
                                     </div>
                                     {topic == 4 && this.state.showActionPlan ? (

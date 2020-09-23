@@ -45,7 +45,7 @@ function App() {
 
         return (
           <>
-            <div style={{ display: showCover == true ? "block" : "none" }} className={classes.coverPage}>
+            <div style={{ display: showCover == true ? "block" : "none" }} className={classes.coverPage} onClick={()=>{setShowCover(false)}}>
               <Container className={classes.containertransform}>
                 <div className={classes.main}>
                   <Row className={classes.containerCover}>

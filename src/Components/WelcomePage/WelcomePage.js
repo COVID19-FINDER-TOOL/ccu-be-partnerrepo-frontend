@@ -126,7 +126,7 @@ class WelcomePage extends React.Component {
         <Container style={{ display: this.state.part ? "block" : "none", height:"90vh" }}>
           <p className={classes.para}>{litrals.welcome.text1}</p>
           <p className={classes.para}>{litrals.welcome.text2}</p>
-          <CustomButton float={"right"} type="submit" onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
+          <CustomButton float={"right"} type="submit" width={mobile?"100%":""} onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
         </Container>
 
 
@@ -150,7 +150,7 @@ class WelcomePage extends React.Component {
                 <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
               </div>
               <div>
-                <CustomButton float={"right"} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
+                <CustomButton float={"right"} margin={mobile ? "" : "0 15px 0 0"} width={mobile?"100%":""} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
               </div>
             </Col>
           </Row>
