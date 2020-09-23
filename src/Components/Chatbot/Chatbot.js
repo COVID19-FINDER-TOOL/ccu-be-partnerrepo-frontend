@@ -68,7 +68,7 @@ class Chatbot extends React.Component {
 
     }
 
-    saveQuestion = (data, response) => {
+    saveQuestion = (data, response, notFetch) => {
         var dataBody = {}
         var kb = data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -79,7 +79,6 @@ class Chatbot extends React.Component {
         response.question_id = kb.concat("q").concat(response.question_id.toString())
         response.answer_id = kb.concat("a").concat(response.answer_id.toString())
 
-        // console.log(response)
         if (data.metadata.find((x) => x.name === "topic" && x.value != "1")) {
             this.fetch();
         }
@@ -93,7 +92,8 @@ class Chatbot extends React.Component {
             //     }).catch(error => {
             //         console.log(error);
             //     });
-            this.fetch();
+            console.log(this.state)
+            notFetch ? console.log() : this.fetch();
 
         }
     }
@@ -179,7 +179,8 @@ class Chatbot extends React.Component {
         var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
         var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const currentResponse = backStack ? backStack[backStack.length - 1] : ""
-        // console.log("STATE:", this.state)
+        const state_data = this.state.data
+
         if (this.state.selected || currentResponse) {
             var value = ""
             var id = ""
@@ -189,7 +190,6 @@ class Chatbot extends React.Component {
                 id = this.state.currentResponses.id
             }
             else {
-                console.log("HEYYYYY")
                 value = currentResponse.descriptive_answer
                 id = currentResponse.answer_id.toString().substring(4)
             }
@@ -207,13 +207,13 @@ class Chatbot extends React.Component {
                     dummy.pop()
                     resbody["event_changed"] = "True";
                     resbody["answered"] = dummy
-                    console.log("Condition1", backStack)
+                    // console.log("Condition1", backStack)
                     backStack = []
                     this.setState(() => { return { backStack: [] } })
 
                 }
                 else {
-                    console.log("Condition2", backStack)
+                    // console.log("Condition2", backStack)
                     resbody["event_changed"] = "False";
                     resbody["answered"] = backStack
 
@@ -224,14 +224,14 @@ class Chatbot extends React.Component {
             else {
                 resbody["event_changed"] = "False";
                 resbody["answered"] = []
-                console.log("Condition3", backStack)
+                // console.log("Condition3", backStack)
 
             }
             // console.log(resbody)
             responseStack = responseStack.concat(resbody)
 
             this.props.onEditInspection({ responseStack: responseStack, backStack })
-            // this.setState(()=>{return{backStack}})
+            this.setState(()=>{return{backStack}})
 
 
             if (this.state.queryIndex == 0) {
@@ -251,20 +251,20 @@ class Chatbot extends React.Component {
                         "started": 1,
                         "start_time": start_time
                     }
-                    this.setState({ showSpinner: true })
+                    this.setState(() => { return { requestBody, selected: false } }, ()=>{this.fetch()});
 
                     axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
                         .then(res => {
                             const data = res.data;
                             console.log(data);
-                            this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
-
+                            const notFetch = true
+                            this.saveQuestion(state_data, resbody, notFetch);
                         }).catch(error => {
                             console.log(error);
                         });
                 }
                 else {
-                    this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody) });
+                    this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody, false) });
                 }
                 this.setState(() => { return { queryIndex: id - 1 } });
             }
@@ -314,7 +314,7 @@ class Chatbot extends React.Component {
                     }
 
                 }
-                this.setState(() => { return { requestBody, selected: false, currentResponses: {} } }, () => { this.saveQuestion(this.state.data, resbody) });
+                this.setState(() => { return { requestBody, selected: false, currentResponses: {} } }, () => { this.saveQuestion(this.state.data, resbody, false) });
 
             }
 
@@ -348,14 +348,14 @@ class Chatbot extends React.Component {
 
 
 
-        this.setState(() => { return { showSpinner: true } });
+        // this.setState(() => { return { showSpinner: true } });
 
 
         axiosLoginInstance.post("CFTUserJourneyTrigger/answer", responseBody)
             .then(res => {
                 const data = res.data;
                 console.log(data);
-                // this.fetch();
+                // this.setState(() => { return { showSpinner: false } })
             }).catch(error => {
                 console.log(error);
                 this.setState(() => { return { showSpinner: false } })
@@ -421,7 +421,7 @@ class Chatbot extends React.Component {
         const { backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
         var res = ""
         if (backStack) {
-            res = backStack.find(x => x.question_id.toString().substring(4) == id)
+            res = backStack.find(x => x.question_id.toString().substring(4) == id && x.question_id.toString()[2] == this.state.queryIndex)
         }
 
         if (prompts.length == 1) {
@@ -451,12 +451,12 @@ class Chatbot extends React.Component {
         }
         else {
             const { CREATEJOURNEY } = this.props.payload
-            const { backStack } = this.state
+            var { backStack } = this.state
             const { metadata, responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
             const previousResponse = responseStack[responseStack.length - 1];
-            const exists = backStack.find((x)=>x.answer_id == previousResponse.answer_id)
+            const exists = backStack ? backStack.find((x)=>x.answer_id == previousResponse.answer_id) : false
             if (section < 3 && !exists) {
-                backStack.push(previousResponse)
+                backStack ? backStack.push(previousResponse) : backStack = [previousResponse]
             }
             const previousquestion = questionStack[questionStack.length - 1];
             const newMeta = previousquestion ? previousquestion.body.strictFilters ? previousquestion.body.strictFilters[0].value : "" : ""
