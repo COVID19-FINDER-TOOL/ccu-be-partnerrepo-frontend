@@ -69,6 +69,8 @@ class Chatbot extends React.Component {
     }
 
     saveQuestion = (data, response, notFetch) => {
+        const { CREATEJOURNEY } = this.props.payload;
+        const { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : ""
         var dataBody = {}
         var kb = data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -83,8 +85,8 @@ class Chatbot extends React.Component {
             this.fetch();
         }
         else {
-            // console.log(this.state)
-            this.state.section <= 1 ? this.saveInStorage(response) : console.log("Not Saving")
+
+            this.saveInStorage(response)
             // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
             //     .then(res => {
             //         const data = res.data;
@@ -270,7 +272,7 @@ class Chatbot extends React.Component {
             }
             else {
                 const { metadata } = this.state.data
-                console.log(metadata)
+                // console.log(metadata)
                 let meta = metadata && metadata[0] ? metadata[0].value : ""
                 meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
                 // console.log(">>>>>>>>>>>",meta)
