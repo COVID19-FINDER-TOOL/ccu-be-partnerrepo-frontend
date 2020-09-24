@@ -143,7 +143,7 @@ class Feedback extends React.Component {
                             {/* <Footers></Footers> */}
                         </Col>:""}
 
-                        <Col>
+                        <Col style={{height:"90vh", overflow:'auto', paddingBottom:"10px"}}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
                                 <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
                                 <div className={classes.smilyContainer}>

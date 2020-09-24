@@ -130,21 +130,13 @@ class WelcomePage extends React.Component {
         </Container>
 
 
-        <Container style={{ display: !this.state.part ? "block" : "none" }}>
+        <Container style={{ display: !this.state.part ? "block" : "none", overflow:"auto", height:"85vh", paddingBottom:"10px" }}>
           <Row style={{ paddingTop: "10%" }} noGutters={true}>
 
             <Col md={6} className={classes.line}>
-
-              {/* <p className={classes.logoPara}>
-                <img
-                  alt="SSlogo"
-                  src={require("../../assets/Images/Support_finder_logo.png")}
-                  width="50"
-                />Support Finder</p> */}
               <h1 className={classes.text3}>{litrals.welcome.text3}</h1>
               {!mobile ? <Footers></Footers> : ""}
             </Col>
-            {/* <Col md={1}></Col> */}
             <Col md={6}>
               <div>
                 <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />

@@ -7,7 +7,7 @@
     width: 193px;
     height: 19px;
     text-align: left;
-    font: normal normal bold 16px/20px;
+    font: normal normal bold 16px/20px Tahoma;
     letter-spacing: 0px;
     color: $secondary-color;
     text-shadow: 0px 3px 6px #00000029;
@@ -17,12 +17,11 @@
     margin-top: 22px;
 }
 
-.logoimage{
+.logoImage{
     top: 31px;
     left: 24px;
     width: 30px;
     height: 30px;
-    // background: transparent url('img/Image 6.png') 0% 0% no-repeat padding-box;
-    box-shadow: 0px 3px 6px #00000029;
     opacity: 1;
+    margin-right: 10px;
 }

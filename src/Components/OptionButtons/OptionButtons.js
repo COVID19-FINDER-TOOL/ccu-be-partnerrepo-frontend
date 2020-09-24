@@ -30,8 +30,8 @@ class OptionButtons extends React.Component{
         return (
             <div className={classes.container} value={x.displayText} onClick={this.changeTextOnClick} id={index}>
                 {this.props.partition ? <Row id={index} onClick={this.changeTextOnClick}>
-                    <Col md = {2} sm={2} id={index} onClick={this.changeTextOnClick} xs={2} className={classes.index}><FormatListBulletedIcon onClick={this.changeTextOnClick} style={{ margin: "15px", fontSize: "3rem" }} className={classes.listIcon}></FormatListBulletedIcon></Col>
-                    <Col md = {10} sm={10} onClick={this.changeTextOnClick} xs={10} id={index} className={classes.textContainer} ><p id={index} onClick={this.changeTextOnClick} className={classes.text}>{this.state.textObj[index] ==true ? x.displayText : x.pretext}</p></Col>
+                    <Col md = {2} sm={2} xs={2} id={index} onClick={this.changeTextOnClick} xs={2} className={classes.index}><FormatListBulletedIcon onClick={this.changeTextOnClick}className={classes.listIcon}></FormatListBulletedIcon></Col>
+                    <Col md = {10} sm={10} xs={10} onClick={this.changeTextOnClick} xs={10} id={index} className={classes.textContainer} ><p id={index} onClick={this.changeTextOnClick} className={classes.text}>{this.state.textObj[index] ==true ? x.displayText : x.pretext}</p></Col>
                 </Row> : <p  onClick={this.changeTextOnClick} className={classes.text}>{x.displayText}</p>}
             </div>
         )

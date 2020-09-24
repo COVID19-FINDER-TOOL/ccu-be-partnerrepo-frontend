@@ -20,7 +20,10 @@
 }
 .para{
     margin-top: 2%;
-    font-size: 19px;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+}
+.list{
     font-size: 1.1875rem;
     line-height: 1.31579;
 }
@@ -35,6 +38,14 @@
     color: brown;
     font-size: large;
     font-weight: bold;
+}
+
+.greyBlock{
+    display: block;
+    background-color: $tertiary-color-3;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 3px 6px #00000029;
 }
 
 .spinner{
@@ -91,7 +102,7 @@
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
-    font-size:3vh;
+    font-size:25px;
 }
 
 .linkSpanContentChecked::before{
@@ -101,11 +112,14 @@
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
-    font-size:3.5vh;
+    font-size:30px;
 }
 
 .verticalLine{
-    border-right: $secondary-color 1px solid;
+    display:block;
+    margin: auto;
+    height: 30px;
+    border-right: $secondary-color 2px solid;
 }
 
 .iconCenter{
@@ -182,6 +196,16 @@
         margin: auto;
         margin-bottom: 2%;
     }
+    .para{
+        font-size: 18px;
+        line-height: 27px;
+    }
+    .list{
+        font-size: 18px;
+        line-height: 27px;
+
+    }
+
     .buttonColor1{
         width: 100% !important;
         font-size: small;

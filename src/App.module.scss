@@ -2,6 +2,7 @@
 html, body {
   height: 100%;
   margin: 0; padding: 0;
+  overflow: hidden;
 }
 body {
   display: flex;
@@ -11,6 +12,7 @@ body {
   display: flex;
   text-align: left;
   width: 100%;
+  min-height:100vh;
 }
 
 .coverPage{
@@ -31,6 +33,11 @@ body {
 
 .logoImage{
   width:8vw;
+  margin: 4vw;
+}
+
+.logoAppImage{
+  width:12vw;
   margin: 4vw;
 }
 
@@ -72,13 +79,13 @@ color: #4A4A49;
 text-shadow: 0px 3px 6px #00000029;
 opacity: 1;
 text-align: center;
-font: normal normal normal 1.3vw Tahoma;
+font: normal normal normal 16px/24px Tahoma;
 letter-spacing: 0px;
 }
 
 .span{
   text-align: center;
-  font: normal normal normal 1vw Tahoma;
+  font: normal normal normal 16px/24px Tahoma;
   color: #4A4A49;
 }
 
@@ -106,8 +113,15 @@ letter-spacing: 0px;
 }
 
 @media screen and (max-width:600px) {
+  // html, body{
+  //   overflow: scroll;
+  // }
   .logoImage{
     width:15vw;
+  }
+
+  .logoAppImage{
+    width: 22vw;
   }
 
   .containerCover{
@@ -122,10 +136,10 @@ letter-spacing: 0px;
     font: normal normal normal 5vw Tahoma ;
   }
    .signature{
-    font: normal normal normal 3.5vw Tahoma;
+    font: normal normal normal 12px/18px Tahoma;
    }
    .span{
-    font: normal normal normal 2vw Tahoma; 
+    font: normal normal normal 12px/18px Tahoma; 
    }
 
    .coverPage{

@@ -78,13 +78,11 @@
     
 }
 .brand{
-    
     text-align: center;
-    font: normal normal normal 32px/40px;
+    font: normal normal normal 32px/40px Tahoma;
     letter-spacing: 0px;
     opacity: 1;
     display: inline-block;
-    font-size: x-large;
     font-weight: bold;
 }
 
@@ -103,7 +101,7 @@
 
 @media screen and (max-width:600px){
     .brand{
-        font-size: 20px;
+        font-size: 28px;
         padding-top: 10px;
     }
 }

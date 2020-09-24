@@ -57,7 +57,7 @@ function App() {
                     <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
                   </Row>
                   <Row className={classes.containerCover}>
-                    <img className={classes.logoImage} src={require("./assets/Images/Support_finder_logo2x.png")}></img>
+                    <img className={classes.logoAppImage} src={require("./assets/Images/Support_finder_logo2x.png")}></img>
 
                   </Row>
                 </div>

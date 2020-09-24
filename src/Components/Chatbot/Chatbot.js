@@ -92,7 +92,7 @@ class Chatbot extends React.Component {
             //     }).catch(error => {
             //         console.log(error);
             //     });
-            console.log(this.state)
+            // console.log(this.state)
             notFetch ? console.log() : this.fetch();
 
         }
@@ -132,7 +132,7 @@ class Chatbot extends React.Component {
     }
 
     fetch = (str) => {
-        console.log(this.state, str)
+        // console.log(this.state, str)
         const body = str ? str.body : this.state.requestBody
         this.setState(() => { return { showSpinner: true, questionStack: str ? this.state.questionStack : this.state.questionStack.concat({ body }) } })
         axiosInstance.post(str ? str.query : this.state.queryString[this.state.queryIndex], body)
@@ -166,7 +166,7 @@ class Chatbot extends React.Component {
         // console.log("IN RADIO")
         // event.preventDefault();
         const { CREATEJOURNEY } = this.props.payload;
-        const value = event.target.value
+        const value = this.state.section == 3 ? "Action Plan" : event.target.value
         const id = event.target.id
         const currentResponses = { value, id }
         this.state.section < 2 ? this.setState(() => { return { currentResponses, selected: true, msg: false } }) : this.setState(() => { return { currentResponses, selected: true, msg: false } }, () => { this.handleSubmit() })
@@ -231,7 +231,7 @@ class Chatbot extends React.Component {
             responseStack = responseStack.concat(resbody)
 
             this.props.onEditInspection({ responseStack: responseStack, backStack })
-            this.setState(()=>{return{backStack}})
+            this.setState(() => { return { backStack } })
 
 
             if (this.state.queryIndex == 0) {
@@ -251,7 +251,7 @@ class Chatbot extends React.Component {
                         "started": 1,
                         "start_time": start_time
                     }
-                    this.setState(() => { return { requestBody, selected: false } }, ()=>{this.fetch()});
+                    this.setState(() => { return { requestBody, selected: false } }, () => { this.fetch() });
 
                     axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
                         .then(res => {
@@ -270,6 +270,7 @@ class Chatbot extends React.Component {
             }
             else {
                 const { metadata } = this.state.data
+                console.log(metadata)
                 let meta = metadata && metadata[0] ? metadata[0].value : ""
                 meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
                 // console.log(">>>>>>>>>>>",meta)
@@ -399,19 +400,6 @@ class Chatbot extends React.Component {
         )
     }
 
-    shareActionPlan = () => {
-        const { CREATEJOURNEY } = this.props.payload
-        const { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : []
-
-        return (
-            <BlobProvider onClick={this.sendDownloadInfo} document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} />}>
-                {({ blob, url, loading, error }) => {
-                    console.log(blob)
-                }}
-            </BlobProvider>
-        )
-    }
-
     setPdf = () => {
         this.setState({ pdf: true })
     }
@@ -436,7 +424,7 @@ class Chatbot extends React.Component {
                 const checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                 // console.log(checked, res)
                 return (
-                    <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} btn={(x.displayText == "Next" || x.displayText == "Action Plan") ? true : ""} width={x.displayText == "Next" ? "7rem" : x.displayText == "Action Plan" ? "10rem" : ""} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
+                    <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
                 )
             })
             return (radios);
@@ -454,7 +442,7 @@ class Chatbot extends React.Component {
             var { backStack } = this.state
             const { metadata, responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
             const previousResponse = responseStack[responseStack.length - 1];
-            const exists = backStack ? backStack.find((x)=>x.answer_id == previousResponse.answer_id) : false
+            const exists = backStack ? backStack.find((x) => x.answer_id == previousResponse.answer_id) : false
             if (section < 3 && !exists) {
                 backStack ? backStack.push(previousResponse) : backStack = [previousResponse]
             }
@@ -467,7 +455,7 @@ class Chatbot extends React.Component {
             const queryIndex = requestBody.question !== "Start the flow" ? this.state.queryIndex : 0
             //console.log(previousquestion)
 
-            this.setState(() => { return { currentResponses:{}, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+            this.setState(() => { return { currentResponses: {}, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
         }
 
@@ -496,7 +484,7 @@ class Chatbot extends React.Component {
         if (Tag === 'ol') {
             props = {
                 ...props,
-                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value == 4 ? classes.bullets : "" : ""
+                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value == 4 ? classes.bullets : classes.list : classes.list
             };
         }
 
@@ -673,16 +661,18 @@ class Chatbot extends React.Component {
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
                     <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
                         <Header heading={this.state.section} loading={this.state.showSpinner} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
+                        <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                         <Container>
                             <Row className={classes.chatBotRow}>
                                 <Col md={4} xs={1} style={{ padding: "0" }}>
-                                    <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
+                                    <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
                                 </Col>
-                                <Col md={8} xs={11}>
+                                <Col md={8} xs={11} style={{ height: "80vh", overflow: "auto",  paddingBottom:"10px" }}>
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
-                                        {paragraphs}
+                                        <div className={this.state.section == 2  && this.state.showBack!==false|| this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
+
                                         {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
                                         {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
@@ -691,11 +681,11 @@ class Chatbot extends React.Component {
                                         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""}
                                     </div> */}
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile?"100%":""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
                                         {topic == 4 && this.state.showActionPlan ? (
                                             <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                                <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left", width:"100%" }}>
+                                                <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left", width: "100%" }}>
                                                     <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 </DropdownButton>
                                                 {downloadActionPlan}
@@ -727,15 +717,15 @@ class Chatbot extends React.Component {
                                         style={{ marginRight: "1.2rem", cursor: "pointer", "box-boxShadow": "0px 3px 6px #00000029" }}
                                         onClick={this.showHomeModal}
                                     />Support Finder</p>
-                                <ProgressWeb section={this.state.section} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
+                                <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
                                 <Footers></Footers>
                             </Col>
-                            <Col md={8} xs={11}>
+                            <Col md={8} xs={11} style={{ height: "80vh", overflow: "auto", paddingBottom:"10px" }}>
                                 <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
 
-                                    {paragraphs}
+                                    <div className={this.state.section == 2 && this.state.showBack!==false || this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
                                     {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
@@ -743,7 +733,7 @@ class Chatbot extends React.Component {
                                     <div style={{ width: "100%" }}>
                                         {/* {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""} */}
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile?"100%":""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
                                     </div>
                                     {topic == 4 && this.state.showActionPlan ? (

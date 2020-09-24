@@ -114,7 +114,7 @@ const generateLinks = (data, topic) => {
 
                         <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"7rem" }}>
                             <InfoIcon style={{ margin: "15px", fontSize: "3rem",color:themeClass.primaryColor }}></InfoIcon>
-                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize:"18px"}} >
+                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: mobile ? "16px" : "18px"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
                         </CardContent>
@@ -132,7 +132,7 @@ const generateLinks = (data, topic) => {
                                     <Typography gutterBottom variant="h6" component="h2" style={{ fontWeight:"bold", textAlign: mobile ? "center" : "left", marginTop:"5px" }}>
                                         {x1[0]}
                                     </Typography>
-                                    <Typography gutterBottom variant="body1" component="p" style={{fontSize:"16px"}}>
+                                    <Typography gutterBottom variant="body1" component="p" style={{fontSize: mobile ? "16px" : "18px"}}>
                                         <MDReactComponent key={index} text={x2} onIterate={handleIterate} />
                                     </Typography>
                                 </Col>
