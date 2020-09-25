@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
-import { axiosFeedbackInstance } from '../../AxiosHandler';
+import { axiosLoginInstance } from '../../AxiosHandler';
 import Header from '../Header/Header';
 import moment from "moment";
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,6 +21,7 @@ class Feedback extends React.Component {
             section1: true,
             section2: false,
             section3: false,
+            section4: false,
             positives: false,
             negatives: false,
             showNext: true,
@@ -88,14 +89,13 @@ class Feedback extends React.Component {
         var feedback = Feedback
         feedback.user_id = JSON.parse(window.localStorage.getItem("csf_user")).user_id;
         feedback.feedback_time = moment.utc().format('YYYY-MM-DD hh:mm:ss');
-        axiosFeedbackInstance.post("feedback", feedback)
+        this.setState(() => { return { section1: false, section2: false, section3: false, section4: true } })
+        axiosLoginInstance.post("CFTFeedbackTrigger/feedback", feedback)
             .then(res => {
                 const data = res.data;
                 console.log(data);
-                this.setState(() => { return { section1: false, section2: false, section3: false, section4: true } })
             }).catch(error => {
                 console.log(error);
-                this.setState(() => { return { section1: false, section2: false, section3: false, section4: true } })
             });
 
 
@@ -131,7 +131,7 @@ class Feedback extends React.Component {
                 <Container>
                     <Row>
 
-                        {!mobile? <Col md={4} xs={1} style={{ padding: "0", marginTop : "2%" }}>
+                        {!mobile ? <Col md={4} xs={1} style={{ padding: "0", marginTop: "2%" }}>
                             <p className={classes.logoPara}>
                                 <img
                                     alt="SSlogo"
@@ -141,17 +141,17 @@ class Feedback extends React.Component {
                                     onClick={() => { this.props.history.push("/") }}
                                 />Support Finder</p>
                             {/* <Footers></Footers> */}
-                        </Col>:""}
+                        </Col> : ""}
 
-                        <Col style={{height:"90vh", overflow:'auto', paddingBottom:"10px"}}>
+                        <Col style={{ height: "90vh", overflow: 'auto', paddingBottom: "10px" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
                                 <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
                                 <div className={classes.smilyContainer}>
-                                    <FontAwesomeIcon id={1} icon={faGrinAlt} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 1)} />
-                                    <FontAwesomeIcon id={2} icon={faSmileBeam} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} />
-                                    <FontAwesomeIcon id={3} icon={faMeh} className={this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} />
-                                    <FontAwesomeIcon id={4} icon={faFrown} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} />
-                                    <FontAwesomeIcon id={5} icon={faAngry} className={this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} />
+                                    <FontAwesomeIcon id={1} icon={faGrinAlt} style={{ color: "#009900" }} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} color onClick={this.smilySelector.bind(this, 1)} />
+                                    <FontAwesomeIcon id={2} icon={faSmileBeam} style={{ color: "#00CC00" }} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} />
+                                    <FontAwesomeIcon id={3} icon={faMeh} style={{ color: "#CCCC00" }} className={this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} />
+                                    <FontAwesomeIcon id={4} icon={faFrown} style={{ color: "#CC6600" }} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} />
+                                    <FontAwesomeIcon id={5} icon={faAngry} style={{ color: "#CC3300" }} className={this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} />
                                 </div>
                             </div>
 
@@ -161,7 +161,7 @@ class Feedback extends React.Component {
                                 <div className={classes.smilyContainer}>
                                     {optionButtons}
                                 </div>
-                                {this.state.showNext ? <div className={classes.nextBtnDiv}><CustomButton width={mobile?"100%":""} type="submit" onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton></div> : ''}
+                                {this.state.showNext ? <div className={classes.nextBtnDiv}><CustomButton width={mobile ? "100%" : ""} type="submit" onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton></div> : ''}
 
                             </div>
 
@@ -170,10 +170,16 @@ class Feedback extends React.Component {
                                 <Form.Group >
                                     <Form.Control id={11} onChange={this.handleTextBox} bsPrefix={classes.textarea} as="textarea" rows="3" placeholder={'Please share your thoughts and ideas here……'} />
                                 </Form.Group>
-                                <div className={classes.nextBtnDiv}><CustomButton type="submit" float={"right"} width={mobile?"100%":""} onClick={this.submitFeedback} data={litrals.buttons.SubmitNav}></CustomButton></div>
+                                <div className={classes.nextBtnDiv}><CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.submitFeedback} data={litrals.buttons.SubmitNav}></CustomButton></div>
                             </div>
                             <div style={{ display: this.state.section4 ? "block" : "none" }}>
-                                <h3 className={classes.headingH1}>Thank you for your valuable feedback.</h3>
+                                <svg className={classes.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle className={classes.checkmark__circle} cx="26" cy="26" r="25" fill="green" />
+                                    <path className={classes.checkmark__check} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                </svg>
+
+                                <h3 className={classes.thankYou}>Thank you!</h3>
+                                <h5 className={classes.feedbackImportance}> Your feedback is important for us. </h5>
                                 <div className={classes.homebtn} onClick={() => { this.props.history.push("/") }}><HomeIcon style={{ fontSize: "1.7rem" }}></HomeIcon>Home</div>
                             </div>
                         </Col>

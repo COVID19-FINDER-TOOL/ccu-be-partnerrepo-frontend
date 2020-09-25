@@ -16,6 +16,21 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  ::-webkit-scrollbar
+{
+  width: 2px;  /* for vertical scrollbars */
+  height: 2px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: $tertiary-color-2;
+}
 }
 
 div {

@@ -130,14 +130,14 @@ class WelcomePage extends React.Component {
         </Container>
 
 
-        <Container style={{ display: !this.state.part ? "block" : "none", overflow:"auto", height:"85vh", paddingBottom:"10px" }}>
+        <Container style={{ display: !this.state.part ? "block" : "none" }}>
           <Row style={{ paddingTop: "10%" }} noGutters={true}>
 
             <Col md={6} className={classes.line}>
               <h1 className={classes.text3}>{litrals.welcome.text3}</h1>
               {!mobile ? <Footers></Footers> : ""}
             </Col>
-            <Col md={6}>
+            <Col md={6} style={{overflow:"auto", height:"80vh", paddingBottom:"10px"}}>
               <div>
                 <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
               </div>
