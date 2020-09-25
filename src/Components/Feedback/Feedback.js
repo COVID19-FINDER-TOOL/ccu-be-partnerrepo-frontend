@@ -172,15 +172,15 @@ class Feedback extends React.Component {
                                 </Form.Group>
                                 <div className={classes.nextBtnDiv}><CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.submitFeedback} data={litrals.buttons.SubmitNav}></CustomButton></div>
                             </div>
-                            <div style={{ display: this.state.section4 ? "block" : "none" }}>
+                            <div style={{ display: this.state.section4 ? "block" : "none" }} className={classes.thanksdiv}>
                                 <svg className={classes.checkmark} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
                                     <circle className={classes.checkmark__circle} cx="26" cy="26" r="25" fill="green" />
                                     <path className={classes.checkmark__check} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                                 </svg>
 
                                 <h3 className={classes.thankYou}>Thank you!</h3>
-                                <h5 className={classes.feedbackImportance}> Your feedback is important for us. </h5>
-                                <div className={classes.homebtn} onClick={() => { this.props.history.push("/") }}><HomeIcon style={{ fontSize: "1.7rem" }}></HomeIcon>Home</div>
+                                <h5 className={classes.feedbackImportance}> Your feedback is important to us. </h5>
+                                <div className={classes.homebtn} onClick={() => { this.props.history.push("/") }}><HomeIcon style={{ fontSize: "2.7rem" }}></HomeIcon></div>
                             </div>
                         </Col>
                     </Row>
