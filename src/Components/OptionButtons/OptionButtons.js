@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import classes from './OptionButtons.module.scss';
 import { Row, Col } from 'react-bootstrap';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+
 class OptionButtons extends React.Component{
     constructor(props){
         super(props)
@@ -26,6 +27,7 @@ class OptionButtons extends React.Component{
         
     }
     render(){
+
     const options = this.props.array.map((x,index) => {
         return (
             <div className={classes.container} value={x.displayText} onClick={this.changeTextOnClick} id={index}>
@@ -34,6 +36,7 @@ class OptionButtons extends React.Component{
                     <Col md = {10} sm={10} xs={10} onClick={this.changeTextOnClick} xs={10} id={index} className={classes.textContainer} ><p id={index} onClick={this.changeTextOnClick} className={classes.text}>{this.state.textObj[index] ==true ? x.displayText : x.pretext}</p></Col>
                 </Row> : <p  onClick={this.changeTextOnClick} className={classes.text}>{x.displayText}</p>}
             </div>
+          
         )
     })
     return(options)

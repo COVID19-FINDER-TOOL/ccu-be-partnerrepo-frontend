@@ -6,6 +6,35 @@
     cursor: pointer;
 }
 
+.links{
+    border: 2px solid $secondary-color;
+    padding: 10px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 5px;
+    color:$secondary-color;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+    vertical-align: middle;
+    letter-spacing: 1px;    
+}
+
+.links:hover{
+    background-color: $primary-color;
+    color: #ffffff;
+    border-color: $primary-color;
+    transition: all 0.5s;
+}
+
+.links:focus{
+    background-color: $secondary-color;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.5s;
+}
+
+
 .linkElement{
     color: $primary-color;
     font-weight: bolder;
@@ -19,4 +48,12 @@
 
 .backgroundColor{
     background-color: white;
+}
+
+.icons{
+    margin-right: 2rem;
+}
+
+.iconsbar:hover{
+    opacity: 0.7;
 }

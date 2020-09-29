@@ -1,35 +1,31 @@
-.footers{
-   padding-right:0.8%;
-   position: fixed;
-   bottom:20px;
-   width:100%;
-}
-.footer1{
-    padding-top: 1%;
-    padding-bottom: 1%;
-    background-color: #f2f2f2;
-}
+@import "../../theme.scss"; 
 
-.footer1Links{
+.footers{
+   position: fixed;
+   bottom:0px;
+   width:100%;
+   background-color: $tertiary-color-3;
+   box-shadow: 0px -3px 6px #00000029;
+   padding: 1rem;
+   max-height: 3.5rem;
+
+}
+.footerLinks{
     padding-right: 1rem ;
     color: #737373;
     border:#737373 2px;
     text-shadow: 0px 3px 6px #00000029;;
 }
 
-.footer1Links:hover{
+.footerLinks:hover{
     color: black;
     border-bottom:black;
 }
 
-.footer2Row{
-    background-color: #d9d9d9;
-    padding: 1%;
-    flex-shrink: 0;
+
+@media screen and (max-width:767px){
+    .footers{
+        padding: 0.5rem;
+    }
 }
-.footer2{
-    display: flex;
-    margin: auto;
-    color: #737373;
-    margin-bottom: auto;
-}
+

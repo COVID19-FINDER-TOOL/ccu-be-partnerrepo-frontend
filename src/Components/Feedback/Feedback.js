@@ -13,7 +13,6 @@ import { axiosLoginInstance } from '../../AxiosHandler';
 import Header from '../Header/Header';
 import moment from "moment";
 import HomeIcon from '@material-ui/icons/Home';
-import Footers from "../Footers/Footers";
 class Feedback extends React.Component {
     constructor(props) {
         super(props)
@@ -119,31 +118,26 @@ class Feedback extends React.Component {
 
     }
 
+    showHomeModal = () => {
+        this.props.history.push("/")
+    }
+
     render() {
-        const mobile = window.matchMedia("(max-width: 600px)").matches;
+        const mobile = window.matchMedia("(max-width: 767px)").matches;
 
         const positives = ["I found the support I needed", "I found stories and tips from other people helpful", "I found it easy to use the tool"]
         const negatives = ["I didn’t find any support options", "The support options shown weren’t relevant to me", "I found it difficult to use the tool"]
         const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : negatives : -1);
         return (
             <div className={classes.backgrondImage}>
-                <Header heading={7}></Header>
+                <Header heading={7} showHomeModal={this.showHomeModal}></Header>
                 <Container>
                     <Row>
 
                         {!mobile ? <Col md={4} xs={1} style={{ padding: "0", marginTop: "2%" }}>
-                            <p className={classes.logoPara}>
-                                <img
-                                    alt="SSlogo"
-                                    src={require("../../assets/Images/Support_finder_logo.png")}
-                                    width="50"
-                                    style={{ marginRight: "1.2rem", cursor: "pointer", "box-boxShadow": "0px 3px 6px #00000029" }}
-                                    onClick={() => { this.props.history.push("/") }}
-                                />Support Finder</p>
-                            {/* <Footers></Footers> */}
                         </Col> : ""}
 
-                        <Col style={{ height: "90vh", overflow: 'auto', paddingBottom: "10px" }}>
+                        <Col style={{ height: "85vh", overflow: 'auto', paddingBottom: "4rem" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
                                 <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
                                 <div className={classes.smilyContainer}>
@@ -180,7 +174,7 @@ class Feedback extends React.Component {
 
                                 <h3 className={classes.thankYou}>Thank you!</h3>
                                 <h5 className={classes.feedbackImportance}> Your feedback is important to us. </h5>
-                                <div className={classes.homebtn} onClick={() => { this.props.history.push("/") }}><HomeIcon style={{ fontSize: "2.7rem" }}></HomeIcon></div>
+                                <div className={classes.homebtn}><HomeIcon  onClick={() => { this.props.history.push("/") }} style={{ fontSize: "2.7rem" }}></HomeIcon></div>
                             </div>
                         </Col>
                     </Row>

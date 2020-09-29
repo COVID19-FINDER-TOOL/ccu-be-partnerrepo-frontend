@@ -7,9 +7,11 @@ const Footers = props => {
         <div className={classes.footers}>
 
             <Nav>
-                <Nav.Link bsPrefix={classes.footer1Links} href="">Privacy Policy</Nav.Link>
-                <Nav.Link bsPrefix={classes.footer1Links} href="">About us</Nav.Link>
-                <Nav.Link bsPrefix={classes.footer1Links} href="">Terms and Conditions</Nav.Link>
+                <Container>
+                <Nav.Link bsPrefix={classes.footerLinks} href="">Privacy Policy</Nav.Link>
+                <Nav.Link bsPrefix={classes.footerLinks} href="">About us</Nav.Link>
+                <Nav.Link bsPrefix={classes.footerLinks} href="">Terms and Conditions</Nav.Link>
+                </Container>
             </Nav>
 
         </div>

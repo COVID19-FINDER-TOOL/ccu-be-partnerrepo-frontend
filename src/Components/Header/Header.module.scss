@@ -95,9 +95,25 @@
     margin-bottom: 1%;
     border: 1px solid $secondary-color;
 }
+.logoPara{
+    color: $secondary-color;
+    text-align: left;
+    font: normal normal bold 24px/36px Tahoma ;
+    letter-spacing: 1.44px;
+    opacity: 1;
+    cursor: pointer;
+    text-shadow: 0px 2px 4px #00000029
+}
+
+.logoPara:hover{
+    transform: scale(1.05);
+    // font: normal normal bold 26px/28px Tahoma ;
+
+}
 
 
-@media screen and (max-width:600px){
+
+@media screen and (max-width:767px){
     .brand{
         font-size: 28px;
         padding-top: 10px;

@@ -104,7 +104,7 @@ const generateLinks = (data, topic) => {
         const style = {
             display:"block", margin: "auto", borderRadius: "5%"
         }
-        const mobile = window.matchMedia("(max-width: 600px)").matches;
+        const mobile = window.matchMedia("(max-width: 767px)").matches;
         return (
 
             <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029" }}>

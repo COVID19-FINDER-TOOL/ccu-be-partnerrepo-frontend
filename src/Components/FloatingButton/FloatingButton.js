@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import {
     FloatingMenu,
     MainButton,
@@ -11,7 +13,7 @@ import {
     WhatsappShareButton,
 
 } from "react-share";
-import ShareIcon from '@material-ui/icons/Share';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import MdClose from '@material-ui/icons/Clear';
 import classes from './FloatingButton.module.scss';
 import { axiosLoginInstance } from '../../AxiosHandler';
@@ -19,6 +21,7 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { onEditInspection, login } from "../../store/Action/LoginAction";
 import { connect } from "react-redux";
 import moment from "moment";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const setUser = (user) => {
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
@@ -60,36 +63,48 @@ const sendShareInfo = (event) => {
 const FloatingButton = (props) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const mobile = window.matchMedia("(max-width: 600px)").matches;
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
 
     return (
-        <FloatingMenu
-            slideSpeed={500}
-            direction="up"
-            spacing={8}
-            isOpen={isOpen}
-        >
-            <MainButton
-                iconResting={<ShareIcon style={{ fontSize: mobile ? 25 : 30 }} className={classes.shareButton}/>}
-                iconActive={<MdClose style={{ fontSize: mobile ? 20 : 25 }}/>}
-                onClick={() => setIsOpen(!isOpen)}
-                size={mobile ? 50 : 60}
-                style={{backgroundColor:"white"}}
-                
-            />
-            <ChildButton
-                icon={<WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon onClick={sendShareInfo} id={"whatsapp"} fontSize="large" className={classes.linkElement} ></WhatsAppIcon></WhatsappShareButton>}
-                size={mobile ? 35 : 40}
-                className={classes.backgroundColor}
-                id = {"whatsapp"}
-            />
-            <ChildButton
-                icon={<EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon  onClick={sendShareInfo} id={"email"} fontSize="large" className={classes.linkElement} ></MailIcon></EmailShareButton>}
-                size={mobile ? 35 : 40}
-                className={classes.backgroundColor}             
-                id = {"email"} 
-            />
-        </FloatingMenu>
+        <Tooltip title={"Send an invitation to use Support Finder"} arrow placement={"right"}>
+            {mobile ?
+                <FloatingMenu
+                    slideSpeed={500}
+                    direction="up"
+                    spacing={8}
+                    isOpen={isOpen}
+                >
+                    <MainButton
+                        iconResting={<PersonAddIcon style={{ fontSize: 25 }} className={classes.shareButton} />}
+                        iconActive={<MdClose style={{ fontSize: 20 }} />}
+                        onClick={() => setIsOpen(!isOpen)}
+                        size={50}
+                        style={{ backgroundColor: "white" }}
+
+                    />
+                    <ChildButton
+                        icon={<WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon onClick={sendShareInfo} id={"whatsapp"} fontSize="large" className={classes.linkElement} ></WhatsAppIcon></WhatsappShareButton>}
+                        size={35}
+                        className={classes.backgroundColor}
+                        id={"whatsapp"}
+                    />
+                    <ChildButton
+                        icon={<EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon onClick={sendShareInfo} id={"email"} fontSize="large" className={classes.linkElement} ></MailIcon></EmailShareButton>}
+                        size={35}
+                        className={classes.backgroundColor}
+                        id={"email"}
+                    />
+                </FloatingMenu>
+                :
+                <div>
+                    <DropdownButton id="dropdown-item-button" title='Invite' bsPrefix={classes.links}>
+                        <Dropdown.Item as="div" id={"whatsapp"} onClick={sendShareInfo}><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}> </WhatsAppIcon>WhatsApp</WhatsappShareButton ></span></div></Dropdown.Item>
+                        <Dropdown.Item as="div" id={"email"} onClick={sendShareInfo}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</EmailShareButton></span></div></Dropdown.Item>
+                    </DropdownButton>
+
+                </div>
+            }
+        </Tooltip>
     )
 }
 

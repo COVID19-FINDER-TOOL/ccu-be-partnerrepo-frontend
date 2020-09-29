@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import { MenuContext } from 'react-flexible-sliding-menu';
 const { Step } = Steps;
-const mobile = window.matchMedia("(max-width: 600px)").matches;
+const mobile = window.matchMedia("(max-width: 767px)").matches;
 class ProgressWeb extends React.Component {
     static contextType = MenuContext;
     constructor(props){
@@ -33,15 +33,14 @@ class ProgressWeb extends React.Component {
 
   render() {
     
-    const current = this.props.section ? this.props.section-1  : 0
+    const current = this.props.section ? this.props.section > 2 ?  this.props.section-2 :  this.props.section-1  : 0 
     return (
       <>
         <Steps current={current} progressDot style={{height:"50%"}}  onChange={this.onChange} onClick={this.onClick} direction="vertical">
           <Step title="Tell us about yourself"  />
           <Step title="View your options" />
-          <Step title="Know your rights" />
           <Step title="Review your action plan" />
-          <Step title="Hear from others" onClick={this.props.callHearFromOthers} />
+          <Step title="Hear from others" />
         </Steps>
       </>
     );

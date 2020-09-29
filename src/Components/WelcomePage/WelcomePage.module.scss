@@ -1,13 +1,15 @@
 @import "../../theme.scss"; 
 
+body, html {
+    height: 100%;
+  }
 .backgrondImage{
-    background-image: url("../../assets/Images/Background-welcome.png") ;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: top;
-  min-height: 100vh;
-  padding-bottom: 2rem;
-//   background-size: cover;
+    background-image: url("../../assets/Images/Background.png") ;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+    min-height:  100%;
+    padding-bottom: 2rem;
 }
 
 .headingH1{
@@ -20,10 +22,10 @@
 
 .para{
     margin-top: 2%;
-    font-size: 19px;
-    font-size: 1.1875rem;
-    line-height: 1.31579;
+    font-size: 22px;
+    line-height: 33px;
     text-align: justify;
+    color: #FFFFFF;
 }
 
 .text3{
@@ -66,8 +68,13 @@
     opacity: 1;
 }
 
+.colTabs{
+    overflow:auto;
+    max-height: 80vh !important;
+    padding-bottom: 4rem;
+}
 
-@media screen and (max-width:600px){
+@media screen and (max-width:767px){
     .cardContainer{
         display: block;
     }
@@ -89,6 +96,11 @@
         min-height: 100%;
         background-position: right
 
+    }
+
+    .para{
+        font-size: 18px;
+        line-height: 27px;
     }
 
 }

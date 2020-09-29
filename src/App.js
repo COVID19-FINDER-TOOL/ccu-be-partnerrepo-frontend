@@ -21,7 +21,7 @@ function App() {
 
   const [showCover, setShowCover] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
-  const mobile = window.matchMedia("(max-width: 600px)").matches;
+  const mobile = window.matchMedia("(max-width: 767px)").matches;
 
   useEffect(() => {
     // console.log(window.location.href)
@@ -62,7 +62,7 @@ function App() {
                   </Row>
                 </div>
                 <Row className={classes.appSignatureRow}>
-                  <h3 className={classes.signature}>Powered by <br /> The University of Edinburgh and Sopra Steria <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
+                  <h3 className={classes.signature}>Powered by <br /> Sopra Steria and The University of Edinburgh <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
                 </Row>
               </Container>
             </div>
@@ -76,9 +76,10 @@ function App() {
                       <Route path='/feedback' component={Feedback} />
                       <Route exact path='/' component={WelcomePage} />
                     </Switch>
-                    <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>
+                    {mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:null}
                   </Container >
                 </div>
+                {!mobile ? <Footers></Footers>:null}
               </Router>
             </div>
           </>

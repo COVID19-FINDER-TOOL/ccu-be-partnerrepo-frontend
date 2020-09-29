@@ -14,7 +14,6 @@ import axios from 'axios';
 import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
 import OptionButtons from '../OptionButtons/OptionButtons';
-import Footers from '../Footers/Footers';
 global.appVersion = packageJson.version;
 
 class WelcomePage extends React.Component {
@@ -95,54 +94,48 @@ class WelcomePage extends React.Component {
     this.setState(() => { return { toggle: 0 } });
   }
 
-  createForm = (prompts) => {
-
-    const radios = prompts.map((x, index) => {
-      return (
-
-        <CustomRadio radioLabel={x.displayText} id={index + 1} key={index + 1} onClick={this.handleRadio} />
-
-      )
-    })
-    return (radios);
-  }
-
-  referToPage = () => {
-    window.open("http://www.google.com")
-  }
-
   handlePart = () => {
     this.setState(() => { return { part: false } })
   }
 
+  showHomeModal = () => {
+    this.setState(() => { return { part: true } })
+}
+
   render() {
-    const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts) : console.log();
-    const mobile = window.matchMedia("(max-width: 600px)").matches;
+
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
 
     return (
       <div className={classes.backgrondImage}>
-        <Header></Header>
+        <Header heading = {!this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header>
         {/* <h1 className={classes.headingH1}>{litrals.welcome.heading}</h1> */}
-        <Container style={{ display: this.state.part ? "block" : "none", height:"90vh" }}>
-          <p className={classes.para}>{litrals.welcome.text1}</p>
-          <p className={classes.para}>{litrals.welcome.text2}</p>
-          <CustomButton float={"right"} type="submit" width={mobile?"100%":""} onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
+        <Container style={{ display: this.state.part ? "block" : "none"}}>
+          <Row style={{ paddingTop: "10vh" }}>
+            <Col md={6}>
+
+            </Col>
+            <Col md={6} className={classes.colTabs}>
+              <p className={classes.para}>{litrals.welcome.text1}</p>
+              <p className={classes.para}>{litrals.welcome.text2}</p>
+              <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "20px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
+            </Col>
+          </Row>
+
         </Container>
 
 
         <Container style={{ display: !this.state.part ? "block" : "none" }}>
-          <Row style={{ paddingTop: "10%" }} noGutters={true}>
+          <Row style={{ paddingTop: "10vh" }}>
 
-            <Col md={6} className={classes.line}>
-              <h1 className={classes.text3}>{litrals.welcome.text3}</h1>
-              {!mobile ? <Footers></Footers> : ""}
+            <Col md={6}>
             </Col>
-            <Col md={6} style={{overflow:"auto", height:"80vh", paddingBottom:"10px"}}>
+            <Col md={6}  className={classes.colTabs}>
               <div>
                 <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
               </div>
               <div>
-                <CustomButton float={"right"} margin={mobile ? "" : "0 15px 0 0"} width={mobile?"100%":""} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
+                <CustomButton float={"left"} margin={mobile ? "" : "20px 0 0 0"} width={mobile ? "100%" : ""} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
               </div>
             </Col>
           </Row>

@@ -32,20 +32,19 @@ class ProgressMenu extends React.Component {
 
   render() {
     // console.log(this.props)
-    const current = this.props.section ? this.props.section-1  : 0
+    const current = this.props.section ? this.props.section > 2 ?  this.props.section-2 :  this.props.section-1  : 0 
 
     return (
       <>
-      <p className={"logodiv"}> <img className={"logoImage"} onClick={this.props.showHomeModal} width={"30px"} src={require('../../assets/Images/Support_finder_logo.png')}></img>Support Finder</p>
+      <p className={"logodiv"} onClick={this.props.showHomeModal}> <img className={"logoImage"}  width={"30px"} src={require('../../assets/Images/Support_finder_logo.png')}></img>Support Finder</p>
 
         <Steps current={current} progressDot onChange={this.onChange} onClick={this.onClick} direction="vertical">
           <Step title="Tell us about yourself"  />
           <Step title="View your options" />
-          <Step title="Know your rights" />
           <Step title="Review your action plan" />
-          <Step title="Hear from others" onClick={this.props.callHearFromOthers} />
+          <Step title="Hear from others"/>
         </Steps>
-        <div style={{marginLeft:"1rem"}}><Footers></Footers></div>
+        <div><Footers></Footers></div>
       </>
     );
   }

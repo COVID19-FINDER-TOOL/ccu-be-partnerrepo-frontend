@@ -3,12 +3,13 @@
 @import "../../theme.scss"; 
 
 .heading{
+    
     font-weight: bolder;
     margin-top: 2%;
     margin-bottom: 2%;
 }
 .backgrondImage{
-//   background-image: url("../../assets/Images/tell_us.png") ;
+//   background-image: linear-gradient(to left, skyblue , #ffffff); 
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -164,6 +165,7 @@
     opacity: 1;
 }
 
+
   .buttonColor1:hover{
     background-color: $primary-color;
     border-color:  $primary-color;
@@ -176,7 +178,7 @@
   }
 
   .downloadbtndiv{
-    padding: 1rem;
+    padding: 1rem 0;
   }
 
   .chatBotRow{
@@ -184,7 +186,10 @@
   }
 
 
-@media screen and (max-width:600px){
+@media screen and (max-width:767px){
+    .heading{
+        font-size: 1.5rem;
+    }
     .actionPlanPara{
         font: normal normal normal 18px/25px Tahoma ;
     }

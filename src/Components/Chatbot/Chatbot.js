@@ -28,7 +28,6 @@ import ProgressWeb from '../ProgressWeb/ProgressWeb';
 
 import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
-import Footers from '../Footers/Footers';
 import { saveAs } from 'file-saver';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 class Chatbot extends React.Component {
@@ -285,7 +284,7 @@ class Chatbot extends React.Component {
                 };
 
                 if (this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) {
-                    
+
                     // console.log(value, meta)
                     if (value == "Next") {
                         requestBody = {
@@ -296,7 +295,7 @@ class Chatbot extends React.Component {
 
                     }
                     else if (value == "No" && meta === "loono" || value == "No" && meta === "cornexno") {
-                        this.setState(() => { return { section: 5} })
+                        this.setState(() => { return { section: 5 } })
                     }
 
                     else if (value == "Yes" && meta === "loonoyes" || value == "Yes" && meta === "cornexnoyes") {
@@ -427,7 +426,7 @@ class Chatbot extends React.Component {
                 const checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                 // console.log(checked, res)
                 return (
-                    <CustomRadio radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
+                    <CustomRadio section={this.state.section} radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
                 )
             })
             return (radios);
@@ -458,7 +457,7 @@ class Chatbot extends React.Component {
             const queryIndex = requestBody.question !== "Start the flow" ? this.state.queryIndex : 0
             //console.log(previousquestion)
 
-            this.setState(() => { return { currentResponses: {}, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
+            this.setState(() => { return { currentResponses: {}, msg: false, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
         }
 
@@ -604,16 +603,6 @@ class Chatbot extends React.Component {
             })
     }
 
-    callHearFromOthers = () => {
-
-        const str = {
-            "body": { "question": "hear from others" },
-            "query": this.state.queryString[0]
-        }
-        this.fetch(str)
-
-    }
-
     imageSelector = (section) => {
         switch (section) {
             case 0: { return "tell_uss.png"; break; }
@@ -629,7 +618,12 @@ class Chatbot extends React.Component {
     }
 
     showHomeModal = () => {
-        this.setState(() => { return { showHomeModal: true } })
+        if(this.state.section){
+            this.setState(() => { return { showHomeModal: true } })
+        }
+        else{
+            this.props.history.push("/")
+        }
     }
 
     gotoHome = () => {
@@ -655,7 +649,7 @@ class Chatbot extends React.Component {
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
-        const mobile = window.matchMedia("(max-width: 600px)").matches;
+        const mobile = window.matchMedia("(max-width: 767px)").matches;
         const imageSelector = this.imageSelector(this.state.section)
         // this.props.onEditInspection({topic})
         return (
@@ -668,13 +662,13 @@ class Chatbot extends React.Component {
                         <Container>
                             <Row className={classes.chatBotRow}>
                                 <Col md={4} xs={1} style={{ padding: "0" }}>
-                                    <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} callHearFromOthers={this.callHearFromOthers} ></ProgressWeb>
+                                    <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal}  ></ProgressWeb>
                                 </Col>
-                                <Col md={8} xs={11} style={{ height: "80vh", overflow: "auto",  paddingBottom:"10px" }}>
+                                <Col md={8} xs={11} style={{ height: "80vh", overflow: "auto", paddingBottom: "2rem" }}>
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
-                                        <div className={this.state.section == 2  && this.state.showBack!==false|| this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
+                                        <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
 
                                         {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
@@ -707,38 +701,26 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
-                    <Header heading={this.state.section} loading={this.state.showSpinner} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
+                    <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                     <Container>
                         <Row className={classes.chatBotRow}>
-                            <Col md={4} xs={1} style={{ padding: "0" }}>
-                                <p className={classes.logoPara}>
-                                    <img
-                                        alt="SSlogo"
-                                        src={require("../../assets/Images/Support_finder_logo.png")}
-                                        width="50"
-                                        style={{ marginRight: "1.2rem", cursor: "pointer", "box-boxShadow": "0px 3px 6px #00000029" }}
-                                        onClick={this.showHomeModal}
-                                    />Support Finder</p>
-                                <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} callHearFromOthers={this.callHearFromOthers}></ProgressWeb>
-                                <Footers></Footers>
+                            <Col md={4} xs={1} style={{ padding: "2% 0 0 0" }}>
+                                <p className={classes.logoPara}>Your Progress</p>
+                                <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>
+                                
                             </Col>
-                            <Col md={8} xs={11} style={{ height: "80vh", overflow: "auto", paddingBottom:"10px" }}>
+                            <Col md={8} xs={11}>
                                 <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
-                                <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
+                                <div style={{ display: this.state.showSpinner ? "none" : "block", minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "3.5rem" }}>
 
-                                    <div className={this.state.section == 2 && this.state.showBack!==false || this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
+                                    <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
                                     {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
 
-                                    <div style={{ width: "100%" }}>
-                                        {/* {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
-                                        {this.state.section < 2 ? <CustomButton type="submit" float={"right"} onClick={this.handleSubmit} data={litrals.buttons.nextStep}></CustomButton> : ""} */}
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
-                                    </div>
                                     {topic == 4 && this.state.showActionPlan ? (
                                         <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                             {downloadActionPlan}
@@ -752,7 +734,21 @@ class Chatbot extends React.Component {
                                         </div>
                                     ) : ""}
 
+                                    <div style={{ width: "100%", marginTop: "3rem", display: this.state.showFeedback ? "none":"block"}}>
+                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+                                        {this.state.section < 2 ?
+                                            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log("Loading") : this.handleSubmit} data={litrals.buttons.nextStep}>
+                                            </CustomButton> : topic == 4 && !this.state.showActionPlan ? <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton> : radios && radios.length == 1 ? radios : ""
+                                        }
+                                    </div>
+
+                                    <div style={{ width: "100%" }}>
+                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+
+                                    </div>
+
                                 </div>
+
 
                             </Col>
                         </Row>
