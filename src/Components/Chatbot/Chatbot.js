@@ -664,7 +664,7 @@ class Chatbot extends React.Component {
                                 <Col md={4} xs={1} style={{ padding: "0" }}>
                                     <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal}  ></ProgressWeb>
                                 </Col>
-                                <Col md={8} xs={11} style={{ height: "80vh", overflow: "auto", paddingBottom: "2rem" }}>
+                                <Col md={8} xs={11} style={{ height: "75vh", overflow: "auto", paddingBottom: "4rem" }}>
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>

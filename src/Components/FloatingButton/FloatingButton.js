@@ -66,7 +66,7 @@ const FloatingButton = (props) => {
     const mobile = window.matchMedia("(max-width: 767px)").matches;
 
     return (
-        <Tooltip title={"Send an invitation to use Support Finder"} arrow placement={"right"}>
+        <>
             {mobile ?
                 <FloatingMenu
                     slideSpeed={500}
@@ -104,7 +104,7 @@ const FloatingButton = (props) => {
 
                 </div>
             }
-        </Tooltip>
+        </>
     )
 }
 

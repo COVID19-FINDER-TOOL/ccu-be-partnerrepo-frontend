@@ -26,6 +26,12 @@
 @media screen and (max-width:767px){
     .footers{
         padding: 0.5rem;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        background-color: unset;
+        box-shadow: none;
+        max-height: unset;
     }
 }
 

@@ -52,7 +52,6 @@ const Header = (props) => {
                     <Container>
                         <Row style={{ width: "100%", paddingTop: "10px" }}>
                             <Col md={"auto"}>
-                            <Tooltip disableFocusListener title="Home" arrow placement="left">
                                 <p className={classes.logoPara} onClick={props.showHomeModal}>
                                     <img
                                         alt="SSlogo"
@@ -61,7 +60,6 @@ const Header = (props) => {
                                         style={{ marginRight: "1.2rem", cursor: "pointer" }}
                                     />Support Finder
                                 </p>
-                            </Tooltip>
                             </Col>
                             <Col md={6} sm={6} className={classes.brandImage}>
                                 <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>

@@ -18,8 +18,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   ::-webkit-scrollbar
 {
-  width: 2px;  /* for vertical scrollbars */
-  height: 2px; /* for horizontal scrollbars */
+  width: 10px;  /* for vertical scrollbars */
+  height: 10px; /* for horizontal scrollbars */
 }
 
 ::-webkit-scrollbar-track
@@ -30,6 +30,8 @@ body {
 ::-webkit-scrollbar-thumb
 {
   background: $tertiary-color-2;
+  border-radius: 5px;
+
 }
 }
 
@@ -44,4 +46,10 @@ code {
 
 .container-fluid{
   padding: 0 !important;
+}
+
+@media screen and (max-width:767px){
+  body::-webkit-scrollbar{
+    width:2px !important;
+  }
 }
