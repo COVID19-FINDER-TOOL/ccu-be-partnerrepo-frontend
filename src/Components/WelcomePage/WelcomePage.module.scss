@@ -4,12 +4,16 @@ body, html {
     height: 100%;
   }
 .backgrondImage{
-    background-image: url("../../assets/Images/Background.png") ;
+    background-image: url("../../assets/Images/Background-min.png") ;
     background-repeat:no-repeat;
     background-size:cover;
     background-position:center;
     min-height:  100%;
     padding-bottom: 2rem;
+}
+
+.wlcmRow{
+    padding-top: 10vh;
 }
 
 .headingH1{
@@ -75,6 +79,9 @@ body, html {
 }
 
 @media screen and (max-width:767px){
+    .wlcmRow{
+        padding-top: 3vh;
+    }
     .cardContainer{
         display: block;
     }

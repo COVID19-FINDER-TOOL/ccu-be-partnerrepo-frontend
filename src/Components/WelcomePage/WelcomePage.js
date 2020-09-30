@@ -111,7 +111,7 @@ class WelcomePage extends React.Component {
         <Header heading = {!this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header>
         {/* <h1 className={classes.headingH1}>{litrals.welcome.heading}</h1> */}
         <Container style={{ display: this.state.part ? "block" : "none"}}>
-          <Row style={{ paddingTop: "10vh" }}>
+          <Row className={classes.wlcmRow}>
             <Col md={6}>
 
             </Col>
@@ -126,7 +126,7 @@ class WelcomePage extends React.Component {
 
 
         <Container style={{ display: !this.state.part ? "block" : "none" }}>
-          <Row style={{ paddingTop: "10vh" }}>
+          <Row className={classes.wlcmRow}>
 
             <Col md={6}>
             </Col>

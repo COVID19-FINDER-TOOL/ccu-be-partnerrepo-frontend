@@ -605,13 +605,13 @@ class Chatbot extends React.Component {
 
     imageSelector = (section) => {
         switch (section) {
-            case 0: { return "tell_uss.png"; break; }
-            case 1: { return "tell_uss.png"; break; }
-            case 2: { return "Hear_from_other.png"; break; }
-            case 3: { return "Hear_from_other.png"; break; }
-            case 4: { return "Action_Plan.png"; break; }
-            case 5: { return "Hear_from_other.png"; break; }
-            default: { return "Action Plan.png"; break; }
+            case 0: { return "tell_uss-min.png"; break; }
+            case 1: { return "tell_uss-min.png"; break; }
+            case 2: { return "hear_from_others.png"; break; }
+            case 3: { return "hear_from_others.png"; break; }
+            case 4: { return "Action_Plan-min.png"; break; }
+            case 5: { return "hear_from_others.png"; break; }
+            default: { return "Action_Plan-min.png"; break; }
 
         }
 
@@ -668,7 +668,7 @@ class Chatbot extends React.Component {
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
-                                        <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
+                                        <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div>
 
                                         {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
@@ -715,7 +715,7 @@ class Chatbot extends React.Component {
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block", minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "3.5rem" }}>
 
-                                    <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan ? classes.greyBlock : ""}>{paragraphs}</div>
+                                    <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div>
                                     {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
 
                                     {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
