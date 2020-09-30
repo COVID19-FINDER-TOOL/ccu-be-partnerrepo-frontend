@@ -10,14 +10,14 @@ import FloatingButton from '../FloatingButton/FloatingButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 const heading = {
-    "0": "Tell us about yourself",
-    "1": "Tell us about yourself",
-    "2": "View your options",
-    "3": "View your options",
-    "4": "Review your action plan",
-    "5": "Hear from others",
+    "0": "Tell Us About Yourself",
+    "1": "Tell Us About Yourself",
+    "2": "View Your Options",
+    "3": "View Your Options",
+    "4": "Review Your Action Plan",
+    "5": "Hear From Others",
     "7": "Feedback",
-    "8": "How does it work?"
+    "8": "How Does It Work?"
 }
 
 const Header = (props) => {

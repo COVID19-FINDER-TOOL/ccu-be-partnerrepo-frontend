@@ -37,10 +37,10 @@ class ProgressWeb extends React.Component {
     return (
       <>
         <Steps current={current} progressDot style={{height:"50%"}}  onChange={this.onChange} onClick={this.onClick} direction="vertical">
-          <Step title="Tell us about yourself"  />
-          <Step title="View your options" />
-          <Step title="Review your action plan" />
-          <Step title="Hear from others" />
+          <Step title="Tell Us About Yourself"  />
+          <Step title="View Your Options" />
+          <Step title="Review Your Action Plan" />
+          <Step title="Hear From Others" />
         </Steps>
       </>
     );
