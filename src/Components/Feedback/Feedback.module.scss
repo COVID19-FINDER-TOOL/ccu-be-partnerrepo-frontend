@@ -3,12 +3,13 @@
 body{
 ::-webkit-scrollbar-thumb
 {
- background: transparentize($color: $tertiary-color-2, $amount: 0.8);
+ background: transparentize($color: $tertiary-color-3, $amount: 0.5);
 }
 }
 
 .backgrondImage{
-  background-image: url("../../assets/Images/Thank-you-min.png") ;
+  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
+  // background-image: url("../../assets/Images/Thank-you-min.png") ;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: top;
@@ -265,6 +266,6 @@ body{
       font-size: 50px;
     }
     .body{
-      overflow: auto;
+      overflow: scroll;
     }
 }

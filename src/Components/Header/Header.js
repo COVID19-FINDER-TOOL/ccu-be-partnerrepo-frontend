@@ -7,7 +7,6 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { onEditInspection, login } from "../../store/Action/LoginAction";
 import { connect } from "react-redux";
 import FloatingButton from '../FloatingButton/FloatingButton';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const heading = {
     "0": "Tell Us About Yourself",
@@ -56,12 +55,12 @@ const Header = (props) => {
                                     <img
                                         alt="SSlogo"
                                         src={require("../../assets/Images/Support_finder_logo.png")}
-                                        width="45"
+                                        width="40"
                                         style={{ marginRight: "1.2rem", cursor: "pointer" }}
                                     />Support Finder
                                 </p>
                             </Col>
-                            <Col md={6} sm={6} className={classes.brandImage}>
+                            <Col md={7} sm={7} className={classes.brandImage}>
                                 <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>
                             </Col>
                             <Col md={"auto"} sm={"auto"} style={{marginLeft:'auto'}}>

@@ -16,6 +16,9 @@ import MDReactComponent from 'markdown-react-js';
 import InfoIcon from '@material-ui/icons/Info';
 import { Col, Row } from 'react-bootstrap';
 import * as themeClass from '../../theme.json';
+
+const mobile = window.matchMedia("(max-width: 767px)").matches;
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -56,8 +59,9 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        margin:"auto",
         marginTop: "3%",
-        width:"100%"
+        width: "100%"
 
     },
     cardroot: {
@@ -89,10 +93,10 @@ const handleIterate = (Tag, props, children, level) => {
 
 const sendIcon = (index) => {
     switch (index) {
-        case 0: {return "/video.png" ;break}
-        case 1: return "/podcast.png"; break
-        case 2: return "/reading.png";break
-        default: return "/video.png" ;break
+        case 0: {return "/video.png" ;}
+        case 1: return "/podcast.png"; 
+        case 2: return "/reading.png";
+        default: return "/video.png" ;
     }
 }
 
@@ -112,8 +116,8 @@ const generateLinks = (data, topic) => {
 
                     {topic == 3 ?
 
-                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"7rem" }}>
-                            <InfoIcon style={{ margin: "15px", fontSize: "3rem",color:themeClass.primaryColor }}></InfoIcon>
+                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"5rem" }}>
+                            <InfoIcon style={{ margin: mobile ? "25px 0px":"4px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
                             <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: mobile ? "16px" : "18px"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
@@ -151,6 +155,8 @@ const generateLinks = (data, topic) => {
 }
 
 const generatetabs = (data, value) => {
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+
     const tabs = data[0].map((x, index) => {
         return (
             <Tab key={index}
@@ -160,10 +166,10 @@ const generatetabs = (data, value) => {
                     borderRight: "1px solid #f5f5f5",
                     outline: 0,
                     borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
-                    backgroundColor: value === index ? themeClass.primaryColor : themeClass.tertiaryColor2,
-                    fontSize: "16px",
+                    backgroundColor: value === index ? themeClass.secondaryColor : themeClass.tertiaryColor2,
+                    fontSize: mobile ? "14px":"16px",
                     paddingTop: "20px",
-                    height:"80px",
+                    height:"70px",
                     letterSpacing:"1.44px"
                 }}
                 wrapped

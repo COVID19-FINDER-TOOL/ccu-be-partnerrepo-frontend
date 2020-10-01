@@ -109,7 +109,6 @@ class WelcomePage extends React.Component {
     return (
       <div className={classes.backgrondImage}>
         <Header heading = {!this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header>
-        {/* <h1 className={classes.headingH1}>{litrals.welcome.heading}</h1> */}
         <Container style={{ display: this.state.part ? "block" : "none"}}>
           <Row className={classes.wlcmRow}>
             <Col md={6}>

@@ -133,10 +133,6 @@ class Feedback extends React.Component {
                 <Header heading={7} showHomeModal={this.showHomeModal}></Header>
                 <Container>
                     <Row>
-
-                        {!mobile ? <Col md={4} xs={1} style={{ padding: "0", marginTop: "2%" }}>
-                        </Col> : ""}
-
                         <Col style={{ height: "85vh", overflow: 'auto', paddingBottom: "4rem" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
                                 <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>

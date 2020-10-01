@@ -13,7 +13,7 @@ import {
     WhatsappShareButton,
 
 } from "react-share";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import ShareIcon from '@material-ui/icons/Share';
 import MdClose from '@material-ui/icons/Clear';
 import classes from './FloatingButton.module.scss';
 import { axiosLoginInstance } from '../../AxiosHandler';
@@ -21,7 +21,6 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { onEditInspection, login } from "../../store/Action/LoginAction";
 import { connect } from "react-redux";
 import moment from "moment";
-import Tooltip from '@material-ui/core/Tooltip';
 
 const setUser = (user) => {
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
@@ -75,7 +74,7 @@ const FloatingButton = (props) => {
                     isOpen={isOpen}
                 >
                     <MainButton
-                        iconResting={<PersonAddIcon style={{ fontSize: 25 }} className={classes.shareButton} />}
+                        iconResting={<ShareIcon style={{ fontSize: 25 }} className={classes.shareButton} />}
                         iconActive={<MdClose style={{ fontSize: 20 }} />}
                         onClick={() => setIsOpen(!isOpen)}
                         size={50}

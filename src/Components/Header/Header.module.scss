@@ -77,7 +77,7 @@
 }
 .brand{
     text-align: center;
-    font: normal normal normal 32px/40px Tahoma;
+    font: normal normal normal 28px/36px Tahoma;
     letter-spacing: 0px;
     opacity: 1;
     display: inline-block;
@@ -98,7 +98,7 @@
 .logoPara{
     color: $secondary-color;
     text-align: left;
-    font: normal normal bold 24px/36px Tahoma ;
+    font: normal normal bold 20px/30px Tahoma ;
     letter-spacing: 1.44px;
     opacity: 1;
     cursor: pointer;
@@ -115,7 +115,7 @@
 
 @media screen and (max-width:767px){
     .brand{
-        font-size: 28px;
+        font-size: 25px;
         padding-top: 10px;
     }
 }

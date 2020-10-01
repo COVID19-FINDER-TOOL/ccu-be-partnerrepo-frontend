@@ -7,9 +7,10 @@
     font-weight: bolder;
     margin-top: 2%;
     margin-bottom: 2%;
+    font-size: 27px;
 }
 .backgrondImage{
-//   background-image: linear-gradient(to left, skyblue , #ffffff); 
+  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -30,9 +31,8 @@
 }
 .actionPlanPara{
     text-align: left;
-    font: normal normal normal 24px/29px Tahoma;
+    font: normal normal normal 20px/30px Tahoma;
     letter-spacing: 0px;
-    // color: $font-cole;
     opacity: 1;
 }
 .error{
@@ -57,8 +57,7 @@
 
 .linkElement{
     text-align: left;
-    /* text-decoration: underline; */
-    font: normal normal normal 24px/26px ;
+    font: normal normal normal 18px/27px Tahoma ;
     letter-spacing: 0px;
     color: #1592E6;
     opacity: 1; 
@@ -137,7 +136,7 @@
 }
 
 .Form{
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 .buttonColor1{
@@ -182,7 +181,7 @@
   }
 
   .chatBotRow{
-      margin-top: 5%;
+      margin-top: 1%;
   }
 
 
