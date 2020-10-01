@@ -56,8 +56,8 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"],
-            //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
+            //queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"],
+            queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
 
