@@ -1,0 +1,150 @@
+@import "/theme.scss"; 
+html, body {
+  height: 100%;
+  margin: 0; padding: 0;
+  overflow: hidden;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.App {
+  display: flex;
+  text-align: left;
+  width: 100%;
+  min-height:100vh;
+}
+
+.coverPage{
+  background-image: url("./assets/Images/Landing page -Oranges.jpg") ;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  // background-size: cover;
+  height: 100vh;
+}
+
+.containerCover{
+  
+  display: flex;
+  justify-content: center;
+  
+}
+
+.logoImage{
+  width:8vw;
+  margin: 4vw;
+}
+
+.logoAppImage{
+  width:10vw;
+  margin: 4vw;
+}
+
+.containertransform{
+  position: relative;
+  height: 80vh;
+}
+
+.appNameRow{
+  display: flex;
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+.appName{
+  text-align: left;
+  font: normal normal normal 2.5vw Tahoma;
+  letter-spacing: 0px;
+  color: $secondary-color;
+  text-shadow: 0px 3px 6px #00000029;
+  opacity: 1;
+}
+
+.main{
+  // padding-bottom: 30px
+}
+
+.appSignatureRow{
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left:20vw;
+  right: 20vw;
+
+}
+
+.signature{
+color: #4A4A49;
+text-shadow: 0px 3px 6px #00000029;
+opacity: 1;
+text-align: center;
+font: normal normal normal 16px/24px Tahoma;
+letter-spacing: 0px;
+}
+
+.span{
+  text-align: center;
+  font: normal normal normal 16px/24px Tahoma;
+  color: #4A4A49;
+}
+
+.vl {
+    border-left: 4px solid #CF022B;
+    height: 11vh;
+    margin-top: 4vw;
+    border-radius: 10px;
+}
+
+.contianerFluid{
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.floatingButton{
+  display: block;
+  bottom: 0;
+  z-index: 10000;
+  position: fixed;
+  margin: 0 20px 20px 90vw;
+  padding-bottom: 0;
+  right: 0;
+}
+
+@media screen and (max-width:767px) {
+  // html, body{
+  //   overflow: scroll;
+  // }
+  .logoImage{
+    width:15vw;
+  }
+
+  .logoAppImage{
+    width: 22vw;
+  }
+
+  .containerCover{
+    padding-top: 6vh;
+  }
+
+  .containertransform{
+    height: 60vh;
+  }
+
+  .appName{
+    font: normal normal normal 5vw Tahoma ;
+  }
+   .signature{
+    font: normal normal normal 12px/18px Tahoma;
+   }
+   .span{
+    font: normal normal normal 12px/18px Tahoma; 
+   }
+
+   .coverPage{
+    background-position: center;
+
+   }
+
+}

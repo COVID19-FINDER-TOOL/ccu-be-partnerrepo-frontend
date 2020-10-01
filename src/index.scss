@@ -1,0 +1,55 @@
+@import "/theme.scss"; 
+
+html, body {
+  min-height: 100%;
+  position: relative;
+
+}
+
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  color: $font-color !important ;
+  font-family: $font-family !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  ::-webkit-scrollbar
+{
+  width: 10px;  /* for vertical scrollbars */
+  height: 10px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: $tertiary-color-3;
+  border-radius: 5px;
+
+}
+}
+
+div {
+  display: block;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container-fluid{
+  padding: 0 !important;
+}
+
+@media screen and (max-width:767px){
+  body::-webkit-scrollbar{
+    width:2px !important;
+  }
+}

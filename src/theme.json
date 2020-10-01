@@ -1,0 +1,10 @@
+{
+"fontFamily":"Tahoma",
+"fontColor":"#1D1D1B",
+"primaryColor" : "#32ABD0",
+"secondaryColor" : "#007AC2",
+"tertiaryColor" : "#9597A6",
+"tertiaryColor2": "#A8A8A7",
+"tertiaryColor3" : "#EDEDED",
+"backgroundwelcome" : "../../assets/Images/BackgroundColor.jpg"
+}

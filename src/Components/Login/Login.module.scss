@@ -1,0 +1,45 @@
+.label{
+    font-weight: 600;
+    color: #333333;
+    margin-top: 2%;
+    text-size-adjust: 100%;
+    font-size:large;
+    text-shadow: black 200px;
+}
+
+.form{
+    display: block;
+    float: left;
+    text-align: left;
+    margin-top: 2%;
+    margin-left: 1%;
+    width: 30%;
+}
+
+.loginButton{
+    color: white !important;
+    box-shadow: none !important;
+    padding: 12px 30px !important;
+    line-height: 21px !important;
+    text-transform: capitalize;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    border-radius: 300px !important;
+    background-color: #d8410d !important;
+    border-color:  #d8410d !important;
+}
+
+.loginButton:hover{
+    background-color: darkorange !important;
+    border-color:  darkorange !important;
+
+}
+
+@media screen and (max-width:767px){
+    .form{
+        width: 98%;
+    }
+    .loginButton{
+        width: 100% !important;
+    }
+}
