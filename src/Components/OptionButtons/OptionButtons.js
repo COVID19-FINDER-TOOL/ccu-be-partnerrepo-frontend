@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classes from './OptionButtons.module.scss';
 import { Row, Col } from 'react-bootstrap';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
@@ -23,7 +23,7 @@ class OptionButtons extends React.Component{
         var temp = {...this.state.textObj}
         temp[id] = !temp[id]
             this.setState(()=>{return{textObj:temp}})
-        console.log(this.state,id,event.target)
+        // console.log(this.state,id,event.target)
         
     }
     render(){

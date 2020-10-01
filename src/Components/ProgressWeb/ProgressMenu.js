@@ -1,6 +1,6 @@
 import React from 'react';
 import '../ProgressWeb/ProgressMenu.scss';
-import { Steps, Divider } from 'antd';
+import { Steps } from 'antd';
 import 'antd/dist/antd.css';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";

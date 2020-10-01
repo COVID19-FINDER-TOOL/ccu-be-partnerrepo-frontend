@@ -8,16 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import MDReactComponent from 'markdown-react-js';
 import InfoIcon from '@material-ui/icons/Info';
 import { Col, Row } from 'react-bootstrap';
 import * as themeClass from '../../theme.json';
-
-const mobile = window.matchMedia("(max-width: 767px)").matches;
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -128,6 +123,7 @@ const generateLinks = (data, topic) => {
                             <Row>
                                 <Col md={3} style={{display:"flex"}}>
                                     <img
+                                        alt="ico"
                                         style={style}
                                         src={require("../../assets/Images"+icon)}
                                     />
@@ -182,7 +178,7 @@ const generatetabs = (data, value) => {
 
 
 export default function NavTabs(props) {
-    console.log(props)
+    // console.log(props)
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const rights = assembleData(props.data);
@@ -190,11 +186,11 @@ export default function NavTabs(props) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    console.log(rights)
+    // console.log(rights)
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" style={{ width: "fit-content", zIndex: "unset", width:"100%" }}>
+            <AppBar position="static" style={{ zIndex: "unset", width:"100%" }}>
                 <Tabs variant="fullWidth" centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#f5f5f5" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#A8A8A7"}}>
                     {generatetabs(rights, value)}
                 </Tabs>

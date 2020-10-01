@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container, NavDropdown, Row, Col } from 'react-bootstrap';
+import { Navbar,Container, Row, Col } from 'react-bootstrap';
 import classes from "./Header.module.scss";
 import litrals from '../Litrals/Litrals';
 import CustomButton from "../CustomButton/CustomButton";
@@ -20,11 +20,6 @@ const heading = {
 }
 
 const Header = (props) => {
-    // console.log(props.heading)
-    const navBack = () => {
-
-        props.heading == 7 ? props.history.push('/chatbot') : props.history.push('/')
-    }
     const mobile = window.matchMedia("(max-width: 767px)").matches;
 
     return (

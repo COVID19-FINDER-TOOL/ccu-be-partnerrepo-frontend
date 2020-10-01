@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import classes from './App.module.scss';
-import Header from './Components/Header/Header';
 import WelcomePage from './Components/WelcomePage/WelcomePage';
 import Chatbot from './Components/Chatbot/Chatbot';
-import EnterName from './Components/EnterName/EnterName';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
 import Footers from './Components/Footers/Footers';
 import CacheCleaner from './CacheCleaner.js'
 import Feedback from './Components/Feedback/Feedback';
 import { connect } from "react-redux";
-import Animate from 'animate.css-react'
 import 'animate.css/animate.css'
-import { propTypes } from 'react-bootstrap/esm/Image';
 import { baseUIURL } from './AxiosHandler';
-import ProgressWeb from './Components/ProgressWeb/ProgressWeb';
 import FloatingButton from './Components/FloatingButton/FloatingButton';
 
 function App() {
 
   const [showCover, setShowCover] = useState(true)
-  const [isOpen, setIsOpen] = useState(false)
   const mobile = window.matchMedia("(max-width: 767px)").matches;
 
   useEffect(() => {
@@ -32,7 +26,7 @@ function App() {
     } else {
       setShowCover(false)
     }
-  });
+  },[]);
 
   return (
     <CacheCleaner>
@@ -49,15 +43,15 @@ function App() {
               <Container className={classes.containertransform}>
                 <div className={classes.main}>
                   <Row className={classes.containerCover}>
-                    <img className={classes.logoImage} src={require("./assets/Images/Image 8.png")}></img>
+                    <img className={classes.logoImage} src={require("./assets/Images/Image 8.png")} alt="SS logo"></img>
                     {/* <div class={classes.vl}></div> */}
-                    <img className={classes.logoImage} src={require("./assets/Images/Image 7.png")}></img>
+                    <img className={classes.logoImage} src={require("./assets/Images/Image 7.png")} alt="university logo"></img>
                   </Row>
                   <Row className={classes.appNameRow}>
                     <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
                   </Row>
                   <Row className={classes.containerCover}>
-                    <img className={classes.logoAppImage} src={require("./assets/Images/Support_finder_logo2x.png")}></img>
+                    <img className={classes.logoAppImage} src={require("./assets/Images/Support_finder_logo2x.png")} alt="app logo"></img>
 
                   </Row>
                 </div>
