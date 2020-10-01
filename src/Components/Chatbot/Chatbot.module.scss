@@ -1,0 +1,224 @@
+
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
+@import "../../theme.scss"; 
+
+.heading{
+    
+    font-weight: bolder;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 27px;
+}
+.backgrondImage{
+  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: initial;
+  height: 100%;
+  background-size: cover;
+  padding-bottom: 1.5rem;
+
+}
+.para{
+    margin-top: 2%;
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+}
+.list{
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+}
+.actionPlanPara{
+    text-align: left;
+    font: normal normal normal 20px/30px Tahoma;
+    letter-spacing: 0px;
+    opacity: 1;
+}
+.error{
+    color: brown;
+    font-size: large;
+    font-weight: bold;
+}
+
+.greyBlock{
+    display: block;
+    background-color: $tertiary-color-3;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 3px 6px #00000029;
+}
+
+.spinner{
+    display: block;
+    margin: auto;
+    background: none;
+}
+
+.linkElement{
+    text-align: left;
+    font: normal normal normal 18px/27px Tahoma ;
+    letter-spacing: 0px;
+    color: #1592E6;
+    opacity: 1; 
+}
+
+// .linkElement:link{
+//     color: #a60726;
+//     border-bottom: #a60726;
+// }
+.actionPlanFlex{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    /* flex-direction: column; */
+}
+.actionPlanLinks{
+    display: flex;
+    width: 45%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    opacity: 1;
+    margin: 2%;
+    padding: 2%;
+}
+
+.linkSpan{
+    display: block;
+    margin: auto;
+    position: relative;
+    width: 100%;
+    padding-right: 2px;
+    padding-left: 15px;
+    
+
+}
+
+.linkSpanContent::before{
+    font-family: "Font Awesome 5 Free";
+    color: $tertiary-color;
+    content: "\f017";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:25px;
+}
+
+.linkSpanContentChecked::before{
+    font-family: "Font Awesome 5 Free";
+    color: #00FF00;
+    content: "\f058";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:30px;
+}
+
+.verticalLine{
+    display:block;
+    margin: auto;
+    height: 30px;
+    border-right: $secondary-color 2px solid;
+}
+
+.iconCenter{
+    display: block;
+    margin: auto;
+    margin-left: 10px;
+}
+
+.bullets{
+    padding-left: 10px;
+    margin: auto;
+    font-size: 20px;
+    list-style: none;
+}
+
+.Form{
+    margin-top: 5%;
+}
+
+.buttonColor1{
+    float: right;
+    color: $secondary-color;
+    box-shadow: none;
+    padding: 12px 30px;
+    line-height: 21px;
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 18px;
+    border: 2px solid;
+    border-radius: 5px;
+    background-color: white;
+    border-color:  $secondary-color;
+    margin-bottom: 2%;
+    transition: background-color 0.5s;
+    text-align: center;
+  }
+  .logoPara{
+    color: $secondary-color;
+    text-align: left;
+    font: normal normal bold 24px/28px Tahoma ;
+    letter-spacing: 1.44px;
+    opacity: 1;
+}
+
+
+  .buttonColor1:hover{
+    background-color: $primary-color;
+    border-color:  $primary-color;
+    color: whitesmoke;
+    text-decoration: none;
+  }
+
+  .buttonColor1:focus{
+      outline: none;
+  }
+
+  .downloadbtndiv{
+    padding: 1rem 0;
+  }
+
+  .chatBotRow{
+      margin-top: 1%;
+  }
+
+
+@media screen and (max-width:767px){
+    .heading{
+        font-size: 1.5rem;
+    }
+    .actionPlanPara{
+        font: normal normal normal 18px/25px Tahoma ;
+    }
+    .linkElement{
+        font: normal normal normal 16px/22px Tahoma;
+    }
+    .actionPlanLinks{
+        width: 90%;
+        margin: auto;
+        margin-bottom: 2%;
+    }
+    .para{
+        font-size: 18px;
+        line-height: 27px;
+    }
+    .list{
+        font-size: 18px;
+        line-height: 27px;
+
+    }
+
+    .buttonColor1{
+        width: 100% !important;
+        font-size: small;
+    }
+      .bullets{
+          font-size: 14px;
+      }
+
+      .backgrondImage{
+        min-height: 100vh;
+    }
+}

@@ -1,0 +1,75 @@
+@import "../../theme.scss"; 
+
+.container{
+    background-color: white;
+    color: $secondary-color;
+    font-weight: bold;
+    text-align: left;
+    border: 1px solid;
+    border-color: $secondary-color;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem;
+    margin-left: 5rem;
+    padding: 3px;
+    box-shadow: 0px 3px 6px #00000029;
+    transition: background-color 0.5s;
+    margin-left: 0;
+
+}
+
+.container:hover, .container:active{
+    color: whitesmoke;
+    // border: none;
+    background-color: $primary-color;
+}
+
+.index{
+    display: inline-block;
+    margin: auto;
+    font-size: x-large;
+}
+.textContainer{
+    justify-content: center;
+    display: flex;
+}
+.text{
+    font-size: 14px;
+    padding: 2px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.listIcon{
+    color: #ffffff;
+    font-size: 2.5rem !important;
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid $primary-color;
+    border-radius: 50%;
+    background-color: $primary-color;
+}
+
+.container:hover .listIcon{
+    color: $primary-color;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+@media screen and (max-width:767px){
+   
+    .container{
+        margin-left: 1rem;
+    }
+
+    .listIcon{
+        margin: 0;
+    }
+
+    .text{
+        font-size: 14px;
+    }
+}
