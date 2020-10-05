@@ -26,7 +26,7 @@ class ProgressMenu extends React.Component {
   };
 
   onClick = () => {
-    const { toggleMenu, setMenuProps } = this.context;
+    const { toggleMenu, setMenuProps, closeMenu } = this.context;
     setMenuProps(this.props);
     toggleMenu();
   }
@@ -36,7 +36,7 @@ class ProgressMenu extends React.Component {
     const current = this.props.section ? this.props.section > 2 ? this.props.section - 2 : this.props.section - 1 : 0
 
     return (
-      <>
+      <div onClick={this.onClick} onTouchMove={this.onClick}>
         <p className={"logodiv"} onClick={this.props.showHomeModal}> <img className={"logoImage"} width={"30px"} src={require('../../assets/Images/Support_finder_logo.png')}></img>Support Finder</p>
 
         <Steps current={current} progressDot onChange={this.onChange} className={"diff"} onClick={this.onClick} direction="vertical">
@@ -46,7 +46,7 @@ class ProgressMenu extends React.Component {
           <Step title="Hear From Others" />
         </Steps>
         <div><Footers></Footers></div>
-      </>
+      </div>
     );
   }
 }

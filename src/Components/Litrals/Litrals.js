@@ -61,6 +61,7 @@ const litrals = {
     actionPlanPara1 : "Peace of mind, one step at a time.",
     actionPlanPara2 : "Action plan to manage your circumstances based on insight from Citizens Advice.",
     gotoHome: "If you go to home page, your current journey will be discarded.\nDo you want to continue?",
+    gotoHomefromFeedback: "If you go to home page, your feedback will not be saved.\nDo you want to continue?",
     optionText:"Only one option can be selected but you can come back to select different option.",
     errorMessage:"*Please select an option"
 };

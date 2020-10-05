@@ -13,6 +13,8 @@ import { axiosLoginInstance } from '../../AxiosHandler';
 import Header from '../Header/Header';
 import moment from "moment";
 import HomeIcon from '@material-ui/icons/Home';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+
 class Feedback extends React.Component {
     constructor(props) {
         super(props)
@@ -119,7 +121,28 @@ class Feedback extends React.Component {
     }
 
     showHomeModal = () => {
-        this.props.history.push("/")
+        const { CREATEJOURNEY } = this.props.payload;
+        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        Feedback.experience && !this.state.section4 ?  this.setState(() => { return { showHomeModal: true } }) : this.props.history.push("/")
+    }
+
+    gotoHome = () => {
+        this.props.onEditInspection({
+            backStack: [],
+            journey_id: "",
+            metadata: "",
+            questionStack: [],
+            responseStack: [],
+            section: 0,
+            start_time: "",
+            Feedback:""
+        })
+        this.props.history.push('/')
+
+    }
+
+    closeHomeModal = () => {
+        this.setState(() => { return { showHomeModal: false } })
     }
 
     render() {
@@ -131,6 +154,7 @@ class Feedback extends React.Component {
         return (
             <div className={classes.backgrondImage}>
                 <Header heading={7} showHomeModal={this.showHomeModal}></Header>
+                <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHomefromFeedback} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                 <Container>
                     <Row>
                         <Col style={{ height: "85vh", overflow: 'auto', paddingBottom: "4rem" }}>
@@ -170,7 +194,7 @@ class Feedback extends React.Component {
 
                                 <h3 className={classes.thankYou}>Thank you!</h3>
                                 <h5 className={classes.feedbackImportance}> Your feedback is important to us. </h5>
-                                <div className={classes.homebtn}><HomeIcon  onClick={() => { this.props.history.push("/") }} style={{ fontSize: "2.7rem" }}></HomeIcon></div>
+                                <div className={classes.homebtn}><HomeIcon  onClick={this.gotoHome} style={{ fontSize: "2.7rem" }}></HomeIcon></div>
                             </div>
                         </Col>
                     </Row>

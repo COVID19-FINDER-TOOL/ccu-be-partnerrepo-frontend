@@ -608,7 +608,7 @@ class Chatbot extends React.Component {
     }
 
     showHomeModal = () => {
-        if (this.state.section) {
+        if (this.state.section && this.state.section != 5) {
             this.setState(() => { return { showHomeModal: true } })
         }
         else {
