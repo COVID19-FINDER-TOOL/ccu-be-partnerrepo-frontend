@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         margin:"auto",
         marginTop: "3%",
-        width: "100%"
+        width: "100%",
 
     },
     cardroot: {
@@ -106,14 +106,14 @@ const generateLinks = (data, topic) => {
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         return (
 
-            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029" }}>
+            <Card style={{ marginTop: "3%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029",padding:"10px 24" }}>
                 <CardActionArea>
 
                     {topic == 3 ?
 
-                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"5rem" }}>
-                            <InfoIcon style={{ margin: mobile ? "25px 0px":"4px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
-                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: mobile ? "16px" : "18px"}} >
+                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"4rem" }}>
+                            <InfoIcon style={{ margin: mobile ? "0px":"-2px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
+                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: "16px"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
                         </CardContent>
@@ -123,16 +123,17 @@ const generateLinks = (data, topic) => {
                             <Row>
                                 <Col md={3} style={{display:"flex"}}>
                                     <img
+                                        width="100px"
                                         alt="ico"
                                         style={style}
                                         src={require("../../assets/Images"+icon)}
                                     />
                                 </Col>
                                 <Col md={9} style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{ fontWeight:"bold", textAlign: mobile ? "center" : "left", marginTop:"5px" }}>
+                                    <Typography gutterBottom variant="h6" component="h5" style={{ fontWeight:"bold", textAlign: mobile ? "center" : "left", marginTop:"5px",fontSize: "16px"}}>
                                         {x1[0]}
                                     </Typography>
-                                    <Typography gutterBottom variant="body1" component="p" style={{fontSize: mobile ? "16px" : "18px"}}>
+                                    <Typography gutterBottom variant="body1" component="p" style={{fontSize: "14px"}}>
                                         <MDReactComponent key={index} text={x2} onIterate={handleIterate} />
                                     </Typography>
                                 </Col>
@@ -163,10 +164,10 @@ const generatetabs = (data, value) => {
                     outline: 0,
                     borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
                     backgroundColor: value === index ? themeClass.secondaryColor : themeClass.tertiaryColor2,
-                    fontSize: mobile ? "14px":"16px",
+                    fontSize: mobile ? "14px":"14px",
                     paddingTop: "20px",
-                    height:"70px",
-                    letterSpacing:"1.44px"
+                    height: mobile ? "70px":"60px",
+                    letterSpacing:"1px"
                 }}
                 wrapped
                 label={<MDReactComponent key={index} text={x.slice(3)} onIterate={handleIterate} />}
