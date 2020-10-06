@@ -593,20 +593,6 @@ class Chatbot extends React.Component {
             })
     }
 
-    imageSelector = (section) => {
-        switch (section) {
-            case 0: { return "tell_uss-min.png"; }
-            case 1: { return "tell_uss-min.png"; }
-            case 2: { return "hear_from_others.png"; }
-            case 3: { return "hear_from_others.png"; }
-            case 4: { return "Action_Plan-min.png"; }
-            case 5: { return "hear_from_others.png"; }
-            default: { return "Action_Plan-min.png"; }
-
-        }
-
-    }
-
     showHomeModal = () => {
         if (this.state.section && this.state.section != 5) {
             this.setState(() => { return { showHomeModal: true } })
@@ -640,13 +626,12 @@ class Chatbot extends React.Component {
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
-        const imageSelector = this.imageSelector(this.state.section)
         // this.props.onEditInspection({topic})
         return (
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
+                    <div className={classes.backgrondImage}>
                         <Header heading={this.state.section} loading={this.state.showSpinner} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                         <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                         <Container>
@@ -691,7 +676,7 @@ class Chatbot extends React.Component {
                     </div>
                 </MenuProvider>
                 :
-                <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
+                <div className={classes.backgrondImage}>
                     <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                     <Container>

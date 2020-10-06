@@ -157,7 +157,7 @@ class Feedback extends React.Component {
                 <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHomefromFeedback} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                 <Container>
                     <Row>
-                        <Col style={{ height: "85vh", overflow: 'auto', paddingBottom: "4rem" }}>
+                        <Col style={{ height: "80vh", overflow: 'auto', paddingBottom: "4rem" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
                                 <h5 className={classes.headingH1}>How would you rate your experience with the tool?</h5>
                                 <div className={classes.smilyContainer}>
