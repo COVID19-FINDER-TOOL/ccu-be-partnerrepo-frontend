@@ -687,7 +687,7 @@ class Chatbot extends React.Component {
 
                             </Col>
                             <Col md={8} xs={11} style={{ minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "1.5rem" }}>
-                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
+                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block", width: "80%" }}>
 

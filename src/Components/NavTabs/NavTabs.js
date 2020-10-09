@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
+import Card from 'react-bootstrap/Card'
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import MDReactComponent from 'markdown-react-js';
@@ -106,20 +106,20 @@ const generateLinks = (data, topic) => {
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         return (
 
-            <Card style={{ marginTop: "3%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029",padding:"10px 24" }}>
-                <CardActionArea>
+            <Card style={{ marginTop: "3%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029",border:"none",padding:"10px 24" }}>
+                
 
                     {topic == 3 ?
 
-                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"4rem" }}>
+                        <Card.Body style={{ display: "flex", padding: "1rem 1rem 0 1rem", minHeight:"4rem" }}>
                             <InfoIcon style={{ margin: mobile ? "0px":"-2px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
                             <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: "16px"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
-                        </CardContent>
+                        </Card.Body>
 
                         :
-                        <CardContent >
+                        <Card.Body >
                             <Row>
                                 <Col md={3} style={{display:"flex"}}>
                                     <img
@@ -138,12 +138,12 @@ const generateLinks = (data, topic) => {
                                     </Typography>
                                 </Col>
                             </Row>
-                        </CardContent>
+                        </Card.Body>
 
                     }
 
 
-                </CardActionArea>
+               
             </Card >
 
         )
@@ -164,8 +164,8 @@ const generatetabs = (data, value) => {
                     outline: 0,
                     borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
                     backgroundColor: value === index ? themeClass.secondaryColor : themeClass.tertiaryColor2,
-                    fontSize: mobile ? "14px":"14px",
-                    paddingTop: "20px",
+                    fontSize: "14px",
+                    paddingTop: mobile ? "15px":"20px",
                     height: mobile ? "70px":"60px",
                     letterSpacing:"1px"
                 }}
