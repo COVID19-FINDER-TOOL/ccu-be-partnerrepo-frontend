@@ -13,6 +13,8 @@ import { axiosLoginInstance } from '../../AxiosHandler';
 import Header from '../Header/Header';
 import moment from "moment";
 import HomeIcon from '@material-ui/icons/Home';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+
 class Feedback extends React.Component {
     constructor(props) {
         super(props)
@@ -119,7 +121,28 @@ class Feedback extends React.Component {
     }
 
     showHomeModal = () => {
-        this.props.history.push("/")
+        const { CREATEJOURNEY } = this.props.payload;
+        const { Feedback } = CREATEJOURNEY ? CREATEJOURNEY : ""
+        Feedback.experience && !this.state.section4 ?  this.setState(() => { return { showHomeModal: true } }) : this.props.history.push("/")
+    }
+
+    gotoHome = () => {
+        this.props.onEditInspection({
+            backStack: [],
+            journey_id: "",
+            metadata: "",
+            questionStack: [],
+            responseStack: [],
+            section: 0,
+            start_time: "",
+            Feedback:""
+        })
+        this.props.history.push('/')
+
+    }
+
+    closeHomeModal = () => {
+        this.setState(() => { return { showHomeModal: false } })
     }
 
     render() {
@@ -131,11 +154,12 @@ class Feedback extends React.Component {
         return (
             <div className={classes.backgrondImage}>
                 <Header heading={7} showHomeModal={this.showHomeModal}></Header>
+                <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHomefromFeedback} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                 <Container>
                     <Row>
-                        <Col style={{ height: "85vh", overflow: 'auto', paddingBottom: "4rem" }}>
+                        <Col style={{ height: "80vh", overflow: 'auto', paddingBottom: "4rem" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
-                                <h3 className={classes.headingH1}>How would you rate your experience with the tool?</h3>
+                                <h5 className={classes.headingH1}>How would you rate your experience with the tool?</h5>
                                 <div className={classes.smilyContainer}>
                                     <FontAwesomeIcon id={1} icon={faGrinAlt} style={{ color: "#009900" }} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} color onClick={this.smilySelector.bind(this, 1)} />
                                     <FontAwesomeIcon id={2} icon={faSmileBeam} style={{ color: "#00CC00" }} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} />
@@ -146,7 +170,7 @@ class Feedback extends React.Component {
                             </div>
 
                             <div style={{ display: this.state.section2 ? "block" : "none" }}>
-                                <h3 className={classes.headingH1}>Please select from the following options:</h3>
+                                <h5 className={classes.headingH1}>Please select from the following options:</h5>
                                 <p className={classes.headingPara}><em>Note: you can select multiple options</em></p>
                                 <div className={classes.smilyContainer}>
                                     {optionButtons}
@@ -156,7 +180,7 @@ class Feedback extends React.Component {
                             </div>
 
                             <div style={{ display: this.state.section3 ? "block" : "none" }}>
-                                <h3 className={classes.headingHx}>Your feedback on how the tool can be improved to support more people would be greatly appreciated.</h3>
+                                <h5 className={classes.headingHx}>Your feedback on how the tool can be improved to support more people would be greatly appreciated.</h5>
                                 <Form.Group >
                                     <Form.Control id={11} onChange={this.handleTextBox} bsPrefix={classes.textarea} as="textarea" rows="3" placeholder={'Please share your thoughts and ideas here……'} />
                                 </Form.Group>
@@ -168,9 +192,9 @@ class Feedback extends React.Component {
                                     <path className={classes.checkmark__check} fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
                                 </svg>
 
-                                <h3 className={classes.thankYou}>Thank you!</h3>
+                                <h5 className={classes.thankYou}>Thank you!</h5>
                                 <h5 className={classes.feedbackImportance}> Your feedback is important to us. </h5>
-                                <div className={classes.homebtn}><HomeIcon  onClick={() => { this.props.history.push("/") }} style={{ fontSize: "2.7rem" }}></HomeIcon></div>
+                                <div className={classes.homebtn}><HomeIcon  onClick={this.gotoHome} style={{ fontSize: "2.7rem" }}></HomeIcon></div>
                             </div>
                         </Col>
                     </Row>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Steps, Divider } from 'antd';
+import { Steps } from 'antd';
 import 'antd/dist/antd.css';
 import classes from './ProgressWeb.scss';
 import { surveyData } from "../../store/Action/SurveyAction";

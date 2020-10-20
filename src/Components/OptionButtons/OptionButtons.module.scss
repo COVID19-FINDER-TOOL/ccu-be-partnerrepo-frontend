@@ -1,5 +1,9 @@
 @import "../../theme.scss"; 
 
+.Row{
+    width: 100%;
+
+}
 .container{
     background-color: white;
     color: $secondary-color;
@@ -31,15 +35,24 @@
     font-size: x-large;
 }
 .textContainer{
-    justify-content: center;
-    display: flex;
+    display: block;
+    align-items: center;
+    margin:auto;   
+   
 }
 .text{
     font-size: 14px;
+    text-align: left !important;
     padding: 2px;
     margin: auto;
-    display: flex;
-    justify-content: center;
+    cursor: pointer;
+}
+
+.preText{
+    font-size: 14px;
+    text-align: left !important;
+    padding: 2px;
+    margin-top: 4%;;
     cursor: pointer;
 }
 
@@ -63,6 +76,7 @@
    
     .container{
         margin-left: 1rem;
+        padding: 10px;
     }
 
     .listIcon{

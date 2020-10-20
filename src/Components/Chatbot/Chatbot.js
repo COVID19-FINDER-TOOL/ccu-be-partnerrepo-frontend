@@ -1,34 +1,29 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import classes from './Chatbot.module.scss';
 import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
-import { axiosInstance, axiosLoopbackInstance, axiosLoginInstance } from '../../AxiosHandler';
+import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection, onCleanCreateJourney } from "../../store/Action/LoginAction";
 import moment from "moment";
-import { PDFDownloadLink, Document, Page, BlobProvider } from '@react-pdf/renderer'
+import { PDFDownloadLink } from '@react-pdf/renderer'
 import NavTabs from '../NavTabs/NavTabs';
 import MDReactComponent from 'markdown-react-js';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import MailIcon from '@material-ui/icons/Mail';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Header from '../Header/Header';
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import {
-    EmailShareButton,
     WhatsappShareButton,
-
 } from "react-share";
 import ProgressWeb from '../ProgressWeb/ProgressWeb';
 
 import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
-import { saveAs } from 'file-saver';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 class Chatbot extends React.Component {
 
@@ -56,8 +51,8 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            //queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"],
-            queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"],
+            //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
 
@@ -69,8 +64,6 @@ class Chatbot extends React.Component {
     }
 
     saveQuestion = (data, response, notFetch) => {
-        const { CREATEJOURNEY } = this.props.payload;
-        const { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : ""
         var dataBody = {}
         var kb = data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -118,7 +111,8 @@ class Chatbot extends React.Component {
                     questionStack: [],
                     responseStack: [],
                     journey_id: "",
-                    start_time: ""
+                    start_time: "",
+                    backStack: []
                 })
                 this.setState(() => {
                     return {
@@ -157,7 +151,7 @@ class Chatbot extends React.Component {
                 this.setState(() => { return { showSpinner: false } })
             });
         if (!str) {
-            const { questionStack, data } = this.state;
+            const { questionStack } = this.state;
 
             this.props.onEditInspection({ questionStack })
         }
@@ -167,7 +161,6 @@ class Chatbot extends React.Component {
         // console.log(event.target)
         // console.log("IN RADIO")
         // event.preventDefault();
-        const { CREATEJOURNEY } = this.props.payload;
         const value = this.state.section == 3 ? "Action Plan" : event.target.value
         const id = event.target.id
         const currentResponses = { value, id }
@@ -294,25 +287,30 @@ class Chatbot extends React.Component {
                         this.endJourney();
 
                     }
-                    else if (value == "No" && meta === "loono" || value == "No" && meta === "cornexno") {
+                    else if ((value == "No" && meta === "loono") || (value == "No" && meta === "cornexno")) {
                         this.setState(() => { return { section: 5 } })
                     }
 
-                    else if (value == "Yes" && meta === "loonoyes" || value == "Yes" && meta === "cornexnoyes") {
+                    else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
                         this.setState(() => { return { showFeedback: true } })
                     }
 
-                    else if (value == "No" && meta === "loonono" || value == "No" && meta === "cornexnono") {
+                    else if ((value == "No" && meta === "loonono") || (value == "No" && meta === "cornexnono")) {
                         this.props.history.push("/feedback")
                     }
 
                     else if (value == "Yes" && meta !== "loonoyes") {
-                        this.visitedLinks = []
-                        // window.location.reload();
-                        this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks: [] } })
-                        requestBody = {
-                            "question": "Start the flow",
-                        };
+                        if (meta === "cornexyes") {
+                            this.setState(() => { return { section: 0, showSpinner: true } })
+                            window.location.reload();
+                        }
+                        else {
+                            this.visitedLinks = []
+                            this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks: [] } })
+                            requestBody = {
+                                "question": "Start the flow",
+                            };
+                        }
 
                     }
 
@@ -340,19 +338,11 @@ class Chatbot extends React.Component {
         const { user } = LOGIN ? LOGIN : ''
         const { user_id } = user ? user : JSON.parse(window.localStorage.getItem("csf_user"));
 
-
-
         user_response["user_id"] = user_id;
         user_response["topic_id"] = Number(this.state.queryIndex);
         user_response["journey_id"] = journey_id;
 
         const responseBody = { ...user_response }
-
-
-
-
-        // this.setState(() => { return { showSpinner: true } });
-
 
         axiosLoginInstance.post("CFTUserJourneyTrigger/answer", responseBody)
             .then(res => {
@@ -442,7 +432,7 @@ class Chatbot extends React.Component {
         else {
             const { CREATEJOURNEY } = this.props.payload
             var { backStack } = this.state
-            const { metadata, responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
+            const { responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
             const previousResponse = responseStack[responseStack.length - 1];
             const exists = backStack ? backStack.find((x) => x.answer_id == previousResponse.answer_id) : false
             if (section < 3 && !exists) {
@@ -603,25 +593,11 @@ class Chatbot extends React.Component {
             })
     }
 
-    imageSelector = (section) => {
-        switch (section) {
-            case 0: { return "tell_uss-min.png"; }
-            case 1: { return "tell_uss-min.png"; }
-            case 2: { return "hear_from_others.png"; }
-            case 3: { return "hear_from_others.png"; }
-            case 4: { return "Action_Plan-min.png"; }
-            case 5: { return "hear_from_others.png"; }
-            default: { return "Action_Plan-min.png"; }
-
-        }
-
-    }
-
     showHomeModal = () => {
-        if(this.state.section){
+        if (this.state.section && this.state.section != 5) {
             this.setState(() => { return { showHomeModal: true } })
         }
-        else{
+        else {
             this.props.history.push("/")
         }
     }
@@ -650,13 +626,12 @@ class Chatbot extends React.Component {
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
-        const imageSelector = this.imageSelector(this.state.section)
         // this.props.onEditInspection({topic})
         return (
 
             mobile ?
                 <MenuProvider width={"287px"} MenuComponent={ProgressMenu}>
-                    <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
+                    <div className={classes.backgrondImage}>
                         <Header heading={this.state.section} loading={this.state.showSpinner} handleBack={this.handleBack} handleSubmit={this.handleSubmit} showBack={this.state.showBack} dynamicOptions={radios} CustomButton={topic == 4 && !this.state.showActionPlan ? this.showActionPlan : ""}></Header>
                         <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                         <Container>
@@ -670,7 +645,8 @@ class Chatbot extends React.Component {
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                         {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                         {paragraphs}
-                                        {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
+                                        {this.state.section <= 1 ? <p>{litrals.optionText}</p> : ""}
+                                        {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
 
                                         {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
 
@@ -700,7 +676,7 @@ class Chatbot extends React.Component {
                     </div>
                 </MenuProvider>
                 :
-                <div style={{ backgroundImage: `url(${require("../../assets/Images/" + imageSelector)})` }} className={classes.backgrondImage}>
+                <div className={classes.backgrondImage}>
                     <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                     <Container>
@@ -708,16 +684,17 @@ class Chatbot extends React.Component {
                             <Col md={4} xs={1} style={{ padding: "2% 0 0 0" }}>
                                 <p className={classes.logoPara}>Your Progress</p>
                                 <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>
-                                
-                            </Col>
-                            <Col md={8} xs={11} style={{minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "1.5rem"}}>
-                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
 
-                                <div style={{ display: this.state.showSpinner ? "none" : "block", width:"90%" }}>
+                            </Col>
+                            <Col md={8} xs={11} style={{ minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "1.5rem" }}>
+                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+
+                                <div style={{ display: this.state.showSpinner ? "none" : "block", width: "80%" }}>
 
                                     {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                     {paragraphs}
-                                    {this.state.msg ? <p className={classes.error}>*Please select an option</p> : ""}
+                                    {this.state.section <= 1 ? <p>{litrals.optionText}</p> : ""}
+                                    {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
 
                                     {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
 
@@ -735,10 +712,10 @@ class Chatbot extends React.Component {
                                         </div>
                                     ) : ""}
 
-                                    <div style={{ width: "100%", marginTop: "3rem", display: this.state.showFeedback ? "none":"block"}}>
+                                    <div style={{ width: "100%", marginTop: "3rem", display: this.state.showFeedback ? "none" : "block" }}>
                                         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
                                         {this.state.section < 2 ?
-                                            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log("Loading") : this.handleSubmit} data={litrals.buttons.nextStep}>
+                                            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log() : this.handleSubmit} data={litrals.buttons.nextStep}>
                                             </CustomButton> : topic == 4 && !this.state.showActionPlan ? <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton> : radios && radios.length == 1 ? radios : ""
                                         }
                                     </div>

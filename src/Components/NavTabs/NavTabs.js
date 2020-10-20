@@ -6,18 +6,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
+import Card from 'react-bootstrap/Card'
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import MDReactComponent from 'markdown-react-js';
 import InfoIcon from '@material-ui/icons/Info';
 import { Col, Row } from 'react-bootstrap';
 import * as themeClass from '../../theme.json';
-
-const mobile = window.matchMedia("(max-width: 767px)").matches;
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -61,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         margin:"auto",
         marginTop: "3%",
-        width: "100%"
+        width: "100%",
 
     },
     cardroot: {
@@ -111,42 +106,44 @@ const generateLinks = (data, topic) => {
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         return (
 
-            <Card style={{ marginTop: "5%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029" }}>
-                <CardActionArea>
+            <Card style={{ marginTop: "3%", backgroundColor: "#EDEDED", outline: "none", width: "100%", boxShadow: "0px 3px 6px #00000029",border:"none",padding:"10px 24" }}>
+                
 
                     {topic == 3 ?
 
-                        <CardContent style={{ display: "flex", paddingBottom: "0px", minHeight:"5rem" }}>
-                            <InfoIcon style={{ margin: mobile ? "25px 0px":"4px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
-                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: mobile ? "16px" : "18px"}} >
+                        <Card.Body style={{ display: "flex", padding: "1rem 1rem 0 1rem", minHeight:"4rem" }}>
+                            <InfoIcon style={{ margin: mobile ? "0px":"-2px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
+                            <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: "16px"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
-                        </CardContent>
+                        </Card.Body>
 
                         :
-                        <CardContent >
+                        <Card.Body >
                             <Row>
                                 <Col md={3} style={{display:"flex"}}>
                                     <img
+                                        width="100px"
+                                        alt="ico"
                                         style={style}
                                         src={require("../../assets/Images"+icon)}
                                     />
                                 </Col>
                                 <Col md={9} style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Typography gutterBottom variant="h6" component="h2" style={{ fontWeight:"bold", textAlign: mobile ? "center" : "left", marginTop:"5px" }}>
+                                    <Typography gutterBottom variant="h6" component="h5" style={{ fontWeight:"bold", textAlign: mobile ? "center" : "left", marginTop:"5px",fontSize: "16px"}}>
                                         {x1[0]}
                                     </Typography>
-                                    <Typography gutterBottom variant="body1" component="p" style={{fontSize: mobile ? "16px" : "18px"}}>
+                                    <Typography gutterBottom variant="body1" component="p" style={{fontSize: "14px"}}>
                                         <MDReactComponent key={index} text={x2} onIterate={handleIterate} />
                                     </Typography>
                                 </Col>
                             </Row>
-                        </CardContent>
+                        </Card.Body>
 
                     }
 
 
-                </CardActionArea>
+               
             </Card >
 
         )
@@ -167,10 +164,10 @@ const generatetabs = (data, value) => {
                     outline: 0,
                     borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
                     backgroundColor: value === index ? themeClass.secondaryColor : themeClass.tertiaryColor2,
-                    fontSize: mobile ? "14px":"16px",
-                    paddingTop: "20px",
-                    height:"70px",
-                    letterSpacing:"1.44px"
+                    fontSize: "14px",
+                    paddingTop: mobile ? "15px":"20px",
+                    height: mobile ? "70px":"60px",
+                    letterSpacing:"1px"
                 }}
                 wrapped
                 label={<MDReactComponent key={index} text={x.slice(3)} onIterate={handleIterate} />}
@@ -182,7 +179,7 @@ const generatetabs = (data, value) => {
 
 
 export default function NavTabs(props) {
-    console.log(props)
+    // console.log(props)
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const rights = assembleData(props.data);
@@ -190,11 +187,11 @@ export default function NavTabs(props) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    console.log(rights)
+    // console.log(rights)
 
     return (
         <div className={classes.root}>
-            <AppBar position="static" style={{ width: "fit-content", zIndex: "unset", width:"100%" }}>
+            <AppBar position="static" style={{ zIndex: "unset", width:"100%" }}>
                 <Tabs variant="fullWidth" centered value={value} TabIndicatorProps={{ style: { height: "3px", backgroundColor: "#f5f5f5" } }} onChange={handleChange} aria-label="Know your rights tab" style={{ backgroundColor: "#A8A8A7"}}>
                     {generatetabs(rights, value)}
                 </Tabs>

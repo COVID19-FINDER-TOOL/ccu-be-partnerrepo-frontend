@@ -7,7 +7,8 @@
     font-weight: bolder;
     margin-top: 2%;
     margin-bottom: 2%;
-    font-size: 27px;
+    font-size: 24px;
+    line-height: 36px;
 }
 .backgrondImage{
   background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
@@ -15,29 +16,28 @@
   background-attachment: fixed;
   background-position: center;
   background-size: initial;
-  height: 100%;
+  min-height: 100vh;
   background-size: cover;
   padding-bottom: 1.5rem;
 
 }
 .para{
     margin-top: 2%;
-    font-size: 1.1875rem;
-    line-height: 1.31579;
+    font-size: 16px;
+    line-height: 24px;
 }
 .list{
-    font-size: 1.1875rem;
-    line-height: 1.31579;
+    font-size: 16px;
+    line-height: 24px;
 }
 .actionPlanPara{
     text-align: left;
-    font: normal normal normal 20px/30px Tahoma;
+    font: normal normal normal 18px/27px Tahoma;
     letter-spacing: 0px;
     opacity: 1;
 }
 .error{
     color: brown;
-    font-size: large;
     font-weight: bold;
 }
 
@@ -57,7 +57,7 @@
 
 .linkElement{
     text-align: left;
-    font: normal normal normal 18px/27px Tahoma ;
+    font: normal normal normal 16px/24px Tahoma ;
     letter-spacing: 0px;
     color: #1592E6;
     opacity: 1; 
@@ -85,13 +85,12 @@
 }
 
 .linkSpan{
-    display: block;
+    display: flex;
     margin: auto;
+    align-items: center;
     position: relative;
     width: 100%;
-    padding-right: 2px;
-    padding-left: 15px;
-    
+    padding-right: 2px;    
 
 }
 
@@ -102,7 +101,7 @@
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
-    font-size:25px;
+    font-size:20px;
 }
 
 .linkSpanContentChecked::before{
@@ -112,19 +111,21 @@
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
-    font-size:30px;
+    font-size:22px;
 }
 
 .verticalLine{
-    display:block;
+    display: flex;
     margin: auto;
+    align-items: center;
     height: 30px;
     border-right: $secondary-color 2px solid;
 }
 
 .iconCenter{
-    display: block;
+    display: flex;
     margin: auto;
+    align-items: center;
     margin-left: 10px;
 }
 
@@ -143,11 +144,11 @@
     float: right;
     color: $secondary-color;
     box-shadow: none;
-    padding: 12px 30px;
+    padding: 10px 24px;
     line-height: 21px;
     text-transform: capitalize;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     border: 2px solid;
     border-radius: 5px;
     background-color: white;
@@ -159,7 +160,7 @@
   .logoPara{
     color: $secondary-color;
     text-align: left;
-    font: normal normal bold 24px/28px Tahoma ;
+    font: normal normal bold 18px/27px Tahoma ;
     letter-spacing: 1.44px;
     opacity: 1;
 }

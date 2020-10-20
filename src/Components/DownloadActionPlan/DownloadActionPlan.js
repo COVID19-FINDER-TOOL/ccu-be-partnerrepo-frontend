@@ -1,12 +1,6 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image, Font, Link } from '@react-pdf/renderer';
-import MDReactComponent from 'markdown-react-js';
-import LaunchIcon from '@material-ui/icons/Launch';
-
-// Font.register({
-//   family: 'Hurme Geometric Sans No.4',
-//   src: "https://db.onlinewebfonts.com/t/e4ea4e6e0be4b50288655273a2d97d34.woff"
-// });
+import { Page, Text, View, Document, StyleSheet, Image, Link } from '@react-pdf/renderer';
+import MDReactComponent from 'markdown-react-js'; 
 
 const styles = StyleSheet.create({
   page: {
@@ -14,22 +8,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     width: '100%',
     orientation: 'portrait',
-    // margin: "2%",
-    // padding: " 10%",
+    
   },
   sumHeading: {
     textAlign: "center",
-    // fontFamily: 'Hurme Geometric Sans No.4',
     fontSize: "1.5vh",
   },
   summary: {
     textAlign: "center",
-    // fontFamily: 'Hurme Geometric Sans No.4',
     fontSize: "1vh"
   },
   heading: {
     textAlign: "center",
-    // fontFamily: 'Hurme Geometric Sans No.4',
     fontSize: "3vh",
     fontWeight: "bold",
   },
@@ -39,7 +29,6 @@ const styles = StyleSheet.create({
   },
   para: {
     marginTop: "2%",
-    // fontFamily: 'Hurme Geometric Sans No.4',
     fontSize:"15"
   },
   pageBackground: {
@@ -79,7 +68,6 @@ const styles = StyleSheet.create({
   links: {
     display: "block",
     margin: "auto",
-    // fontFamily: 'Hurme Geometric Sans No.4',
   },
   iconImage: {
     width: "3m",

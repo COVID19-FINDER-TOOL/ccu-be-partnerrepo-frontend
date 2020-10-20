@@ -73,13 +73,12 @@ class WelcomePage extends React.Component {
       user_id: "UID" + moment.utc().format('DDMMYYThhmmssSSS'),
       creation_time: moment.utc().format('YYYY-MM-DD hh:mm:ss')
     }
-
+    window.localStorage.setItem('csf_user', JSON.stringify(user));
+    this.props.history.push("/Chatbot");
+    this.props.login({ user: user })
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
       .then(res => {
-        this.props.login({ user: user })
-        window.localStorage.setItem('csf_user', JSON.stringify(user));
-        this.props.history.push("/Chatbot");
-
+        console.log(res.data)
       }).catch(error => {
         console.log(error);
       });

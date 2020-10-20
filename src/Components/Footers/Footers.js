@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./Footers.module.scss";
-import { Row, Container, Nav } from "react-bootstrap";
+import { Container, Nav } from "react-bootstrap";
 
 const Footers = props => {
     return (

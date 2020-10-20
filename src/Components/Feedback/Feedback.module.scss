@@ -17,6 +17,7 @@ body{
   object-fit: scale-down;
   min-height: 100vh;
   padding-bottom: 4rem;
+  overflow: auto;
   
 }
 .headingH1{
@@ -30,8 +31,6 @@ body{
 .headingHx{
     font-weight: bolder;
     color: #333333;
-    font-size: 25px;
-    // line-height: 32px;
     margin-top: 3%;
     text-align: left;
 }
@@ -59,7 +58,7 @@ body{
 }
 .smily{
     cursor: pointer;
-    font-size: 75px;
+    font-size: 65px;
     margin: 2%;
 }
 
@@ -73,7 +72,7 @@ body{
     transform: scale(1.2);
     cursor: default;
     pointer-events: none;
-    font-size: 60px;
+    font-size: 55px;
     margin: 1%;
 }
 
@@ -81,7 +80,7 @@ body{
     color: $tertiary-color-2 !important;
     cursor: default;
     pointer-events: none;
-    font-size: 60px;
+    font-size: 55px;
     margin: 1%;
 }
 
@@ -133,6 +132,7 @@ body{
     margin-top: 3%;
     padding-top: 2rem;
     text-align: center;
+    
 }
 
 .textareasmall{
@@ -187,7 +187,7 @@ body{
   
 .feedbackImportance{
     text-align: center;
-    font-size: 22px;
+    font-size: 16px;
 }
 
 
@@ -220,6 +220,15 @@ body{
     stroke-dashoffset: 98; /* ORIGINALLY 48px*/
     animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
   }
+
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+    .checkmark__check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 0; /* ORIGINALLY 48px */
+      stroke-dashoffset: 0; /* ORIGINALLY 48px*/
+      animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+ }
   
   @keyframes stroke {
     100% {
