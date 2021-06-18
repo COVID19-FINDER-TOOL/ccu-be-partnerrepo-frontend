@@ -1,8 +1,14 @@
-$font-family:"Tahoma";
-$font-color:#1D1D1B;
-$primary-color : #32ABD0;
-$secondary-color : #007AC2;
+@import url(//db.onlinewebfonts.com/c/f1631895ab87c699523b01ff210840a2?family=Hurme+Geometric+Sans+No.4);
+$font-color:#4a4a4a;
+$primary-color : #cf042d;
+$secondary-color : #4a4a4a;
 $tertiary-color : #9597A6;
 $tertiary-color-2: #A8A8A7;
-$tertiary-color-3 : #EDEDED;
-$background-welcome : "../../assets/Images/BackgroundColor.jpg"
+$tertiary-color-3 : whitesmoke;
+$background-color: #efefef;
+$background-welcome : "../../assets/Images/BackgroundColor.jpg";
+
+@mixin fontFace{
+    font-family: "Hurme Geometric Sans No.4" !important; 
+}
+

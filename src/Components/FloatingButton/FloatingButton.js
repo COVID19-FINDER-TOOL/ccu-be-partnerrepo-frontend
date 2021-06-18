@@ -96,7 +96,7 @@ const FloatingButton = (props) => {
                 </FloatingMenu>
                 :
                 <div>
-                    <DropdownButton id="dropdown-item-button" title='Invite' bsPrefix={classes.links}>
+                    <DropdownButton id="dropdown-item-button" title='Share' bsPrefix={classes.links}>
                         <Dropdown.Item as="div" id={"whatsapp"} onClick={sendShareInfo}><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool' url={"https://covidsupportfindertool.z33.web.core.windows.net/"} ><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}> </WhatsAppIcon>WhatsApp</WhatsappShareButton ></span></div></Dropdown.Item>
                         <Dropdown.Item as="div" id={"email"} onClick={sendShareInfo}><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool Invite' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</EmailShareButton></span></div></Dropdown.Item>
                     </DropdownButton>

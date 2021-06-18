@@ -39,28 +39,7 @@ function App() {
 
         return (
           <>
-            <div style={{ display: showCover == true ? "block" : "none" }} className={classes.coverPage} onClick={()=>{setShowCover(false)}}>
-              <Container className={classes.containertransform}>
-                <div className={classes.main}>
-                  <Row className={classes.containerCover}>
-                    <img className={classes.logoImage} src={require("./assets/Images/Image 8.png")} alt="SS logo"></img>
-                    {/* <div class={classes.vl}></div> */}
-                    <img className={classes.logoImage} src={require("./assets/Images/Image 7.png")} alt="university logo"></img>
-                  </Row>
-                  <Row className={classes.appNameRow}>
-                    <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
-                  </Row>
-                  <Row className={classes.containerCover}>
-                    <img className={classes.logoAppImage} src={require("./assets/Images/Support_finder_logo2x.png")} alt="app logo"></img>
-
-                  </Row>
-                </div>
-                <Row className={classes.appSignatureRow}>
-                  <h3 className={classes.signature}>Powered by <br /> Sopra Steria and The University of Edinburgh <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
-                </Row>
-              </Container>
-            </div>
-            <div style={{ display: showCover == false ? "block" : "none", minHeight: "100%" }}>
+            
               <Router basename="/">
                 {/* <Header /> */}
                 <div className={classes.App}>
@@ -73,9 +52,9 @@ function App() {
                     {mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:null}
                   </Container >
                 </div>
-                {!mobile ? <Footers></Footers>:null}
+                {/* {!mobile ? <Footers></Footers>:null} */}
               </Router>
-            </div>
+          
           </>
         );
       }}

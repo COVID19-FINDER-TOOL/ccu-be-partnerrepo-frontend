@@ -8,7 +8,7 @@ body{
 }
 
 .backgrondImage{
-  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
+  background-color: $background-color !important; 
   // background-image: url("../../assets/Images/Thank-you-min.png") ;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -196,7 +196,7 @@ body{
     stroke-dashoffset: 216; /* ORIGINALLY 166px */
     stroke-width: 2;
     stroke-miterlimit: 10;
-    stroke: #7ac142;
+    stroke: $primary-color;
     fill: none;
     animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
   }
@@ -210,7 +210,7 @@ body{
     stroke: #fff;
     stroke-miterlimit: 10;
     margin: 5% auto;
-    box-shadow: inset 0px 0px 0px #7ac142;
+    box-shadow: inset 0px 0px 0px $primary-color;
     animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
   }
   
@@ -245,7 +245,7 @@ body{
   }
   @keyframes fill {
     100% {
-      box-shadow: inset 0px 0px 0px 80px #7ac142;
+      box-shadow: inset 0px 0px 0px 80px $primary-color;
     }
   }
 

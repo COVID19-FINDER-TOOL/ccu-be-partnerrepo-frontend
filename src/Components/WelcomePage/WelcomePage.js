@@ -5,6 +5,7 @@ import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
+import Footers from '../../Components/Footers/Footers';
 import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import moment from "moment";
 import { surveyData } from "../../store/Action/SurveyAction";
@@ -23,7 +24,7 @@ class WelcomePage extends React.Component {
 
     this.state = {
       start: false,
-      part: true,
+      part: false,
       agree: 0,
       toggle: 0,
       msg: 0,
@@ -94,51 +95,63 @@ class WelcomePage extends React.Component {
   }
 
   handlePart = () => {
-    this.setState(() => { return { part: false } })
+    this.setState(() => { return { part: true } })
   }
 
   showHomeModal = () => {
-    this.setState(() => { return { part: true } })
+    this.setState(() => { return { part: false } })
 }
 
   render() {
 
     const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const btn = <CustomButton float={"left"} margin={mobile ? "" : "20px 0 0 0"} width={mobile ? "100%" : ""} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
 
     return (
       <div className={classes.backgrondImage}>
-        <Header heading = {!this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header>
-        <Container style={{ display: this.state.part ? "block" : "none"}}>
-          <Row className={classes.wlcmRow}>
-            <Col md={6}>
-
-            </Col>
-            <Col md={6} className={classes.colTabs}>
-              <p className={classes.para}>{litrals.welcome.text1}</p>
-              <p className={classes.para}>{litrals.welcome.text2}</p>
-              <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "20px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.nextStep}></CustomButton>
-            </Col>
-          </Row>
+        {this.state.part? <Header heading = {this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header> : null}
+        <Container style={{ display: !this.state.part ? "flex" : "none"}}  className={classes.wlcmRow1}>
+          
+        <h1 className={classes.para}>{litrals.welcome.text1}</h1>
+          {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
+          <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "20px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.getStartedButton}></CustomButton>
+            
+        
 
         </Container>
 
 
-        <Container style={{ display: !this.state.part ? "block" : "none" }}>
+        <Container style={{ display: this.state.part ? "block" : "none" }}>
           <Row className={classes.wlcmRow}>
 
             <Col md={6}>
+              <p className={classes.leftText}>
+                {litrals.welcome.text4}
+              </p>
             </Col>
             <Col md={6}  className={classes.colTabs}>
               <div>
-                <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} />
+                {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
+                <h3 className={classes.tabsHeading}>What you need to do</h3>
+                <h5 className={classes.tabsSubHeading}>Tell us about your situation </h5>
+                <p className={classes.tabsPara}>None of your personal information will be stored or shared.</p>
+                <h5 className={classes.tabsSubHeading}>Review your options </h5>
+                <p className={classes.tabsPara}>Based upon your responses, we'll provide you with free support options and guidance.</p>
+                <h5 className={classes.tabsSubHeading}>Review your action plan </h5>
+                <p className={classes.tabsPara}>Set a set of actions away with you which will help you to become more financially and emotional resilient.</p>
+                <h5 className={classes.tabsSubHeading}>Learn from others </h5>
+                <p className={classes.tabsPara4}>Learn about other people's experiences and how they overcome similar situations. </p>
+
               </div>
               <div>
-                <CustomButton float={"left"} margin={mobile ? "" : "20px 0 0 0"} width={mobile ? "100%" : ""} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
               </div>
             </Col>
           </Row>
 
         </Container>
+
+        {!mobile ? <Footers format = {this.state.part} buttonpanel = {btn}></Footers>:null}
+
 
       </div>
     );

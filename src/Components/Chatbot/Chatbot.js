@@ -25,6 +25,7 @@ import ProgressWeb from '../ProgressWeb/ProgressWeb';
 import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import Footers from '../../Components/Footers/Footers';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -626,6 +627,18 @@ class Chatbot extends React.Component {
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
+        const btn = ( <div classname={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
+        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+        {this.state.section < 2 ?
+            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log() : this.handleSubmit} data={litrals.buttons.nextStep}>
+            </CustomButton> : topic == 4 && !this.state.showActionPlan ? <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton> : radios && radios.length == 1 ? radios : ""
+        }
+    </div>
+
+    <div style={{ width: "100%" , marginTop: "1rem"}}>
+        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+
+    </div></div>)
         // this.props.onEditInspection({topic})
         return (
 
@@ -680,13 +693,13 @@ class Chatbot extends React.Component {
                     <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                     <Container>
-                        <Row className={classes.chatBotRow}>
-                            <Col md={4} xs={1} style={{ padding: "2% 0 0 0" }}>
-                                <p className={classes.logoPara}>Your Progress</p>
+                        <div className={classes.chatBotRow}>
+                            <div style={{ padding: "2% 0 0 0" }}>
+                                
                                 <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>
 
-                            </Col>
-                            <Col md={8} xs={11} style={{ minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "1.5rem" }}>
+                            </div>
+                            <div  style={{ minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "1.5rem" }} className={classes.qnaContainer}>
                                 <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
                                 <div style={{ display: this.state.showSpinner ? "none" : "block", width: "80%" }}>
@@ -712,25 +725,15 @@ class Chatbot extends React.Component {
                                         </div>
                                     ) : ""}
 
-                                    <div style={{ width: "100%", marginTop: "3rem", display: this.state.showFeedback ? "none" : "block" }}>
-                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
-                                        {this.state.section < 2 ?
-                                            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log() : this.handleSubmit} data={litrals.buttons.nextStep}>
-                                            </CustomButton> : topic == 4 && !this.state.showActionPlan ? <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton> : radios && radios.length == 1 ? radios : ""
-                                        }
-                                    </div>
-
-                                    <div style={{ width: "100%" }}>
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
-
-                                    </div>
+                                    
 
                                 </div>
 
 
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     </Container>
+                    <Footers format = {true} buttonpanel = {btn}></Footers>
                 </div>
 
         );

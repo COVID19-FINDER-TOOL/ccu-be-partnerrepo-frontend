@@ -4,12 +4,23 @@ body, html {
     height: 100%;
   }
 .backgrondImage{
-    background-image: url("../../assets/Images/Background-min.png") ;
-    background-repeat:no-repeat;
+    // background-image: url("../../assets/Images/Background-min.png") ;
+    // background-repeat:no-repeat;
     background-size:cover;
     background-position:center;
     min-height:  100vh;
-    padding-bottom: 2rem;
+    // padding-bottom: 2rem;
+    background-color: $background-color;
+   
+}
+
+.wlcmRow1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
 }
 
 .wlcmRow{
@@ -25,12 +36,13 @@ body, html {
 }
 
 .para{
-    margin-top: 2%;
-    font-size: 18px;
-    line-height: 27px;
-    text-align: justify;
-    color: #FFFFFF;
+    font-size: 48px;
+     @include fontFace;
+    font-weight: 900;
+    text-align: center;
+    color: $secondary-color;
     text-shadow: 1px 2px 3px #00000029;
+    width: 80%;
 }
 
 .text3{
@@ -40,6 +52,37 @@ body, html {
     letter-spacing: 0px;
     color: #FFFFFF;
     opacity: 1;
+}
+
+.leftText{
+    font-size: 24px;
+    border-left: $primary-color solid 4px;
+    padding-left: 20px;
+    margin-right: 50px;
+}
+
+.tabsHeading{
+    color: $primary-color;
+    margin: 20px 10px;
+}
+
+.tabsSubHeading{
+    color: $secondary-color;
+    margin: 20px 10px 0px;
+    
+}
+
+.tabsPara{
+    color: $tertiary-color;
+    margin: 0px 10px 20px;
+    padding-bottom: 20px;
+    border-bottom: $tertiary-color-2 solid 2px;
+}
+
+.tabsPara4{
+    color: $tertiary-color;
+    margin: 0px 10px 20px;
+    padding-bottom: 20px;
 }
 
 .line{
@@ -74,9 +117,9 @@ body, html {
 }
 
 .colTabs{
+    background-color: white;
     overflow:auto;
-    max-height: 80vh !important;
-    padding-bottom: 4rem;
+    color: $secondary-color;
 }
 
 @media screen and (max-width:767px){

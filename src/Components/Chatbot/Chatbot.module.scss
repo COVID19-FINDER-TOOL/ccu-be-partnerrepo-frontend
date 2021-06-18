@@ -3,15 +3,14 @@
 @import "../../theme.scss"; 
 
 .heading{
-    
-    font-weight: bolder;
+    font-weight: 900 !important;
     margin-top: 2%;
     margin-bottom: 2%;
-    font-size: 24px;
-    line-height: 36px;
+    font-size: 32px;
+    line-height: 48px;
 }
 .backgrondImage{
-  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
+  background-color: $background-color;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -21,6 +20,14 @@
   padding-bottom: 1.5rem;
 
 }
+
+.qnaContainer{
+    margin-top: 2rem;
+    padding: 20px 50px;
+    background-color: #FFFFFF;
+    
+}
+
 .para{
     margin-top: 2%;
     font-size: 16px;
@@ -136,9 +143,6 @@
     list-style: none;
 }
 
-.Form{
-    margin-top: 5%;
-}
 
 .buttonColor1{
     float: right;
@@ -184,7 +188,11 @@
   .chatBotRow{
       margin-top: 1%;
   }
-
+  .buttonpanel{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+  }
 
 @media screen and (max-width:767px){
     .heading{

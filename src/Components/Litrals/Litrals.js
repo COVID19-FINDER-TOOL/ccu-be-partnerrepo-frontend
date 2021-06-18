@@ -1,11 +1,11 @@
 const litrals = {
     buttons: {
-        loginButton: {
-            buttonText: "Login",
-            variant: "primary",
-        },
         startButton: {
             buttonText: "Start",
+            variant: "primary",
+        },
+        getStartedButton: {
+            buttonText: "Get started",
             variant: "primary",
         },
         nextStep: {
@@ -49,9 +49,10 @@ const litrals = {
     },
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
-        text1: "Government, charities and other organisations provide a range of financial and emotional support, but finding support that is right for you can be difficult in times of stress.",
-        text2: "This Support Finder Tool, developed by the University of Edinburgh and Sopra Steria in collaboration with various charities, collates information on the options available to guide you to support based on your circumstances.",
+        text1: "Find support if you've been \n affected by Covid-19",
+        text2: "Powered by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
+        text4: "This tool has different options and information to guide you to emotional and financial support.",
         ribbonButtonsPre :["Tell us about yourself","View your options","Know your rights","View you Action Plan","Hear from others"],
         ribbonButtons : [{pretext:"Tell us about yourself",displayText:"We will ask you a few questions about your situation. None of your personal information will be stored or shared."},
                         {pretext:"View your options",displayText:"Based on your responses, we will provide you with a number of free support options and guide you to a set of useful on-line tools."},
@@ -62,7 +63,7 @@ const litrals = {
     actionPlanPara2 : "Action plan to manage your circumstances based on insight from Citizens Advice.",
     gotoHome: "If you go to home page, your current journey will be discarded.\nDo you want to continue?",
     gotoHomefromFeedback: "If you go to home page, your feedback will not be saved.\nDo you want to continue?",
-    optionText:"Only one option can be selected but you can come back to select different option later.",
+    optionText:"You can only select one option at a time",
     errorMessage:"*Please select an option"
 };
 
