@@ -36,7 +36,7 @@ body, html {
 }
 
 .para{
-    font-size: 48px;
+    font-size: 44px;
      @include fontFace;
     font-weight: 900;
     text-align: center;
@@ -58,23 +58,28 @@ body, html {
     font-size: 24px;
     border-left: $primary-color solid 4px;
     padding-left: 20px;
+    font-weight: bold;
     margin-right: 50px;
 }
 
 .tabsHeading{
     color: $primary-color;
     margin: 20px 10px;
+    font-weight: bold;
+    font-size: 24px;
 }
 
 .tabsSubHeading{
     color: $secondary-color;
     margin: 20px 10px 0px;
-    
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .tabsPara{
     color: $tertiary-color;
     margin: 0px 10px 20px;
+    font-size: 14px;
     padding-bottom: 20px;
     border-bottom: $tertiary-color-2 solid 2px;
 }
@@ -82,7 +87,9 @@ body, html {
 .tabsPara4{
     color: $tertiary-color;
     margin: 0px 10px 20px;
+    font-size: 14px;
     padding-bottom: 20px;
+    
 }
 
 .line{

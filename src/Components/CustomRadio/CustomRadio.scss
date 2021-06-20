@@ -80,10 +80,10 @@
 }
 
 .labelwithoutRadio{
-    padding: 7px 27px;
-    font-size: 1.1875rem;
-    line-height: 1.31579;
-    font-weight: bold;
+    padding: 4px 22px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 700;
     background-color: $primary-color;
     color: $tertiary-color-3;
     border-color: $primary-color solid 1px;
@@ -107,7 +107,7 @@
     text-align: left;
     display: flex;
     flex-wrap: wrap;
-    margin: 1rem 0;
+    margin: 0;
     padding: 14px 0;
     background-color: #ffffff;
     // box-shadow: grey 2px;

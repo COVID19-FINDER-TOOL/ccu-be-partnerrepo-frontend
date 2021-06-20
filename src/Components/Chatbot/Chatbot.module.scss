@@ -4,10 +4,11 @@
 
 .heading{
     font-weight: 900 !important;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    font-size: 32px;
-    line-height: 48px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 28px;
+    line-height: 42px;
+    color: $secondary-color;
 }
 .backgrondImage{
   background-color: $background-color;
@@ -25,6 +26,7 @@
     margin-top: 2rem;
     padding: 20px 50px;
     background-color: #FFFFFF;
+    box-shadow: 0px 3px 6px #00000029;
     
 }
 
@@ -38,10 +40,10 @@
     line-height: 24px;
 }
 .actionPlanPara{
-    text-align: left;
-    font: normal normal normal 18px/27px Tahoma;
-    letter-spacing: 0px;
-    opacity: 1;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 36px;
+    margin: 10px 0px;
 }
 .error{
     color: brown;
@@ -64,31 +66,38 @@
 
 .linkElement{
     text-align: left;
-    font: normal normal normal 16px/24px Tahoma ;
     letter-spacing: 0px;
-    color: #1592E6;
+    font-weight: bold;
+    color: $font-color;
+    font-size: 18px;
     opacity: 1; 
 }
+
+.linkElement:hover{
+   text-decoration: none;
+   color: $primary-color;
+}
+
+
 
 // .linkElement:link{
 //     color: #a60726;
 //     border-bottom: #a60726;
 // }
 .actionPlanFlex{
+    margin-top: 2%;
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
-    /* flex-direction: column; */
+    flex-direction: column;
 }
 .actionPlanLinks{
     display: flex;
-    width: 45%;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid $secondary-color;
-    border-radius: 5px;
+    border-bottom: 2px solid $tertiary-color-3;
     opacity: 1;
-    margin: 2%;
-    padding: 2%;
+    margin: 0% 4% 0% 0;
+    padding: 2% 0;
 }
 
 .linkSpan{
@@ -104,7 +113,7 @@
 .linkSpanContent::before{
     font-family: "Font Awesome 5 Free";
     color: $tertiary-color;
-    content: "\f017";
+    content: "\f504";
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
@@ -133,33 +142,34 @@
     display: flex;
     margin: auto;
     align-items: center;
-    margin-left: 10px;
+    margin-right: 10px;
+    color: $primary-color;
 }
 
 .bullets{
-    padding-left: 10px;
+    padding-left: 0px;
     margin: auto;
-    font-size: 20px;
     list-style: none;
 }
 
 
 .buttonColor1{
+
     float: right;
-    color: $secondary-color;
+    color: $primary-color;
     box-shadow: none;
-    padding: 10px 24px;
-    line-height: 21px;
+    // padding: 10px 24px;
+    //line-height: 21px;
     text-transform: capitalize;
-    font-weight: 700;
-    font-size: 16px;
-    border: 2px solid;
-    border-radius: 5px;
-    background-color: white;
-    border-color:  $secondary-color;
-    margin-bottom: 2%;
-    transition: background-color 0.5s;
-    text-align: center;
+    // font-weight: 700;
+    // font-size: 16px;
+    // border: 2px solid;
+    // border-radius: 5px;
+    // background-color: white;
+    // border-color:  $secondary-color;
+    // margin-bottom: 2%;
+    // transition: background-color 0.5s;
+    // text-align: center;
   }
   .logoPara{
     color: $secondary-color;
@@ -170,23 +180,30 @@
 }
 
 
-  .buttonColor1:hover{
-    background-color: $primary-color;
-    border-color:  $primary-color;
-    color: whitesmoke;
-    text-decoration: none;
-  }
+//   .buttonColor1:hover{
+//     background-color: $primary-color;
+//     border-color:  $primary-color;
+//     color: whitesmoke;
+//     text-decoration: none;
+//   }
 
-  .buttonColor1:focus{
-      outline: none;
-  }
+//   .buttonColor1:focus{
+//       outline: none;
+//   }
 
   .downloadbtndiv{
-    padding: 1rem 0;
+    // padding: 1rem 0;
+    
   }
 
   .chatBotRow{
       margin-top: 1%;
+  }
+
+  .progressBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
   .buttonpanel{
       display: flex;

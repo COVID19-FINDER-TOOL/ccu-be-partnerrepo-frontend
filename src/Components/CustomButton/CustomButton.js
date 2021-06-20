@@ -17,7 +17,7 @@ const CustomButton = (props) => {
       tabIndex={props.data.tabindex}
       variant={props.data.variant}
       id={props.Id}
-      key={props.key}
+      key={props.keys}
       name={props.name}
       size={props.data.size}
       disabled={props.disabled ? props.disabled : props.data.disabled}

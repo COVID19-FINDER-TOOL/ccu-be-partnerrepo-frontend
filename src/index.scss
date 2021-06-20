@@ -24,12 +24,16 @@ body {
 
 ::-webkit-scrollbar-track
 {
-  background: transparent;
+  background: $background-color;
+  border-radius: 5px;
+  margin-top: 50px;
+  margin-bottom: 70px;
+
 }
 
 ::-webkit-scrollbar-thumb
 {
-  background: $tertiary-color-3;
+  background: $tertiary-color-2 !important;
   border-radius: 5px;
 
 }

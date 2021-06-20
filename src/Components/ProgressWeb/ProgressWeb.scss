@@ -23,6 +23,11 @@
   color: $primary-color;
   font-weight: bold;
   font-size: 16px;
+  :hover{
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 16px;
+  }
 }
 
 .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
@@ -40,6 +45,13 @@
 }
 
 .ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: $primary-color;
+  font-weight: bold;
+  font-size: 16px;
+  
+}
+
+.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title:hover{
   color: $primary-color;
   font-weight: bold;
   font-size: 16px;
