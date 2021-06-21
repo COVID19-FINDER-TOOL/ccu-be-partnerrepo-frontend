@@ -2,12 +2,6 @@ import React, { useState } from "react";
 import "antd/dist/antd.css";
 import "./Menubar.scss";
 import { Menu } from "antd";
-import {
-  MailOutlined,
-  AppstoreOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-
 import MDReactComponent from "markdown-react-js";
 import litrals from "../Litrals/Litrals";
 
@@ -67,7 +61,7 @@ const Menubar = (props) => {
               <i className="fas fa-external-link-alt icon"></i>
             </div>
           ) : (
-            <div className="optionDiv">
+            <div className="optionDiv" >
               <MDReactComponent
                 key={index}
                 text={x2}
@@ -97,6 +91,7 @@ const Menubar = (props) => {
         selectedKeys={[current]}
         mode="horizontal"
         triggerSubMenuAction={"click"}
+      
       >
         <SubMenu key="sub1" title={ topic == 3 ? menu[0].slice(3) : menu[0].slice(3).slice(3,-2)}>
           {generateLinks(rights[1][0], topic)}

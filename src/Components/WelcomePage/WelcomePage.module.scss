@@ -24,7 +24,12 @@ body, html {
 }
 
 .wlcmRow{
-    padding-top: 5vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 90vh;
+    width: 100vw;
+    padding: 40px 55px 40px 40px;
 }
 
 .headingH1{
@@ -37,7 +42,6 @@ body, html {
 
 .para{
     font-size: 44px;
-     @include fontFace;
     font-weight: 900;
     text-align: center;
     color: $secondary-color;
@@ -55,40 +59,44 @@ body, html {
 }
 
 .leftText{
-    font-size: 24px;
+    font-size: 28px;
+    line-height: 38px;
     border-left: $primary-color solid 4px;
+    color: $secondary-color;
     padding-left: 20px;
     font-weight: bold;
     margin-right: 50px;
+    margin-top: 25px;
 }
 
 .tabsHeading{
     color: $primary-color;
-    margin: 20px 10px;
+    margin: 30px 10px;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 28px;
+    line-height: 38px;
 }
 
 .tabsSubHeading{
     color: $secondary-color;
     margin: 20px 10px 0px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .tabsPara{
-    color: $tertiary-color;
-    margin: 0px 10px 20px;
-    font-size: 14px;
+    color: $secondary-color;
+    margin: 0px 10px 4%;
+    font-size: 18px;
     padding-bottom: 20px;
-    border-bottom: $tertiary-color-2 solid 2px;
+    border-bottom: 2px solid $tertiary-color-3;
 }
 
 .tabsPara4{
-    color: $tertiary-color;
+    color: $secondary-color;
     margin: 0px 10px 20px;
-    font-size: 14px;
-    padding-bottom: 20px;
+    font-size: 18px;
+    padding-bottom: 4%;
     
 }
 

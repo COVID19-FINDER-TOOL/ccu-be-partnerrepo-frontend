@@ -1,7 +1,7 @@
 @import "../../theme.scss"; 
 
 .ant-steps {
-  width: 75%;
+  width: 65%;
 }
 
 .ant-steps-item-process .ant-steps-item-icon {
@@ -9,11 +9,21 @@
   border-color: $primary-color;
 }
 
+.ant-steps-item-wait .ant-steps-item-icon {
+  background-color: $tertiary-color-2;
+  border-color: $tertiary-color-2;
+  color: #fff;
+}
+
+.ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+  color: #fff;
+  font-weight: bold;
+}
 .ant-steps-item-title::after {
   position: absolute;
   left: 100%;
   display: block;
-  width: 100px;
+  // width: 100px;
   height: 2px;
   background: #f0f0f0;
   content: '';
@@ -36,7 +46,12 @@
 }
 
 .ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title::after {
-  background-color: $secondary-color;
+  background-color: $tertiary-color-2;
+}
+
+.ant-steps-item-wait > .ant-steps-item-container > .ant-steps-item-content > .ant-steps-item-title {
+  color: $tertiary-color-2;
+  font-weight: 900;
 }
 
 .ant-steps-item-process .ant-steps-item-icon .ant-steps-icon {

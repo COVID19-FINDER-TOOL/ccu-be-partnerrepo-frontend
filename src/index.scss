@@ -1,10 +1,18 @@
 @import "/theme.scss"; 
 
+
 html, body {
   min-height: 100%;
   position: relative;
-
+  font-family: "Hurme Geometric Sans 3" !important;
+  color: $font-color;
 }
+
+h1,h2,h3,h4,h5,h6{
+  font-family: "HurmeGeometricSans4W00" !important;
+  color: $font-color;
+}
+
 
 
 body {
@@ -12,7 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   color: $font-color !important ;
-  @include fontFace;
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,8 +34,8 @@ body {
 {
   background: $background-color;
   border-radius: 5px;
-  margin-top: 50px;
-  margin-bottom: 70px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 
 }
 

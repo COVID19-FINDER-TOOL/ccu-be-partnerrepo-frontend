@@ -46,7 +46,7 @@ const Header = (props) => {
                     
                         <>
                             <div className={classes.brandImage}>
-                                <p className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</p>
+                                <h3 className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</h3>
                             </div>
                             <div className={classes.shareButton}>
                                 <FloatingButton isOpen={true}></FloatingButton>

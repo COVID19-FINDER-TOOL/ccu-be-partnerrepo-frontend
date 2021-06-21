@@ -182,7 +182,7 @@ class Chatbot extends React.Component {
             var value = ""
             var id = ""
 
-            if (this.state.currentResponses.value) {
+            if (this.state.currentResponses?.value) {
                 value = this.state?.currentResponses?.value
                 id = this.state?.currentResponses?.id
             }
@@ -692,9 +692,9 @@ class Chatbot extends React.Component {
                 <div className={classes.backgrondImage}>
                     <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
-                    <Container>
+                    
                         <div className={classes.chatBotRow}>
-                            <div style={{ padding: "2% 0 0 0" }} className={classes.progressBar} >
+                            <div className={classes.progressBar} >
                                 
                                 <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>
                                 {topic == 4 && this.state.showActionPlan ? (
@@ -717,10 +717,10 @@ class Chatbot extends React.Component {
 
                                     {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                     {paragraphs}
-                                    {this.state.section <= 1 ? <p>{litrals.optionText}</p> : ""}
+                                    {this.state.section <= 1 ? <p className={classes.message}>{litrals.optionText}</p> : ""}
                                     {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
 
-                                    {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
+                                    {radios && radios.length > 1 ? <Form className={this.state.section > 1 ?classes.Form : ""}> {radios} </Form> : ""}
 
 
                                     
@@ -732,7 +732,7 @@ class Chatbot extends React.Component {
 
                             </div>
                         </div>
-                    </Container>
+                    
                     <Footers format = {true} buttonpanel = {btn}></Footers>
                 </div>
 

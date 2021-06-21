@@ -114,20 +114,20 @@ class WelcomePage extends React.Component {
           
         <h1 className={classes.para}>{litrals.welcome.text1}</h1>
           {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
-          <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "20px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.getStartedButton}></CustomButton>
+          <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "40px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.getStartedButton}></CustomButton>
             
         
 
         </Container>
 
 
-        <Container style={{ display: this.state.part ? "block" : "none" }}>
-          <Row className={classes.wlcmRow}>
+        <div style={{ display: this.state.part ? "block" : "none" }}>
+          <div className={classes.wlcmRow}>
 
             <Col md={6}>
-              <p className={classes.leftText}>
+              <h3 className={classes.leftText}>
                 {litrals.welcome.text4}
-              </p>
+              </h3>
             </Col>
             <Col md={6}  className={classes.colTabs}>
               <div>
@@ -146,9 +146,9 @@ class WelcomePage extends React.Component {
               <div>
               </div>
             </Col>
-          </Row>
+          </div>
 
-        </Container>
+        </div>
 
         {!mobile ? <Footers format = {this.state.part} buttonpanel = {btn}></Footers>:null}
 

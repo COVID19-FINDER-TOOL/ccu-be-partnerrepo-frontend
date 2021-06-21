@@ -79,12 +79,24 @@
     line-height: 24px;
 }
 
-.labelwithoutRadio{
-    padding: 4px 22px;
+.labelwithoutRadioYes{
+    padding: 7px 25px;
     font-size: 14px;
     line-height: 21px;
     font-weight: 700;
     background-color: $primary-color;
+    color: $tertiary-color-3;
+    border-color: $primary-color solid 1px;
+    border-radius: 50px;
+
+}
+
+.labelwithoutRadioNo{
+    padding: 7px 25px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 700;
+    background-color : $tertiary-color-2;
     color: $tertiary-color-3;
     border-color: $primary-color solid 1px;
     border-radius: 50px;
@@ -98,7 +110,9 @@
     line-height: 1.31579;
 }
 
- 
+.radioWrap{
+    margin: 12px 0;
+}
 
 .containerr{
     width: fit-content;

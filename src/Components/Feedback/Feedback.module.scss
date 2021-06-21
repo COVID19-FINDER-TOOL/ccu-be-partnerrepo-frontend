@@ -7,7 +7,7 @@ body{
 }
 }
 
-.backgrondImage{
+.backgroundImage{
   background-color: $background-color !important; 
   // background-image: url("../../assets/Images/Thank-you-min.png") ;
   background-repeat: no-repeat;
@@ -22,7 +22,7 @@ body{
 }
 .headingH1{
     font-weight: bolder;
-    color: #333333;
+    color: $secondary-color;
     line-height: 32px;
     margin-top: 3%;
     text-align: center;
@@ -30,14 +30,14 @@ body{
 
 .headingHx{
     font-weight: bolder;
-    color: #333333;
+    color: $secondary-color;
     margin-top: 3%;
     text-align: left;
 }
 
 .headingPara{
     font-weight: bolder;
-    color: #333333;
+    color: $secondary-color;
     line-height: 32px;
     text-align: center;
 }
@@ -51,37 +51,81 @@ body{
 }
 .smilyContainer{
     padding-top: 2%;
-    display: block;
-    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    // margin: auto;
     text-align: center;
     text-align: -webkit-center
 }
+
+.optionsContainer{
+  padding-top: 2%;
+  display: block;
+  margin: auto;
+  font-size: 14px !important;
+  text-align: center;
+  text-align: -webkit-center
+}
+
 .smily{
     cursor: pointer;
-    font-size: 65px;
-    margin: 2%;
+    font-size: 14px;
+    // margin: 2%;
+    padding: 6px 7px;
+    background-color: $tertiary-color-2;
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    margin: 20px;
+    color: white;
+    font-family: "Hurme Geometric Sans 3" !important;
+
 }
 
 .smily:hover{
-    transform: scale(1.2);
-    // color: $primary-color;
+    transform: scale(1.1);
+    background-color: $primary-color;
+    color: white;
 }
+
+
 
 
 .selected{
-    transform: scale(1.2);
-    cursor: default;
+    cursor: none;
     pointer-events: none;
-    font-size: 55px;
-    margin: 1%;
+    padding: 6px 7px;
+    font-size: 14px;
+    background-color: $primary-color;
+    color: white;
+    outline: none !important;
+    border: none;
+    width: 100px;
+    border-radius: 10px;
+    margin: 20px;
+    font-family: "Hurme Geometric Sans 3" !important;
+    
+
+}
+.selected:focus{
+  outline: none !important;
+  border: none;
 }
 
 .disabled{
-    color: $tertiary-color-2 !important;
-    cursor: default;
+    color: #fff !important;
+    cursor: none;
     pointer-events: none;
-    font-size: 55px;
-    margin: 1%;
+    padding: 6px 7px;
+    font-size: 14px;
+    padding: 0px 7px;
+    background-color: $tertiary-color-2;
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    margin: 20px;
+    font-family: "Hurme Geometric Sans 3" !important;
 }
 
 
@@ -96,13 +140,14 @@ body{
 
 .optionButtons{
     line-height: 1;
-    color: black;
+    color: white;
     width: 15rem;
     padding: 10px;
     cursor: pointer;
-    border: 1px solid $secondary-color;
+    border: none;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: $tertiary-color-2;
+    font-family: "Hurme Geometric Sans 3" !important;
 }
 
 .checkbox:checked+.optionButtons{
@@ -110,7 +155,7 @@ body{
     color: whitesmoke;
 }
 .checkbox:not(:checked)+.optionButtons:hover{
-    background-color: white;
+    background-color:$primary-color;
 }
 
 .nextBtnDiv{
@@ -172,7 +217,7 @@ body{
 }
 .thankYou{
     font-weight: bolder;
-    color: #333333;
+    color: $secondary-color;
     line-height: 32px;
     margin-top: 3%;
     text-align: center;
@@ -188,6 +233,7 @@ body{
 .feedbackImportance{
     text-align: center;
     font-size: 16px;
+    color: $font-color;
 }
 
 

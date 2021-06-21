@@ -6,7 +6,7 @@ const CustomButton = (props) => {
     <button
       type={"button"}
       onClick={props.onClick}
-      className={classes.buttonColor1}
+      className={ props.data.buttonText === "Back" ? classes.buttonColorBack : classes.buttonColor1}
       style={{
         width: props.width,
         borderStyle: "none",

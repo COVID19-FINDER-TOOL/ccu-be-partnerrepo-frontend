@@ -5,11 +5,17 @@
 .heading{
     font-weight: 900 !important;
     margin-top: 1%;
-    margin-bottom: 1%;
-    font-size: 28px;
-    line-height: 42px;
+    margin-bottom: 2%;
+    font-size: 24px;
+    line-height: 36px;
     color: $secondary-color;
 }
+
+.message{
+    margin-bottom: 1.2rem !important;
+}
+
+
 .backgrondImage{
   background-color: $background-color;
   background-repeat: no-repeat;
@@ -23,21 +29,28 @@
 }
 
 .qnaContainer{
-    margin-top: 2rem;
-    padding: 20px 50px;
+    margin-top:25px;
+    padding: 20px 50px 0px;
     background-color: #FFFFFF;
-    box-shadow: 0px 3px 6px #00000029;
+    box-shadow: 0px 2px 4px #00000029;
     
+}
+
+.Form{
+    display: flex;
+    width: 150px;
+    flex-direction: row-reverse;
+    justify-content: space-between;
 }
 
 .para{
     margin-top: 2%;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 32px;
 }
 .list{
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 40px;
 }
 .actionPlanPara{
     font-size: 24px;
@@ -69,7 +82,7 @@
     letter-spacing: 0px;
     font-weight: bold;
     color: $font-color;
-    font-size: 18px;
+    font-size: 16px;
     opacity: 1; 
 }
 
@@ -197,7 +210,8 @@
   }
 
   .chatBotRow{
-      margin-top: 1%;
+    //   margin-top: 1%;
+      padding : 30px 55px 40px 55px
   }
 
   .progressBar{

@@ -3,17 +3,19 @@
 .heading{
     font-weight: 900 !important;
     margin-top: 1%;
-    margin-bottom: 3%;
+    margin-bottom: 1%;
     font-size: 28px;
     line-height: 42px;
     color: $secondary-color;
 }
+
+
 .optionDiv{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    @include fontFace;
+   
 }
 
 
@@ -39,6 +41,7 @@ p{
     width: 300px;
     font-weight: bold;
     background-color: $background-color;
+    padding: 5px;
     
 }
 .ant-menu-horizontal > .ant-menu-submenu > .ant-menu-submenu-title:hover{
@@ -66,7 +69,7 @@ p{
 }
 
 .ant-menu-vertical.ant-menu-sub .ant-menu-item, .ant-menu-vertical-left.ant-menu-sub .ant-menu-item, .ant-menu-vertical-right.ant-menu-sub .ant-menu-item{
-    border-bottom: $tertiary-color-2 solid 2px;
+    border-bottom: whitesmoke solid 2px;
     margin: 0;
     padding: 20px 0;
 }
@@ -86,7 +89,7 @@ p{
 
 .ant-menu-vertical .ant-menu-item, .ant-menu-vertical-left .ant-menu-item, .ant-menu-vertical-right .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-vertical-left .ant-menu-submenu-title, .ant-menu-vertical-right .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title{
     height: auto;
-    white-space: unset;
+    white-space: normal;
     line-height: 24px;
    
 }
@@ -95,10 +98,20 @@ p{
     text-align: left;
     letter-spacing: 0px;
     color: $tertiary-color-2 !important;
-    font-size: 17px;
+    font-size: 16px;
     margin-right: 10px;
     opacity: 1; 
 }
+
+.optionDiv i{
+    color: $tertiary-color-2;
+    font-size: 22px;
+}
+
+.optionDiv p{
+    cursor: default;
+}
+
 
 .linkElement:hover{
     color: $font-color !important;
@@ -106,12 +119,9 @@ p{
     text-decoration: none;
 }
 
-.icon{
-    color: $primary-color;
-    font-size: 25px;
-}
 
-.icon:hover{
+
+.optionDiv i:hover{
     color: $primary-color !important;
 }
 
