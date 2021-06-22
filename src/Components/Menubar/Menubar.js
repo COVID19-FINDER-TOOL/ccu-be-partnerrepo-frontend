@@ -24,7 +24,7 @@ const Menubar = (props) => {
     if (Tag === "p") {
       props = {
         ...props,
-        className: "linkElement",
+        className: "paraElement",
       };
     }
 
@@ -50,26 +50,15 @@ const Menubar = (props) => {
       // }
       const mobile = window.matchMedia("(max-width: 767px)").matches;
       return (
-        <Menu.Item key={index}>
-          {topic == 3 ? (
+        <Menu.Item key={index} >
             <div className="optionDiv">
               <MDReactComponent
                 key={index}
-                text={x}
+                text={topic == 3 ? x : x2}
                 onIterate={handleIterate}
               />
               <i className="fas fa-external-link-alt icon"></i>
             </div>
-          ) : (
-            <div className="optionDiv" >
-              <MDReactComponent
-                key={index}
-                text={x2}
-                onIterate={handleIterate}
-              />
-              <i className="fas fa-external-link-alt icon"></i>
-            </div>
-          )}
         </Menu.Item>
       );
     });

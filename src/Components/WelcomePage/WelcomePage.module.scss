@@ -39,14 +39,22 @@ body, html {
     line-height: 45px;
     margin-top: 5%;
 }
-
-.para{
+.para0{
     font-size: 44px;
     font-weight: 900;
     text-align: center;
     color: $secondary-color;
     text-shadow: 1px 2px 3px #00000029;
-    width: 80%;
+    width: 100%;
+}
+
+.para{
+    font-size: 44px;
+    font-weight: 900;
+    text-align: left;
+    color: $secondary-color;
+    text-shadow: 1px 2px 3px #00000029;
+    width: 100%;
 }
 
 .text3{

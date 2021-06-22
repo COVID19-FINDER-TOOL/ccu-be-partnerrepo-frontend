@@ -111,7 +111,7 @@ class WelcomePage extends React.Component {
       <div className={classes.backgrondImage}>
         {this.state.part? <Header heading = {this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header> : null}
         <Container style={{ display: !this.state.part ? "flex" : "none"}}  className={classes.wlcmRow1}>
-          
+        <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
         <h1 className={classes.para}>{litrals.welcome.text1}</h1>
           {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
           <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "40px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.getStartedButton}></CustomButton>

@@ -49,7 +49,8 @@ const litrals = {
     },
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
-        text1: "Find support if you've been \n affected by Covid-19",
+        text0: "Breathe Easy",
+        text1: "Supporting our customers when they need it most",
         text2: "Powered by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
         text4: "This tool has different options and information to guide you to emotional and financial support.",

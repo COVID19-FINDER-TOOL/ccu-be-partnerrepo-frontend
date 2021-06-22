@@ -16,7 +16,7 @@
 .radio_radio{
     width: 40px;
     height: 40px;
-    border: 1px solid #727272; 
+    border: 1px solid #727272;
     border-radius: 50%;
     margin-right: 0%;
     box-sizing: border-box;
@@ -46,13 +46,13 @@
 
 .radio_input:not(:checked) + .label::before{
     font-family: "Font Awesome 5 Free";
-    color:$secondary-color;
+    color:darkgray;
     content: "\f111";
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
     font-size:25px;
-    margin: 0 5px;
+    margin: 0 20px 0 0;
 }
 
 .radio_input:checked + .label::before{
@@ -63,7 +63,7 @@
     font-style: normal;
     font-weight: normal;
     font-size:25px;
-    margin: 0 5px;
+    margin: 0 20px 0 0;
     font-weight: 900;;
 }
 
