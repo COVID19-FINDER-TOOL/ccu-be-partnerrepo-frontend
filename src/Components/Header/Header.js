@@ -48,9 +48,9 @@ const Header = (props) => {
                             <div className={classes.brandImage}>
                                 <h3 className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</h3>
                             </div>
-                            <div className={classes.shareButton}>
+                            {/* <div className={classes.shareButton}>
                                 <FloatingButton isOpen={true}></FloatingButton>
-                            </div>
+                            </div> */}
 
                         </>
                     }

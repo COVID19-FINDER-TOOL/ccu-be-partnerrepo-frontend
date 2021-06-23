@@ -32,6 +32,7 @@ button:focus{
     color: $tertiary-color-3 !important;
     box-shadow: none !important;
     padding: 6px 30px !important;
+    margin-right: 15px !important;
     line-height: 21px !important;
     text-transform: capitalize;
     font-weight: 700 !important;
@@ -41,8 +42,6 @@ button:focus{
     background-color:$tertiary-color-2 !important;
     border-color:  $tertiary-color-3 !important;
     font-family: "Hurme Geometric Sans 3" !important;
-    // margin-top: 2%;
-    // margin-bottom: 2%;
     transition: background-color 0.5s !important;
 }
 
