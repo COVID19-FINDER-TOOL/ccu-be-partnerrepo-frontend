@@ -145,7 +145,8 @@ body, html {
     color: $secondary-color;
 }
 
-@media screen and (max-width:767px){
+
+@media only screen and (max-width:650px){
     .wlcmRow{
         padding-top: 3vh;
     }
@@ -169,12 +170,65 @@ body, html {
     .backgrondImage{
         min-height: 100%;
         background-position: right
-
     }
 
     .para{
+        font-size: 14px;
+        line-height: 27px;
+    }
+    .para0 {
         font-size: 18px;
         line-height: 27px;
     }
 
+    .leftText{
+        font-size: 18px;
+        line-height: 25px;
+        border-left: $primary-color solid 0px !important;
+        color: $secondary-color;
+        padding-left: 5px;
+        font-weight: bold;
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+
+    
+    .colTabs {
+        background-color: white;
+        overflow:auto;
+        color: $secondary-color;
+    }
+
+
+.tabsHeading{
+    color: $primary-color;
+    margin: 15px 5px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 10px;
 }
+
+.tabsSubHeading{
+    color: $secondary-color;
+    margin: 10px 5px 0px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.tabsPara{
+    color: $secondary-color;
+    margin: 0px 5px 2%;
+    font-size: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $tertiary-color-3;
+}
+
+.tabsPara4{
+    color: $secondary-color;
+    margin: 0px 5px 10px;
+    font-size: 14px;
+    padding-bottom: 2%;
+    
+}
+}
+

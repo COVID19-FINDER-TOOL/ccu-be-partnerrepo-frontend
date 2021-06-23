@@ -57,11 +57,13 @@ class WelcomePage extends React.Component {
 
 
   handleStart = () => {
+    this.setState({
+      ...this.state,
+      start: true
+    })
     if (window.localStorage.getItem("csf_user")) {
       const user = JSON.parse(window.localStorage.getItem("csf_user"))
-
       this.props.history.push("/Chatbot");
-
     } else {
       this.handleSubmit()
     }
@@ -100,7 +102,7 @@ class WelcomePage extends React.Component {
 
   showHomeModal = () => {
     this.setState(() => { return { part: false } })
-}
+  }
 
   render() {
 
@@ -109,50 +111,52 @@ class WelcomePage extends React.Component {
 
     return (
       <div className={classes.backgrondImage}>
-        {this.state.part? <Header heading = {this.state.part ? "8":undefined} showHomeModal={this.showHomeModal}></Header> : null}
-        <Container style={{ display: !this.state.part ? "flex" : "none"}}  className={classes.wlcmRow1}>
-        <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
-        <h1 className={classes.para}>{litrals.welcome.text1}</h1>
+        {this.state.part ? <Header heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
+        <Container style={{ display: !this.state.part ? "flex" : "none" }} className={classes.wlcmRow1}>
+          <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
+          <h1 className={classes.para}>{litrals.welcome.text1}</h1>
           {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
-          <CustomButton float={"left"} type="submit" width={mobile ? "100%" : ""} margin={mobile ? "" : "40px 0 0 0"} onClick={this.handlePart} data={litrals.buttons.getStartedButton}></CustomButton>
-            
-        
+          <CustomButton
+            float={"left"} type="submit"
+            width={mobile ? "100%" : ""}
+            margin={mobile ? "" : "40px 0 0 0"}
+            onClick={this.handlePart}
+            data={litrals.buttons.getStartedButton}>
 
+          </CustomButton>
         </Container>
 
 
         <div style={{ display: this.state.part ? "block" : "none" }}>
           <div className={classes.wlcmRow}>
+            <Row>
+              <Col xs={12} md={6}>
+                <h3 className={classes.leftText}>
+                  {litrals.welcome.text4}
+                </h3>
+              </Col>
+              <Col xs={12} md={6} className={classes.colTabs}>
+                <div>
+                  {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
+                  <h3 className={classes.tabsHeading}>What you need to do</h3>
+                  <h5 className={classes.tabsSubHeading}>Tell us about your situation </h5>
+                  <p className={classes.tabsPara}>None of your personal information will be stored or shared.</p>
+                  <h5 className={classes.tabsSubHeading}>Review your options </h5>
+                  <p className={classes.tabsPara}>Based upon your responses, we'll provide you with free support options and guidance.</p>
+                  <h5 className={classes.tabsSubHeading}>Review your action plan </h5>
+                  <p className={classes.tabsPara}>Set a set of actions away with you which will help you to become more financially and emotional resilient.</p>
+                  <h5 className={classes.tabsSubHeading}>Learn from others </h5>
+                  <p className={classes.tabsPara4}>Learn about other people's experiences and how they overcome similar situations. </p>
 
-            <Col md={6}>
-              <h3 className={classes.leftText}>
-                {litrals.welcome.text4}
-              </h3>
-            </Col>
-            <Col md={6}  className={classes.colTabs}>
-              <div>
-                {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
-                <h3 className={classes.tabsHeading}>What you need to do</h3>
-                <h5 className={classes.tabsSubHeading}>Tell us about your situation </h5>
-                <p className={classes.tabsPara}>None of your personal information will be stored or shared.</p>
-                <h5 className={classes.tabsSubHeading}>Review your options </h5>
-                <p className={classes.tabsPara}>Based upon your responses, we'll provide you with free support options and guidance.</p>
-                <h5 className={classes.tabsSubHeading}>Review your action plan </h5>
-                <p className={classes.tabsPara}>Set a set of actions away with you which will help you to become more financially and emotional resilient.</p>
-                <h5 className={classes.tabsSubHeading}>Learn from others </h5>
-                <p className={classes.tabsPara4}>Learn about other people's experiences and how they overcome similar situations. </p>
-
-              </div>
-              <div>
-              </div>
-            </Col>
+                </div>
+                <div>
+                </div>
+              </Col>
+            </Row>
           </div>
 
         </div>
-
-        {!mobile ? <Footers format = {this.state.part} buttonpanel = {btn}></Footers>:null}
-
-
+        {!mobile ? <Footers format={this.state.part} buttonpanel={btn}></Footers> : this.state.start && btn}
       </div>
     );
   }
