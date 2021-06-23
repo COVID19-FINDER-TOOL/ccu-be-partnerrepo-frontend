@@ -13,7 +13,6 @@ import { baseUIURL } from './AxiosHandler';
 import FloatingButton from './Components/FloatingButton/FloatingButton';
 
 function App() {
-
   const [showCover, setShowCover] = useState(true)
   const mobile = window.matchMedia("(max-width: 767px)").matches;
 
