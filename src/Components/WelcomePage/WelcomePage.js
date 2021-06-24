@@ -30,7 +30,7 @@ class WelcomePage extends React.Component {
       msg: 0,
       data: "",
       links: [],
-
+      disagree:0
     }
   }
 
@@ -63,10 +63,30 @@ class WelcomePage extends React.Component {
     })
     if (window.localStorage.getItem("csf_user")) {
       const user = JSON.parse(window.localStorage.getItem("csf_user"))
-      this.props.history.push("/Chatbot");
+      // this.props.history.push("/Chatbot");
+      this.props.history.push({
+        pathname:'/Chatbot',
+        state:{
+          disagree:this.state.disagree
+        }
+       })
     } else {
       this.handleSubmit()
     }
+  }
+
+  handleDisagree = () => {
+
+    
+    this.setState(() => {
+      return {disagree:1}
+  })
+    setTimeout(()=> {
+      this.handleStart();
+    },100)
+    
+    
+    
   }
 
 
@@ -77,7 +97,13 @@ class WelcomePage extends React.Component {
       creation_time: moment.utc().format('YYYY-MM-DD hh:mm:ss')
     }
     window.localStorage.setItem('csf_user', JSON.stringify(user));
-    this.props.history.push("/Chatbot");
+    // this.props.history.push("/Chatbot");
+    this.props.history.push({
+      pathname:'/Chatbot',
+      state:{
+        disagree:this.state.disagree
+      }
+     })
     this.props.login({ user: user })
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
       .then(res => {
@@ -107,7 +133,25 @@ class WelcomePage extends React.Component {
   render() {
 
     const mobile = window.matchMedia("(max-width: 767px)").matches;
-    const btn = <CustomButton float={"left"} margin={mobile ? "" : "20px 0 0 0"} width={mobile ? "100%" : ""} type="submit" onClick={this.handleStart} data={litrals.buttons.startButton}></CustomButton>
+    const btn = <div >
+
+      <CustomButton float={"left"}
+        margin={mobile ? "" : "20px 0 0 0"}
+        width={mobile ? "100%" : ""}
+        type="submit"
+        onClick={this.handleDisagree}
+        data={litrals.buttons.disagreeButton}>
+      </CustomButton>
+      <CustomButton float={"left"}
+        margin={mobile ? "" : "20px 0 0 0"}
+        width={mobile ? "100%" : ""}
+        type="submit"
+        onClick={this.handleStart}
+        data={litrals.buttons.startButton}>
+      </CustomButton>
+
+
+    </div>
 
     return (
       <div className={classes.backgrondImage}>
