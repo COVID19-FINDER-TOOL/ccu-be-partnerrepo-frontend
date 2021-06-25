@@ -2,11 +2,11 @@ import React from 'react'
 import Header from '../Header/Header';
 import classes from './WelcomePage.module.scss';
 import { Form, Row, Col, Container } from 'react-bootstrap';
-import CustomRadio from '../CustomRadio/CustomRadio';
+// import CustomRadio from '../CustomRadio/CustomRadio';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
 import Footers from '../../Components/Footers/Footers';
-import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
+import { axiosLoginInstance } from '../../AxiosHandler';
 import moment from "moment";
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
@@ -14,7 +14,8 @@ import { login, onEditInspection } from "../../store/Action/LoginAction";
 import axios from 'axios';
 import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
-import OptionButtons from '../OptionButtons/OptionButtons';
+// import OptionButtons from '../OptionButtons/OptionButtons';
+
 global.appVersion = packageJson.version;
 
 class WelcomePage extends React.Component {
