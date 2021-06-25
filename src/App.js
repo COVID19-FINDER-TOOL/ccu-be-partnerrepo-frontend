@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './App.module.scss';
 
-import { Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
 import CacheCleaner from './CacheCleaner.js'
 import { connect } from "react-redux";

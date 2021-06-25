@@ -3,7 +3,7 @@ import Header from '../Header/Header';
 import classes from './WelcomePage.module.scss';
 import { Form, Row, Col, Container } from 'react-bootstrap';
 // import CustomRadio from '../CustomRadio/CustomRadio';
-import CustomButton from '../CustomButton/CustomButton';
+
 import litrals from '../Litrals/Litrals';
 import Footers from '../../Components/Footers/Footers';
 import { axiosLoginInstance } from '../../AxiosHandler';
@@ -16,8 +16,19 @@ import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
 // import OptionButtons from '../OptionButtons/OptionButtons';
 
-global.appVersion = packageJson.version;
 
+
+
+// import CustomButton from '../CustomButton/CustomButton';
+
+import Loadable from "react-loadable";
+import Loading from '../Loading/LoadingPage'
+
+const CustomButton = Loadable({
+  loader:() => import('../CustomButton/CustomButton'),
+  loading: Loading
+});
+global.appVersion = packageJson.version;
 class WelcomePage extends React.Component {
 
   constructor(props) {

@@ -3,8 +3,6 @@ import { Container, Col, Row } from 'react-bootstrap';
 import classes from './Feedback.module.scss';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGrinAlt, faSmileBeam, faMeh, faFrown, faAngry } from "@fortawesome/free-solid-svg-icons";
 import Form from 'react-bootstrap/Form';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
