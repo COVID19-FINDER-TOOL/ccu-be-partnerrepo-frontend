@@ -53,16 +53,28 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"],
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer","3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            disagree:0,
+            showTextArea:0
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
 
     componentDidMount = () => {
         this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" })
-        this.fetch();
-        this.setPdf();
-
+        console.log("WHoo",this.props.location.state.disagree)
+        if (this.props.location.state.disagree === 1) {
+            this.setState(() => { return { queryIndex: 5,disagree:1 } })
+        } else {
+            this.setState(() => { return { queryIndex: 0,disagree:0 } })
+        }
+        setTimeout(() => {
+            this.fetch();
+            this.setPdf();    
+        }, 100);
+        
+        
+        
     }
 
     saveQuestion = (data, response, notFetch) => {
@@ -168,7 +180,10 @@ class Chatbot extends React.Component {
         const currentResponses = { value, id }
         this.state.section < 2 ? this.setState(() => { return { currentResponses, selected: true, msg: false } }) : this.setState(() => { return { currentResponses, selected: true, msg: false } }, () => { this.handleSubmit() })
 
-
+        if (this.state.disagree === 1) {
+            id === "5" ? this.setState(() => {return {showTextArea:1}}) : this.setState(() => {return {showTextArea:0}})
+        }
+        
     }
 
     handleSubmit = () => {
@@ -630,8 +645,17 @@ class Chatbot extends React.Component {
         const btn = ( <div classname={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
         {this.state.section < 2 ?
-            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log() : this.handleSubmit} data={litrals.buttons.nextStep}>
-            </CustomButton> : topic == 4 && !this.state.showActionPlan ? <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton> : radios && radios.length == 1 ? radios : ""
+            <CustomButton type="submit"
+             float={"right"} 
+             onClick={this.state.showSpinner ? console.log() : this.handleSubmit} 
+             data={litrals.buttons.nextStep}>
+            </CustomButton> 
+            : topic == 4 && !this.state.showActionPlan ? 
+            <CustomButton type="submit" float={"right"}
+             onClick={this.showActionPlan} 
+             data={litrals.buttons.nextStep}>
+             </CustomButton> : 
+             radios && radios.length == 1 ? radios : ""
         }
     </div>
 
@@ -696,7 +720,7 @@ class Chatbot extends React.Component {
                         <div className={classes.chatBotRow}>
                             <div className={classes.progressBar} >
                                 
-                                <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>
+                               {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb> } 
                                 {topic == 4 && this.state.showActionPlan ? (
                                         <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                             {downloadActionPlan}
@@ -722,14 +746,8 @@ class Chatbot extends React.Component {
 
                                     {radios && radios.length > 1 ? <Form className={this.state.section > 1 ?classes.Form : ""}> {radios} </Form> : ""}
 
-
-                                    
-
-                                    
-
+                                    {this.state.showTextArea === 1 ? <div> <h5>Comments if any :</h5> <textarea className={classes.textInput}></textarea> </div> : null}                                    
                                 </div>
-
-
                             </div>
                         </div>
                     

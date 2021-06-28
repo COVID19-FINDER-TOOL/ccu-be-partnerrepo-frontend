@@ -4,6 +4,10 @@ const litrals = {
             buttonText: "Start",
             variant: "primary",
         },
+        disagreeButton: {
+            buttonText: "Not happy to proceed",
+            variant: "primary",
+        },
         getStartedButton: {
             buttonText: "Get started",
             variant: "primary",

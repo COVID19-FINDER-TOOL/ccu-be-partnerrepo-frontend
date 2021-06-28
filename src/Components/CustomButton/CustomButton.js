@@ -26,9 +26,9 @@ const CustomButton = (props) => {
         props.data.buttonText == "Action Plan" ? "Next" : props.data.buttonText
       }
     >
-      { props.data.buttonText === "Back" ? <i style={{marginRight:"10px"}} class="fas fa-chevron-left"></i> : null}
+      { props.data.buttonText === "Back" ? <i style={{marginRight:"10px"}} className="fas fa-chevron-left"></i> : null}
       {props.data.buttonText == "Action Plan" ? "Next" : props.data.buttonText}
-      { props.data.buttonText !== "Back" ? <i style={{marginLeft:"10px"}} class="fas fa-chevron-right"></i> : null}
+      { props.data.buttonText !== "Back" ? <i style={{marginLeft:"10px"}} className="fas fa-chevron-right"></i> : null}
     </button>
   );
 };
