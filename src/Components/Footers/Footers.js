@@ -21,7 +21,7 @@ const creatLinks = () => {
 };
 
 const Footers = (props) => {
-  console.log(props);
+  
 
   return (
     <div className={classes.footers}>

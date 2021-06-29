@@ -55,7 +55,8 @@ class Chatbot extends React.Component {
             queryIndex: 0,
             queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer","3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
             disagree:0,
-            showTextArea:0
+            showTextArea:0,
+            textAreaValue:""
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
@@ -78,8 +79,9 @@ class Chatbot extends React.Component {
     }
 
     saveQuestion = (data, response, notFetch) => {
+        console.log(data)
         var dataBody = {}
-        var kb = data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
+        var kb = this.state.disagree? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
         dataBody.question = data.answer;
         dataBody.answers = data.context.prompts.map((x) => {
@@ -101,12 +103,31 @@ class Chatbot extends React.Component {
             //     }).catch(error => {
             //         console.log(error);
             //     });
-            // console.log(this.state)
+            console.log(this.state)
             notFetch ? console.log() : this.fetch();
 
         }
     }
 
+    clearJourneyData = () =>{
+        this.props.onEditInspection({
+            metadata: "",
+            questionStack: [],
+            responseStack: [],
+            journey_id: "",
+            start_time: "",
+            backStack: []
+        })
+        this.setState(() => {
+            return {
+                questionStack: [],
+                responseStack: [],
+                backStack: [],
+                metadata: ""
+            }
+        })
+    }
+    
     endJourney = () => {
         const { CREATEJOURNEY } = this.props.payload;
         const { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : ""
@@ -120,22 +141,7 @@ class Chatbot extends React.Component {
             .then(res => {
                 const data = res.data;
                 console.log(data);
-                this.props.onEditInspection({
-                    metadata: "",
-                    questionStack: [],
-                    responseStack: [],
-                    journey_id: "",
-                    start_time: "",
-                    backStack: []
-                })
-                this.setState(() => {
-                    return {
-                        questionStack: [],
-                        responseStack: [],
-                        backStack: [],
-                        metadata: ""
-                    }
-                })
+                this.clearJourneyData()
             }).catch(error => {
                 console.log(error);
             });
@@ -186,12 +192,38 @@ class Chatbot extends React.Component {
         
     }
 
+    handleDisagree = (data) => {
+        const { LOGIN } = this.props.payload;
+        const { user } = LOGIN ? LOGIN : ''
+        const { user_id } = user ? user : JSON.parse(window.localStorage.getItem("csf_user"));
+        
+        const resbody = {
+            "user_id" : user_id,
+            "answer_id" : "kb5a" + data.answer_id,
+            "other_reason": this.state.showTextArea ? this.state.textAreaValue : "",
+            "creation_time": data.answer_time
+        }
+        axiosLoginInstance.post("/CFTDenialTrigger/disagree", resbody)
+                        .then(res => {
+                            this.clearJourneyData()
+                        }).catch(error => {
+                            console.log(error);
+                        });   
+        this.props.history.push('/')
+    }
+
+    onDisagreeTextAreaInput = (event) => {
+        this.setState({textAreaValue:event.target.value})
+    }
+
     handleSubmit = () => {
         const { CREATEJOURNEY } = this.props.payload
         var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
         var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const currentResponse = backStack ? backStack[backStack.length - 1] : ""
         const state_data = this.state.data
+
+        
 
         if (this.state.selected || currentResponse) {
             var value = ""
@@ -213,6 +245,12 @@ class Chatbot extends React.Component {
                 "descriptive_answer": value,
             }
             // console.log(currentResponse)
+
+            if(this.state.disagree){
+                this.handleDisagree(resbody)
+            
+
+            }
             if (backStack && currentResponse) {
                 if (currentResponse.answer_id.toString().substring(4) !== id) {
                     var dummy = [...backStack]
@@ -648,7 +686,7 @@ class Chatbot extends React.Component {
             <CustomButton type="submit"
              float={"right"} 
              onClick={this.state.showSpinner ? console.log() : this.handleSubmit} 
-             data={litrals.buttons.nextStep}>
+             data={ this.state.disagree ? litrals.buttons.SubmitNav : litrals.buttons.nextStep}>
             </CustomButton> 
             : topic == 4 && !this.state.showActionPlan ? 
             <CustomButton type="submit" float={"right"}
@@ -734,10 +772,10 @@ class Chatbot extends React.Component {
                                     ) : ""}
 
                             </div>
-                            <div  style={{ height: "65vh",   }} className={classes.qnaContainer}>
+                            <div  style={{ height: "64vh",   }} className={classes.qnaContainer}>
                                 <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
-                                <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "10vh" }}>
+                                <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>
 
                                     {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                     {paragraphs}
@@ -746,7 +784,7 @@ class Chatbot extends React.Component {
 
                                     {radios && radios.length > 1 ? <Form className={this.state.section > 1 ?classes.Form : ""}> {radios} </Form> : ""}
 
-                                    {this.state.showTextArea === 1 ? <div> <h5>Comments if any :</h5> <textarea className={classes.textInput}></textarea> </div> : null}                                    
+                                    {this.state.showTextArea === 1 ? <div> <h5 className={classes.heading}>Comments if any :</h5> <textarea className={classes.textInput} value={this.state.textAreaValue} onChange={this.onDisagreeTextAreaInput}></textarea> </div> : null}                                    
                                 </div>
                             </div>
                         </div>
