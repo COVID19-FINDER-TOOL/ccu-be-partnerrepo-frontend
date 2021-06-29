@@ -42,7 +42,6 @@ function App() {
       setShowCover(false)
     }
   },[]);
-
   return (
     // <Suspense fallback={<div>Loading</div>}>
 

@@ -62,7 +62,6 @@ class Chatbot extends React.Component {
 
     componentDidMount = () => {
         this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" })
-        console.log("WHoo",this.props.location.state.disagree)
         if (this.props.location.state.disagree === 1) {
             this.setState(() => { return { queryIndex: 5,disagree:1 } })
         } else {
@@ -72,9 +71,6 @@ class Chatbot extends React.Component {
             this.fetch();
             this.setPdf();    
         }, 100);
-        
-        
-        
     }
 
     saveQuestion = (data, response, notFetch) => {
@@ -642,7 +638,7 @@ class Chatbot extends React.Component {
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
-        const btn = ( <div classname={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
+        const btn = ( <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
         {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
         {this.state.section < 2 ?
             <CustomButton type="submit"
