@@ -47,6 +47,10 @@ class WelcomePage extends React.Component {
   }
 
   componentDidMount = () => {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function() {
+        window.history.pushState(null, "", window.location.href);
+    };
     axios({
       method: 'get',
       url: process.env.REACT_APP_UI + 'properties.json?v=' + global.appVersion,
@@ -148,7 +152,7 @@ class WelcomePage extends React.Component {
     const btn = <div >
 
       <CustomButton float={"left"}
-        margin={mobile ? "" : "20px 0 0 0"}
+        margin={mobile ? "" : "20px 15px 0 0"}
         width={mobile ? "100%" : ""}
         type="submit"
         onClick={this.handleDisagree}

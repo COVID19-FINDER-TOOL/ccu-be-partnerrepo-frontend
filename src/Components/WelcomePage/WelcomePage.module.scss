@@ -79,32 +79,32 @@ body, html {
 
 .tabsHeading{
     color: $primary-color;
-    margin: 30px 10px;
+    margin: 20px 10px;
     font-weight: bold;
-    font-size: 28px;
+    font-size: 24px;
     line-height: 38px;
 }
 
 .tabsSubHeading{
     color: $secondary-color;
-    margin: 20px 10px 0px;
-    font-size: 20px;
+    margin: 10px 10px 0px;
+    font-size: 18px;
     font-weight: bold;
 }
 
 .tabsPara{
     color: $secondary-color;
-    margin: 0px 10px 4%;
-    font-size: 18px;
-    padding-bottom: 20px;
+    margin: 0px 10px 3%;
+    font-size: 16px;
+    padding-bottom: 15px;
     border-bottom: 2px solid $tertiary-color-3;
 }
 
 .tabsPara4{
     color: $secondary-color;
     margin: 0px 10px 20px;
-    font-size: 18px;
-    padding-bottom: 4%;
+    font-size: 16px;
+    padding-bottom: 3%;
     
 }
 
