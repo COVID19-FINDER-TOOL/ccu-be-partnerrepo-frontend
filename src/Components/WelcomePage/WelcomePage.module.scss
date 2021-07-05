@@ -145,6 +145,38 @@ body, html {
     color: $secondary-color;
 }
 
+@media only screen and (min-width:1400px){
+    .leftText{
+        font-size: 28px;
+    }
+    .tabsHeading{
+        font-size: 28px;
+    }
+
+    .tabsSubHeading{
+        color: $secondary-color;
+        margin: 3% 10px 0px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+    
+    .tabsPara{
+        color: $secondary-color;
+        margin: 2% 10px 2%;
+        padding-bottom: 4%;
+        font-size: 18px;
+        border-bottom: 2px solid $tertiary-color-3;
+    }
+    
+    .tabsPara4{
+        color: $secondary-color;
+        margin: 2% 10px 2%;
+        padding-bottom: 5%;
+        font-size: 18px;
+        
+    }
+}
+
 
 @media only screen and (max-width:650px){
     .wlcmRow{
