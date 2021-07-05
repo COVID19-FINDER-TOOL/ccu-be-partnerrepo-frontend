@@ -6,8 +6,8 @@ export const baseUIURL = process.env.REACT_APP_UI;
 export const loginUIURL = process.env.REACT_APP_LOGIN_URL;
 
 export const axiosInstance = axios.create({
-  baseURL: baseURL,
-  timeout: 30000, //10 seconds before request timeout
+  baseURL: baseURL,  //should be window.$keyVault.baseURL
+  timeout: 30000, 
   headers: {
     "Authorization": "EndpointKey 82918fc2-6ffc-47b7-bfdd-3c20b2aa2d3c"
   }
@@ -15,8 +15,8 @@ export const axiosInstance = axios.create({
 
 
 export const axiosLoginInstance = axios.create({
-  baseURL: loginUIURL,
-  timeout: 30000, //10 seconds before request timeout
+  baseURL: loginUIURL, //should be window.$keyVault.loginURL
+  timeout: 30000,
   headers: {
     'Access-Control-Allow-Origin': '*'
   }
