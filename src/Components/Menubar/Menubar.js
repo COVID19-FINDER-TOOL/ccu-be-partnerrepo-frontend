@@ -66,52 +66,33 @@ const Menubar = (props) => {
     return links;
   };
 
-  const generateMenus = () =>{
-    const Menu = null
+  const generateMenus = (data,topic) =>{
+    const Menu = data[0].map((x,index)=>{
+      return (
+        <div className="menu">
+          <div name={"sub"+(index+1)} role="button" className={current=== "sub"+(index+1) ?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub"+(index+1))}>
+            <p>
+              {topic == 3 ? menu[index].slice(3) : menu[index].slice(3).slice(3, -2)}
+            </p>
+          </div>
+          <div style={{display : current==="sub"+(index+1) ? 'block' : 'none'}}>{generateLinks(data[1][index], topic)}</div>
+        </div>
+      )
+    })
+    return Menu
   }
 
   const rights = assembleData(props.data);
   const menu = rights[0];
   const topic = props.topic;
-  console.log(rights)
+  // console.log(rights)
   return (
     <>
       <h2 className="heading">
         {topic == 3 ? litrals.welcome.text5 : litrals.welcome.text6}
       </h2>
       <div className="menuContainer">
-        <div className="menu">
-          <div name="sub1" role="button" className={current==="sub1"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub1")}>
-            <p>
-              {topic == 3 ? menu[0].slice(3) : menu[0].slice(3).slice(3, -2)}
-            </p>
-          </div>
-          <div style={{display : current==="sub1" ? 'block' : 'none'}}>{generateLinks(rights[1][0], topic)}</div>
-        </div>
-        <div className="menu">
-          <div name="sub2" role="button" className={current==="sub2"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub2")}>
-            <p>
-              {topic == 3 ? menu[1].slice(3) : menu[1].slice(3).slice(3, -2)}
-            </p>
-          </div>
-          <div style={{display : current==="sub2" ? 'block' : 'none'}}>{generateLinks(rights[1][1], topic)}</div>
-        </div>
-        <div className="menu">
-          <div name="sub3" role="button" className={current==="sub3"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub3")}>
-            <p>
-              {topic == 3 ? menu[2].slice(3) : menu[2].slice(3).slice(3, -2)}
-            </p>
-          </div>
-          <div style={{display : current==="sub3" ? 'block' : 'none'}}>{generateLinks(rights[1][2], topic)}</div>
-        </div>
-        <div className="menu">
-          <div name="sub4" role="button" className={current==="sub4"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub4")}>
-            <p>
-              {topic == 3 ? menu[3]?.slice(3) : menu[3]?.slice(3).slice(3, -2)}
-            </p>
-          </div>
-          <div style={{display : current==="sub4" ? 'block' : 'none'}}>{generateLinks(rights[1][3], topic)}</div>
-        </div>
+        {generateMenus(rights,topic)}
       </div>
     </>
   );

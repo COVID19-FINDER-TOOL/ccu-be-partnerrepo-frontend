@@ -27,6 +27,8 @@ import ProgressMenu from '../ProgressWeb/ProgressMenu';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import Footers from '../../Components/Footers/Footers';
 import Menubar from '../Menubar/Menubar';
+import { TransferWithinAStationSharp } from '@material-ui/icons';
+import { getKeyThenIncreaseKey } from 'antd/lib/message';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -58,7 +60,9 @@ class Chatbot extends React.Component {
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
-            selectedJouneys:[]
+            selectedJourneys:[],
+            showNextJourney: false,
+            gotoNextJourney:false,
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
@@ -82,7 +86,7 @@ class Chatbot extends React.Component {
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
         dataBody.question = data.answer;
-        dataBody.answers = data.context.prompts.map((x) => {
+        dataBody.answers = data.context?.prompts.map((x) => {
             return { aid: kb.concat("a").concat(x.qnaId.toString()), answer: x.displayText.toString() }
         })
         response.question_id = kb.concat("q").concat(response.question_id.toString())
@@ -114,7 +118,8 @@ class Chatbot extends React.Component {
             responseStack: [],
             journey_id: "",
             start_time: "",
-            backStack: []
+            backStack: [],
+            selectedJourneys:[]
         })
         this.setState(() => {
             return {
@@ -183,15 +188,19 @@ class Chatbot extends React.Component {
 
         
         if(this.state.queryIndex == 0) {
-            let currentValues = this.state.selectedJouneys
+            let currentValues = this.state.selectedJourneys
             
-            let hasObject = this.state.selectedJouneys.filter(ele => ele.id === id)
-            hasObject.length > 0 ? currentValues.splice(this.state.selectedJouneys.indexOf(hasObject,1)) : currentValues.push(currentResponses)    
+            let hasObject = this.state.selectedJourneys.filter(ele => ele.id === id)
+            hasObject.length > 0 ? currentValues.splice(this.state.selectedJourneys.indexOf(hasObject,1)) : currentValues.push(currentResponses)    
             this.setState(() => {
                 return {
-                    selectedJouneys:currentValues
+                    selectedJourneys:currentValues
+
                 }
             })
+            this.props.onEditInspection({ selectedJourneys: currentValues })
+
+
         }
         
         this.state.section < 2 ?
@@ -245,15 +254,18 @@ class Chatbot extends React.Component {
     handleSubmit = () => {
         const { CREATEJOURNEY } = this.props.payload
         var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
-        var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        var { responseStack, backStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
         const currentResponse = backStack ? backStack[backStack.length - 1] : ""
         const state_data = this.state.data
         
-        this.props.onEditInspection({ selectedJouneys: this.state.selectedJouneys })
 
-        if (this.state.selected || currentResponse) {
+        if (this.state.selected || currentResponse || this.state.section>=4) {
             var value = ""
-            var id = ""
+            console.log(this.state.selectedJourneys)
+            var id = "" 
+            var newselectedJourneys = []
+
+            
 
             if (this.state.currentResponses?.value) {
                 value = this.state?.currentResponses?.value
@@ -263,6 +275,16 @@ class Chatbot extends React.Component {
                 value = currentResponse?.descriptive_answer
                 id = currentResponse?.answer_id?.toString().substring(4)
             }
+
+            if(this.state.queryIndex===0){
+                id =  parseInt(this.state.selectedJourneys[0].id)
+                newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
+                this.setState(() => { return { selectedJourneys:newselectedJourneys } })
+                
+            }
+            
+
+
             var requestBody = {}
             const resbody = {
                 "question_id": this.state.data.id,
@@ -355,7 +377,26 @@ class Chatbot extends React.Component {
                     "strictFilters": [{ "name": "context", "value": meta }]
                 };
 
-                if (this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) {
+                if((this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) && this.state.selectedJourneys.length !== 0 ){
+
+                    
+                    if(this.state.gotoNextJourney){
+
+                    const {selectedJourneys} = this.state
+                    var ele = selectedJourneys[0].id
+                    requestBody = {
+                        "question": "Flow Started",
+                        
+                    };
+                    var newselected = selectedJourneys?.filter((x)=>x.id != ele)
+                    
+                    this.setState(() => { return {requestBody, queryIndex: parseInt(ele)-1 , section: 0,selectedJourneys: newselected, showActionPlan:true, showNextJourney:false, showBack: true, visitedLinks: [] }},() => { this.fetch()} )
+                    }
+                }
+
+                else{
+
+                if ((this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) && this.state.selectedJourneys?.length === 0) {
 
                     // console.log(value, meta)
                     if (value == "Next") {
@@ -369,16 +410,17 @@ class Chatbot extends React.Component {
 
                     }
                     else if ((value == "No" && meta === "loono") || (value == "No" && meta === "cornexno")) {
-                        this.setState(() => { return { section: 5 } })
+                        // this.setState(() => { return { section: 5 } })
+                        this.props.history.push("/feedback")                //hiding Learn From Others
                     }
 
-                    else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
-                        this.setState(() => { return { showFeedback: true } })
-                    }
+                    // else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
+                    //     this.setState(() => { return { showFeedback: true } })
+                    // }
 
-                    else if ((value == "No" && meta === "loonono") || (value == "No" && meta === "cornexnono")) {
-                        this.props.history.push("/feedback")
-                    }
+                    // else if ((value == "No" && meta === "loonono") || (value == "No" && meta === "cornexnono")) {
+                    //     // this.props.history.push("/feedback")
+                    // }
 
                     else if (value == "Yes" && meta !== "loonoyes") {
 
@@ -388,17 +430,17 @@ class Chatbot extends React.Component {
                         }
                         else {
                             this.visitedLinks = []
-                            this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks: [] } })
+                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [] } })
                             requestBody = {
                                 "question": "Start the flow",
                             };
                         }
 
                     }
-
                 }
-                this.setState(() => { return { requestBody, selected: false, currentResponses: {} } }, () => { this.saveQuestion(this.state.data, resbody, false) });
-
+                this.setState(() => { return { requestBody, selected: false, currentResponses: {} }}, () => { this.saveQuestion(this.state.data, resbody, false) });
+            }
+                
             }
 
 
@@ -482,8 +524,8 @@ class Chatbot extends React.Component {
 
         const { CREATEJOURNEY } = this.props.payload;
         const { backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
-        const { selectedJouneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
-        console.log("selectedJouneys",selectedJouneys)
+        const { selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
+        // console.log("selectedJourneys",selectedJourneys)
         var res = ""
         if (backStack) {
             res = backStack.find(x => x.question_id.toString().substring(4) == id && x.question_id.toString()[2] == this.state.queryIndex)
@@ -501,14 +543,14 @@ class Chatbot extends React.Component {
                 const radios = prompts.map((x, index) => {
                     let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                     
-                    if(this.state.queryIndex === 0 && selectedJouneys != undefined) {
-                        const selectedOrNot = selectedJouneys.filter(ele => ele.id == x.qnaId)
+                    if(this.state.queryIndex === 0 && selectedJourneys != undefined) {
+                        const selectedOrNot = selectedJourneys.filter(ele => ele.id == x.qnaId)
                         selectedOrNot.length > 0 ?  checked = "checked" : checked = false
                     }
                     return (
                         <CustomRadio section={this.state.section}
                             radioLabel={x.displayText}
-                            display={this.state.section == 4 && !this.state.showActionPlan ? false : true}
+                            display={this.state.section == 4 && this.state.selectedJourneys.length !==0 ? false : true}
                             id={x.qnaId} key={x.qnaId}
                             name={id}
                             onClick={this.handleRadio}
@@ -521,12 +563,7 @@ class Chatbot extends React.Component {
     }
 
     handleBack = () => {
-        if (this.state.showActionPlan) {
-            this.setState(() => {
-                return { showActionPlan: false }
-            })
-        }
-        else {
+        
             const { CREATEJOURNEY } = this.props.payload
             var { backStack } = this.state
             const { responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
@@ -546,7 +583,7 @@ class Chatbot extends React.Component {
 
             this.setState(() => { return { currentResponses: {}, msg: false, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
-        }
+        
 
     }
 
@@ -620,17 +657,14 @@ class Chatbot extends React.Component {
             })
             return (
                 <>
-                    <div style={{ display: !this.state.showActionPlan ? "block" : "none" }}>
+                    <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan && ! this.state.showNextJourney  ? "block" : "none" }}>
+                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
                         {
                             texts.map((x) => {
                                 return <MDReactComponent text={x} onIterate={this.handleIterate} />
 
                             })
                         }
-                        {/* <CustomButton margin={"5rem 0 0 0"} type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton> */}
-                    </div>
-                    <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan ? "block" : "none" }}>
-                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
                         <div className={classes.actionPlanFlex} >
                             {
                                 links.map((x, index) => {
@@ -646,6 +680,16 @@ class Chatbot extends React.Component {
                             }
                         </div>
                     </div>
+                    <div style={{ display: !this.state.showActionPlan && this.state.showNextJourney && this.state.selectedJourneys.length ? "block" : "none"  }}>
+                        <h1 className={classes.heading}>
+                        Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em>
+                        </h1>
+                        <CustomButton type="Submit"
+                            float={"left"}
+                            onClick={this.state.showSpinner ? console.log() : this.handleOkay}
+                            data={litrals.buttons.okay}>
+                        </CustomButton>
+                    </div>
                 </>
             )
         }
@@ -655,16 +699,11 @@ class Chatbot extends React.Component {
 
     }
 
-    showActionPlan = () => {
-        this.setState({ showActionPlan: true })
-    }
-
     displayNextTopic = (topic) => {
 
         const text = this.state.data.answer;
         const textarray = text.split("\n");
         var temp = {}
-        var count = 0
         var key = ""
         textarray.map((x) => {
             if (/^\d/.test(x.trim())) {
@@ -716,13 +755,22 @@ class Chatbot extends React.Component {
         this.setState(() => { return { showHomeModal: false } })
     }
 
+    handleOkay = () => {
+        this.setState(()=>{
+            return {gotoNextJourney : true}
+        }, ()=>{this.handleSubmit()})
+
+    }
+
     render() {
+        console.log(this.state)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
-        const btn = (<div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
+        const btn = (
+        <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
             {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
             {this.state.section < 2 ?
                 <CustomButton type="submit"
@@ -730,19 +778,20 @@ class Chatbot extends React.Component {
                     onClick={this.state.showSpinner ? console.log() : this.handleSubmit}
                     data={this.state.disagree ? litrals.buttons.SubmitNav : litrals.buttons.nextStep}>
                 </CustomButton>
-                : topic == 4 && !this.state.showActionPlan ?
-                    <CustomButton type="submit" float={"right"}
-                        onClick={this.showActionPlan}
+                : topic == 4 && this.state.showActionPlan && this.state.selectedJourneys.length ? 
+                <CustomButton type="submit" float={"right"}
+                        onClick={()=> this.setState(()=> {return {showActionPlan:false, showNextJourney: true, showBack:false}})}
                         data={litrals.buttons.nextStep}>
-                    </CustomButton> :
-                    radios && radios.length == 1 ? radios : ""
+                    </CustomButton> :  
+                radios && radios.length == 1 & this.state.showActionPlan ? radios : "" 
             }
-        </div>
+            </div>
 
             <div style={{ width: "100%", marginTop: "1rem" }}>
                 {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
 
-            </div></div>)
+            </div>
+        </div>)
         // this.props.onEditInspection({topic})
         return (
 
@@ -762,7 +811,7 @@ class Chatbot extends React.Component {
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                         {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                         {paragraphs}
-                                        {this.state.section <= 1 ? <p>{litrals.optionText}</p> : ""}
+                                        
                                         {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
 
                                         {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
@@ -778,7 +827,7 @@ class Chatbot extends React.Component {
                                                 <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left", width: "100%" }}>
                                                     <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 </DropdownButton>
-                                                {downloadActionPlan}
+                                                {/* {downloadActionPlan} */}
 
                                                 {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                             <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
@@ -803,7 +852,7 @@ class Chatbot extends React.Component {
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
                             {topic == 4 && this.state.showActionPlan ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                    {downloadActionPlan}
+                                    {/* {downloadActionPlan} */}
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
@@ -821,11 +870,11 @@ class Chatbot extends React.Component {
 
                                 {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                 {paragraphs}
-                                {this.state.section <= 1 ? <p className={classes.message}>{litrals.optionText}</p> : ""}
+                                {/* {this.state.section <= 1 ? <p className={classes.message}>{litrals.optionText}</p> : ""} */}
                                 {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
 
                                 {radios && radios.length > 1 ? <Form className={this.state.section > 1 ? classes.Form : ""}> {radios} </Form> : ""}
-
+                                {/* {!this.state.showNextJourney && this.state.section === 4 ? nextJourney : null} */}
                                 {this.state.showTextArea === 1 ? <div> <h5 className={classes.heading}>Comments if any :</h5> <textarea className={classes.textInput} value={this.state.textAreaValue} onChange={this.onDisagreeTextAreaInput}></textarea> </div> : null}
                             </div>
                         </div>

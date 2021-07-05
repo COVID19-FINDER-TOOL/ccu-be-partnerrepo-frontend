@@ -40,7 +40,6 @@ class ProgressWeb extends React.Component {
           <Step title="Situation"  />
           <Step title="Options" />
           <Step title="Action Plan" />
-          <Step title="Learn From Others" />
         </Steps>
       </>
     );

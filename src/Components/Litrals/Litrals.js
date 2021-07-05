@@ -24,6 +24,10 @@ const litrals = {
             buttonText: "Back",
             variant: "primary",
         },
+        okay: {
+            buttonText: "Okay",
+            variant: "primary",
+        },
         SubmitNav:{
             buttonText: "Submit",
             variant: "primary",
