@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
 import CacheCleaner from './CacheCleaner.js'
 import { connect } from "react-redux";
 import 'animate.css/animate.css'
-import { baseUIURL } from './AxiosHandler';
-
+import { onEditInspection } from "./store/Action/LoginAction";
+import axios from 'axios';
 import Loadable from "react-loadable";
 import Loading from './Components/Loading/LoadingPage.js'
 
@@ -28,20 +28,30 @@ const FloatingButton = Loadable({
   loading: Loading
 });
 
+
+
 function App() {
   const [showCover, setShowCover] = useState(true)
+  // const [keyVault, setKeyVault] = useState({})
   const mobile = window.matchMedia("(max-width: 767px)").matches;
-  const [keys, setKeys] = useState(0);
-  useEffect(() => {
-    // console.log(window.location.href)
-    if (window.location.href === baseUIURL) {
-      setTimeout(function () {
-        setShowCover(false)
-      }, 8000)
-    } else {
-      setShowCover(false)
-    }
-  },[]);
+
+  const callKeyVault = async() => {
+    await axios.get("https://cft-backendfunction.azurewebsites.net/api/CFTKeyVaultMSITrigger/")
+    .then(res=>{
+      const data = res.data
+      window.$keyVault = data
+      console.log(window.$keyVault)
+    })
+
+  } 
+
+  useEffect( ()=>{
+    callKeyVault()
+  }
+  ,[]);
+  
+ 
+
   return (
     // <Suspense fallback={<div>Loading</div>}>
 
@@ -55,6 +65,7 @@ function App() {
 
         return (
           <>
+
               <Router basename="/">
                 {/* <Header /> */}
                 <div className={classes.App}>
@@ -85,5 +96,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, null, null, { pure: false })(App);
-
-

@@ -66,10 +66,14 @@ const Menubar = (props) => {
     return links;
   };
 
+  const generateMenus = () =>{
+    const Menu = null
+  }
+
   const rights = assembleData(props.data);
   const menu = rights[0];
   const topic = props.topic;
-
+  console.log(rights)
   return (
     <>
       <h2 className="heading">
@@ -82,12 +86,12 @@ const Menubar = (props) => {
               {topic == 3 ? menu[0].slice(3) : menu[0].slice(3).slice(3, -2)}
             </p>
           </div>
-          <div style={{display : current==="sub1" ? 'block' : 'none', transition:"all 2s linear"}}>{generateLinks(rights[1][0], topic)}</div>
+          <div style={{display : current==="sub1" ? 'block' : 'none'}}>{generateLinks(rights[1][0], topic)}</div>
         </div>
         <div className="menu">
           <div name="sub2" role="button" className={current==="sub2"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub2")}>
             <p>
-              {topic == 3 ? menu[1].slice(3) : menu[0].slice(3).slice(3, -2)}
+              {topic == 3 ? menu[1].slice(3) : menu[1].slice(3).slice(3, -2)}
             </p>
           </div>
           <div style={{display : current==="sub2" ? 'block' : 'none'}}>{generateLinks(rights[1][1], topic)}</div>
@@ -95,10 +99,18 @@ const Menubar = (props) => {
         <div className="menu">
           <div name="sub3" role="button" className={current==="sub3"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub3")}>
             <p>
-              {topic == 3 ? menu[2].slice(3) : menu[0].slice(3).slice(3, -2)}
+              {topic == 3 ? menu[2].slice(3) : menu[2].slice(3).slice(3, -2)}
             </p>
           </div>
           <div style={{display : current==="sub3" ? 'block' : 'none'}}>{generateLinks(rights[1][2], topic)}</div>
+        </div>
+        <div className="menu">
+          <div name="sub4" role="button" className={current==="sub4"?"menuBar menuBarClicked":"menuBar"} onClick={()=>handleClick("sub4")}>
+            <p>
+              {topic == 3 ? menu[3]?.slice(3) : menu[3]?.slice(3).slice(3, -2)}
+            </p>
+          </div>
+          <div style={{display : current==="sub4" ? 'block' : 'none'}}>{generateLinks(rights[1][3], topic)}</div>
         </div>
       </div>
     </>

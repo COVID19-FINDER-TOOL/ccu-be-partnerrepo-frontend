@@ -42,6 +42,7 @@ class Chatbot extends React.Component {
             pdf: false,
             showBack: true,
             showFeedback: false,
+            showActionPlan:true, // to hide the text before actual action plan page
             condition: "",
             showSpinner: true,
             metadata: "",
