@@ -31,7 +31,7 @@ const FloatingButton = Loadable({
 function App() {
   const [showCover, setShowCover] = useState(true)
   const mobile = window.matchMedia("(max-width: 767px)").matches;
-
+  const [keys, setKeys] = useState(0);
   useEffect(() => {
     // console.log(window.location.href)
     if (window.location.href === baseUIURL) {
