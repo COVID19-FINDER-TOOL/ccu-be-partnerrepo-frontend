@@ -7,13 +7,13 @@ import litrals from "../Litrals/Litrals";
 const creatLinks = () => {
   return (
     <>
-      <Nav.Link bsPrefix={classes.footerLinks} href="">
+      <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.co.uk/footer/privacy-policy" target="_blanck">
         Privacy Policy
       </Nav.Link>
-      <Nav.Link bsPrefix={classes.footerLinks} href="">
+      <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.com/about-us" target="_blanck">
         About us
       </Nav.Link>
-      <Nav.Link bsPrefix={classes.footerLinks} href="">
+      <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.com/footer/terms-of-use" target="_blanck">
         Terms and Conditions
       </Nav.Link>
     </>

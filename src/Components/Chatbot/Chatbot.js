@@ -116,7 +116,6 @@ class Chatbot extends React.Component {
             metadata: "",
             questionStack: [],
             responseStack: [],
-            journey_id: "",
             start_time: "",
             backStack: [],
             selectedJourneys:[]
@@ -406,6 +405,7 @@ class Chatbot extends React.Component {
                         // clear the jouney selection
 
                         this.setState(() => { return { showBack: false } })
+                        this.props.onEditInspection({journey_id:""})
                         this.endJourney();
 
                     }
@@ -681,7 +681,24 @@ class Chatbot extends React.Component {
                         </div>
                     </div>
                     <div style={{ display: !this.state.showActionPlan && this.state.showNextJourney && this.state.selectedJourneys.length ? "block" : "none"  }}>
-                        <h1 className={classes.heading}>
+                        {this.gotoNextJourney()}
+                    </div>
+                </>
+            )
+        }
+        else {
+            if(this.state.queryIndex === 4){
+                return this.state.showNextJourney  && this.state.selectedJourneys.length  ? this.gotoNextJourney() : <MDReactComponent text={text} onIterate={this.handleIterate} />
+            }
+            return <MDReactComponent text={text} onIterate={this.handleIterate} />
+        }
+
+    }
+
+    gotoNextJourney = () =>{
+        return (
+            <>
+            <h1 className={classes.heading}>
                         Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em>
                         </h1>
                         <CustomButton type="Submit"
@@ -689,14 +706,8 @@ class Chatbot extends React.Component {
                             onClick={this.state.showSpinner ? console.log() : this.handleOkay}
                             data={litrals.buttons.okay}>
                         </CustomButton>
-                    </div>
-                </>
-            )
-        }
-        else {
-            return <MDReactComponent text={text} onIterate={this.handleIterate} />
-        }
-
+            </>
+        )
     }
 
     displayNextTopic = (topic) => {
@@ -780,9 +791,9 @@ class Chatbot extends React.Component {
                     onClick={this.state.showSpinner ? console.log() : this.handleSubmit}
                     data={this.state.disagree ? litrals.buttons.SubmitNav : litrals.buttons.nextStep}>
                 </CustomButton>
-                : topic == 4 && this.state.showActionPlan && this.state.selectedJourneys.length ? 
+                : (topic == 4 && this.state.showActionPlan && this.state.selectedJourneys.length) || (this.state.queryIndex == 4 && this.state.section == 2 && this.state.selectedJourneys.length) ? 
                 <CustomButton type="submit" float={"right"}
-                        onClick={()=> this.setState(()=> {return {showActionPlan:false, showNextJourney: true, showBack:false}})}
+                        onClick={()=> this.setState(()=> {return {showActionPlan:false, showNextJourney: true, showBack:false, section : 4}})}
                         data={litrals.buttons.nextStep}>
                     </CustomButton> :  
                 radios && radios.length == 1 & this.state.showActionPlan ? radios : "" 
