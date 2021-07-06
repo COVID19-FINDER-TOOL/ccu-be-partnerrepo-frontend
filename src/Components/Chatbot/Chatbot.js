@@ -166,6 +166,13 @@ class Chatbot extends React.Component {
                     })
                     this.props.history.push("/feedback")
                 }
+                if(data.questions[0] === "Action Plan"){
+                    
+                    // console.log(data)
+                    // setTimeout(()=>{
+                    //   this.setState({ ready: true });
+                    // }, 1);
+                }
                 this.props.onEditInspection({ section })
                 this.setState(() => { return { data: data, showSpinner: false, section: section, showHearFromOthers: str ? true : false, } });
             }).catch(error => {
@@ -774,7 +781,7 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        // console.log(this.state)
+        console.log(this.state.ready)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
@@ -863,7 +870,7 @@ class Chatbot extends React.Component {
                         <div className={classes.progressBar} >
 
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
-                            {topic == 4 && this.state.showActionPlan ? (
+                            {topic == 4 && this.state.ready ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                     {downloadActionPlan}
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
