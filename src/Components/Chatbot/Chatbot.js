@@ -389,7 +389,7 @@ class Chatbot extends React.Component {
                         
                     };
                     var newselected = selectedJourneys?.filter((x)=>x.id != ele)
-                    
+                    this.clearJourneyData()
                     this.setState(() => { return {requestBody, queryIndex: parseInt(ele)-1 , section: 0,selectedJourneys: newselected, showActionPlan:true, showNextJourney:false, showBack: true, visitedLinks: [] }},() => { this.fetch()} )
                     }
                 }
@@ -763,15 +763,17 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
+        const { CREATEJOURNEY } = this.props.payload
+        var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const btn = (
         <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
-            {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+            {this.state.section > 0 && this.state.showBack && responseStack?.length ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
             {this.state.section < 2 ?
                 <CustomButton type="submit"
                     float={"right"}
@@ -852,7 +854,7 @@ class Chatbot extends React.Component {
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
                             {topic == 4 && this.state.showActionPlan ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                    {/* {downloadActionPlan} */}
+                                    {downloadActionPlan}
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
