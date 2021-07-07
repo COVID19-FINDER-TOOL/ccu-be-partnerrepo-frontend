@@ -164,7 +164,7 @@ class Chatbot extends React.Component {
                         metadata: "",
 
                     })
-                    this.props.history.push("/feedback")
+                    this.props.history.push("/")
                 }
                 if(data.questions[0] === "Action Plan"){
                     
@@ -418,7 +418,9 @@ class Chatbot extends React.Component {
                     }
                     else if ((value == "No" && meta === "loono") || (value == "No" && meta === "cornexno")) {
                         // this.setState(() => { return { section: 5 } })
-                        this.props.history.push("/feedback")                //hiding Learn From Others
+                        window.localStorage.removeItem('csf_user')
+
+                        this.props.history.push("/")                //hiding Learn From Others and feedback
                     }
 
                     // else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
@@ -624,7 +626,7 @@ class Chatbot extends React.Component {
         if (Tag === 'a') {
             props = {
                 ...props,
-                className: classes.linkElement,
+                className: this.state.section == 4 ? classes.linkElement : classes.paraElement,
                 target: "_blank",
                 onClick: this.changeIcon,
                 href: props.href
@@ -781,7 +783,7 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        console.log(this.state.ready)
+        // console.log(this.state.ready)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()

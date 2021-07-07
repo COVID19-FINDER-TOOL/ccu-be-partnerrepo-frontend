@@ -44,9 +44,10 @@
 }
 
 .para{
-    margin-top: 2%;
+    margin-top: 1%;
     font-size: 18px;
     line-height: 32px;
+    margin-right: 1%;
 }
 .list{
     font-size: 18px;
@@ -101,6 +102,19 @@
     content: '';
 }
 
+.paraElement{
+    text-align: left;
+    letter-spacing: 0px;
+    font-weight: bold;
+    color: $font-color;
+    font-size: 16px;
+    opacity: 1; 
+}
+
+.paraElement:hover{
+   text-decoration: none;
+   color: $primary-color;
+}
 
 
 // .linkElement:link{
