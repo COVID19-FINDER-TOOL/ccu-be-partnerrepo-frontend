@@ -68,7 +68,7 @@ class Chatbot extends React.Component {
     }
 
     componentDidMount = () => {
-        this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" })
+        this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" ,selectedJourneys:[]})
         if (this.props.location.state.disagree === 1) {
             this.setState(() => { return { queryIndex: 5, disagree: 1 } })
         } else {
@@ -194,10 +194,12 @@ class Chatbot extends React.Component {
 
         
         if(this.state.queryIndex == 0) {
-            let currentValues = this.state.selectedJourneys
+            const { CREATEJOURNEY } = this.props.payload;
+            const { selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
+            let currentValues = selectedJourneys
             
-            let hasObject = this.state.selectedJourneys.filter(ele => ele.id === id)
-            hasObject.length > 0 ? currentValues.splice(this.state.selectedJourneys.indexOf(hasObject,1)) : currentValues.push(currentResponses)    
+            let hasObject = currentValues.findIndex(ele => ele['id'] === id)
+            hasObject >= 0 ? currentValues.splice(hasObject,1)   : currentValues.push(currentResponses)    
             this.setState(() => {
                 return {
                     selectedJourneys:currentValues
@@ -553,8 +555,9 @@ class Chatbot extends React.Component {
                     let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                     
                     if(this.state.queryIndex === 0 && selectedJourneys != undefined) {
-                        const selectedOrNot = selectedJourneys.filter(ele => ele.id == x.qnaId)
-                        selectedOrNot.length > 0 ?  checked = "checked" : checked = false
+                        
+                        const selectedOrNot = selectedJourneys.findIndex(ele => ele.id == x.qnaId)
+                        selectedOrNot >= 0 ?  checked = "checked" : checked = false
                     }
                     return (
                         <CustomRadio section={this.state.section}
