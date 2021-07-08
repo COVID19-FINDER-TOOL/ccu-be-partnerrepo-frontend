@@ -94,6 +94,7 @@ class Feedback extends React.Component {
             .then(res => {
                 const data = res.data;
                 console.log(data);
+                window.localStorage.removeItem('csf_user')
             }).catch(error => {
                 console.log(error);
             });

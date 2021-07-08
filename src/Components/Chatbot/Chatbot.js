@@ -164,7 +164,7 @@ class Chatbot extends React.Component {
                         metadata: "",
 
                     })
-                    this.props.history.push("/")
+                    this.props.history.push("/feedback")
                 }
                 if(data.questions[0] === "Action Plan"){
                     
@@ -249,9 +249,12 @@ class Chatbot extends React.Component {
         axiosLoginInstance.post("/CFTDenialTrigger/disagree", resbody)
             .then(res => {
                 this.clearJourneyData()
+                
+                
             }).catch(error => {
                 console.log(error);
             });
+        window.localStorage.removeItem('csf_user')
         this.props.history.push('/')
     }
 
@@ -420,9 +423,9 @@ class Chatbot extends React.Component {
                     }
                     else if ((value == "No" && meta === "loono") || (value == "No" && meta === "cornexno")) {
                         // this.setState(() => { return { section: 5 } })
-                        window.localStorage.removeItem('csf_user')
+                        // window.localStorage.removeItem('csf_user')
 
-                        this.props.history.push("/")                //hiding Learn From Others and feedback
+                        this.props.history.push("/feedback")                
                     }
 
                     // else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
