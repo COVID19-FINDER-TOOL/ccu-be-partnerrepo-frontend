@@ -22,21 +22,24 @@ const creatLinks = () => {
 
 const Footers = (props) => {
   
+  const img1 = process.env.FOOTER_IMAGE_1;
+  const img2 = process.env.FOOTER_IMAGE_2;
 
+  console.log(process.env)
   return (
     <div className={classes.footers}>
       <div className={classes.aligner}>
         <div className={classes.images}>
           <img
             className={classes.logoImage}
-            src={require("../../assets/Images/Image 8.png")}
+            src={require("../../assets/Images/Logo_Capital-Credit-Union.png")}
             alt="SS logo"
           ></img>
-          <img
+          {img2 && <img
             className={classes.logoImage}
-            src={require("../../assets/Images/Image 7.png")}
+            src={require("../../assets/Images/"+img2)}
             alt="university logo"
-          ></img>
+          ></img>}
         </div>
         <div className={ props.format ? classes.links : classes.citation}>
           {props.format ? creatLinks() : <p>{litrals.welcome.text2}</p>}

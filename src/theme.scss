@@ -1,7 +1,7 @@
-// @import url(//db.onlinewebfonts.com/c/379318324cafdcaafd6f5ca625146e49?family=Hurme+Geometric+Sans+No.4);
-$font-color: #4a4a4a;
-$primary-color: #cf022b;
-$secondary-color: #4a4a4a;
+
+$font-color: #212c56;
+$primary-color: #212c56;
+$secondary-color: #212c56;
 $tertiary-color: #9597a6;
 $tertiary-color-2: #a8a8a7;
 $tertiary-color-3: whitesmoke;
@@ -11,18 +11,18 @@ $background-welcome: "../../assets/Images/BackgroundColor.jpg";
 
 
 @font-face {
-  font-family: "HurmeGeometricSans4W00";
-  src: url("HurmeGeometricSans4W00-Bold.woff2") format("woff2"),
-    url("HurmeGeometricSans4W00-Bold.woff") format("woff");
+  font-family: "Myriad Pro Bold";
+  src: url("Myriad Pro Bold.woff2") format("woff2"),
+    url("Myriad Pro Bold.woff2") format("woff");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-    font-family: 'Hurme Geometric Sans 3';
-    src: url('HurmeGeometricSans3-Regular.woff2') format('woff2'),
-        url('HurmeGeometricSans3-Regular.woff') format('woff');
+    font-family: 'Myriad Pro Regular';
+    src: url('Myriad Pro Regular.woff2') format('woff2'),
+        url('Myriad Pro Regular.woff2') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

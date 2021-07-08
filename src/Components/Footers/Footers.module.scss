@@ -48,18 +48,19 @@
 }
 .footerLinks{
     padding-right: 1rem ;
-    color: $tertiary-color-2;
+    color: $secondary-color;
 }
 
 .footerLinks:hover{
-    color: black;
-    border-bottom:black;
+    color: $secondary-color;
+    border-bottom: $secondary-color;
+    font-weight: bold;
     justify-content: flex-start;
 }
 
 .logoImage{
-    width: 60px;
-    height: 60px;
+    width: 150px;
+    // height: 60px;
 }
 .buttons {
     flex: none;
