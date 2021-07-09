@@ -280,8 +280,8 @@ class Chatbot extends React.Component {
                 id = currentResponse?.answer_id?.toString().substring(4)
             }
 
-            if(this.state.queryIndex===0){
-                id =  parseInt(this.state.selectedJourneys[0].id)
+            if(this.state.queryIndex===0 && this.state.selectedJourneys.length){
+                id =  parseInt(this.state.selectedJourneys[0]?.id)
                 newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
                 this.setState(() => { return { selectedJourneys:newselectedJourneys } })
                 
