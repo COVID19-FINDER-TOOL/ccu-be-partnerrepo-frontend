@@ -4,6 +4,7 @@ import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
+import Email from '../Email/Email';
 import litrals from '../Litrals/Litrals';
 import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
@@ -791,12 +792,13 @@ class Chatbot extends React.Component {
     render() {
         // console.log(this.state.ready)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
+        console.log(topic)
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         const { CREATEJOURNEY } = this.props.payload
-        var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const btn = (
         <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
             {this.state.section > 0 && this.state.showBack && responseStack?.length ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
@@ -889,6 +891,8 @@ class Chatbot extends React.Component {
                                                 <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
                                 </div>
                             ) : ""}
+
+                            { topic ==4 && <Email index={this.state.queryIndex} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>}
 
                         </div>
                         <div style={{ height: "64vh", }} className={classes.qnaContainer}>

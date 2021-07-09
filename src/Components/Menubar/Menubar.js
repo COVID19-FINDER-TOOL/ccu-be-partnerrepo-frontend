@@ -21,7 +21,7 @@ const Menubar = (props) => {
   };
 
   const handleIterate = (Tag, props, children, level) => {
-    if (Tag === "span"  && children[0].props.children.length === 1 && children[0].props.children[0].type!=="em" ){
+    if (Tag === "span"  && children && children[0]?.props.children.length === 1 && children[0]?.props.children[0]?.type!=="em" ){
       // console.log(children[0].props.children[0].type)
       props = {
         ...props,
@@ -75,7 +75,7 @@ const Menubar = (props) => {
               {topic == 3 ? menu[index].slice(3) : menu[index].slice(3).slice(3, -2)}
             </p>
           </div>
-          <div style={{display : current==="sub"+(index+1) ? 'block' : 'none'}}>{generateLinks(data[1][index], topic)}</div>
+          <div>{generateLinks(data[1][index], topic)}</div>
         </div>
       )
     })
@@ -89,7 +89,7 @@ const Menubar = (props) => {
   return (
     <>
       <h2 className="heading">
-        {topic == 3 ? litrals.welcome.text5 : litrals.welcome.text6}
+        {litrals.welcome.text5}
       </h2>
       <div className="menuContainer">
         {generateMenus(rights,topic)}

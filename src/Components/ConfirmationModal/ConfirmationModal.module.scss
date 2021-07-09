@@ -37,14 +37,24 @@
 }
 
 .yesButton{
-    background-color: $secondary_color !important;
-    border-color: $secondary_color !important;
+    background-color:  $primary-color  !important;
+    border-color:  $primary-color  !important;
+    &:focus{
+        outline: none !important;
+        border: 1px solid $primary-color;
+    }
 }
 
-.yesButton:hover{
-    background-color: $primary-color !important;
-    
+.noButton{
+    background-color:  $tertiary-color-2  !important;
+    border-color:  $tertiary-color-2  !important;
+    &:focus{
+        outline: none !important;
+        border: 1px solid $tertiary-color-2 ;
+    }
 }
+
+
 
 
 
