@@ -125,7 +125,8 @@ class Chatbot extends React.Component {
                 questionStack: [],
                 responseStack: [],
                 backStack: [],
-                metadata: ""
+                metadata: "",
+                gotoNextJourney:false 
             }
         })
     }
@@ -784,9 +785,9 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        // console.log(this.state.ready)
+        console.log(this.state.showActionPlan, this.state.showNextJourney)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
-        // console.log(topic)
+        console.log(topic)
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         // const downloadActionPlan = this.downloadActionPlan();
@@ -874,7 +875,7 @@ class Chatbot extends React.Component {
                         <div className={classes.progressBar} >
 
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
-                            {topic == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney ? (
+                            {this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                     <span title="Download action plan"> {this.downloadActionPlan()}</span>
 
