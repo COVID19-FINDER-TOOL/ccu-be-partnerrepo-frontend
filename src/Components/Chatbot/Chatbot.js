@@ -82,7 +82,7 @@ class Chatbot extends React.Component {
     }
 
     saveQuestion = (data, response, notFetch) => {
-        console.log(data)
+        // console.log(data)
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -106,8 +106,7 @@ class Chatbot extends React.Component {
             //     }).catch(error => {
             //         console.log(error);
             //     });
-            console.log(this.state)
-            notFetch ? console.log() : this.fetch();
+            notFetch ? console.log("nof") : this.fetch();
 
         }
     }
@@ -166,13 +165,6 @@ class Chatbot extends React.Component {
 
                     })
                     this.props.history.push("/feedback")
-                }
-                if(data.questions[0] === "Action Plan"){
-                    
-                    // console.log(data)
-                    // setTimeout(()=>{
-                    //   this.setState({ ready: true });
-                    // }, 1);
                 }
                 this.props.onEditInspection({ section })
                 this.setState(() => { return { data: data, showSpinner: false, section: section, showHearFromOthers: str ? true : false, } });
@@ -273,7 +265,6 @@ class Chatbot extends React.Component {
 
         if (this.state.selected || currentResponse || this.state.section>=4) {
             var value = ""
-            console.log(this.state.selectedJourneys)
             var id = "" 
             var newselectedJourneys = []
 
@@ -511,7 +502,6 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload
         const { responseStack, journey_id } = CREATEJOURNEY ? CREATEJOURNEY : []
         return (
-
             <PDFDownloadLink
                 onClick={this.sendDownloadInfo}
                 document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} />}
@@ -523,7 +513,7 @@ class Chatbot extends React.Component {
                         this.blobData = blob ? blob : ""
                         this.blobUrl = url
 
-                        return (loading ? "Loading document..." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
+                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
                     }
 
                 }
@@ -551,7 +541,7 @@ class Chatbot extends React.Component {
                 buttonText: prompts[0].displayText,
                 variant: "primary",
             }
-            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} onClick={this.handleRadio}><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
+            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} ><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
         }
         else {
             
@@ -579,13 +569,14 @@ class Chatbot extends React.Component {
     }
 
     handleBack = () => {
-        
+
             const { CREATEJOURNEY } = this.props.payload
             var { backStack } = this.state
             const { responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
+            console.log(section)
             const previousResponse = responseStack[responseStack.length - 1];
             const exists = backStack ? backStack.find((x) => x.answer_id == previousResponse.answer_id) : false
-            if (section < 3 && !exists) {
+            if (section < 4 && !exists) {
                 backStack ? backStack.push(previousResponse) : backStack = [previousResponse]
             }
             const previousquestion = questionStack[questionStack.length - 1];
@@ -690,7 +681,7 @@ class Chatbot extends React.Component {
                                         <div className={classes.actionPlanLinks}>
                                             <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></div>
 
-                                            <div md={1} xs={2} className={classes.iconCenter}> <i class="fas fa-chevron-right"></i></div>
+                                            <div md={1} xs={2} className={classes.iconCenter}> <i className="fas fa-chevron-right"></i></div>
                                         </div>)
                                 })
                             }
@@ -729,7 +720,9 @@ class Chatbot extends React.Component {
     displayNextTopic = (topic) => {
 
         const text = this.state.data.answer;
-        const textarray = text.split("\n");
+        const belowText = text.split("\n\n")
+        const textarray = belowText ? belowText[0].split("\n") : text.split("\n");
+        // console.log(belowText[0])
         var temp = {}
         var key = ""
         textarray.map((x) => {
@@ -740,7 +733,7 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <Menubar data={temp} topic={topic}></Menubar>
+        return <Menubar data={temp} topic={topic} text={belowText ? belowText[1] : ""}></Menubar>
 
     }
 
@@ -785,17 +778,18 @@ class Chatbot extends React.Component {
     handleOkay = () => {
         this.setState(()=>{
             return {gotoNextJourney : true}
-        }, ()=>{this.handleSubmit()})
+        }, 
+        ()=>{this.handleSubmit()})
 
     }
 
     render() {
         // console.log(this.state.ready)
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
-        console.log(topic)
+        // console.log(topic)
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
-        const downloadActionPlan = this.downloadActionPlan();
+        // const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
@@ -880,9 +874,13 @@ class Chatbot extends React.Component {
                         <div className={classes.progressBar} >
 
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
-                            {topic == 4 && this.state.ready ? (
+                            {topic == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                    {downloadActionPlan}
+                                    <span title="Download action plan"> {this.downloadActionPlan()}</span>
+
+                                    { questionStack[questionStack.length - 1] && <Email index={this.state.queryIndex} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>}
+
+
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
@@ -892,7 +890,6 @@ class Chatbot extends React.Component {
                                 </div>
                             ) : ""}
 
-                            { topic ==4 && <Email index={this.state.queryIndex} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>}
 
                         </div>
                         <div style={{ height: "64vh", }} className={classes.qnaContainer}>

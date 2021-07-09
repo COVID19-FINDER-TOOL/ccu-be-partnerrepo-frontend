@@ -3,7 +3,7 @@
 .emailInput {
   border: 1px solid $secondary-color;
   border-radius: 5px;
-  height: 30px;
+  height: 40px;
   width: 300px;
   &:focus {
     border: 1px solid $primary-color;
@@ -19,6 +19,6 @@
 
 .icon {
   color: $primary-color;
-  font-size: 30px;
+  font-size: 40px;
   cursor: pointer;
 }

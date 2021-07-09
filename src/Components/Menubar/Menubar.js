@@ -94,6 +94,14 @@ const Menubar = (props) => {
       <div className="menuContainer">
         {generateMenus(rights,topic)}
       </div>
+      <div className="belowText">
+      {props.text &&
+      <MDReactComponent
+            text={props.text}
+            onIterate={handleIterate}
+          />
+      }
+      </div>
     </>
   );
 };

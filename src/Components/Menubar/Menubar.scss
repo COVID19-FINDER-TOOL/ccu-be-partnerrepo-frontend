@@ -25,7 +25,7 @@
     background-color: $primary-color;
     padding: 10px 15px;
     text-align: center;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin: 0 5px;
     &:hover{
@@ -44,7 +44,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0px;
+    padding: 10px 15px;
     border-bottom: whitesmoke solid 2px;
     line-height: 24px;
 }
@@ -59,7 +59,7 @@ p{
 
 .paraElement{
     margin-bottom: 0 !important;
-    font-size: 16px;
+    font-size: 14px;
     cursor: default;
 
 }
@@ -67,7 +67,7 @@ p{
     text-align: left;
     letter-spacing: 0px;
     color: $tertiary-color-2 !important;
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 10px;
     opacity: 1; 
     cursor: pointer !important;
@@ -87,3 +87,32 @@ p{
     font-size: 22px;
 }
 
+.belowText{
+    margin-top: 2rem;
+}
+
+
+@media only screen and (min-width:1400px){
+    .menuBar{
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    .linkElement{
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .paraElement{
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .optionDiv{
+        padding: 20px 10px;
+    }
+
+    .belowText{
+        margin-top: 3rem;
+    }
+}

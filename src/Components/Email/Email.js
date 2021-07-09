@@ -68,7 +68,7 @@ const Email = (props) => {
         onHide={hideModal}
       />
       <i
-        title={"send as email"}
+        title={"Send as email"}
         className={"far fa-envelope " + classes.icon}
         onClick={handleClick}
       ></i>
