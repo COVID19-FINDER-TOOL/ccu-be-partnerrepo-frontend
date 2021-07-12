@@ -38,6 +38,7 @@ class Chatbot extends React.Component {
         super(props);
         this.blobData = null;
         this.blobUrl = ""
+        this.myCustomHTML= React.createRef()
         this.state = {
             data: "",
             requestBody: { "question": "Start the flow" },
@@ -721,9 +722,9 @@ class Chatbot extends React.Component {
     displayNextTopic = (topic) => {
 
         const text = this.state.data.answer;
-        const belowText = text.split("\n\n")
-        const textarray = belowText ? belowText[0].split("\n") : text.split("\n");
-        // console.log(belowText[0])
+        const otherText = text.split("\n\n")
+        const textarray = otherText ? otherText[1].split("\n") : text.split("\n");
+        // console.log(otherText[0])
         var temp = {}
         var key = ""
         textarray.map((x) => {
@@ -734,7 +735,7 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <Menubar data={temp} topic={topic} text={belowText ? belowText[1] : ""}></Menubar>
+        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText ? otherText[0] : ""}></Menubar>
 
     }
 
@@ -785,9 +786,8 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        console.log(this.state.showActionPlan, this.state.showNextJourney)
+        
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
-        console.log(topic)
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         // const downloadActionPlan = this.downloadActionPlan();
@@ -860,7 +860,6 @@ class Chatbot extends React.Component {
                                         ) : ""}
 
                                     </div>
-
                                 </Col>
                             </Row>
                         </Container>
@@ -875,11 +874,11 @@ class Chatbot extends React.Component {
                         <div className={classes.progressBar} >
 
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
-                            {this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney ? (
+                            {this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]  ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                     <span title="Download action plan"> {this.downloadActionPlan()}</span>
 
-                                    { questionStack[questionStack.length - 1] && <Email index={this.state.queryIndex} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>}
+                                    <Email index={this.state.queryIndex} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>
 
 
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
@@ -893,7 +892,7 @@ class Chatbot extends React.Component {
 
 
                         </div>
-                        <div style={{ height: "64vh", }} className={classes.qnaContainer}>
+                        <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
                             <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>

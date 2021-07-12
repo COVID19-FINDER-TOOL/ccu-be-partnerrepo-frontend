@@ -43,6 +43,13 @@ const Menubar = (props) => {
         className: "linkElement",
       };
     }
+
+    if(Tag === "li"){
+      props = {
+        className: "paraElement",
+      }
+    }
+
     return <Tag {...props}>{children}</Tag>;
   };
 
@@ -85,17 +92,25 @@ const Menubar = (props) => {
   const rights = assembleData(props.data);
   const menu = rights[0];
   const topic = props.topic;
-  // console.log(rights)
+  console.log(props.qindex)
   return (
     <>
-      <h2 className="heading">
+    <h2 className="heading">
         {litrals.welcome.text5}
       </h2>
+
+    {props.text && props.qindex < 3 &&
+      <MDReactComponent
+            text={props.text}
+            onIterate={handleIterate}
+          />
+      }
+      
       <div className="menuContainer">
         {generateMenus(rights,topic)}
       </div>
       <div className="belowText">
-      {props.text &&
+      {props.text && props.qindex == 3 &&
       <MDReactComponent
             text={props.text}
             onIterate={handleIterate}
