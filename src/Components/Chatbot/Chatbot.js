@@ -4,6 +4,7 @@ import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
+import Email from '../Email/Email';
 import litrals from '../Litrals/Litrals';
 import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
@@ -37,6 +38,7 @@ class Chatbot extends React.Component {
         super(props);
         this.blobData = null;
         this.blobUrl = ""
+        this.myCustomHTML= React.createRef()
         this.state = {
             data: "",
             requestBody: { "question": "Start the flow" },
@@ -56,7 +58,7 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
@@ -81,7 +83,7 @@ class Chatbot extends React.Component {
     }
 
     saveQuestion = (data, response, notFetch) => {
-        console.log(data)
+        // console.log(data)
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -105,8 +107,7 @@ class Chatbot extends React.Component {
             //     }).catch(error => {
             //         console.log(error);
             //     });
-            console.log(this.state)
-            notFetch ? console.log() : this.fetch();
+            notFetch ? console.log("nof") : this.fetch();
 
         }
     }
@@ -125,7 +126,8 @@ class Chatbot extends React.Component {
                 questionStack: [],
                 responseStack: [],
                 backStack: [],
-                metadata: ""
+                metadata: "",
+                gotoNextJourney:false 
             }
         })
     }
@@ -165,13 +167,6 @@ class Chatbot extends React.Component {
 
                     })
                     this.props.history.push("/feedback")
-                }
-                if(data.questions[0] === "Action Plan"){
-                    
-                    // console.log(data)
-                    // setTimeout(()=>{
-                    //   this.setState({ ready: true });
-                    // }, 1);
                 }
                 this.props.onEditInspection({ section })
                 this.setState(() => { return { data: data, showSpinner: false, section: section, showHearFromOthers: str ? true : false, } });
@@ -272,7 +267,6 @@ class Chatbot extends React.Component {
 
         if (this.state.selected || currentResponse || this.state.section>=4) {
             var value = ""
-            console.log(this.state.selectedJourneys)
             var id = "" 
             var newselectedJourneys = []
 
@@ -287,8 +281,8 @@ class Chatbot extends React.Component {
                 id = currentResponse?.answer_id?.toString().substring(4)
             }
 
-            if(this.state.queryIndex===0){
-                id =  parseInt(this.state.selectedJourneys[0].id)
+            if(this.state.queryIndex===0 && this.state.selectedJourneys.length){
+                id =  parseInt(this.state.selectedJourneys[0]?.id)
                 newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
                 this.setState(() => { return { selectedJourneys:newselectedJourneys } })
                 
@@ -388,7 +382,7 @@ class Chatbot extends React.Component {
                     "strictFilters": [{ "name": "context", "value": meta }]
                 };
 
-                if((this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) && this.state.selectedJourneys.length !== 0 ){
+                if(this.state.section >= 4  && this.state.selectedJourneys.length !== 0 ){
 
                     
                     if(this.state.gotoNextJourney){
@@ -407,7 +401,7 @@ class Chatbot extends React.Component {
 
                 else{
 
-                if ((this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) && this.state.selectedJourneys?.length === 0) {
+                if (this.state.section >= 4 && this.state.selectedJourneys?.length === 0) {
 
                     // console.log(value, meta)
                     if (value == "Next") {
@@ -510,7 +504,6 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload
         const { responseStack, journey_id } = CREATEJOURNEY ? CREATEJOURNEY : []
         return (
-
             <PDFDownloadLink
                 onClick={this.sendDownloadInfo}
                 document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} />}
@@ -522,7 +515,7 @@ class Chatbot extends React.Component {
                         this.blobData = blob ? blob : ""
                         this.blobUrl = url
 
-                        return (loading ? "Loading document..." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
+                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
                     }
 
                 }
@@ -550,7 +543,7 @@ class Chatbot extends React.Component {
                 buttonText: prompts[0].displayText,
                 variant: "primary",
             }
-            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} onClick={this.handleRadio}><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
+            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} ><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
         }
         else {
             
@@ -578,13 +571,14 @@ class Chatbot extends React.Component {
     }
 
     handleBack = () => {
-        
+
             const { CREATEJOURNEY } = this.props.payload
             var { backStack } = this.state
             const { responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
+            console.log(section)
             const previousResponse = responseStack[responseStack.length - 1];
             const exists = backStack ? backStack.find((x) => x.answer_id == previousResponse.answer_id) : false
-            if (section < 3 && !exists) {
+            if (section < 4 && !exists) {
                 backStack ? backStack.push(previousResponse) : backStack = [previousResponse]
             }
             const previousquestion = questionStack[questionStack.length - 1];
@@ -689,7 +683,7 @@ class Chatbot extends React.Component {
                                         <div className={classes.actionPlanLinks}>
                                             <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></div>
 
-                                            <div md={1} xs={2} className={classes.iconCenter}> <i class="fas fa-chevron-right"></i></div>
+                                            <div md={1} xs={2} className={classes.iconCenter}> <i className="fas fa-chevron-right"></i></div>
                                         </div>)
                                 })
                             }
@@ -702,9 +696,9 @@ class Chatbot extends React.Component {
             )
         }
         else {
-            if(this.state.queryIndex === 4){
-                return this.state.showNextJourney  && this.state.selectedJourneys.length  ? this.gotoNextJourney() : <MDReactComponent text={text} onIterate={this.handleIterate} />
-            }
+            // if(this.state.queryIndex === 4){
+            //     return this.state.showNextJourney  && this.state.selectedJourneys.length  ? this.gotoNextJourney() : <MDReactComponent text={text} onIterate={this.handleIterate} />
+            // }
             return <MDReactComponent text={text} onIterate={this.handleIterate} />
         }
 
@@ -728,7 +722,9 @@ class Chatbot extends React.Component {
     displayNextTopic = (topic) => {
 
         const text = this.state.data.answer;
-        const textarray = text.split("\n");
+        const otherText = text.split("\n\n")
+        const textarray = otherText[1] ? otherText[1].split("\n") : text.split("\n");
+        // console.log(otherText[0])
         var temp = {}
         var key = ""
         textarray.map((x) => {
@@ -739,7 +735,7 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <Menubar data={temp} topic={topic}></Menubar>
+        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText ? otherText[0] : ""}></Menubar>
 
     }
 
@@ -784,19 +780,20 @@ class Chatbot extends React.Component {
     handleOkay = () => {
         this.setState(()=>{
             return {gotoNextJourney : true}
-        }, ()=>{this.handleSubmit()})
+        }, 
+        ()=>{this.handleSubmit()})
 
     }
 
     render() {
-        // console.log(this.state.ready)
+        
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
-        const downloadActionPlan = this.downloadActionPlan();
+        // const downloadActionPlan = this.downloadActionPlan();
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         const { CREATEJOURNEY } = this.props.payload
-        var { responseStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const btn = (
         <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
             {this.state.section > 0 && this.state.showBack && responseStack?.length ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
@@ -863,7 +860,6 @@ class Chatbot extends React.Component {
                                         ) : ""}
 
                                     </div>
-
                                 </Col>
                             </Row>
                         </Container>
@@ -878,9 +874,13 @@ class Chatbot extends React.Component {
                         <div className={classes.progressBar} >
 
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
-                            {topic == 4 && this.state.ready ? (
+                            {this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]  ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                    {downloadActionPlan}
+                                    <span title="Download action plan"> {this.downloadActionPlan()}</span>
+
+                                    <Email index={this.state.queryIndex} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>
+
+
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
@@ -890,8 +890,9 @@ class Chatbot extends React.Component {
                                 </div>
                             ) : ""}
 
+
                         </div>
-                        <div style={{ height: "64vh", }} className={classes.qnaContainer}>
+                        <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
 
                             <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>

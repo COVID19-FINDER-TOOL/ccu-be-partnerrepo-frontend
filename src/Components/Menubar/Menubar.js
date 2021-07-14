@@ -21,7 +21,7 @@ const Menubar = (props) => {
   };
 
   const handleIterate = (Tag, props, children, level) => {
-    if (Tag === "span"  && children[0].props.children.length === 1 && children[0].props.children[0].type!=="em" ){
+    if (Tag === "span"  && children && children[0]?.props.children.length === 1 && children[0]?.props.children[0]?.type!=="em" ){
       // console.log(children[0].props.children[0].type)
       props = {
         ...props,
@@ -43,6 +43,13 @@ const Menubar = (props) => {
         className: "linkElement",
       };
     }
+
+    if(Tag === "li"){
+      props = {
+        className: "paraElement",
+      }
+    }
+
     return <Tag {...props}>{children}</Tag>;
   };
 
@@ -75,7 +82,7 @@ const Menubar = (props) => {
               {topic == 3 ? menu[index].slice(3) : menu[index].slice(3).slice(3, -2)}
             </p>
           </div>
-          <div style={{display : current==="sub"+(index+1) ? 'block' : 'none'}}>{generateLinks(data[1][index], topic)}</div>
+          <div>{generateLinks(data[1][index], topic)}</div>
         </div>
       )
     })
@@ -85,14 +92,30 @@ const Menubar = (props) => {
   const rights = assembleData(props.data);
   const menu = rights[0];
   const topic = props.topic;
-  // console.log(rights)
+  console.log(props.qindex)
   return (
     <>
-      <h2 className="heading">
-        {topic == 3 ? litrals.welcome.text5 : litrals.welcome.text6}
+    <h2 className="heading">
+        {litrals.welcome.text5}
       </h2>
+
+    {props.text && props.qindex < 3 &&
+      <MDReactComponent
+            text={props.text}
+            onIterate={handleIterate}
+          />
+      }
+      
       <div className="menuContainer">
         {generateMenus(rights,topic)}
+      </div>
+      <div className="belowText">
+      {props.text && props.qindex == 3 &&
+      <MDReactComponent
+            text={props.text}
+            onIterate={handleIterate}
+          />
+      }
       </div>
     </>
   );
