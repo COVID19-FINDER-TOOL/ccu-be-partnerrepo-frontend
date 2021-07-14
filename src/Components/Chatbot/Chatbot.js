@@ -58,7 +58,7 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
@@ -382,7 +382,7 @@ class Chatbot extends React.Component {
                     "strictFilters": [{ "name": "context", "value": meta }]
                 };
 
-                if((this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) && this.state.selectedJourneys.length !== 0 ){
+                if(this.state.section >= 4  && this.state.selectedJourneys.length !== 0 ){
 
                     
                     if(this.state.gotoNextJourney){
@@ -401,7 +401,7 @@ class Chatbot extends React.Component {
 
                 else{
 
-                if ((this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) && this.state.selectedJourneys?.length === 0) {
+                if (this.state.section >= 4 && this.state.selectedJourneys?.length === 0) {
 
                     // console.log(value, meta)
                     if (value == "Next") {
@@ -696,9 +696,9 @@ class Chatbot extends React.Component {
             )
         }
         else {
-            if(this.state.queryIndex === 4){
-                return this.state.showNextJourney  && this.state.selectedJourneys.length  ? this.gotoNextJourney() : <MDReactComponent text={text} onIterate={this.handleIterate} />
-            }
+            // if(this.state.queryIndex === 4){
+            //     return this.state.showNextJourney  && this.state.selectedJourneys.length  ? this.gotoNextJourney() : <MDReactComponent text={text} onIterate={this.handleIterate} />
+            // }
             return <MDReactComponent text={text} onIterate={this.handleIterate} />
         }
 
@@ -723,7 +723,7 @@ class Chatbot extends React.Component {
 
         const text = this.state.data.answer;
         const otherText = text.split("\n\n")
-        const textarray = otherText ? otherText[1].split("\n") : text.split("\n");
+        const textarray = otherText[1] ? otherText[1].split("\n") : text.split("\n");
         // console.log(otherText[0])
         var temp = {}
         var key = ""
