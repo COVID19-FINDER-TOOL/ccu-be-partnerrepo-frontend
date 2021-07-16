@@ -99,7 +99,7 @@ const Menubar = (props) => {
         {litrals.welcome.text5}
       </h2>
 
-    {props.text && props.qindex < 3 &&
+    {props.text &&
       <MDReactComponent
             text={props.text}
             onIterate={handleIterate}
@@ -110,12 +110,7 @@ const Menubar = (props) => {
         {generateMenus(rights,topic)}
       </div>
       <div className="belowText">
-      {props.text && props.qindex == 3 &&
-      <MDReactComponent
-            text={props.text}
-            onIterate={handleIterate}
-          />
-      }
+      
       </div>
     </>
   );
