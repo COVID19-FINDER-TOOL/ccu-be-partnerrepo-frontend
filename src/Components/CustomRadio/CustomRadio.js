@@ -9,7 +9,7 @@ const CustomRadio = (props) => {
         <div className='radioWrap' onChange={props.onClick}>
             <label htmlFor={props.id} className={props.btn ? " displayAsButton" : "containerr"} style={{ display: props.display ? "block" : "none", width: props.width ? props.width : "fit-content" }}>
                 <input 
-                className='radio_input' 
+                className={props.ind==0 ?'checkbox_input' :'radio_input'} 
                 type={type} 
                 value={props.radioLabel} 
                 key={props.id} 

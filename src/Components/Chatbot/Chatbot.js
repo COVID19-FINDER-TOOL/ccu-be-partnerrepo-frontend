@@ -266,8 +266,8 @@ class Chatbot extends React.Component {
             var newselectedJourneys = []
 
         
-            if(this.state.queryIndex===0 && this.state.selectedJourneys.length){
-                console.log(5000000, this.state.selectedJourneys)
+            if(this.state.queryIndex===0 && this.state.selectedJourneys.length && !this.state.backStack.length){
+
                 id =  parseInt(this.state.selectedJourneys[0]?.id)
                 value = this.state.selectedJourneys[0]?.value
                 newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
@@ -365,6 +365,7 @@ class Chatbot extends React.Component {
                     this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody, false) });
                 }
                 this.setState(() => { return { queryIndex: id - 1 } });
+                
             }
             else {
                 const { metadata } = this.state.data
@@ -557,6 +558,7 @@ class Chatbot extends React.Component {
                     }
                     return (
                         <CustomRadio section={this.state.section}
+                            ind = {this.state.queryIndex}
                             radioLabel={x.displayText}
                             display={this.state.section == 4 && this.state.selectedJourneys.length !==0 ? false : true}
                             id={x.qnaId} key={x.qnaId}
@@ -735,7 +737,7 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText ? otherText[0] : ""}></Menubar>
+        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
 
     }
 
@@ -792,7 +794,7 @@ class Chatbot extends React.Component {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
-        console.log(this.state.selectedJourneys)
+        // console.log(this.state)
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
