@@ -72,6 +72,46 @@
 }
 
 
+.checkbox_input{
+    display: none;
+}
+
+.checkbox_input:checked + .radio_radio::after{
+    transform: scale(1);
+}
+
+.checkbox_input:checked + .label{
+    color: $primary-color;
+}
+
+.checkbox_input:not(:checked) + .label::before{
+    font-family: "Font Awesome 5 Free";
+    color:darkgray;
+    content: "\f0c8";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:25px;
+    margin: 0 20px 0 0;
+}
+
+.checkbox_input:checked + .label::before{
+    font-family: "Font Awesome 5 Free";
+    color:$primary-color;
+    content: "\f14a";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:25px;
+    margin: 0 20px 0 0;
+    font-weight: 900;;
+}
+
+.checkbox_input:checked + .label{
+    font-weight: bold;
+}
+
+
 
 .label{
     // padding-left: 15px;

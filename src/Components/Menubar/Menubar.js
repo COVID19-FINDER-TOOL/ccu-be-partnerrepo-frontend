@@ -99,7 +99,7 @@ const Menubar = (props) => {
         {litrals.welcome.text5}
       </h2>
 
-    {props.text &&
+    {props.text && 
       <MDReactComponent
             text={props.text}
             onIterate={handleIterate}
@@ -110,7 +110,6 @@ const Menubar = (props) => {
         {generateMenus(rights,topic)}
       </div>
       <div className="belowText">
-      
       </div>
     </>
   );

@@ -116,6 +116,18 @@
    color: $primary-color;
 }
 
+.currentJourney{
+    font-weight: 900 !important;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    font-size: 24px;
+    line-height: 36px;
+    color: $secondary-color;
+
+}
+.currentJourneySpan{
+    color: $primary-color;
+}
 
 // .linkElement:link{
 //     color: #a60726;
