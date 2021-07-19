@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "https://jolly-beach-01e73f303.azurestaticapps.net/static/css/main.4674392f.chunk.css",
+    "main.js": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/main.b57e0e13.chunk.js",
+    "main.js.map": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/main.b57e0e13.chunk.js.map",
+    "runtime-main.js": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/runtime-main.226754b8.js",
+    "runtime-main.js.map": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/runtime-main.226754b8.js.map",
+    "static/css/2.17b531b1.chunk.css": "https://jolly-beach-01e73f303.azurestaticapps.net/static/css/2.17b531b1.chunk.css",
+    "static/js/2.8d337d6d.chunk.js": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/2.8d337d6d.chunk.js",
+    "static/js/2.8d337d6d.chunk.js.map": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/2.8d337d6d.chunk.js.map",
+    "index.html": "https://jolly-beach-01e73f303.azurestaticapps.net/index.html",
+    "precache-manifest.70dd7d392a6296ea4ce765849ab0545a.js": "https://jolly-beach-01e73f303.azurestaticapps.net/precache-manifest.70dd7d392a6296ea4ce765849ab0545a.js",
+    "service-worker.js": "https://jolly-beach-01e73f303.azurestaticapps.net/service-worker.js",
+    "static/css/2.17b531b1.chunk.css.map": "https://jolly-beach-01e73f303.azurestaticapps.net/static/css/2.17b531b1.chunk.css.map",
+    "static/css/main.4674392f.chunk.css.map": "https://jolly-beach-01e73f303.azurestaticapps.net/static/css/main.4674392f.chunk.css.map",
+    "static/js/2.8d337d6d.chunk.js.LICENSE.txt": "https://jolly-beach-01e73f303.azurestaticapps.net/static/js/2.8d337d6d.chunk.js.LICENSE.txt",
+    "static/media/Action_Plan-min.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Action_Plan-min.223505e4.png",
+    "static/media/Background-min.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Background-min.84265c46.png",
+    "static/media/Image 7.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Image 7.7580d5fa.png",
+    "static/media/Landing page -Oranges.jpg": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Landing page -Oranges.5e248caf.jpg",
+    "static/media/Magnifying glass buterflies.jpg": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Magnifying glass buterflies.d21d04c3.jpg",
+    "static/media/Spinner-1s-200px.svg": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Spinner-1s-200px.9f57f72c.svg",
+    "static/media/Spinner-1s-200px.gif": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Spinner-1s-200px.b6ed623f.gif",
+    "static/media/Support_finder_logo2x.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Support_finder_logo2x.707e9a1f.png",
+    "static/media/Thank-you-min.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/Thank-you-min.6f2544e3.png",
+    "static/media/check-square.svg": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/check-square.4ceacc22.svg",
+    "static/media/hear_from_others.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/hear_from_others.4eeab1ce.png",
+    "static/media/newtab.svg": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/newtab.16376849.svg",
+    "static/media/podcast.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/podcast.76d15e83.png",
+    "static/media/reading.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/reading.eddba2ab.png",
+    "static/media/tell_uss-min.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/tell_uss-min.e740c24e.png",
+    "static/media/video.png": "https://jolly-beach-01e73f303.azurestaticapps.net/static/media/video.5c6db3b2.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.226754b8.js",
+    "static/css/2.17b531b1.chunk.css",
+    "static/js/2.8d337d6d.chunk.js",
+    "static/css/main.4674392f.chunk.css",
+    "static/js/main.b57e0e13.chunk.js"
+  ]
+}
