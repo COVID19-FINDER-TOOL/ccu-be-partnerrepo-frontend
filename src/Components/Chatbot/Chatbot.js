@@ -33,6 +33,7 @@ import { getKeyThenIncreaseKey } from 'antd/lib/message';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
+    emailData = [];
     key = -1;
     constructor(props) {
         super(props);
@@ -433,11 +434,13 @@ class Chatbot extends React.Component {
 
                         if (meta === "cornexyes") {
                             this.props.onEditInspection({responseStack:[]})
+                            this.emailData=[]
                             this.setState(() => { return { section: 0, showSpinner: true } })
                             window.location.reload();
                         }
                         else {
                             this.visitedLinks = []
+                            this.emailData=[]
                             this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [], } })
                             this.props.onEditInspection({responseStack:[]})
                             requestBody = {
@@ -652,6 +655,8 @@ class Chatbot extends React.Component {
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
+        const { CREATEJOURNEY } = this.props.payload
+        var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         var texts = [];
         var links = [];
         var visitedLinks = [];
@@ -665,6 +670,13 @@ class Chatbot extends React.Component {
                     texts.push(x)
                 }
                 this.visitedLinks = visitedLinks
+                !this.emailData.find(x=>x.index == this.state.queryIndex) && questionStack[questionStack.length - 1] ? this.emailData = [...this.emailData,{
+                    "index":this.state.queryIndex,
+                    "flow":responseStack?.slice(0, 2),
+                    "rights" : questionStack[questionStack.length - 1]?.body,
+                    "actionPlan" : this.state.requestBody
+                
+                }]:console.log()
             })
             return (
                 <>
@@ -794,7 +806,6 @@ class Chatbot extends React.Component {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
-        // console.log(this.state)
         const mobile = window.matchMedia("(max-width: 767px)").matches;
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
@@ -882,7 +893,7 @@ class Chatbot extends React.Component {
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                     <span title="Download action plan"> {this.downloadActionPlan()}</span>
 
-                                    <Email index={this.state.queryIndex} flow={responseStack?.slice(0, 2)} rights = {questionStack[questionStack.length - 1].body} actionPlan = {this.state.requestBody}></Email>
+                                    {this.state.selectedJourneys.length == 0 && <Email emailData={this.emailData}></Email>}
 
 
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
