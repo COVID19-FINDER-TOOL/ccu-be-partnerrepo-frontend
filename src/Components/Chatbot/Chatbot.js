@@ -72,8 +72,10 @@ class Chatbot extends React.Component {
     }
 
     componentDidMount = () => {
+        const { CREATEJOURNEY } = this.props.payload;
+        const { disagree } = CREATEJOURNEY ? CREATEJOURNEY : 0
         this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" ,selectedJourneys:[]})
-        if (this.props.location.state.disagree === 1) {
+        if (disagree === 1) {
             this.setState(() => { return { queryIndex: 5, disagree: 1 } })
         } else {
             this.setState(() => { return { queryIndex: 0, disagree: 0 } })
