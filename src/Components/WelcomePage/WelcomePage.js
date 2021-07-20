@@ -80,12 +80,8 @@ class WelcomePage extends React.Component {
     if (window.localStorage.getItem("csf_user")) {
       const user = JSON.parse(window.localStorage.getItem("csf_user"))
       // this.props.history.push("/Chatbot");
-      this.props.history.push({
-        pathname:'/Chatbot',
-        state:{
-          disagree:this.state.disagree
-        }
-       })
+      this.props.onEditInspection({disagree:this.state.disagree})
+      this.props.history.push('/Chatbot')
     } else {
       this.handleSubmit()
     }
@@ -114,12 +110,8 @@ class WelcomePage extends React.Component {
     }
     window.localStorage.setItem('csf_user', JSON.stringify(user));
     // this.props.history.push("/Chatbot");
-    this.props.history.push({
-      pathname:'/Chatbot',
-      state:{
-        disagree:this.state.disagree
-      }
-     })
+    this.props.onEditInspection({disagree:this.state.disagree})
+    this.props.history.push('/Chatbot')
     this.props.login({ user: user })
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
       .then(res => {
@@ -229,7 +221,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     login: data => dispatch(login(data)),
-    // onEditInspection: data => dispatch(onEditInspection(data)),
+    onEditInspection: data => dispatch(onEditInspection(data)),
     surveyData: data => dispatch(surveyData(data))
   };
 };
