@@ -33,13 +33,21 @@ const Email = (props) => {
   };
 
   const handleSubmit = () => {
+    
+    const myFlow = props.flow.map(x=> x.descriptive_answer)
+    
     const body = {
-      ...props,
-      email: email,
+      "rights": props.rights,
+      "actionPlan" : props.actionPlan,
+      "email": email,
+      "index": props.index,
+      "flow":myFlow
     };
+
+    console.log(props, body)
     validEmail &&
       email &&
-      axiosLoginInstance.post("/", body).then(hideModal()).catch(hideModal());
+      axiosLoginInstance.post("CFTSendEmailTrigger/", body).then(hideModal()).catch(hideModal());
   };
 
   const emailInput = (
