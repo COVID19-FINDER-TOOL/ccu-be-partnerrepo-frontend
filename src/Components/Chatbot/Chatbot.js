@@ -444,7 +444,7 @@ class Chatbot extends React.Component {
                         else {
                             this.visitedLinks = []
                             this.emailData=[]
-                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [], } })
+                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [],count:0 } })
                             this.props.onEditInspection({responseStack:[]})
                             requestBody = {
                                 "question": "Start the flow",
