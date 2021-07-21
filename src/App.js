@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import classes from './App.module.scss';
 
 import { Container } from 'react-bootstrap';
@@ -11,22 +11,32 @@ import axios from 'axios';
 import Loadable from "react-loadable";
 import Loading from './Components/Loading/LoadingPage.js'
 
-const WelcomePage = Loadable({
-  loader:() => import('./Components/WelcomePage/WelcomePage'),
-  loading: Loading
-});
-const Chatbot = Loadable({
-  loader:() => import('./Components/Chatbot/Chatbot'),
-  loading:Loading
-});
-const Feedback = Loadable({
-  loader:() => import('./Components/Feedback/Feedback'),
-  loading: Loading
-});
-const FloatingButton = Loadable({
-  loader:() => import('./Components/FloatingButton/FloatingButton'),
-  loading: Loading
-});
+const WelcomePage =  React.lazy(() => import('./Components/WelcomePage/WelcomePage'));
+
+// Loadable({
+//   loader:() => import('./Components/WelcomePage/WelcomePage'),
+//   loading: Loading
+// });
+
+const Chatbot = React.lazy(() => import('./Components/Chatbot/Chatbot'));
+
+// Loadable({
+//   loader:() => import('./Components/Chatbot/Chatbot'),
+//   loading:Loading
+// });
+const Feedback =  React.lazy(() => import('./Components/Feedback/Feedback'));
+
+// Loadable({
+//   loader:() => import('./Components/Feedback/Feedback'),
+//   loading: Loading
+// });
+
+const FloatingButton = React.lazy(() => import('./Components/FloatingButton/FloatingButton'));
+
+// Loadable({
+//   loader:() => import('./Components/FloatingButton/FloatingButton'),
+//   loading: Loading
+// });
 
 
 
@@ -53,7 +63,7 @@ function App() {
  
 
   return (
-    // <Suspense fallback={<div>Loading</div>}>
+    <Suspense fallback={<div>Loading</div>}>
 
     <CacheCleaner>
       {({ loading, isLatestVersion, refreshCacheAndReload }) => {
@@ -84,7 +94,7 @@ function App() {
         );
       }}
     </CacheCleaner>
-    // </Suspense>
+     </Suspense>
 
   );
 
