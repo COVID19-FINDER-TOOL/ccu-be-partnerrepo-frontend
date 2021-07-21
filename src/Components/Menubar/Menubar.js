@@ -92,7 +92,6 @@ const Menubar = (props) => {
   const rights = assembleData(props.data);
   const menu = rights[0];
   const topic = props.topic;
-  console.log(props.qindex)
   return (
     <>
     <h2 className="heading">

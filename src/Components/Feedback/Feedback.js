@@ -163,14 +163,14 @@ class Feedback extends React.Component {
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
                                 <h5 className={classes.headingH1}>How would you rate your experience with the tool?</h5>
                                 <div className={classes.smilyContainer}>
-                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={1} icon={faGrinAlt} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 1)} />  </div>
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={1} icon={faGrinAlt} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 1)} />  </div> 
                                    {/* <h6>Very Satisifed</h6> */}
                                    <div className={classes.smilyDiv}> <FontAwesomeIcon id={2} icon={faSmileBeam} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} /> </div>
                                    {/* <h6>Satisifed</h6>  */}
                                    <div className={classes.smilyDiv}> <FontAwesomeIcon id={3} icon={faMeh} className={this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} /> </div>
                                    {/* <h6>Not Satisifed</h6>  */}
-                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={4} icon={faFrown} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} /> </div>
-                                   {/* <h6>Sad</h6>  */}
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={4} icon={faFrown} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} />  </div>
+                                   {/* <h6>Sad</h6> */}
                                    <div className={classes.smilyDiv}> <FontAwesomeIcon id={5} icon={faAngry} className={this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} /> </div>
                                    {/* <h6>Angry</h6>  */}
 
