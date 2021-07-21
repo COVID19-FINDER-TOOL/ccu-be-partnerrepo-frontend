@@ -66,7 +66,8 @@ class Chatbot extends React.Component {
             selectedJourneys:[],
             showNextJourney: false,
             gotoNextJourney:false,
-            currentJourney : ""
+            currentJourney : "",
+            count:0
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
@@ -658,10 +659,20 @@ class Chatbot extends React.Component {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
         const { CREATEJOURNEY } = this.props.payload
-        var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        var { responseStack, questionStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
         var texts = [];
         var links = [];
         var visitedLinks = [];
+        var flows = []
+
+        if(this.state.count)
+        {
+            let second = responseStack[0] ? responseStack[0].descriptive_answer : ""
+            flows = [this.state.currentJourney, second]
+        }else{
+            flows = responseStack?.slice(0,2).map(x=>x.descriptive_answer)
+        }
+        
         if (topic == 4) {
             textarray.map((x) => {
                 if (x.match(/^\d/)) {
@@ -674,7 +685,7 @@ class Chatbot extends React.Component {
                 this.visitedLinks = visitedLinks
                 !this.emailData.find(x=>x.index == this.state.queryIndex) && questionStack[questionStack.length - 1] ? this.emailData = [...this.emailData,{
                     "index":this.state.queryIndex,
-                    "flow":responseStack?.slice(0, 2),
+                    "flow":  flows,
                     "rights" : questionStack[questionStack.length - 1]?.body,
                     "actionPlan" : this.state.requestBody
                 
@@ -797,7 +808,7 @@ class Chatbot extends React.Component {
         // console.log(this.state.currentJourney, this.state.selectedJourneys)
         const Next = this.state.selectedJourneys.length? this.state.selectedJourneys[0].value : ""
         this.setState(()=>{
-            return {gotoNextJourney : true, currentJourney : Next}
+            return {gotoNextJourney : true, currentJourney : Next, count:this.state.count+1}
         }, 
         ()=>{this.handleSubmit()})
 
