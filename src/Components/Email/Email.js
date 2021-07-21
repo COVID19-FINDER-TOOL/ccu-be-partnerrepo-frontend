@@ -34,14 +34,12 @@ const Email = (props) => {
 
   const handleSubmit = () => {
     props.emailData.map((x)=>{
-    const myFlow = x.flow.map(x=> x.descriptive_answer)
-    
     const body = {
       "rights": x.rights,
       "actionPlan" : x.actionPlan,
       "email": email,
       "index": x.index,
-      "flow":myFlow
+      "flow":x.flow
     };
 
     console.log(x, body)
