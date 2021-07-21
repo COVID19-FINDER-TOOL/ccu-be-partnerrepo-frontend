@@ -24,10 +24,12 @@ import PropTypes from 'prop-types';
 import Loadable from "react-loadable";
 import Loading from '../Loading/LoadingPage'
 
-const CustomButton = Loadable({
-  loader:() => import('../CustomButton/CustomButton'),
-  loading: Loading
-});
+const CustomButton = React.lazy(() => import('../CustomButton/CustomButton'));
+
+// Loadable({
+//   loader:() => import('../CustomButton/CustomButton'),
+//   loading: Loading
+// });
 global.appVersion = packageJson.version;
 class WelcomePage extends React.Component {
 
