@@ -10,7 +10,7 @@ import { onEditInspection } from "./store/Action/LoginAction";
 import axios from 'axios';
 import Loadable from "react-loadable";
 import Loading from './Components/Loading/LoadingPage.js'
-import Chatbot from './Components/Chatbot/Chatbot'
+
 const WelcomePage =  React.lazy(() => import('./Components/WelcomePage/WelcomePage'));
 
 // Loadable({
@@ -18,8 +18,7 @@ const WelcomePage =  React.lazy(() => import('./Components/WelcomePage/WelcomePa
 //   loading: Loading
 // });
 
-
-// const Chatbot = React.lazy(() => import('./Components/Chatbot/Chatbot'));
+const Chatbot = React.lazy(() => import('./Components/Chatbot/Chatbot'));
 
 // Loadable({
 //   loader:() => import('./Components/Chatbot/Chatbot'),
