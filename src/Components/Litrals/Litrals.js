@@ -77,7 +77,8 @@ const litrals = {
     gotoHome: "If you go to home page, your current journey will be discarded.\nDo you want to continue?",
     gotoHomefromFeedback: "If you go to home page, your feedback will not be saved.\nDo you want to continue?",
     optionText:"You can only select one option at a time",
-    errorMessage:"*Please select an option"
+    errorMessage:"*Please select an option",
+    warning: "Are you sure you want to continue? You have not sent your customer their support options."
 };
 
 export default litrals;

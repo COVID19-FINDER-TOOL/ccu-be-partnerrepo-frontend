@@ -420,7 +420,6 @@ class Chatbot extends React.Component {
                     // console.log(value, meta)
                     if (value == "Next") {
 
-                        this.endJourney();
                         requestBody = {
                             "question": "loopback"
                         };
@@ -431,13 +430,21 @@ class Chatbot extends React.Component {
                             this.setState(() => { 
                                 return { showWarningMessage: false, showBack: false} 
                             })
+                             this.setState(() => { return { requestBody, selected: false, currentResponses: {} }}, () => { this.saveQuestion(this.state.data, resbody, false) });
+                             this.props.onEditInspection({journey_id:""})
+                             this.endJourney();
+                             
+                             return
+
                         } else {
-                            this.setState(() => { return { showWarningMessage: true, showBack: false } })
-                            return;
+                            this.setState(() => { return { showWarningMessage: true } })
+                            // this.props.onEditInspection({journey_id:""})
+                            
+                            return
+                            
                         }
                          
                         
-                        this.props.onEditInspection({journey_id:""})
                         
 
                     }
@@ -467,7 +474,7 @@ class Chatbot extends React.Component {
                         else {
                             this.visitedLinks = []
                             this.emailData=[]
-                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [],count:0 } })
+                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [],count:0, emailSent:false, showWarningMessage: false } })
                             this.props.onEditInspection({responseStack:[]})
                             requestBody = {
                                 "question": "Start the flow",
@@ -926,13 +933,17 @@ class Chatbot extends React.Component {
                         <div className={classes.progressBar} >
 
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
-                            {this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]  ? (
+                            { 
+
+                            // this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]
+                              this.state.selectedJourneys.length == 0 && this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1] ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                     {/* <span title="Download action plan"> {this.downloadActionPlan()}</span> */}
 
-                                    {this.state.selectedJourneys.length == 0 && <Email emailData={this.emailData} handleWarning={this.handleWarning}></Email>}
+                                    { <Email emailData={this.emailData} handleWarning={this.handleWarning}></Email>}
+                                    <ConfirmationModal message={litrals.warning} showModal={this.state.showWarningMessage} onClick={()=>this.setState({showWarningMessage:false, emailSent:true})} />
 
-                                    {this.state.showWarningMessage && this.state.selectedJourneys.length == 0 && <Warning warningData={this.showNoEmailWarninng}></Warning>}
+                                    {/* { <Warning warningData={this.showNoEmailWarninng}></Warning>} */}
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
