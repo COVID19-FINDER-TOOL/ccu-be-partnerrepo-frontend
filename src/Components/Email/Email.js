@@ -23,15 +23,15 @@ const Email = (props) => {
   };
 
   const validateEmail = () => {
-    var re =
-      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (!re.test(email)) {
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    const emails = email.split(";")
+
+    if (!emails.every(x => re.test(x.trim()))) {
       setvalidEmail(() => false);
     } else {
       setvalidEmail(() => true);
     }
   };
-
   const handleSubmit = () => {
     props.emailData.map((x)=>{
     const body = {

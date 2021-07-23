@@ -467,7 +467,7 @@ class Chatbot extends React.Component {
                         else {
                             this.visitedLinks = []
                             this.emailData=[]
-                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [], } })
+                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [],count:0 } })
                             this.props.onEditInspection({responseStack:[]})
                             requestBody = {
                                 "question": "Start the flow",
@@ -843,7 +843,7 @@ class Chatbot extends React.Component {
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
-        const mobile = window.matchMedia("(max-width: 767px)").matches;
+        const mobile = window.matchMedia("(max-width: 600px)").matches;
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const btn = (
@@ -928,7 +928,7 @@ class Chatbot extends React.Component {
                             {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
                             {this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]  ? (
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                    <span title="Download action plan"> {this.downloadActionPlan()}</span>
+                                    {/* <span title="Download action plan"> {this.downloadActionPlan()}</span> */}
 
                                     {this.state.selectedJourneys.length == 0 && <Email emailData={this.emailData} handleWarning={this.handleWarning}></Email>}
 
