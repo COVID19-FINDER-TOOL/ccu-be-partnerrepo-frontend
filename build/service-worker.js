@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "https://jolly-beach-01e73f303.azurestaticapps.net/precache-manifest.dce18ac99eb6123cafd5c23cc6ba4558.js"
+  "https://jolly-beach-01e73f303.azurestaticapps.net/precache-manifest.96732f56dc803ae78ac1ea8e7920cac3.js"
 );
 
 self.addEventListener('message', (event) => {
