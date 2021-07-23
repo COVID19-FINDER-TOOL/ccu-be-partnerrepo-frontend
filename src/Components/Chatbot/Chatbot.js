@@ -955,7 +955,7 @@ class Chatbot extends React.Component {
 
 
                         </div>
-                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
+                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourneyTitle}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
 
                         <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
