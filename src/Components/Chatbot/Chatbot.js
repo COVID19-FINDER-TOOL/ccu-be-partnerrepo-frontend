@@ -5,6 +5,7 @@ import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
 import Email from '../Email/Email';
+import Warning from '../Warning/Warning';
 import litrals from '../Litrals/Litrals';
 import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
@@ -34,6 +35,7 @@ class Chatbot extends React.Component {
 
     visitedLinks = [];
     emailData = [];
+    
     key = -1;
     constructor(props) {
         super(props);
@@ -67,7 +69,9 @@ class Chatbot extends React.Component {
             showNextJourney: false,
             gotoNextJourney:false,
             currentJourney : "",
-            count:0
+            count:0,
+            showWarningMessage:false,
+            emailSent: false
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
@@ -87,6 +91,14 @@ class Chatbot extends React.Component {
         }, 100);
     }
 
+
+    handleWarning = () => {
+        console.log("warning handled")
+        this.setState(() => {
+            return {emailSent: true}
+        })
+    } 
+ 
     saveQuestion = (data, response, notFetch) => {
         // console.log(data)
         var dataBody = {}
@@ -407,13 +419,24 @@ class Chatbot extends React.Component {
 
                     // console.log(value, meta)
                     if (value == "Next") {
+
                         this.endJourney();
                         requestBody = {
                             "question": "loopback"
                         };
                         // clear the jouney selection
+                        // Ankush : show warning should be handled here on next click
 
-                        this.setState(() => { return { showBack: false } })
+                        if (this.state.emailSent) {
+                            this.setState(() => { 
+                                return { showWarningMessage: false, showBack: false} 
+                            })
+                        } else {
+                            this.setState(() => { return { showWarningMessage: true, showBack: false } })
+                            return;
+                        }
+                         
+                        
                         this.props.onEditInspection({journey_id:""})
                         
 
@@ -453,6 +476,7 @@ class Chatbot extends React.Component {
 
                     }
                 }
+
                 this.setState(() => { return { requestBody, selected: false, currentResponses: {} }}, () => { this.saveQuestion(this.state.data, resbody, false) });
             }
                 
@@ -906,9 +930,9 @@ class Chatbot extends React.Component {
                                 <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
                                     <span title="Download action plan"> {this.downloadActionPlan()}</span>
 
-                                    {this.state.selectedJourneys.length == 0 && <Email emailData={this.emailData}></Email>}
+                                    {this.state.selectedJourneys.length == 0 && <Email emailData={this.emailData} handleWarning={this.handleWarning}></Email>}
 
-
+                                    {this.state.showWarningMessage && this.state.selectedJourneys.length == 0 && <Warning warningData={this.showNoEmailWarninng}></Warning>}
                                     {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
@@ -920,7 +944,7 @@ class Chatbot extends React.Component {
 
 
                         </div>
-                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Current journey is related to: <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
+                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
 
                         <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>

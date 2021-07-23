@@ -1,7 +1,7 @@
 const litrals = {
     buttons: {
         startButton: {
-            buttonText: "Start",
+            buttonText: "Proceed",
             variant: "primary",
         },
         disagreeButton: {
@@ -61,7 +61,7 @@ const litrals = {
         text1: "Supporting our customers when they need it most",
         text2: "Powered by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
-        text4: "This tool has different options and information to guide you to emotional and financial support.",
+        text4: "This tool has different options and information to provide emotional, health and financial support  ",
         text5: "Thank you for providing details about your situation. These are the steps you can take:",
         text6: "Learn from others:",
         ribbonButtonsPre :["Tell us about yourself","View your options","Know your rights","View you Action Plan","Hear from others"],

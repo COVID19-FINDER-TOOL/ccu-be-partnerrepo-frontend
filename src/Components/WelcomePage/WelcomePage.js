@@ -188,13 +188,13 @@ class WelcomePage extends React.Component {
               <Col xs={12} md={6} className={classes.colTabs}>
                 <div>
                   {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
-                  <h3 className={classes.tabsHeading}>What you need to do</h3>
+                  <h3 className={classes.tabsHeading}>What we need to do</h3>
                   <h5 className={classes.tabsSubHeading}>Tell us about your situation </h5>
                   <p className={classes.tabsPara}>None of your personal information will be stored or shared.</p>
-                  <h5 className={classes.tabsSubHeading}>Review your options </h5>
-                  <p className={classes.tabsPara}>Based upon your responses, we'll provide you with free support options and guidance.</p>
-                  <h5 className={classes.tabsSubHeading}>Review your action plan </h5>
-                  <p className={classes.tabsPara}>Set a set of actions away with you which will help you to become more financially and emotional resilient.</p>
+                  <h5 className={classes.tabsSubHeading}>Find appropriate support</h5>
+                  <p className={classes.tabsPara}>Based upon your responses, we’ll send you an email with various support options and guidance to help you deal with your situation.</p>
+                  <h5 className={classes.tabsSubHeading}>Step-by-step action plan</h5>
+                  <p className={classes.tabsPara}>To help you work through the different support options we will provide a set of actions which you can step through in your own time. These will help you manage your current situation, but also help you become more financially, physically or emotionally resilient over time.</p>
                   <h5 className={classes.tabsSubHeading}>Learn from others </h5>
                   <p className={classes.tabsPara4}>Learn about other people's experiences and how they overcome similar situations. </p>
 
