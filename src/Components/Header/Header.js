@@ -9,14 +9,14 @@ import { connect } from "react-redux";
 import FloatingButton from '../FloatingButton/FloatingButton';
 
 const heading = {
-    "0": "Finding support",
-    "1": "Finding support",
-    "2": "Finding support",
-    "3": "Finding support",
-    "4": "Finding support",
-    "5": "Finding support",
+    "0": "Breathe Easy",
+    "1": "Breathe Easy",
+    "2": "Breathe Easy",
+    "3": "Breathe Easy",
+    "4": "Breathe Easy",
+    "5": "Breathe Easy",
     "7": "Feedback",
-    "8": "Finding support"
+    "8": "Breathe Easy"
 }
 
 const Header = (props) => {

@@ -18,7 +18,7 @@ class ConfirmationModal extends Component {
                            </Modal.Footer>
         else
              modalFooter =  <div>
-                                <Modal.Footer><Button variant="primary" onClick={this.props.onClick}>Ok</Button></Modal.Footer> 
+                                <Modal.Footer><Button variant="primary" onClick={this.props.onClick} className={classes.yesButton}>Ok</Button></Modal.Footer> 
                                 <Col className="mb-2">{checkboxElement}</Col> 
                             </div>
                             

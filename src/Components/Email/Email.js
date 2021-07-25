@@ -45,7 +45,10 @@ const Email = (props) => {
     console.log(x, body)
     validEmail &&
       email &&
-      axiosLoginInstance.post("CFTSendEmailTrigger/", body).then(hideModal()).catch(hideModal());
+      axiosLoginInstance.post("CFTSendEmailTrigger/", body).then(
+        hideModal()).catch(hideModal());
+        props.handleWarning()
+      
   })
   };
 
