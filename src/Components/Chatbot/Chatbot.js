@@ -4,6 +4,8 @@ import { Form, Row, Col, Container } from 'react-bootstrap';
 import CustomRadio from '../CustomRadio/CustomRadio';
 import DownloadActionPlan from '../DownloadActionPlan/DownloadActionPlan';
 import CustomButton from '../CustomButton/CustomButton';
+import Email from '../Email/Email';
+import Warning from '../Warning/Warning';
 import litrals from '../Litrals/Litrals';
 import { axiosInstance, axiosLoginInstance } from '../../AxiosHandler';
 import { surveyData } from "../../store/Action/SurveyAction";
@@ -25,14 +27,21 @@ import ProgressWeb from '../ProgressWeb/ProgressWeb';
 import MenuProvider from 'react-flexible-sliding-menu';
 import ProgressMenu from '../ProgressWeb/ProgressMenu';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import Footers from '../../Components/Footers/Footers';
+import Menubar from '../Menubar/Menubar';
+import { TransferWithinAStationSharp } from '@material-ui/icons';
+import { getKeyThenIncreaseKey } from 'antd/lib/message';
 class Chatbot extends React.Component {
 
     visitedLinks = [];
+    emailData = [];
+    
     key = -1;
     constructor(props) {
         super(props);
         this.blobData = null;
         this.blobUrl = ""
+        this.myCustomHTML= React.createRef()
         this.state = {
             data: "",
             requestBody: { "question": "Start the flow" },
@@ -40,6 +49,7 @@ class Chatbot extends React.Component {
             pdf: false,
             showBack: true,
             showFeedback: false,
+            showActionPlan:true, // to hide the text before actual action plan page
             condition: "",
             showSpinner: true,
             metadata: "",
@@ -51,24 +61,51 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "0863232a-000d-4f17-91b9-b44666eb604c/generateAnswer"],
+            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            disagree: 0,
+            showTextArea: 0,
+            textAreaValue: "",
+            selectedJourneys:[],
+            showNextJourney: false,
+            gotoNextJourney:false,
+            currentJourney : "",
+            count:0,
+            showWarningMessage:false,
+            emailSent: false
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
     }
 
     componentDidMount = () => {
-        this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" })
-        this.fetch();
-        this.setPdf();
-
+        const { CREATEJOURNEY } = this.props.payload;
+        const { disagree } = CREATEJOURNEY ? CREATEJOURNEY : 0
+        this.props.onEditInspection({ questionStack: [], responseStack: [], metadata: "" ,selectedJourneys:[]})
+        if (disagree === 1) {
+            this.setState(() => { return { queryIndex: 5, disagree: 1 } })
+        } else {
+            this.setState(() => { return { queryIndex: 0, disagree: 0 } })
+        }
+        setTimeout(() => {
+            this.fetch();
+            this.setPdf();
+        }, 100);
     }
 
+
+    handleWarning = () => {
+        console.log("warning handled")
+        this.setState(() => {
+            return {emailSent: true}
+        })
+    } 
+ 
     saveQuestion = (data, response, notFetch) => {
+        // console.log(data)
         var dataBody = {}
-        var kb = data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
+        var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
         dataBody.question = data.answer;
-        dataBody.answers = data.context.prompts.map((x) => {
+        dataBody.answers = data.context?.prompts.map((x) => {
             return { aid: kb.concat("a").concat(x.qnaId.toString()), answer: x.displayText.toString() }
         })
         response.question_id = kb.concat("q").concat(response.question_id.toString())
@@ -87,13 +124,34 @@ class Chatbot extends React.Component {
             //     }).catch(error => {
             //         console.log(error);
             //     });
-            // console.log(this.state)
             notFetch ? console.log() : this.fetch();
 
         }
     }
 
+    clearJourneyData = () => {
+        this.props.onEditInspection({
+            metadata: "",
+            questionStack: [],
+            responseStack: [],
+            start_time: "",
+            backStack: [],
+            selectedJourneys:[]
+        })
+        this.setState(() => {
+            return {
+                questionStack: [],
+                responseStack: [],
+                backStack: [],
+                metadata: "",
+                gotoNextJourney:false,
+                
+            }
+        })
+    }
+
     endJourney = () => {
+        this.clearJourneyData()
         const { CREATEJOURNEY } = this.props.payload;
         const { journey_id } = CREATEJOURNEY ? CREATEJOURNEY : ""
         const dataBody = {
@@ -106,22 +164,7 @@ class Chatbot extends React.Component {
             .then(res => {
                 const data = res.data;
                 console.log(data);
-                this.props.onEditInspection({
-                    metadata: "",
-                    questionStack: [],
-                    responseStack: [],
-                    journey_id: "",
-                    start_time: "",
-                    backStack: []
-                })
-                this.setState(() => {
-                    return {
-                        questionStack: [],
-                        responseStack: [],
-                        backStack: [],
-                        metadata: ""
-                    }
-                })
+                // this.clearJourneyData()
             }).catch(error => {
                 console.log(error);
             });
@@ -158,36 +201,107 @@ class Chatbot extends React.Component {
     }
 
     handleRadio = (event) => {
-        // console.log(event.target)
-        // console.log("IN RADIO")
-        // event.preventDefault();
+        
         const value = this.state.section == 3 ? "Action Plan" : event.target.value
         const id = event.target.id
         const currentResponses = { value, id }
-        this.state.section < 2 ? this.setState(() => { return { currentResponses, selected: true, msg: false } }) : this.setState(() => { return { currentResponses, selected: true, msg: false } }, () => { this.handleSubmit() })
+
+        
+        if(this.state.queryIndex == 0) {
+            const { CREATEJOURNEY } = this.props.payload;
+            const { selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
+            let currentValues = selectedJourneys
+            
+            let hasObject = currentValues.findIndex(ele => ele['id'] === id)
+            hasObject >= 0 ? currentValues.splice(hasObject,1)   :  currentValues.push(currentResponses)    
+            this.setState(() => {
+                return {
+                    selectedJourneys:currentValues
+
+                }
+            })
+            this.props.onEditInspection({ selectedJourneys: currentValues })
 
 
+        }
+        
+        const value_ = this.state.queryIndex !==0  ? currentResponses : {}
+            this.setState(() => {
+                return {
+                    currentResponses : value_,
+                    selected: true,
+                    msg: false
+                }
+            },
+             () => { this.state.section >= 2 ? this.handleSubmit() : console.log() })
+
+        if (this.state.disagree === 1) {
+            id === "5" ? this.setState(() => { return { showTextArea: 1 } }) : this.setState(() => { return { showTextArea: 0 } })
+        }
+
+    }
+
+    handleDisagree = (data) => {
+        const { LOGIN } = this.props.payload;
+        const { user } = LOGIN ? LOGIN : ''
+        const { user_id } = user ? user : JSON.parse(window.localStorage.getItem("csf_user"));
+
+        const resbody = {
+            "user_id": user_id,
+            "answer_id": "kb5a" + data.answer_id,
+            "other_reason": this.state.showTextArea ? this.state.textAreaValue : "",
+            "creation_time": data.answer_time
+        }
+        axiosLoginInstance.post("/CFTDenialTrigger/disagree", resbody)
+            .then(res => {
+                this.clearJourneyData()
+                
+                
+            }).catch(error => {
+                console.log(error);
+            });
+        window.localStorage.removeItem('csf_user')
+        this.props.history.push('/')
+    }
+
+    onDisagreeTextAreaInput = (event) => {
+        this.setState({ textAreaValue: event.target.value })
     }
 
     handleSubmit = () => {
         const { CREATEJOURNEY } = this.props.payload
         var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
-        var { responseStack, backStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        var { responseStack, backStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
         const currentResponse = backStack ? backStack[backStack.length - 1] : ""
         const state_data = this.state.data
+        
 
-        if (this.state.selected || currentResponse) {
+        if (this.state.selected || currentResponse || this.state.section>=4) {
             var value = ""
-            var id = ""
+            var id = "" 
+            var newselectedJourneys = []
 
-            if (this.state.currentResponses.value) {
-                value = this.state.currentResponses.value
-                id = this.state.currentResponses.id
+        
+            if(this.state.queryIndex===0 && this.state.selectedJourneys.length && !this.state.backStack.length){
+
+                id =  parseInt(this.state.selectedJourneys[0]?.id)
+                value = this.state.selectedJourneys[0]?.value
+                newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
+                this.setState(() => { return { selectedJourneys:newselectedJourneys } })
+                
             }
-            else {
-                value = currentResponse.descriptive_answer
-                id = currentResponse.answer_id.toString().substring(4)
+            else{
+                if (this.state.currentResponses?.value) {
+                    value = this.state?.currentResponses?.value
+                    id = this.state?.currentResponses?.id
+                }
+                else {
+                    value = currentResponse?.descriptive_answer
+                    id = currentResponse?.answer_id?.toString().substring(4)
+                }
             }
+
+
             var requestBody = {}
             const resbody = {
                 "question_id": this.state.data.id,
@@ -196,6 +310,10 @@ class Chatbot extends React.Component {
                 "descriptive_answer": value,
             }
             // console.log(currentResponse)
+
+            if (this.state.disagree) {
+                this.handleDisagree(resbody)
+            }
             if (backStack && currentResponse) {
                 if (currentResponse.answer_id.toString().substring(4) !== id) {
                     var dummy = [...backStack]
@@ -228,6 +346,7 @@ class Chatbot extends React.Component {
             this.props.onEditInspection({ responseStack: responseStack, backStack })
             this.setState(() => { return { backStack } })
 
+            // console.log(">>>>>>>>>>",id)
 
             if (this.state.queryIndex == 0) {
 
@@ -246,7 +365,7 @@ class Chatbot extends React.Component {
                         "started": 1,
                         "start_time": start_time
                     }
-                    this.setState(() => { return { requestBody, selected: false } }, () => { this.fetch() });
+                    this.setState(() => { return { requestBody, selected: false, currentJourney: value  } }, () => { this.fetch() });
 
                     axiosLoginInstance.post("/CFTJourneyUpdateTrigger/add", dataBody)
                         .then(res => {
@@ -262,12 +381,13 @@ class Chatbot extends React.Component {
                     this.setState(() => { return { requestBody, selected: false } }, () => { this.saveQuestion(this.state.data, resbody, false) });
                 }
                 this.setState(() => { return { queryIndex: id - 1 } });
+                
             }
             else {
                 const { metadata } = this.state.data
                 // console.log(metadata)
                 let meta = metadata && metadata[0] ? metadata[0].value : ""
-                meta = meta + value.replace(/ /g, '').slice(0, 3).toLowerCase()
+                meta = meta + value?.replace(/ /g, '').slice(0, 3).toLowerCase()
                 // console.log(">>>>>>>>>>>",meta)
                 this.props.onEditInspection({ metadata: meta })
                 requestBody = {
@@ -276,47 +396,97 @@ class Chatbot extends React.Component {
                     "strictFilters": [{ "name": "context", "value": meta }]
                 };
 
-                if (this.state.section >= 4 || (this.state.queryIndex == 4 && this.state.section >= 2)) {
+                if(this.state.section >= 4  && this.state.selectedJourneys.length !== 0 ){
+
+                    
+                    if(this.state.gotoNextJourney){
+
+                    const {selectedJourneys} = this.state
+                    var ele = selectedJourneys[0].id
+                    requestBody = {
+                        "question": "Flow Started",
+                        
+                    };
+                    var newselected = selectedJourneys?.filter((x)=>x.id != ele)
+                    this.clearJourneyData()
+                    this.setState(() => { return {requestBody, queryIndex: parseInt(ele)-1 , section: 0,selectedJourneys: newselected, showActionPlan:true, showNextJourney:false, showBack: true, visitedLinks: [], }},() => { this.fetch()} )
+                    }
+                }
+
+                else{
+
+                if (this.state.section >= 4 && this.state.selectedJourneys?.length === 0) {
 
                     // console.log(value, meta)
                     if (value == "Next") {
+
                         requestBody = {
                             "question": "loopback"
                         };
-                        this.setState(() => { return { showBack: false } })
-                        this.endJourney();
+                        // clear the jouney selection
+                        // Ankush : show warning should be handled here on next click
+
+                        if (this.state.emailSent) {
+                            this.setState(() => { 
+                                return { showWarningMessage: false, showBack: false} 
+                            })
+                             this.setState(() => { return { requestBody, selected: false, currentResponses: {} }}, () => { this.saveQuestion(this.state.data, resbody, false) });
+                             this.props.onEditInspection({journey_id:""})
+                             this.endJourney();
+                             
+                             return
+
+                        } else {
+                            this.setState(() => { return { showWarningMessage: true } })
+                            // this.props.onEditInspection({journey_id:""})
+                            
+                            return
+                            
+                        }
+                         
+                        
+                        
 
                     }
                     else if ((value == "No" && meta === "loono") || (value == "No" && meta === "cornexno")) {
-                        this.setState(() => { return { section: 5 } })
+                        // this.setState(() => { return { section: 5 } })
+                        // window.localStorage.removeItem('csf_user')
+
+                        this.props.history.push("/feedback")                
                     }
 
-                    else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
-                        this.setState(() => { return { showFeedback: true } })
-                    }
+                    // else if ((value == "Yes" && meta === "loonoyes") || (value == "Yes" && meta === "cornexnoyes")) {
+                    //     this.setState(() => { return { showFeedback: true } })
+                    // }
 
-                    else if ((value == "No" && meta === "loonono") || (value == "No" && meta === "cornexnono")) {
-                        this.props.history.push("/feedback")
-                    }
+                    // else if ((value == "No" && meta === "loonono") || (value == "No" && meta === "cornexnono")) {
+                    //     // this.props.history.push("/feedback")
+                    // }
 
                     else if (value == "Yes" && meta !== "loonoyes") {
+
                         if (meta === "cornexyes") {
+                            this.props.onEditInspection({responseStack:[]})
+                            this.emailData=[]
                             this.setState(() => { return { section: 0, showSpinner: true } })
                             window.location.reload();
                         }
                         else {
                             this.visitedLinks = []
-                            this.setState(() => { return { queryIndex: 0, section: 0, showActionPlan: false, showBack: true, visitedLinks: [] } })
+                            this.emailData=[]
+                            this.setState(() => { return { queryIndex: 0, section: 0, showBack: true, visitedLinks: [],count:0, emailSent:false, showWarningMessage: false } })
+                            this.props.onEditInspection({responseStack:[]})
                             requestBody = {
                                 "question": "Start the flow",
                             };
                         }
 
                     }
-
                 }
-                this.setState(() => { return { requestBody, selected: false, currentResponses: {} } }, () => { this.saveQuestion(this.state.data, resbody, false) });
 
+                this.setState(() => { return { requestBody, selected: false, currentResponses: {} }}, () => { this.saveQuestion(this.state.data, resbody, false) });
+            }
+                
             }
 
 
@@ -372,7 +542,6 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload
         const { responseStack, journey_id } = CREATEJOURNEY ? CREATEJOURNEY : []
         return (
-
             <PDFDownloadLink
                 onClick={this.sendDownloadInfo}
                 document={<DownloadActionPlan data={this.state.data.answer} summary={responseStack} />}
@@ -384,7 +553,7 @@ class Chatbot extends React.Component {
                         this.blobData = blob ? blob : ""
                         this.blobUrl = url
 
-                        return (loading ? "Loading document..." : "Download Action Plan")
+                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
                     }
 
                 }
@@ -397,8 +566,11 @@ class Chatbot extends React.Component {
     }
 
     createForm = (prompts, id) => {
+
         const { CREATEJOURNEY } = this.props.payload;
         const { backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
+        const { selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
+        // console.log("selectedJourneys",selectedJourneys)
         var res = ""
         if (backStack) {
             res = backStack.find(x => x.question_id.toString().substring(4) == id && x.question_id.toString()[2] == this.state.queryIndex)
@@ -409,33 +581,43 @@ class Chatbot extends React.Component {
                 buttonText: prompts[0].displayText,
                 variant: "primary",
             }
-            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} onClick={this.handleRadio}><CustomButton float={"right"} data={data} id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
+            return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} ><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
         }
         else {
-            const radios = prompts.map((x, index) => {
-                const checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
-                // console.log(checked, res)
-                return (
-                    <CustomRadio section={this.state.section} radioLabel={x.displayText} display={this.state.section == 4 && !this.state.showActionPlan ? false : true} id={x.qnaId} key={x.qnaId} name={id} onClick={this.handleRadio} checked={checked} />
-                )
-            })
-            return (radios);
+            
+                const radios = prompts.map((x, index) => {
+                    let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
+                    
+                    if(this.state.queryIndex === 0 && selectedJourneys != undefined) {
+                        
+                        const selectedOrNot = selectedJourneys.findIndex(ele => ele.id == x.qnaId)
+                        selectedOrNot >= 0 ?  checked = "checked" : checked = false
+                    }
+                    return (
+                        <CustomRadio section={this.state.section}
+                            ind = {this.state.queryIndex}
+                            radioLabel={x.displayText}
+                            display={this.state.section == 4 && this.state.selectedJourneys.length !==0 ? false : true}
+                            id={x.qnaId} key={x.qnaId}
+                            name={id}
+                            onClick={this.handleRadio}
+                            checked={ checked} 
+                            isCheckBox={this.state.queryIndex === 0 ? true : false}/>
+                    )
+                })
+                return (radios);
         }
     }
 
     handleBack = () => {
-        if (this.state.showActionPlan) {
-            this.setState(() => {
-                return { showActionPlan: false }
-            })
-        }
-        else {
+
             const { CREATEJOURNEY } = this.props.payload
             var { backStack } = this.state
             const { responseStack, questionStack, section } = CREATEJOURNEY ? CREATEJOURNEY : "";
+            // console.log(section)
             const previousResponse = responseStack[responseStack.length - 1];
             const exists = backStack ? backStack.find((x) => x.answer_id == previousResponse.answer_id) : false
-            if (section < 3 && !exists) {
+            if (section < 4 && !exists) {
                 backStack ? backStack.push(previousResponse) : backStack = [previousResponse]
             }
             const previousquestion = questionStack[questionStack.length - 1];
@@ -449,7 +631,7 @@ class Chatbot extends React.Component {
 
             this.setState(() => { return { currentResponses: {}, msg: false, backStack, requestBody, queryIndex, questionStack: questionStack.slice(0, questionStack.length - 1) } }, () => { this.fetch() })
 
-        }
+        
 
     }
 
@@ -483,7 +665,7 @@ class Chatbot extends React.Component {
         if (Tag === 'a') {
             props = {
                 ...props,
-                className: classes.linkElement,
+                className: this.state.section == 4 ? classes.linkElement : classes.paraElement,
                 target: "_blank",
                 onClick: this.changeIcon,
                 href: props.href
@@ -507,10 +689,21 @@ class Chatbot extends React.Component {
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
         const textarray = text.split("\n");
-        // console.log(textarray)
+        const { CREATEJOURNEY } = this.props.payload
+        var { responseStack, questionStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
         var texts = [];
         var links = [];
         var visitedLinks = [];
+        var flows = []
+
+        if(this.state.count)
+        {
+            let second = responseStack[0] ? responseStack[0].descriptive_answer : ""
+            flows = [this.state.currentJourney, second]
+        }else{
+            flows = responseStack?.slice(0,2).map(x=>x.descriptive_answer)
+        }
+        
         if (topic == 4) {
             textarray.map((x) => {
                 if (x.match(/^\d/)) {
@@ -521,20 +714,24 @@ class Chatbot extends React.Component {
                     texts.push(x)
                 }
                 this.visitedLinks = visitedLinks
+                !this.emailData.find(x=>x.index == this.state.queryIndex) && questionStack[questionStack.length - 1] ? this.emailData = [...this.emailData,{
+                    "index":this.state.queryIndex,
+                    "flow":  flows,
+                    "rights" : questionStack[questionStack.length - 1]?.body,
+                    "actionPlan" : this.state.requestBody
+                
+                }]:console.log()
             })
             return (
                 <>
-                    <div style={{ display: !this.state.showActionPlan ? "block" : "none" }}>
+                    <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan && ! this.state.showNextJourney  ? "block" : "none" }}>
+                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
                         {
                             texts.map((x) => {
                                 return <MDReactComponent text={x} onIterate={this.handleIterate} />
 
                             })
                         }
-                        {/* <CustomButton margin={"5rem 0 0 0"} type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.viewActionPlan}></CustomButton> */}
-                    </div>
-                    <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan ? "block" : "none" }}>
-                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara1}<br></br>{litrals.actionPlanPara2}</p>
                         <div className={classes.actionPlanFlex} >
                             {
                                 links.map((x, index) => {
@@ -542,33 +739,51 @@ class Chatbot extends React.Component {
 
                                     return (
                                         <div className={classes.actionPlanLinks}>
-                                            <div md={11} xs={10} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></div>
-                                            <span className={classes.verticalLine}></span>
-                                            <div md={1} xs={2} className={classes.iconCenter}> <span className={this.state.visitedLinks && this.state.visitedLinks[index] ? classes.linkSpanContentChecked : classes.linkSpanContent}></span></div>
+                                            <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></div>
+
+                                            <div md={1} xs={2} className={classes.iconCenter}> <i className="fas fa-chevron-right"></i></div>
                                         </div>)
                                 })
                             }
                         </div>
                     </div>
+                    <div style={{ display: !this.state.showActionPlan && this.state.showNextJourney && this.state.selectedJourneys.length ? "block" : "none"  }}>
+                        {this.gotoNextJourney()}
+                    </div>
                 </>
             )
         }
         else {
+            // if(this.state.queryIndex === 4){
+            //     return this.state.showNextJourney  && this.state.selectedJourneys.length  ? this.gotoNextJourney() : <MDReactComponent text={text} onIterate={this.handleIterate} />
+            // }
             return <MDReactComponent text={text} onIterate={this.handleIterate} />
         }
 
     }
 
-    showActionPlan = () => {
-        this.setState({ showActionPlan: true })
+    gotoNextJourney = () =>{
+        return (
+            <>
+            <h1 className={classes.heading}>
+                        Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em>
+                        </h1>
+                        <CustomButton type="Submit"
+                            float={"left"}
+                            onClick={this.state.showSpinner ? console.log() : this.handleOkay}
+                            data={litrals.buttons.okay}>
+                        </CustomButton>
+            </>
+        )
     }
 
     displayNextTopic = (topic) => {
 
         const text = this.state.data.answer;
-        const textarray = text.split("\n");
+        const otherText = text.split("\n\n")
+        const textarray = otherText[1] ? otherText[1].split("\n") : text.split("\n");
+        // console.log(otherText[0])
         var temp = {}
-        var count = 0
         var key = ""
         textarray.map((x) => {
             if (/^\d/.test(x.trim())) {
@@ -578,7 +793,7 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <NavTabs data={temp} topic={topic}></NavTabs>
+        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
 
     }
 
@@ -620,12 +835,47 @@ class Chatbot extends React.Component {
         this.setState(() => { return { showHomeModal: false } })
     }
 
+    handleOkay = () => {
+        // console.log(this.state.currentJourney, this.state.selectedJourneys)
+        const Next = this.state.selectedJourneys.length? this.state.selectedJourneys[0].value : ""
+        this.setState(()=>{
+            return {gotoNextJourney : true, currentJourney : Next, count:this.state.count+1}
+        }, 
+        ()=>{this.handleSubmit()})
+
+    }
+
     render() {
+        
         const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
-        const downloadActionPlan = this.downloadActionPlan();
-        const mobile = window.matchMedia("(max-width: 767px)").matches;
+        const mobile = window.matchMedia("(max-width: 600px)").matches;
+        const { CREATEJOURNEY } = this.props.payload
+        var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
+        const btn = (
+        <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
+            {this.state.section > 0 && this.state.showBack && responseStack?.length ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
+            {this.state.section < 2 ?
+                <CustomButton type="submit"
+                    float={"right"}
+                    onClick={this.state.showSpinner ? console.log() : this.handleSubmit}
+                    data={this.state.disagree ? litrals.buttons.SubmitNav : litrals.buttons.nextStep}>
+                </CustomButton>
+                : (topic == 4 && this.state.showActionPlan && this.state.selectedJourneys.length) || (this.state.queryIndex == 4 && this.state.section == 2 && this.state.selectedJourneys.length) ? 
+                <CustomButton type="submit" float={"right"}
+                        onClick={()=> this.setState(()=> {return {showActionPlan:false, showNextJourney: true, showBack:false, section : 4}})}
+                        data={litrals.buttons.nextStep}>
+                    </CustomButton> :  
+                radios && radios.length == 1 & this.state.showActionPlan ? radios : "" 
+            }
+            </div>
+
+            <div style={{ width: "100%", marginTop: "1rem" }}>
+                {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
+
+            </div>
+        </div>)
         // this.props.onEditInspection({topic})
         return (
 
@@ -645,7 +895,7 @@ class Chatbot extends React.Component {
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                         {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                         {paragraphs}
-                                        {this.state.section <= 1 ? <p>{litrals.optionText}</p> : ""}
+                                        
                                         {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
 
                                         {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
@@ -661,7 +911,7 @@ class Chatbot extends React.Component {
                                                 <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left", width: "100%" }}>
                                                     <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
                                                 </DropdownButton>
-                                                {downloadActionPlan}
+                                                {/* {downloadActionPlan} */}
 
                                                 {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                             <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
@@ -669,7 +919,6 @@ class Chatbot extends React.Component {
                                         ) : ""}
 
                                     </div>
-
                                 </Col>
                             </Row>
                         </Container>
@@ -679,58 +928,52 @@ class Chatbot extends React.Component {
                 <div className={classes.backgrondImage}>
                     <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
-                    <Container>
-                        <Row className={classes.chatBotRow}>
-                            <Col md={4} xs={1} style={{ padding: "2% 0 0 0" }}>
-                                <p className={classes.logoPara}>Your Progress</p>
-                                <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>
 
-                            </Col>
-                            <Col md={8} xs={11} style={{ minHeight: "40vh", maxHeight: "80vh", overflow: "auto", paddingBottom: "1.5rem" }}>
-                                <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+                    <div className={classes.chatBotRow}>
+                        <div className={classes.progressBar} >
 
-                                <div style={{ display: this.state.showSpinner ? "none" : "block", width: "80%" }}>
+                            {!this.state.disagree && <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
+                            { 
 
-                                    {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
-                                    {paragraphs}
-                                    {this.state.section <= 1 ? <p>{litrals.optionText}</p> : ""}
-                                    {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
+                            // this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]
+                              this.state.selectedJourneys.length == 0 && this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1] ? (
+                                <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
+                                    {/* <span title="Download action plan"> {this.downloadActionPlan()}</span> */}
 
-                                    {radios && radios.length > 1 ? <Form className={classes.Form}> {radios} </Form> : ""}
+                                    { <Email emailData={this.emailData} handleWarning={this.handleWarning}></Email>}
+                                    <ConfirmationModal message={litrals.warning} showModal={this.state.showWarningMessage} onClick={()=>this.setState({showWarningMessage:false, emailSent:true})} />
 
-
-                                    {topic == 4 && this.state.showActionPlan ? (
-                                        <div className={classes.downloadbtndiv} onClick={this.sendDownloadInfo}>
-                                            {downloadActionPlan}
-                                            <DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
+                                    {/* { <Warning warningData={this.showNoEmailWarninng}></Warning>} */}
+                                    {/*<DropdownButton id="dropdown-item-button" title='Share Action Plan' bsPrefix={classes.buttonColor1} style={{ float: "left" }}>
                                                 <Dropdown.Item as="div" id={"whatsapp"} ><WhatsappShareButton id={"whatsapp"} title='Covid-19 Support Finder Tool - Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/" + "\n\n" + this.state.data.answer} ><div id={"whatsapp"} className={classes.iconsbar}><span id={"whatsapp"} className={classes.linkElement}><WhatsAppIcon id={"whatsapp"} fontSize="large" className={classes.linkElement}></WhatsAppIcon>WhatsApp</span></div></WhatsappShareButton></Dropdown.Item>
-                                                {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> */}
-                                            </DropdownButton>
+                                                {/* <Dropdown.Item as="div" id={"email"} ><EmailShareButton id={"email"} subject='Covid-19 Support Finder Tool - Action Plan' body={this.blobData} ><div id={"email"} className={classes.iconsbar}><span id={"email"} className={classes.linkElement}><MailIcon id={"email"} fontSize="large" className={classes.linkElement}></MailIcon>Email</span></div></EmailShareButton></Dropdown.Item> </DropdownButton>*/}
 
-                                            {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
+                                    {/* <EmailShareButton  subject = 'Covid-19 Support Finder Tool Action Plan' url={"https://covidsupportfindertool.z33.web.core.windows.net/"}><MailIcon fontSize="large" className={classes.linkElement}></MailIcon></EmailShareButton>
                                                 <CustomButton margin={"1rem 0 2rem 0"} type="submit" onClick={this.handleBack} data={litrals.buttons.shareOnWhatsapp}></CustomButton> */}
-                                        </div>
-                                    ) : ""}
-
-                                    <div style={{ width: "100%", marginTop: "3rem", display: this.state.showFeedback ? "none" : "block" }}>
-                                        {this.state.section > 0 && this.state.showBack ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
-                                        {this.state.section < 2 ?
-                                            <CustomButton type="submit" float={"right"} onClick={this.state.showSpinner ? console.log() : this.handleSubmit} data={litrals.buttons.nextStep}>
-                                            </CustomButton> : topic == 4 && !this.state.showActionPlan ? <CustomButton type="submit" float={"right"} onClick={this.showActionPlan} data={litrals.buttons.nextStep}></CustomButton> : radios && radios.length == 1 ? radios : ""
-                                        }
-                                    </div>
-
-                                    <div style={{ width: "100%" }}>
-                                        {this.state.showFeedback ? <CustomButton type="submit" float={"right"} width={mobile ? "100%" : ""} onClick={this.gotoFeedback} data={litrals.buttons.showFeedback}></CustomButton> : ""}
-
-                                    </div>
-
                                 </div>
+                            ) : ""}
 
 
-                            </Col>
-                        </Row>
-                    </Container>
+                        </div>
+                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourneyTitle}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
+
+                        <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
+                            <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+
+                            <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>
+                                {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
+                                {paragraphs}
+                                {/* {this.state.section <= 1 ? <p className={classes.message}>{litrals.optionText}</p> : ""} */}
+                                {this.state.msg && this.state.section <= 1 ? <p className={classes.error}>{litrals.errorMessage}</p> : ""}
+
+                                {radios && radios.length > 1 ? <Form className={this.state.section > 1 ? classes.Form : ""}> {radios} </Form> : ""}
+                                {/* {!this.state.showNextJourney && this.state.section === 4 ? nextJourney : null} */}
+                                {this.state.showTextArea === 1 ? <div> <h5 className={classes.heading}>Comments if any :</h5> <textarea className={classes.textInput} value={this.state.textAreaValue} onChange={this.onDisagreeTextAreaInput}></textarea> </div> : null}
+                            </div>
+                        </div>
+                    </div>
+
+                    <Footers format={true} buttonpanel={btn}></Footers>
                 </div>
 
         );

@@ -1,280 +1,304 @@
-@import "../../theme.scss"; 
+@import "../../theme.scss";
 
-body{
-::-webkit-scrollbar-thumb
-{
- background: transparentize($color: $tertiary-color-3, $amount: 0.5);
-}
+body {
+  ::-webkit-scrollbar-thumb {
+    background: transparentize($color: $tertiary-color-3, $amount: 0.5);
+  }
 }
 
-.backgrondImage{
-  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
+.backgroundImage {
+  background-color: $background-color !important;
   // background-image: url("../../assets/Images/Thank-you-min.png") ;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: top;
-//   background-size: cover;
+  //   background-size: cover;
   object-fit: scale-down;
   min-height: 100vh;
   padding-bottom: 4rem;
   overflow: auto;
-  
 }
-.headingH1{
-    font-weight: bolder;
-    color: #333333;
-    line-height: 32px;
-    margin-top: 3%;
-    text-align: center;
-}
-
-.headingHx{
-    font-weight: bolder;
-    color: #333333;
-    margin-top: 3%;
-    text-align: left;
+.headingH1 {
+  font-weight: bolder;
+  color: $secondary-color;
+  line-height: 32px;
+  margin-top: 3%;
+  text-align: center;
 }
 
-.headingPara{
-    font-weight: bolder;
-    color: #333333;
-    line-height: 32px;
-    text-align: center;
+.headingHx {
+  font-weight: bolder;
+  color: $secondary-color;
+  margin-top: 3%;
+  text-align: left;
 }
 
-.logoPara{
-    color: $secondary-color;
-    text-align: left;
-    font: normal normal bold 24px/28px Tahoma ;
-    letter-spacing: 1.44px;
-    opacity: 1;
-}
-.smilyContainer{
-    padding-top: 2%;
-    display: block;
-    margin: auto;
-    text-align: center;
-    text-align: -webkit-center
-}
-.smily{
-    cursor: pointer;
-    font-size: 65px;
-    margin: 2%;
+.headingPara {
+  font-weight: bolder;
+  color: $secondary-color;
+  line-height: 32px;
+  text-align: center;
 }
 
-.smily:hover{
-    transform: scale(1.2);
-    // color: $primary-color;
+.logoPara {
+  color: $secondary-color;
+  text-align: left;
+  font: normal normal bold 24px/28px Tahoma;
+  letter-spacing: 1.44px;
+  opacity: 1;
 }
 
-
-.selected{
-    transform: scale(1.2);
-    cursor: default;
-    pointer-events: none;
-    font-size: 55px;
-    margin: 1%;
+.smilyContainer {
+  padding-top: 2%;
+  display: flex;
+  margin: auto;
+  justify-content: space-around;
+  text-align: center;
+  text-align: -webkit-center;
 }
 
-.disabled{
-    color: $tertiary-color-2 !important;
-    cursor: default;
-    pointer-events: none;
-    font-size: 55px;
-    margin: 1%;
+.smilyDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
-
-
-.checkbox{
-    position: absolute;
-    display: none
-}
-.label{
-    margin-top: 10px;
+.smily {
+  cursor: pointer;
+  font-size: 65px;
+  margin: 4%;
+  color: $tertiary-color-2 !important;
 }
 
-.optionButtons{
-    line-height: 1;
-    color: black;
-    width: 15rem;
-    padding: 10px;
-    cursor: pointer;
-    border: 1px solid $secondary-color;
-    border-radius: 5px;
-    background-color: #ffffff;
+.smily:hover {
+  transform: scale(1.2);
+  color: $primary-color;
 }
 
-.checkbox:checked+.optionButtons{
-    background-color: $primary-color;
-    color: whitesmoke;
-}
-.checkbox:not(:checked)+.optionButtons:hover{
-    background-color: white;
-}
-
-.nextBtnDiv{
-    margin-top: 3%;
-    display: flex;
-    justify-content: center;
+.selected {
+  cursor: default;
+  pointer-events: none;
+  font-size: 65px;
+  margin: 1%;
+  color: $primary-color !important;
 }
 
-.textarea{
-    max-width: 40rem;
-    min-width: 60%;
-    height: 15rem;
-    background-color: white;
-    border: 1px solid $secondary-color;
-    border-radius: 5px;
-    color: black;
-    display: block;
-    margin: auto;
-    margin-top: 3%;
-    padding-top: 2rem;
-    text-align: center;
-    
+.disabled {
+  color: $tertiary-color-2 !important;
+  cursor: default;
+  pointer-events: none;
+  font-size: 65px;
+  margin: 1%;
 }
 
-.textareasmall{
-    width: 20rem;
-    height: 7rem;  
-    background-color: white;
-    border: 1px solid $secondary-color;
-    border-radius: 5px;
-    color: black;
-    display: block;
-    margin: auto;
-    margin-top: 1%;
-    padding-top: 2rem;
-    text-align: center;
+.optionsContainer{
+  padding-top: 2%;
+  display: block;
+  margin: auto;
+  font-size: 14px !important;
+  text-align: center;
+  text-align: -webkit-center
 }
 
-.textarea:focus , .textareasmall:focus{
-    border: 1px solid $primary-color;
-    outline: none;
+.checkbox {
+  position: absolute;
+  display: none;
+}
+.label {
+  margin-top: 10px;
 }
 
-.homebtn{
-    color: $secondary-color !important;
-    text-align: center;
-    margin: auto;
-    cursor: pointer;
-  }
+.optionButtons {
+  line-height: 1;
+  color: white;
+  width: 15rem;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: $tertiary-color-2;
+  font-family: "Hurme Geometric Sans 3" !important;
+}
 
-  .homebtn:hover{
-    color: $primary-color !important;
-  }
-  .homebtn:focus{
-    outline: none;
+.checkbox:checked + .optionButtons {
+  background-color: $primary-color;
+  color: whitesmoke;
 }
-  .thanksdiv{
-    margin-top: 20vh;
+.checkbox:not(:checked) + .optionButtons:hover {
+  background-color: $primary-color;
 }
-.thankYou{
-    font-weight: bolder;
-    color: #333333;
-    line-height: 32px;
-    margin-top: 3%;
-    text-align: center;
-    animation: display ease-in-out 0.3s;
+
+.nextBtnDiv {
+  margin-top: 3%;
+  display: flex;
+  justify-content: center;
+}
+
+.textarea {
+  max-width: 40rem;
+  min-width: 60%;
+  height: 15rem;
+  background-color: white;
+  border: 1px solid $secondary-color;
+  border-radius: 5px;
+  color: black;
+  display: block;
+  margin: auto;
+  margin-top: 3%;
+  padding: 1rem;
+  text-align: left;
+}
+
+.textareasmall {
+  width: 20rem;
+  height: 7rem;
+  background-color: white;
+  border: 1px solid $secondary-color;
+  border-radius: 5px;
+  color: black;
+  display: block;
+  margin: auto;
+  margin-top: 1%;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.textarea:focus,
+.textareasmall:focus {
+  border: 1px solid $primary-color;
+  outline: none;
+}
+
+.homebtn {
+  color: $secondary-color !important;
+  text-align: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.homebtn:hover {
+  color: $primary-color !important;
+}
+.homebtn:focus {
+  outline: none;
+}
+.thanksdiv {
+  margin-top: 20vh;
+}
+.thankYou {
+  font-weight: bolder;
+  color: $secondary-color;
+  line-height: 32px;
+  margin-top: 3%;
+  text-align: center;
+  animation: display ease-in-out 0.3s;
 }
 
 @keyframes display {
-    0%   {font-size: 22px;}
-    34%  {font-size: 23px;}
-    100% {font-size: 32px;}
+  0% {
+    font-size: 22px;
   }
-  
-.feedbackImportance{
-    text-align: center;
-    font-size: 16px;
+  34% {
+    font-size: 23px;
+  }
+  100% {
+    font-size: 32px;
+  }
 }
 
+.feedbackImportance {
+  text-align: center;
+  font-size: 16px;
+  color: $font-color;
+}
 
 .checkmark__circle {
-    stroke-dasharray: 216; /* ORIGINALLY 166px */
-    stroke-dashoffset: 216; /* ORIGINALLY 166px */
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-    stroke: #7ac142;
-    fill: none;
-    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-  }
-  
-  .checkmark {
-    width: 106px; /* ORIGINALLY 56px */
-    height: 106px; /* ORIGINALLY 56px */
-    border-radius: 50%;
-    display: block;
-    stroke-width: 2;
-    stroke: #fff;
-    stroke-miterlimit: 10;
-    margin: 5% auto;
-    box-shadow: inset 0px 0px 0px #7ac142;
-    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-  }
-  
+  stroke-dasharray: 216; /* ORIGINALLY 166px */
+  stroke-dashoffset: 216; /* ORIGINALLY 166px */
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: $primary-color;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  width: 106px; /* ORIGINALLY 56px */
+  height: 106px; /* ORIGINALLY 56px */
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 5% auto;
+  box-shadow: inset 0px 0px 0px $primary-color;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 98; /* ORIGINALLY 48px */
+  stroke-dashoffset: 98; /* ORIGINALLY 48px*/
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
   .checkmark__check {
     transform-origin: 50% 50%;
-    stroke-dasharray: 98; /* ORIGINALLY 48px */
-    stroke-dashoffset: 98; /* ORIGINALLY 48px*/
+    stroke-dasharray: 0; /* ORIGINALLY 48px */
+    stroke-dashoffset: 0; /* ORIGINALLY 48px*/
     animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
   }
+}
 
-  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
-    .checkmark__check {
-      transform-origin: 50% 50%;
-      stroke-dasharray: 0; /* ORIGINALLY 48px */
-      stroke-dashoffset: 0; /* ORIGINALLY 48px*/
-      animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-    }
- }
-  
-  @keyframes stroke {
-    100% {
-      stroke-dashoffset: 0;
-    }
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
   }
-  @keyframes scale {
-    0%, 100% {
-      transform: none;
-    }
-    50% {
-      transform: scale3d(1.1, 1.1, 1);
-    }
+}
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
   }
-  @keyframes fill {
-    100% {
-      box-shadow: inset 0px 0px 0px 80px #7ac142;
-    }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 80px $primary-color;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .headingH1 {
+    font-size: 24px;
   }
 
-@media screen and (max-width:767px){
-    .headingH1{
-        font-size: 24px;
-    }
+  .headingPara {
+    font-size: 16px;
+  }
 
-    .headingPara{
-        font-size: 16px;
-    }
+  .headingHx {
+    font-size: 24px;
+  }
+  .textarea {
+    width: 70%;
+  }
 
-    .headingHx{
-        font-size: 24px;
+  .smily {
+    margin: 1%;
+    font-size: 55px;
+  }
 
-    }
-    .textarea{
-        width: 70%;
-    }
-
-    .smily{
-        margin: 1%;
-        font-size : 55px;
-    }
-
-    .selected, .disabled{
-      font-size: 50px;
-    }
-    .body{
-      overflow: scroll;
-    }
+  .selected,
+  .disabled {
+    font-size: 50px;
+  }
+  .body {
+    overflow: scroll;
+  }
 }

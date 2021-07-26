@@ -16,7 +16,7 @@
 .radio_radio{
     width: 40px;
     height: 40px;
-    border: 1px solid #727272; 
+    border: 1px solid #727272;
     border-radius: 50%;
     margin-right: 0%;
     box-sizing: border-box;
@@ -41,29 +41,29 @@
 }
 
 .radio_input:checked + .label{
-    color: $secondary-color;
+    color: $primary-color;
 }
 
 .radio_input:not(:checked) + .label::before{
     font-family: "Font Awesome 5 Free";
-    color:$primary-color;
+    color:darkgray;
     content: "\f111";
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
     font-size:25px;
-    margin: 0 5px;
+    margin: 0 20px 0 0;
 }
 
 .radio_input:checked + .label::before{
     font-family: "Font Awesome 5 Free";
-    color:$secondary-color;
+    color:$primary-color;
     content: "\f058";
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
     font-size:25px;
-    margin: 0 5px;
+    margin: 0 20px 0 0;
     font-weight: 900;;
 }
 
@@ -72,18 +72,76 @@
 }
 
 
-
-.label{
-    padding-left: 15px;
-    font-size: 16px;
-    line-height: 24px;
+.checkbox_input{
+    display: none;
 }
 
-.labelwithoutRadio{
-    padding-left: 15px;
-    font-size: 1.1875rem;
-    line-height: 1.31579;
+.checkbox_input:checked + .radio_radio::after{
+    transform: scale(1);
+}
+
+.checkbox_input:checked + .label{
+    color: $primary-color;
+}
+
+.checkbox_input:not(:checked) + .label::before{
+    font-family: "Font Awesome 5 Free";
+    color:darkgray;
+    content: "\f0c8";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:25px;
+    margin: 0 20px 0 0;
+}
+
+.checkbox_input:checked + .label::before{
+    font-family: "Font Awesome 5 Free";
+    color:$primary-color;
+    content: "\f14a";
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: normal;
+    font-size:25px;
+    margin: 0 20px 0 0;
+    font-weight: 900;;
+}
+
+.checkbox_input:checked + .label{
     font-weight: bold;
+}
+
+
+
+.label{
+    // padding-left: 15px;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+}
+
+.labelwithoutRadioYes{
+    padding: 7px 25px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 700;
+    background-color: $primary-color;
+    color: $tertiary-color-3;
+    border-color: $primary-color solid 1px;
+    border-radius: 50px;
+
+}
+
+.labelwithoutRadioNo{
+    padding: 7px 25px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 700;
+    background-color : $tertiary-color-2;
+    color: $tertiary-color-3;
+    border-color: $primary-color solid 1px;
+    border-radius: 50px;
+
 }
 
 .legend{
@@ -93,32 +151,30 @@
     line-height: 1.31579;
 }
 
- 
+.radioWrap{
+    margin: 2px 0;
+}
 
 .containerr{
-    color: $primary-color;
+    width: fit-content;
+    color: $secondary-color;
     cursor: pointer;
     text-align: left;
-    border: 1px solid;
-    border-color: $primary-color;
-    border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
-    margin: 1rem;
-    padding: 14px;
+    margin: 0;
+    padding: 14px 0;
     background-color: #ffffff;
     // box-shadow: grey 2px;
     transition: background-color 0.5s;
 }
 
 .containerr:hover, .containerr:active, .containerr:checked{
-    color: whitesmoke;
-    border: 1px solid;
-    background-color: $primary-color;
+    color: $primary-color;
 }
 
 .containerr:hover .label, .containerr:hover .label::before,.containerr:hover .label::after{
-    color: whitesmoke;
+    color: $primary-color
 }
 
 

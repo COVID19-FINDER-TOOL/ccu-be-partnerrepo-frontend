@@ -4,22 +4,66 @@
    position: fixed;
    bottom:0px;
    width:100%;
-   background-color: $tertiary-color-3;
-   box-shadow: 0px -3px 6px #00000029;
+   background-color: $background-color;
    padding: 1rem;
-   max-height: 3.5rem;
    font-size: 14px;
+   display: flex;
+   flex-direction: row;
+   padding-right: 50px;
+   padding-left: 30px;
+   margin-right: auto;
+   margin-left: auto;
+   justify-content: space-between;   
+}
+
+.aligner{
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+}
+.images{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 15%;
+}
+
+.citation{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 70%;
+    color: $secondary-color;
+    margin-left: 13%;
+}
+
+.links{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 40%;
+    color: $tertiary-color-2;
+    
+    
 }
 .footerLinks{
     padding-right: 1rem ;
-    color: #737373;
-    border:#737373 2px;
-    text-shadow: 0px 3px 6px #00000029;;
+    color: $secondary-color;
 }
 
 .footerLinks:hover{
-    color: black;
-    border-bottom:black;
+    color: $secondary-color;
+    border-bottom: $secondary-color;
+    font-weight: bold;
+    justify-content: flex-start;
+}
+
+.logoImage{
+    width: 150px;
+    // height: 60px;
+}
+.buttons {
+    flex: none;
 }
 
 

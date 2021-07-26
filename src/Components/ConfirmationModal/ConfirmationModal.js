@@ -13,18 +13,18 @@ class ConfirmationModal extends Component {
             checkboxElement=<Form.Check type="checkbox" label={this.props.checboxLeble}  onClick={this.props.checkBoxFunction}/>
         if(this.props.modalFooter==="dualButton")
              modalFooter =  <Modal.Footer>
-                                <Button variant="secondary" onClick={this.props.onHide}>No</Button>
-                                <Button autoFocus={true} variant="primary" className={classes.yesButton} onClick={this.props.onClick}>Yes</Button>
+                                <Button variant="primary" className={classes.noButton} onClick={this.props.onHide}>Cancel</Button>
+                                <Button autoFocus={true} variant="primary" className={classes.yesButton} onClick={this.props.onClick}>Submit</Button>
                            </Modal.Footer>
         else
              modalFooter =  <div>
-                                <Modal.Footer><Button variant="primary" onClick={this.props.onClick}>Ok</Button></Modal.Footer> 
+                                <Modal.Footer><Button variant="primary" onClick={this.props.onClick} className={classes.yesButton}>Ok</Button></Modal.Footer> 
                                 <Col className="mb-2">{checkboxElement}</Col> 
                             </div>
                             
         return (
             <Modal dialogClassName={this.props.modalClass ? classes[this.props.modalClass] : "" } backdrop={this.props.modalClass ? false : true } autoFocus={false} centered={true} onHide={this.props.closeConfirmationModal} show={this.props.showModal} size={this.props.modalClass ? "lg":"xs"}>
-            <Modal.Body> 
+            <Modal.Body style={{padding:"2rem"}}> 
              { this.props.message ? this.props.message.split ('\n').map ((item, i) => <p key={i}>{item}</p>) : this.props.formattedMsg ?  this.props.formattedMsg : this.props.rawTextInTextarea?this.props.rawTextInTextarea.split ('\n').map ((item, i) => <p style={{paddingBottom:"1px", paddingTop:"0px", margin:"1px"}} key={i}>{item}</p>) : console.log() }
              </Modal.Body>           
              {modalFooter}

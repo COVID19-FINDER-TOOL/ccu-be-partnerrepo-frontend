@@ -3,8 +3,6 @@ import { Container, Col, Row } from 'react-bootstrap';
 import classes from './Feedback.module.scss';
 import CustomButton from '../CustomButton/CustomButton';
 import litrals from '../Litrals/Litrals';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGrinAlt, faSmileBeam, faMeh, faFrown, faAngry } from "@fortawesome/free-solid-svg-icons";
 import Form from 'react-bootstrap/Form';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
@@ -14,6 +12,9 @@ import Header from '../Header/Header';
 import moment from "moment";
 import HomeIcon from '@material-ui/icons/Home';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
+import Footers from '../../Components/Footers/Footers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGrinAlt, faSmileBeam, faMeh, faFrown, faAngry } from "@fortawesome/free-solid-svg-icons";
 
 class Feedback extends React.Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class Feedback extends React.Component {
             section3: false,
             section4: false,
             positives: false,
+            neutral: false,
             negatives: false,
             showNext: true,
             answers: [],
@@ -50,7 +52,10 @@ class Feedback extends React.Component {
         feedback.experience = exp[id]
         console.log(feedback)
         this.props.onEditInspection({ Feedback: feedback })
-        id <= 2 ? this.setState(() => { return { section2: true, positives: true, smilySelected: id } }) : this.setState(() => { return { section2: true, positives: false, smilySelected: id } })
+        id <= 2 ? this.setState(() => { return { section2: true, positives: true, neutral:false,smilySelected: id } }) : this.setState(() => { return { section2: true, positives: false, neutral: false,smilySelected: id } })
+        if (id == 3) {
+            this.setState(() => { return { section2: true, positives: false, neutral:true, smilySelected: id } }) 
+        } 
     }
 
     handleNext = () => {
@@ -95,6 +100,7 @@ class Feedback extends React.Component {
             .then(res => {
                 const data = res.data;
                 console.log(data);
+                window.localStorage.removeItem('csf_user')
             }).catch(error => {
                 console.log(error);
             });
@@ -148,31 +154,43 @@ class Feedback extends React.Component {
     render() {
         const mobile = window.matchMedia("(max-width: 767px)").matches;
 
-        const positives = ["I found the support I needed", "I found stories and tips from other people helpful", "I found it easy to use the tool"]
-        const negatives = ["I didn’t find any support options", "The support options shown weren’t relevant to me", "I found it difficult to use the tool"]
-        const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : negatives : -1);
+        const positives = ["Customer got the support needed", "Customer comfortable sharing personal circumstances", "Customer happy with the length of time spent "]
+        const neuterals = ["Customer was neither satisfied or unsatisfied", "Customer was slightly uncomfortable or vague in sharing personal circumstances", "Customer already had information he needed"]
+        const negatives = ["Customer did not get the support needed", "Customer was not comfortable sharing personal circumstances", "Customer not happy with the length of time spent "]
+        const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : this.state.neutral ? neuterals : negatives : -1);
         return (
-            <div className={classes.backgrondImage}>
+            <div className={classes.backgroundImage}>
                 <Header heading={7} showHomeModal={this.showHomeModal}></Header>
                 <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHomefromFeedback} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                 <Container>
                     <Row>
                         <Col style={{ height: "80vh", overflow: 'auto', paddingBottom: "4rem" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
-                                <h5 className={classes.headingH1}>How would you rate your experience with the tool?</h5>
+                                <h5 className={classes.headingH1}>How would you rate the customer’s experience with the tool?</h5>
                                 <div className={classes.smilyContainer}>
-                                    <FontAwesomeIcon id={1} icon={faGrinAlt} style={{ color: "#009900" }} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} color onClick={this.smilySelector.bind(this, 1)} />
-                                    <FontAwesomeIcon id={2} icon={faSmileBeam} style={{ color: "#00CC00" }} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} />
-                                    <FontAwesomeIcon id={3} icon={faMeh} style={{ color: "#CCCC00" }} className={this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} />
-                                    <FontAwesomeIcon id={4} icon={faFrown} style={{ color: "#CC6600" }} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} />
-                                    <FontAwesomeIcon id={5} icon={faAngry} style={{ color: "#CC3300" }} className={this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} />
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={1} icon={faGrinAlt} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 1)} />  </div> 
+                                   {/* <h6>Very Satisifed</h6> */}
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={2} icon={faSmileBeam} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} /> </div>
+                                   {/* <h6>Satisifed</h6>  */}
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={3} icon={faMeh} className={this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} /> </div>
+                                   {/* <h6>Not Satisifed</h6>  */}
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={4} icon={faFrown} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} />  </div>
+                                   {/* <h6>Sad</h6> */}
+                                   <div className={classes.smilyDiv}> <FontAwesomeIcon id={5} icon={faAngry} className={this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} /> </div>
+                                   {/* <h6>Angry</h6>  */}
+
+                                    {/* <button id={1}  value={"satisfied"} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} color onClick={this.smilySelector.bind(this, 1)}>Very Satisifed</button>
+                                    <button id={2}  value={"satisfied"} className={this.state.smilySelected ? this.state.smilySelected == 2 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 2)} >Satisifed</button>
+                                    <button id={3}  value={"satisfied"} className={this.state.smilySelected ? this.state.smilySelected == 3 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 3)} >Not Satisfied</button>
+                                    <button id={4}  value={"satisfied"} className={this.state.smilySelected ? this.state.smilySelected == 4 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 4)} >Sad</button>
+                                    <button id={5}  value={"satisfied"} className={this.state.smilySelected ? this.state.smilySelected == 5 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 5)} >Angry</button> */}
                                 </div>
                             </div>
 
                             <div style={{ display: this.state.section2 ? "block" : "none" }}>
                                 <h5 className={classes.headingH1}>Please select from the following options:</h5>
                                 <p className={classes.headingPara}><em>Note: you can select multiple options</em></p>
-                                <div className={classes.smilyContainer}>
+                                <div className={classes.optionsContainer}>
                                     {optionButtons}
                                 </div>
                                 {this.state.showNext ? <div className={classes.nextBtnDiv}><CustomButton width={mobile ? "100%" : ""} type="submit" onClick={this.handleNext} data={litrals.buttons.nextStep}></CustomButton></div> : ''}
@@ -200,6 +218,8 @@ class Feedback extends React.Component {
                     </Row>
 
                 </Container>
+
+                {!mobile ? <Footers format = {true}></Footers>:null}
             </div>
 
         )

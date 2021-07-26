@@ -1,20 +1,21 @@
 @import "../../theme.scss"; 
 
 .shareButton{
-    color: $secondary-color;
+    color: $tertiary-color-3;
     font-weight: bolder;
     cursor: pointer;
 }
 
 .links{
-    border: 2px solid $secondary-color;
-    padding: 7px 17px;
+    border: 2px solid $tertiary-color-3;
+    background-color: $secondary-color;
+    padding: 4px 24px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;
-    color:$secondary-color;
+    border-radius: 50px;
+    color:$tertiary-color-3;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 13px;
     text-decoration: none;
     vertical-align: middle;
     letter-spacing: 1px;    
@@ -22,14 +23,14 @@
 
 .links:hover{
     background-color: $primary-color;
-    color: #ffffff;
+    color:  $tertiary-color-3;
     border-color: $primary-color;
     transition: all 0.5s;
 }
 
 .links:focus{
     background-color: $secondary-color;
-    color: #ffffff;
+    color:  $tertiary-color-3;
     outline: none;
     transition: all 0.5s;
 }
@@ -47,7 +48,7 @@
 }
 
 .backgroundColor{
-    background-color: white;
+    background-color:  $tertiary-color-3;
 }
 
 .icons{

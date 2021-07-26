@@ -1,34 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import classes from './App.module.scss';
-import WelcomePage from './Components/WelcomePage/WelcomePage';
-import Chatbot from './Components/Chatbot/Chatbot';
-import { Container, Row } from 'react-bootstrap';
+
+import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
-import Footers from './Components/Footers/Footers';
 import CacheCleaner from './CacheCleaner.js'
-import Feedback from './Components/Feedback/Feedback';
 import { connect } from "react-redux";
 import 'animate.css/animate.css'
-import { baseUIURL } from './AxiosHandler';
-import FloatingButton from './Components/FloatingButton/FloatingButton';
+import { onEditInspection } from "./store/Action/LoginAction";
+import axios from 'axios';
+import Loadable from "react-loadable";
+import Loading from './Components/Loading/LoadingPage.js'
+
+const WelcomePage =  React.lazy(() => import('./Components/WelcomePage/WelcomePage'));
+
+// Loadable({
+//   loader:() => import('./Components/WelcomePage/WelcomePage'),
+//   loading: Loading
+// });
+
+const Chatbot = React.lazy(() => import('./Components/Chatbot/Chatbot'));
+
+// Loadable({
+//   loader:() => import('./Components/Chatbot/Chatbot'),
+//   loading:Loading
+// });
+const Feedback =  React.lazy(() => import('./Components/Feedback/Feedback'));
+
+// Loadable({
+//   loader:() => import('./Components/Feedback/Feedback'),
+//   loading: Loading
+// });
+
+const FloatingButton = React.lazy(() => import('./Components/FloatingButton/FloatingButton'));
+
+// Loadable({
+//   loader:() => import('./Components/FloatingButton/FloatingButton'),
+//   loading: Loading
+// });
+
+
 
 function App() {
-
   const [showCover, setShowCover] = useState(true)
+  // const [keyVault, setKeyVault] = useState({})
   const mobile = window.matchMedia("(max-width: 767px)").matches;
 
-  useEffect(() => {
-    // console.log(window.location.href)
-    if (window.location.href === baseUIURL) {
-      setTimeout(function () {
-        setShowCover(false)
-      }, 8000)
-    } else {
-      setShowCover(false)
-    }
-  },[]);
+  const callKeyVault = async() => {
+    await axios.get("https://cft-backendfunction.azurewebsites.net/api/CFTKeyVaultMSITrigger/")
+    .then(res=>{
+      const data = res.data
+      window.$keyVault = data
+      console.log(window.$keyVault)
+    })
+
+  } 
+
+  useEffect( ()=>{
+    callKeyVault()
+  }
+  ,[]);
+  
+ 
 
   return (
+    <Suspense fallback={<div>Loading</div>}>
+
     <CacheCleaner>
       {({ loading, isLatestVersion, refreshCacheAndReload }) => {
         if (loading) return null;
@@ -39,28 +75,7 @@ function App() {
 
         return (
           <>
-            <div style={{ display: showCover == true ? "block" : "none" }} className={classes.coverPage} onClick={()=>{setShowCover(false)}}>
-              <Container className={classes.containertransform}>
-                <div className={classes.main}>
-                  <Row className={classes.containerCover}>
-                    <img className={classes.logoImage} src={require("./assets/Images/Image 8.png")} alt="SS logo"></img>
-                    {/* <div class={classes.vl}></div> */}
-                    <img className={classes.logoImage} src={require("./assets/Images/Image 7.png")} alt="university logo"></img>
-                  </Row>
-                  <Row className={classes.appNameRow}>
-                    <h1 className={classes.appName}>SUPPORT FINDER TOOL</h1>
-                  </Row>
-                  <Row className={classes.containerCover}>
-                    <img className={classes.logoAppImage} src={require("./assets/Images/Support_finder_logo2x.png")} alt="app logo"></img>
 
-                  </Row>
-                </div>
-                <Row className={classes.appSignatureRow}>
-                  <h3 className={classes.signature}>Powered by <br /> Sopra Steria and The University of Edinburgh <br /> <span className={classes.span}>In collaboration with various charities</span> </h3>
-                </Row>
-              </Container>
-            </div>
-            <div style={{ display: showCover == false ? "block" : "none", minHeight: "100%" }}>
               <Router basename="/">
                 {/* <Header /> */}
                 <div className={classes.App}>
@@ -73,13 +88,14 @@ function App() {
                     {mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:null}
                   </Container >
                 </div>
-                {!mobile ? <Footers></Footers>:null}
+                {/* {!mobile ? <Footers></Footers>:null} */}
               </Router>
-            </div>
           </>
         );
       }}
     </CacheCleaner>
+     </Suspense>
+
   );
 
 }
@@ -90,5 +106,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, null, null, { pure: false })(App);
-
-

@@ -3,15 +3,21 @@
 @import "../../theme.scss"; 
 
 .heading{
-    
-    font-weight: bolder;
-    margin-top: 2%;
+    font-weight: 900 !important;
+    margin-top: 1%;
     margin-bottom: 2%;
     font-size: 24px;
     line-height: 36px;
+    color: $secondary-color;
 }
+
+.message{
+    margin-bottom: 1.2rem !important;
+}
+
+
 .backgrondImage{
-  background-image: linear-gradient(to left, skyblue , #ffffff) !important; 
+  background-color: $background-color;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -21,23 +27,40 @@
   padding-bottom: 1.5rem;
 
 }
+
+.qnaContainer{
+    margin-top:25px;
+    padding: 20px 50px 0px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 4px #00000029;
+    
+}
+
+.Form{
+    display: flex;
+    width: 150px;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
 .para{
-    margin-top: 2%;
-    font-size: 16px;
-    line-height: 24px;
+    margin-top: 1%;
+    font-size: 18px;
+    line-height: 32px;
+    margin-right: 1%;
 }
 .list{
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 40px;
 }
 .actionPlanPara{
-    text-align: left;
-    font: normal normal normal 18px/27px Tahoma;
-    letter-spacing: 0px;
-    opacity: 1;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 36px;
+    margin: 10px 0px;
 }
 .error{
-    color: brown;
+    color: $primary-color;
     font-weight: bold;
 }
 
@@ -57,10 +80,64 @@
 
 .linkElement{
     text-align: left;
-    font: normal normal normal 16px/24px Tahoma ;
     letter-spacing: 0px;
-    color: #1592E6;
+    font-weight: bold;
+    color: $font-color;
+    font-size: 16px;
     opacity: 1; 
+}
+
+.linkElement:hover{
+   text-decoration: none;
+   color: $primary-color;
+}
+
+.linkElement::before{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: transparent;
+    content: '';
+}
+
+.paraElement{
+    text-align: left;
+    letter-spacing: 0px;
+    font-weight: bold;
+    color: $font-color;
+    font-size: 16px;
+    opacity: 1; 
+}
+
+.paraElement:hover{
+   text-decoration: none;
+   color: $primary-color;
+}
+
+.currentJourney{
+    font-weight: 900 !important;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    font-size: 24px;
+    line-height: 36px;
+    color: $secondary-color;
+
+}
+.currentJourneyTitle{
+    font-weight: 900 !important;
+    margin-top: 1%;
+    margin-bottom: 2%;
+    font-size: 24px;
+    line-height: 36px;
+    color: $tertiary-color;
+
+}
+
+
+.currentJourneySpan{
+    color: $primary-color;
 }
 
 // .linkElement:link{
@@ -68,20 +145,19 @@
 //     border-bottom: #a60726;
 // }
 .actionPlanFlex{
+    margin-top: 2%;
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
-    /* flex-direction: column; */
+    flex-direction: column;
 }
 .actionPlanLinks{
     display: flex;
-    width: 45%;
     background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid $secondary-color;
-    border-radius: 5px;
+    border-bottom: 2px solid $tertiary-color-3;
     opacity: 1;
-    margin: 2%;
-    padding: 2%;
+    margin: 0% 4% 0% 0;
+    padding: 2% 0;
 }
 
 .linkSpan{
@@ -97,7 +173,7 @@
 .linkSpanContent::before{
     font-family: "Font Awesome 5 Free";
     color: $tertiary-color;
-    content: "\f017";
+    content: "\f504";
     vertical-align: middle;
     font-style: normal;
     font-weight: normal;
@@ -126,36 +202,36 @@
     display: flex;
     margin: auto;
     align-items: center;
-    margin-left: 10px;
+    margin-right: 10px;
+    margin-left: -10px;
+    color: $primary-color;
+
 }
 
 .bullets{
-    padding-left: 10px;
+    padding-left: 0px;
     margin: auto;
-    font-size: 20px;
     list-style: none;
 }
 
-.Form{
-    margin-top: 5%;
-}
 
 .buttonColor1{
+
     float: right;
-    color: $secondary-color;
+    color: $primary-color;
     box-shadow: none;
-    padding: 10px 24px;
-    line-height: 21px;
+    // padding: 10px 24px;
+    //line-height: 21px;
     text-transform: capitalize;
-    font-weight: 700;
-    font-size: 16px;
-    border: 2px solid;
-    border-radius: 5px;
-    background-color: white;
-    border-color:  $secondary-color;
-    margin-bottom: 2%;
-    transition: background-color 0.5s;
-    text-align: center;
+    // font-weight: 700;
+    // font-size: 16px;
+    // border: 2px solid;
+    // border-radius: 5px;
+    // background-color: white;
+    // border-color:  $secondary-color;
+    // margin-bottom: 2%;
+    // transition: background-color 0.5s;
+    // text-align: center;
   }
   .logoPara{
     color: $secondary-color;
@@ -166,23 +242,51 @@
 }
 
 
-  .buttonColor1:hover{
-    background-color: $primary-color;
-    border-color:  $primary-color;
-    color: whitesmoke;
-    text-decoration: none;
-  }
+//   .buttonColor1:hover{
+//     background-color: $primary-color;
+//     border-color:  $primary-color;
+//     color: whitesmoke;
+//     text-decoration: none;
+//   }
 
-  .buttonColor1:focus{
-      outline: none;
-  }
+//   .buttonColor1:focus{
+//       outline: none;
+//   }
 
   .downloadbtndiv{
-    padding: 1rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    // width: 120px;    
   }
 
   .chatBotRow{
-      margin-top: 1%;
+    //   margin-top: 1%;
+      padding : 30px 55px 40px 55px
+  }
+
+  .progressBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .buttonpanel{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+  }
+
+  .textInput {
+    max-width: 40rem;
+    min-width: 60%;
+    height: 5   rem;
+    background-color: white;
+    border: 1px solid $secondary-color;
+    border-radius: 5px;
+    margin: auto;
+    margin-top: 1%;
+    padding: 1rem;
+    
   }
 
 

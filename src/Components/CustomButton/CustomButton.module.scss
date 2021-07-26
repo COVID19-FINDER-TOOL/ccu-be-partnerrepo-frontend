@@ -1,3 +1,4 @@
+@import url("https://use.fontawesome.com/releases/v5.13.0/css/all.css");
 @import "../../theme.scss"; 
 
 .buttonPadding{
@@ -27,24 +28,50 @@ button:active{
 button:focus{
     // color: #ffff !important
 }
-
-.buttonColor1{
-    color: $secondary-color !important;
+.buttonColorBack{
+    color: $tertiary-color-3 !important;
     box-shadow: none !important;
-    padding: 9px 24px !important;
+    padding: 6px 30px !important;
+    margin-right: 15px !important;
     line-height: 21px !important;
     text-transform: capitalize;
     font-weight: 700 !important;
-    font-size: 16px !important;
+    font-size: 13px !important;
     border: 2px solid !important;
-    border-radius: 5px !important;
-    background-color: #ffffff !important;
-    border-color:  $secondary-color !important;
+    border-radius: 50px !important;
+    background-color:$tertiary-color-2 !important;
+    border-color:  $tertiary-color-3 !important;
+    font-family: "Hurme Geometric Sans 3" !important;
+    transition: background-color 0.5s !important;
+}
+
+.buttonColor1{
+    color: $tertiary-color-3 !important;
+    box-shadow: none !important;
+    padding: 6px 30px !important;
+    line-height: 21px !important;
+    text-transform: capitalize;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    border: 2px solid !important;
+    border-radius: 50px !important;
+    background-color:$primary-color !important;
+    border-color:  $tertiary-color-3 !important;
+    font-family: "Hurme Geometric Sans 3" !important;
     // margin-top: 2%;
     // margin-bottom: 2%;
     transition: background-color 0.5s !important;
 
   }
+
+  .buttonColorBack:hover{
+    background-color: $tertiary-color-2 !important;
+    border-color:  $tertiary-color-2 !important;
+    color: whitesmoke !important;
+  }
+  .buttonColorBack:focus{
+    outline: none;
+}
 
   .buttonColor1:hover{
     background-color: $primary-color !important;
@@ -60,6 +87,7 @@ button:focus{
         // width: 100% !important;
         font-size: 16px !important;
         padding: 12px 15px !important;
-        background-color: $tertiary-color-3 !important;   
+        background-color: primary-color !important; 
+        background: $primary-color !important;  
     }
 }

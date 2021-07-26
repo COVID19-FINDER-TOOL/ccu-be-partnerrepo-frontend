@@ -1,0 +1,118 @@
+@import "../../theme.scss";
+
+.heading{
+    font-weight: 900 !important;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 24px;
+    line-height: 32px;
+    color: $secondary-color;
+}
+
+.menuContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.menu{
+    width: 300px;
+}
+
+.menuBar{
+    cursor: default;
+    color:white;
+    background-color: $primary-color;
+    padding: 10px 15px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+    &:hover{
+        color:white;
+        background-color: $primary-color;
+    }
+}
+
+.menuBarClicked{
+    color:white;
+    background-color: $primary-color;
+}
+
+.optionDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: whitesmoke solid 2px;
+    line-height: 24px;
+}
+
+p{
+    margin-bottom: 0 !important;
+}
+
+.linkSpan{
+    cursor: pointer;
+}
+
+.paraElement{
+    margin-bottom: 0 !important;
+    font-size: 14px;
+    cursor: default;
+
+}
+.linkElement{
+    text-align: left;
+    letter-spacing: 0px;
+    color: $tertiary-color-2 !important;
+    font-size: 14px;
+    margin-right: 10px;
+    opacity: 1; 
+    cursor: pointer !important;
+    // font-weight: bold;
+    &:hover{
+        font-weight: bold;
+        color: $secondary-color !important;
+    }
+}
+
+.linkSpan:hover + .icon{
+    color: $primary-color;
+}
+
+.icon{
+    color: $tertiary-color-2;
+    font-size: 22px;
+}
+
+.belowText{
+    margin-top: 2rem;
+}
+
+
+@media only screen and (min-width:1400px){
+    .menuBar{
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    .linkElement{
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .paraElement{
+        font-size: 16px;
+        line-height: 32px;
+    }
+
+    .optionDiv{
+        padding: 20px 10px;
+    }
+
+    .belowText{
+        margin-top: 3rem;
+    }
+}

@@ -1,10 +1,18 @@
 @import "/theme.scss"; 
 
+
 html, body {
   min-height: 100%;
   position: relative;
-
+  font-family: "Myriad Pro Regular" !important;
+  color: $font-color;
 }
+
+h1,h2,h3,h4,h5,h6{
+  font-family: "Myriad Pro Bold" !important;
+  color: $font-color;
+}
+
 
 
 body {
@@ -12,7 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   color: $font-color !important ;
-  font-family: $font-family !important;
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24,12 +32,16 @@ body {
 
 ::-webkit-scrollbar-track
 {
-  background: transparent;
+  background: $background-color;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
 }
 
 ::-webkit-scrollbar-thumb
 {
-  background: $tertiary-color-3;
+  background: $tertiary-color-2 !important;
   border-radius: 5px;
 
 }

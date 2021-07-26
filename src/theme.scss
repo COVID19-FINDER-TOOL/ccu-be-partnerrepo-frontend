@@ -1,8 +1,29 @@
-$font-family:"Tahoma";
-$font-color:#1D1D1B;
-$primary-color : #32ABD0;
-$secondary-color : #007AC2;
-$tertiary-color : #9597A6;
-$tertiary-color-2: #A8A8A7;
-$tertiary-color-3 : #EDEDED;
-$background-welcome : "../../assets/Images/BackgroundColor.jpg"
+
+$font-color: #212c56;
+$primary-color: #212c56;
+$secondary-color: #212c56;
+$tertiary-color: #9597a6;
+$tertiary-color-2: #a8a8a7;
+$tertiary-color-3: whitesmoke;
+$background-color: #efefef;
+$background-welcome: "../../assets/Images/BackgroundColor.jpg";
+
+
+
+@font-face {
+  font-family: "Myriad Pro Bold";
+  src: url("Myriad Pro Bold.woff2") format("woff2"),
+    url("Myriad Pro Bold.woff2") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+    font-family: 'Myriad Pro Regular';
+    src: url('Myriad Pro Regular.woff2') format('woff2'),
+        url('Myriad Pro Regular.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

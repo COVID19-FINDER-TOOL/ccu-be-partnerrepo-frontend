@@ -99,14 +99,8 @@ const handleIterate = (Tag, props, children, level) => {
 }
 
 const DownloadActionPlan = (props) => {
-  const summ = props.summary
-  const Journey_ = summ.filter((x) => (x.topic == "1" || x.topic == 0))
-  var Journey = Journey_.map((x) => {
-    return x.descriptive_answer
-  })
-  // Journey = Journey.splice(0,-1)
+  // const summ = props.summary
 
-  console.log(Journey)
   const text = props.data;
   const textarray = text.split("\n");
   var texts = [];
