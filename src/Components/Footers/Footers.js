@@ -29,12 +29,12 @@ const Footers = (props) => {
         <div className={classes.images}>
           <img
             className={classes.logoImage}
-            src={require("../../assets/Images/Image 8.png")}
+            src={require("../../assets/Images/edinburgh.png")}
             alt="SS logo"
           ></img>
           <img
             className={classes.logoImage}
-            src={require("../../assets/Images/Image 7.png")}
+            src={require("../../assets/Images/sslogo.png")}
             alt="university logo"
           ></img>
         </div>
