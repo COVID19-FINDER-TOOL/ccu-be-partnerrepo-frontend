@@ -553,7 +553,7 @@ class Chatbot extends React.Component {
                         this.blobData = blob ? blob : ""
                         this.blobUrl = url
 
-                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
+                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg").default} />)
                     }
 
                 }
@@ -890,7 +890,7 @@ class Chatbot extends React.Component {
                                     <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal}  ></ProgressWeb>
                                 </Col>
                                 <Col md={8} xs={11} style={{ height: "75vh", overflow: "auto", paddingBottom: "4rem" }}>
-                                    <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img></div>
+                                    <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg").default}></img></div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                         {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
