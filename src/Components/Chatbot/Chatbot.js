@@ -61,7 +61,7 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            queryString: ["71c46325-d334-40ec-a536-633ee3d0ef89/generateAnswer", 'a8384c4a-6c02-4c32-8ed3-7a6707f3a513/generateAnswer', "65f77774-ea4b-4ab6-85e4-812c5767518b/generateAnswer", '37bd802f-8f46-49c5-90c5-50172833c869/generateAnswer', "3fb4e2bc-07e1-4b8f-ab49-1a952f759ff3/generateAnswer", "aa891d25-b699-4af7-bfb6-7937524ee77e/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
@@ -553,7 +553,7 @@ class Chatbot extends React.Component {
                         this.blobData = blob ? blob : ""
                         this.blobUrl = url
 
-                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg")} />)
+                        return (loading ? "Loading.." : <img alt={"Download"} src={require("../../assets/Images/download.svg").default} />)
                     }
 
                 }

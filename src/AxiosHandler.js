@@ -9,7 +9,7 @@ export const axiosInstance = axios.create({
   baseURL: baseURL,  //should be window.$keyVault.baseURL
   timeout: 30000, 
   headers: {
-    "Authorization": "EndpointKey 82918fc2-6ffc-47b7-bfdd-3c20b2aa2d3c"
+    "Authorization": "EndpointKey 91cf0f05-b393-4e80-9425-ceab4d9384d2"
   }
 });
 
