@@ -688,7 +688,11 @@ class Chatbot extends React.Component {
 
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
-        const textarray = text.split("\n");
+        const tempText = text.split("\n\n######");
+
+        const textarray = topic == 4 ? tempText[0].split("\n") : text.split("\n") ;
+        
+        
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
         var texts = [];
@@ -705,6 +709,7 @@ class Chatbot extends React.Component {
         }
         
         if (topic == 4) {
+            
             textarray.map((x) => {
                 if (x.match(/^\d/)) {
                     links.push(x)
@@ -746,7 +751,9 @@ class Chatbot extends React.Component {
                                 })
                             }
                         </div>
+                        <h6 style={{paddingTop:10, marginLeft:-5}} >{tempText[tempText.length-1]}</h6>
                     </div>
+
                     <div style={{ display: !this.state.showActionPlan && this.state.showNextJourney && this.state.selectedJourneys.length ? "block" : "none"  }}>
                         {this.gotoNextJourney()}
                     </div>
@@ -890,6 +897,7 @@ class Chatbot extends React.Component {
                                     <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal}  ></ProgressWeb>
                                 </Col>
                                 <Col md={8} xs={11} style={{ height: "75vh", overflow: "auto", paddingBottom: "4rem" }}>
+                                    {/* Ankush */}
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg").default}></img></div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
