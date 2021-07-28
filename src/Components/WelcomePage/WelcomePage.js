@@ -174,6 +174,7 @@ class WelcomePage extends React.Component {
             data={litrals.buttons.getStartedButton}>
 
           </CustomButton>
+          {/* <img src={require('../../assets/Images/Spinner-1s-200px.svg')}/> */}
         </Container>
 
 
