@@ -28,6 +28,10 @@ const litrals = {
             buttonText: "Okay",
             variant: "primary",
         },
+        no:{
+            buttonText: "No",
+            variant: "primary",
+        },
         SubmitNav:{
             buttonText: "Submit",
             variant: "primary",
@@ -58,7 +62,7 @@ const litrals = {
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
         text0: "Breathe Easy",
-        text1: "Supporting our customers when they need it most",
+        text1: "Supporting our members when they need it most",
         text2: "Powered by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
         text4: "This tool has different options and information to provide emotional, health and financial support  ",
