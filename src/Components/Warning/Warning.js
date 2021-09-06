@@ -10,7 +10,7 @@ const Warning = (props) => {
                 showModal={props.show}
                 // onClick={handleSubmit}
                 // onHide={hideModal}
-                message={"Are you sure you want to continue? You have not sent your customer their support options."}
+                message={"Are you sure you want to continue? You have not sent your member their support options."}
               />
               
               <i
