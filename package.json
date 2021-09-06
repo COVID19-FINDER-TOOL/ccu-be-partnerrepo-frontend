@@ -1,5 +1,5 @@
 {
-   "name": "csf_cp",
+  "name": "csf_cp",
   "version": "0.14.0",
   "private": true,
   "homepage": ".",
@@ -72,5 +72,8 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"
+  },
+  "devDependencies": {
+    "file-loader": "^6.2.0"
   }
 }

@@ -31,6 +31,7 @@ import Footers from '../../Components/Footers/Footers';
 import Menubar from '../Menubar/Menubar';
 import { TransferWithinAStationSharp } from '@material-ui/icons';
 import { getKeyThenIncreaseKey } from 'antd/lib/message';
+import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -74,6 +75,17 @@ class Chatbot extends React.Component {
             emailSent: false
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
+
+        if (window.performance) {
+            console.info("window.performance works fine on this browser");
+          }
+          console.info(performance.navigation.type);
+          if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            console.info( "This page is reloaded" );
+            this.props.history.push("/chatbot")
+          } else {
+            console.info( "This page is not reloaded");
+          }
     }
 
     componentDidMount = () => {
@@ -100,7 +112,7 @@ class Chatbot extends React.Component {
     } 
  
     saveQuestion = (data, response, notFetch) => {
-        // console.log(data)
+        console.log(data,response, notFetch,'Save Button');
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -115,7 +127,7 @@ class Chatbot extends React.Component {
             this.fetch();
         }
         else {
-
+            console.log('respnse', response)
             this.saveInStorage(response)
             // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
             //     .then(res => {
@@ -272,23 +284,39 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload
         var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
         var { responseStack, backStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
+        // const currentResponse = backStack ? backStack[backStack.length - 1] : ""
         const currentResponse = backStack ? backStack[backStack.length - 1] : ""
         const state_data = this.state.data
-        
+        console.log('Create Journey', CREATEJOURNEY)
+
 
         if (this.state.selected || currentResponse || this.state.section>=4) {
             var value = ""
             var id = "" 
             var newselectedJourneys = []
-
+            // this.setState(() => { return { backStack: [0] } })
         
-            if(this.state.queryIndex===0 && this.state.selectedJourneys.length && !this.state.backStack.length){
+            if(this.state.queryIndex===0 && this.state.selectedJourneys.length && !this.state.backStack?.length){
 
                 id =  parseInt(this.state.selectedJourneys[0]?.id)
                 value = this.state.selectedJourneys[0]?.value
                 newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
                 this.setState(() => { return { selectedJourneys:newselectedJourneys } })
                 
+            this.setState({
+                currentJourney: value
+            });
+                
+            }
+            else if(this.state.queryIndex===0 && this.state.selectedJourneys.length  && this.state.backStack?.length){
+                id =  parseInt(this.state.selectedJourneys[0]?.id)
+                value = this.state.selectedJourneys[0]?.value
+                newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
+                this.setState(() => { return { selectedJourneys:newselectedJourneys } })
+                
+            this.setState({
+                currentJourney: value
+            });
             }
             else{
                 if (this.state.currentResponses?.value) {
@@ -298,9 +326,11 @@ class Chatbot extends React.Component {
                 else {
                     value = currentResponse?.descriptive_answer
                     id = currentResponse?.answer_id?.toString().substring(4)
-                }
+                }     
+                
             }
 
+           
 
             var requestBody = {}
             const resbody = {
@@ -309,7 +339,7 @@ class Chatbot extends React.Component {
                 "answer_time": moment.utc().format('YYYY-MM-DD hh:mm:ss'),
                 "descriptive_answer": value,
             }
-            // console.log(currentResponse)
+            //  console.log('current Response => ',currentResponse)
 
             if (this.state.disagree) {
                 this.handleDisagree(resbody)
@@ -513,6 +543,7 @@ class Chatbot extends React.Component {
         user_response["journey_id"] = journey_id;
 
         const responseBody = { ...user_response }
+        // console.log('userResponse => ', user_response)
 
         axiosLoginInstance.post("CFTUserJourneyTrigger/answer", responseBody)
             .then(res => {
@@ -570,7 +601,7 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload;
         const { backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
         const { selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
-        // console.log("selectedJourneys",selectedJourneys)
+         console.log("selectedJourneys",prompts)
         var res = ""
         if (backStack) {
             res = backStack.find(x => x.question_id.toString().substring(4) == id && x.question_id.toString()[2] == this.state.queryIndex)
@@ -584,7 +615,6 @@ class Chatbot extends React.Component {
             return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} ><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
         }
         else {
-            
                 const radios = prompts.map((x, index) => {
                     let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                     
@@ -639,7 +669,6 @@ class Chatbot extends React.Component {
 
     handleIterate = (Tag, props, children, level) => {
 
-
         if (Tag === 'h4' || Tag === 'h3' || Tag === 'h2') {
             props = {
                 ...props,
@@ -651,7 +680,7 @@ class Chatbot extends React.Component {
         if (Tag === 'p') {
             props = {
                 ...props,
-                className: classes.para
+                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value == 4 ? classes.bullets : classes.list : classes.list
             };
         }
 
@@ -706,10 +735,11 @@ class Chatbot extends React.Component {
         }
         
         if (topic == 4) {
-            
             textarray.map((x) => {
+                
                 if (x.match(/^\d/)) {
-                    links.push(x)
+                    let actionLinks = x.split('[')
+                    links.push(actionLinks[1])
                     visitedLinks.push(false)
 
                 } else {
@@ -724,13 +754,14 @@ class Chatbot extends React.Component {
                 
                 }]:console.log()
             })
+
             return (
                 <>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan && ! this.state.showNextJourney  ? "block" : "none" }}>
                         <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
                         {
                             texts.map((x) => {
-                                return <MDReactComponent text={x} onIterate={this.handleIterate} />
+                                return <MDReactComponent text={x} onIterate={this.handleIterate}/>
 
                             })
                         }
@@ -738,10 +769,9 @@ class Chatbot extends React.Component {
                             {
                                 links.map((x, index) => {
                                     this.key = index
-
                                     return (
                                         <div className={classes.actionPlanLinks}>
-                                            <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></div>
+                                            <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={'['+ x} onIterate={this.handleIterate} /></div>
 
                                             <div md={1} xs={2} className={classes.iconCenter}> <i className="fas fa-chevron-right"></i></div>
                                         </div>)
@@ -770,8 +800,15 @@ class Chatbot extends React.Component {
         return (
             <>
             <h1 className={classes.heading}>
-                        Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em>
+                        {/* <delet>Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em></delet> */}
+                        You have also selected <em>{this.state.selectedJourneys[0]?.value}</em> as something you would like help with. Do you want to proceed?
                         </h1>
+                        
+                        <CustomButton type="Submit"
+                            float={"left"}
+                            onClick={this.state.showSpinner ? console.log() : this.gotoFeedback}
+                            data={litrals.buttons.no}>
+                        </CustomButton>
                         <CustomButton type="Submit"
                             float={"left"}
                             onClick={this.state.showSpinner ? console.log() : this.handleOkay}
@@ -881,6 +918,7 @@ class Chatbot extends React.Component {
             </div>
         </div>)
         // this.props.onEditInspection({topic})
+        
         return (
 
             mobile ?
@@ -894,7 +932,10 @@ class Chatbot extends React.Component {
                                     <ProgressWeb section={this.state.section} showHomeModal={this.showHomeModal}  ></ProgressWeb>
                                 </Col>
                                 <Col md={8} xs={11} style={{ height: "75vh", overflow: "auto", paddingBottom: "4rem" }}>
-                                    <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg").default}></img></div>
+                                    <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
+                                        <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                                        {/* <div>Loading...!!!</div> */}
+                                        </div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
                                         {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
@@ -962,7 +1003,10 @@ class Chatbot extends React.Component {
                         {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourneyTitle}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
 
                         <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
-                            <div style={{ display: this.state.showSpinner ? "block" : "none" }}><img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img></div>
+                            <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
+                                <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                                {/* <div>Loading...!!!</div> */}
+                                </div>
 
                             <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>
                                 {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
@@ -989,6 +1033,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    
     return {
         onEditInspection: data => dispatch(onEditInspection(data)),
         surveyData: data => dispatch(surveyData(data)),
