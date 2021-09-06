@@ -31,6 +31,7 @@ import Footers from '../../Components/Footers/Footers';
 import Menubar from '../Menubar/Menubar';
 import { TransferWithinAStationSharp } from '@material-ui/icons';
 import { getKeyThenIncreaseKey } from 'antd/lib/message';
+import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -600,7 +601,7 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload;
         const { backStack } = CREATEJOURNEY ? CREATEJOURNEY : [];
         const { selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : [];
-        // console.log("selectedJourneys",selectedJourneys)
+         console.log("selectedJourneys",prompts)
         var res = ""
         if (backStack) {
             res = backStack.find(x => x.question_id.toString().substring(4) == id && x.question_id.toString()[2] == this.state.queryIndex)
@@ -614,7 +615,6 @@ class Chatbot extends React.Component {
             return [<div id={prompts[0].qnaId} key={prompts[0].qnaId} name={id} ><CustomButton float={"right"} data={data} id={prompts[0].qnaId} keys={prompts[0].qnaId} name={id} onClick={this.handleRadio}></CustomButton></div>]
         }
         else {
-            
                 const radios = prompts.map((x, index) => {
                     let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                     
@@ -933,8 +933,8 @@ class Chatbot extends React.Component {
                                 </Col>
                                 <Col md={8} xs={11} style={{ height: "75vh", overflow: "auto", paddingBottom: "4rem" }}>
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
-                                        {/* <img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img> */}
-                                        <div>Loading...!!!</div>
+                                        <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                                        {/* <div>Loading...!!!</div> */}
                                         </div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
@@ -1004,8 +1004,8 @@ class Chatbot extends React.Component {
 
                         <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
-                                {/* <img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img> */}
-                                <div>Loading...!!!</div>
+                                <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                                {/* <div>Loading...!!!</div> */}
                                 </div>
 
                             <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>
