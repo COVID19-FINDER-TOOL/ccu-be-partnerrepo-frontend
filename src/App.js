@@ -84,6 +84,7 @@ function App() {
                       <Route path='/chatbot' component={Chatbot} />
                       <Route path='/feedback' component={Feedback} />
                       <Route exact path='/' component={WelcomePage} />
+                      <Route component={WelcomePage} />
                     </Switch>
                     {mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:null}
                   </Container >
