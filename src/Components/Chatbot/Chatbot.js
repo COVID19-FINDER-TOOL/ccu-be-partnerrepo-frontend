@@ -812,7 +812,7 @@ class Chatbot extends React.Component {
                         <CustomButton type="Submit"
                             float={"left"}
                             onClick={this.state.showSpinner ? console.log() : this.handleOkay}
-                            data={litrals.buttons.okay}>
+                            data={litrals.buttons.yes}>
                         </CustomButton>
             </>
         )
