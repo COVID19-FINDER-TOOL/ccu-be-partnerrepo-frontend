@@ -28,6 +28,10 @@ const litrals = {
             buttonText: "Okay",
             variant: "primary",
         },
+        yes: {
+            buttonText: "Yes",
+            variant: "primary",
+        },
         no:{
             buttonText: "No",
             variant: "primary",
