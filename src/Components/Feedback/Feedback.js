@@ -154,9 +154,10 @@ class Feedback extends React.Component {
     render() {
         const mobile = window.matchMedia("(max-width: 767px)").matches;
 
-        const positives = ["Customer got the support needed", "Customer comfortable sharing personal circumstances", "Customer happy with the length of time spent "]
-        const neuterals = ["Customer was neither satisfied or unsatisfied", "Customer was slightly uncomfortable or vague in sharing personal circumstances", "Customer already had information he needed"]
-        const negatives = ["Customer did not get the support needed", "Customer was not comfortable sharing personal circumstances", "Customer not happy with the length of time spent "]
+        const positives = ["Member got the support needed", "Member comfortable sharing personal circumstances", "Member happy with the length of time spent "]
+        const neuterals = ["Member was neither satisfied or unsatisfied", "Member was slightly uncomfortable or vague in sharing personal circumstances", "Member already had information he needed"]
+        const negatives = ["Member did not get the support needed", "Member was not comfortable sharing personal circumstances", "Member not happy with the length of time spent "]
+
         const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : this.state.neutral ? neuterals : negatives : -1);
         return (
             <div className={classes.backgroundImage}>
@@ -166,7 +167,7 @@ class Feedback extends React.Component {
                     <Row>
                         <Col style={{ height: "80vh", overflow: 'auto', paddingBottom: "4rem" }}>
                             <div style={{ display: this.state.section1 ? "block" : "none" }}>
-                                <h5 className={classes.headingH1}>How would you rate the customer’s experience with the tool?</h5>
+                                 <h5 className={classes.headingH1}>How would you rate the member’s experience with the tool?</h5>
                                 <div className={classes.smilyContainer}>
                                    <div className={classes.smilyDiv}> <FontAwesomeIcon id={1} icon={faGrinAlt} className={this.state.smilySelected ? this.state.smilySelected == 1 ? classes.selected : classes.disabled : classes.smily} onClick={this.smilySelector.bind(this, 1)} />  </div> 
                                    {/* <h6>Very Satisifed</h6> */}

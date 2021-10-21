@@ -31,6 +31,7 @@ import Footers from '../../Components/Footers/Footers';
 import Menubar from '../Menubar/Menubar';
 import { TransferWithinAStationSharp } from '@material-ui/icons';
 import { getKeyThenIncreaseKey } from 'antd/lib/message';
+import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
 class Chatbot extends React.Component {
 
     visitedLinks = [];
@@ -74,6 +75,18 @@ class Chatbot extends React.Component {
             emailSent: false
             //queryString: ["3cc6844e-5293-45ab-86ae-80597e435067/generateAnswer", '666d5d58-8586-48a5-bcc2-c3522a199cd1/generateAnswer', "230c1eb8-8ef2-41a8-a056-afe3a60ae832/generateAnswer", 'bb6980d7-0f8c-4190-b7e1-cfc1b2eacd79/generateAnswer', "a553abad-9753-469c-a1a4-ae267fd588c1/generateAnswer"]  //prod
         }
+
+        if (window.performance) {
+            console.info("window.performance works fine on this browser");
+          }
+          console.info(performance.navigation.type);
+          if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+            console.info( "This page is reloaded" );
+            this.props.history.push("/chatbot")
+          } else {
+            console.info( "This page is not reloaded");
+          }
+
     }
 
     componentDidMount = () => {
@@ -101,6 +114,7 @@ class Chatbot extends React.Component {
  
     saveQuestion = (data, response, notFetch) => {
         // console.log(data)
+        console.log(data,response, notFetch,'Save Button');
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
         dataBody.question_id = kb.concat("q").concat(data.id.toString());
@@ -115,7 +129,7 @@ class Chatbot extends React.Component {
             this.fetch();
         }
         else {
-
+            console.log('respnse', response)
             this.saveInStorage(response)
             // axiosLoginInstance.post("CFTQnAInsertTrigger/add", dataBody)
             //     .then(res => {
@@ -272,9 +286,11 @@ class Chatbot extends React.Component {
         const { CREATEJOURNEY } = this.props.payload
         var { journey_id, start_time } = CREATEJOURNEY ? CREATEJOURNEY : ""
         var { responseStack, backStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
+        
         const currentResponse = backStack ? backStack[backStack.length - 1] : ""
         const state_data = this.state.data
         
+        console.log('Create Journey', CREATEJOURNEY)
 
         if (this.state.selected || currentResponse || this.state.section>=4) {
             var value = ""
@@ -282,12 +298,28 @@ class Chatbot extends React.Component {
             var newselectedJourneys = []
 
         
-            if(this.state.queryIndex===0 && this.state.selectedJourneys.length && !this.state.backStack.length){
+            if(this.state.queryIndex===0 && this.state.selectedJourneys.length && !this.state.backStack?.length){
 
                 id =  parseInt(this.state.selectedJourneys[0]?.id)
                 value = this.state.selectedJourneys[0]?.value
                 newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
                 this.setState(() => { return { selectedJourneys:newselectedJourneys } })
+
+                this.setState({
+                    currentJourney: value
+                });
+                    
+                }
+                else if(this.state.queryIndex===0 && this.state.selectedJourneys.length  && this.state.backStack?.length){
+                    id =  parseInt(this.state.selectedJourneys[0]?.id)
+                    value = this.state.selectedJourneys[0]?.value
+                    newselectedJourneys = selectedJourneys?.filter((x)=>x.id != id)
+                    this.setState(() => { return { selectedJourneys:newselectedJourneys } })
+                    
+                this.setState({
+                    currentJourney: value
+                });
+    
                 
             }
             else{
@@ -651,7 +683,7 @@ class Chatbot extends React.Component {
         if (Tag === 'p') {
             props = {
                 ...props,
-                className: classes.para
+                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value == 4 ? classes.bullets : classes.list : classes.list
             };
         }
 
@@ -712,7 +744,9 @@ class Chatbot extends React.Component {
             
             textarray.map((x) => {
                 if (x.match(/^\d/)) {
-                    links.push(x)
+                    let actionLinks = x.split('[')
+                    links.push(actionLinks[1])
+
                     visitedLinks.push(false)
 
                 } else {
@@ -733,7 +767,7 @@ class Chatbot extends React.Component {
                         <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
                         {
                             texts.map((x) => {
-                                return <MDReactComponent text={x} onIterate={this.handleIterate} />
+                                return <MDReactComponent text={x} onIterate={this.handleIterate}/>
 
                             })
                         }
@@ -744,7 +778,7 @@ class Chatbot extends React.Component {
 
                                     return (
                                         <div className={classes.actionPlanLinks}>
-                                            <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={x} onIterate={this.handleIterate} /></div>
+                                            <div md={10} xs={9} className={classes.linkSpan}><MDReactComponent text={'['+ x} onIterate={this.handleIterate} /></div>
 
                                             <div md={1} xs={2} className={classes.iconCenter}> <i className="fas fa-chevron-right"></i></div>
                                         </div>)
@@ -773,8 +807,17 @@ class Chatbot extends React.Component {
         return (
             <>
             <h1 className={classes.heading}>
-                        Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em>
+                        {/* <delet>Please proceed to next jouney you have selected, which is related to <em>{this.state.selectedJourneys[0]?.value}</em></delet> */}
+                        You have also selected <em>{this.state.selectedJourneys[0]?.value}</em> as something you would like help with. Do you want to proceed?
+
                         </h1>
+
+                        <CustomButton type="Submit"
+                            float={"left"}
+                            onClick={this.state.showSpinner ? console.log() : this.gotoFeedback}
+                            data={litrals.buttons.no}>
+                        </CustomButton>
+
                         <CustomButton type="Submit"
                             float={"left"}
                             onClick={this.state.showSpinner ? console.log() : this.handleOkay}
@@ -899,8 +942,9 @@ class Chatbot extends React.Component {
                                 <Col md={8} xs={11} style={{ height: "75vh", overflow: "auto", paddingBottom: "4rem" }}>
                                     {/* Ankush */}
                                     <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
-                                        <div>Loading...!</div>
-                                        {/* <img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.svg")}></img> */}
+                                    <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                                        {/* <div>Loading...!!!</div> */}
+
                                         </div>
 
                                     <div style={{ display: this.state.showSpinner ? "none" : "block" }}>
@@ -968,13 +1012,14 @@ class Chatbot extends React.Component {
                         </div>
                         {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
 
-                        <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
+                        <div style={{ height: "57vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
-                                {/* <img alt="Loading...!!! " className={classes.spinner} src={require("../../assets/Images/Spinner-1s-200px.gif")}></img> */}
-                                <div>Loading...!</div>
+                            <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                                {/* <div>Loading...!!!</div> */}
+
                                 </div>
 
-                            <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>
+                            <div style={{ display: this.state.showSpinner ? "none" : "block", height: "54vh", overflow: "auto", paddingBottom: "1vh" }}>
                                 {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                 {paragraphs}
                                 {/* {this.state.section <= 1 ? <p className={classes.message}>{litrals.optionText}</p> : ""} */}
