@@ -632,7 +632,7 @@ class Chatbot extends React.Component {
                             name={id}
                             onClick={this.handleRadio}
                             checked={ checked} 
-                            isCheckBox={this.state.queryIndex === 0 ? true : false}/>
+                            isCheckBox={this.state.queryIndex === 0 ? true : false}/> // : false would be there => Sachin
                     )
                 })
                 return (radios);
@@ -1002,13 +1002,13 @@ class Chatbot extends React.Component {
                         </div>
                         {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourneyTitle}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
 
-                        <div style={{ height: "64vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
+                        <div style={{ height: "57vh", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
                                 <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
                                 {/* <div>Loading...!!!</div> */}
                                 </div>
 
-                            <div style={{ display: this.state.showSpinner ? "none" : "block", height: "60vh", overflow: "auto", paddingBottom: "1vh" }}>
+                            <div style={{ display: this.state.showSpinner ? "none" : "block", height: "54vh", overflow: "auto", paddingBottom: "1vh" }}>
                                 {/* <div className={this.state.section == 2 && this.state.showBack !== false || this.state.section == 4 && !this.state.showActionPlan || this.state.section == 5 && !this.state.showFeedback ? classes.greyBlock : ""}>{paragraphs}</div> */}
                                 {paragraphs}
                                 {/* {this.state.section <= 1 ? <p className={classes.message}>{litrals.optionText}</p> : ""} */}
