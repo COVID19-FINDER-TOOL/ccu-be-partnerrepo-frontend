@@ -76,6 +76,7 @@
     display: block;
     margin: auto;
     background: none;
+    width: 100px;
 }
 
 .linkElement{
@@ -247,6 +248,11 @@
     flex-direction: row;
     justify-content: space-between;
     // width: 120px;    
+    position: absolute;
+    bottom: 81px;
+    right: 54px;
+    z-index: 9;
+
   }
 
   .chatBotRow{
@@ -258,6 +264,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    height: 40px;
   }
   .buttonpanel{
       display: flex;
