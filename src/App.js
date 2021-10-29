@@ -46,7 +46,7 @@ function App() {
   const mobile = window.matchMedia("(max-width: 767px)").matches;
 
   const callKeyVault = async() => {
-    await axios.get("https://ccu-be-backendapis.azurewebsites.net/api/CFTKeyVaultMSITrigger/")
+    await axios.get("https://ccu-be-backendapi.azurewebsites.net/api/CFTKeyVaultMSITrigger/")
     .then(res=>{
       const data = res.data
       window.$keyVault = data
