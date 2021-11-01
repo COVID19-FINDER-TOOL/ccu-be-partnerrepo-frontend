@@ -62,7 +62,7 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["71c46325-d334-40ec-a536-633ee3d0ef89/generateAnswer", 'a8384c4a-6c02-4c32-8ed3-7a6707f3a513/generateAnswer', "65f77774-ea4b-4ab6-85e4-812c5767518b/generateAnswer", '37bd802f-8f46-49c5-90c5-50172833c869/generateAnswer', "3fb4e2bc-07e1-4b8f-ab49-1a952f759ff3/generateAnswer", "aa891d25-b699-4af7-bfb6-7937524ee77e/generateAnswer"],
+            queryString: ["042d2761-8791-4ef6-a97c-6edabb9ad7f9/generateAnswer", 'aafa576b-8d0c-4586-af50-4e47f56ceca4/generateAnswer', "0c6be717-519a-47d1-a45b-10957b0dc32d/generateAnswer", '3da1cc64-b289-41eb-aef8-7c3cd21d247f/generateAnswer', "92a113b0-4a0e-41ee-93bc-b576784d08c6/generateAnswer", "bf855b48-b569-4349-be23-be9f7e3280ac/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
@@ -189,7 +189,9 @@ class Chatbot extends React.Component {
         axiosInstance.post(str ? str.query : this.state.queryString[this.state.queryIndex], body)
             .then(res => {
                 const data = res.data.answers[0];
-                const section = data.metadata[1] ? Number(data.metadata[1].value) : body.question == "Start the flow" ? 0 : this.state.section
+                let metaIndex = data.metadata.find((x) => x.name === "topic")
+                
+                const section = metaIndex ? Number(metaIndex.value) : body.question == "Start the flow" ? 0 : this.state.section
                 if (data.id === -1) {
                     this.props.onEditInspection({
                         responseStack: [],
@@ -416,7 +418,9 @@ class Chatbot extends React.Component {
             else {
                 const { metadata } = this.state.data
                 // console.log(metadata)
-                let meta = metadata && metadata[0] ? metadata[0].value : ""
+                let metaIndex = metadata.find((x) => x.name === "context")
+                
+                let meta = metadata && metaIndex ? metaIndex.value : ""
                 meta = meta + value?.replace(/ /g, '').slice(0, 3).toLowerCase()
                 // console.log(">>>>>>>>>>>",meta)
                 this.props.onEditInspection({ metadata: meta })
@@ -668,7 +672,7 @@ class Chatbot extends React.Component {
 
 
     handleIterate = (Tag, props, children, level) => {
-
+        let metaIndex = this.state.data.metadata.find((x) => x.name === "topic")
         if (Tag === 'h4' || Tag === 'h3' || Tag === 'h2') {
             props = {
                 ...props,
@@ -680,14 +684,14 @@ class Chatbot extends React.Component {
         if (Tag === 'p') {
             props = {
                 ...props,
-                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value == 4 ? classes.bullets : classes.list : classes.list
+                className: metaIndex ? metaIndex.value == 4 ? classes.bullets : classes.list : classes.list
             };
         }
 
         if (Tag === 'ol') {
             props = {
                 ...props,
-                className: this.state.data.metadata[1] ? this.state.data.metadata[1].value == 4 ? classes.bullets : classes.list : classes.list
+                className: metaIndex ? metaIndex.value == 4 ? classes.bullets : classes.list : classes.list
             };
         }
 
@@ -887,8 +891,8 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        
-        const topic = this.state.data.metadata ? this.state.data.metadata[1] ? this.state.data.metadata[1].value : 0 : 0;
+        let metaIndex = this.state.data.metadata?.find((x) => x.name === "topic")
+        const topic = this.state.data.metadata ? metaIndex ? metaIndex.value : 0 : 0;
         const paragraphs = this.state.data ? topic == 3 || topic == 5 || this.state.showHearFromOthers ? this.displayNextTopic(topic) : this.splitQuestionData(topic) : console.log()
         const radios = this.state.data.context ? this.createForm(this.state.data.context.prompts, this.state.data.id) : console.log()
         const mobile = window.matchMedia("(max-width: 600px)").matches;
