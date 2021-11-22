@@ -30,7 +30,7 @@
 
 .qnaContainer{
     margin-top:25px;
-    padding: 20px 50px 0px;
+    padding: 20px 50px 10px;
     background-color: #FFFFFF;
     box-shadow: 0px 2px 4px #00000029;
     
@@ -257,7 +257,9 @@
 
   .chatBotRow{
     //   margin-top: 1%;
-      padding : 30px 55px 40px 55px
+    padding : 30px 55px 40px 55px;
+    height: calc(100vh - 179px)
+
   }
 
   .progressBar{
