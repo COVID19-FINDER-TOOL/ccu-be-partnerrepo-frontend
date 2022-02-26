@@ -18,6 +18,8 @@ const WelcomePage =  React.lazy(() => import('./Components/WelcomePage/WelcomePa
 //   loading: Loading
 // });
 
+const UserForm = React.lazy(() => import('./Components/UserForm/UserForm'));
+
 const Chatbot = React.lazy(() => import('./Components/Chatbot/Chatbot'));
 
 // Loadable({
@@ -82,6 +84,7 @@ function App() {
                   <Container fluid={true}>
                     <Switch>
                       <Route path='/chatbot' component={Chatbot} />
+                      <Route path='/userform' component={UserForm} />
                       <Route path='/feedback' component={Feedback} />
                       <Route exact path='/' component={WelcomePage} />
                       <Route component={WelcomePage} />

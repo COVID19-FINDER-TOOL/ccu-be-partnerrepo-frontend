@@ -79,7 +79,8 @@ class WelcomePage extends React.Component {
       const user = JSON.parse(window.localStorage.getItem("csf_user"))
       // this.props.history.push("/Chatbot");
       this.props.onEditInspection({disagree:this.state.disagree})
-      this.props.history.push('/Chatbot')
+      // this.props.history.push('/Chatbot')
+      this.props.history.push('/UserForm')
     } else {
       this.handleSubmit()
     }
@@ -109,7 +110,8 @@ class WelcomePage extends React.Component {
     window.localStorage.setItem('csf_user', JSON.stringify(user));
     // this.props.history.push("/Chatbot");
     this.props.onEditInspection({disagree:this.state.disagree})
-    this.props.history.push('/Chatbot')
+    // this.props.history.push('/Chatbot')
+    this.props.history.push('/UserForm')
     this.props.login({ user: user })
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
       .then(res => {

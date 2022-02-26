@@ -59,6 +59,10 @@ const litrals = {
         showFeedback:{
             buttonText: "Feedback",
             variant: "primary",
+        },
+        submitForm:{
+            buttonText: "Submit & Proceed",
+            variant: "primary",
         }
 
 

@@ -1,0 +1,282 @@
+@import "../../theme.scss"; 
+
+body, html {
+    height: 100%;
+  }
+
+
+.backgrondImage{
+    // background-image: url("../../assets/Images/Background-min.png") ;
+    // background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+    min-height:  100vh;
+    // padding-bottom: 2rem;
+    background-color: $background-color;
+   
+}
+
+.wlcmRow1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+}
+
+.wlcmRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: calc(100vh - 179px);
+    width: 100vw;
+    padding: 40px 55px 0px 40px;
+}
+
+.headingH1{
+    font-weight: bolder;
+    color: #333333;
+    font-size: 38px;
+    line-height: 45px;
+    margin-top: 5%;
+}
+.para0{
+    font-size: 44px;
+    font-weight: 900;
+    text-align: center;
+    color: $secondary-color;
+    text-shadow: 1px 2px 3px #00000029;
+    width: 100%;
+}
+
+.para{
+    font-size: 44px;
+    font-weight: 900;
+    text-align: center;
+    color: $secondary-color;
+    text-shadow: 1px 2px 3px #00000029;
+    width: 100%;
+}
+
+.text3{
+    margin-top: 50%;
+    text-align: left;
+    font: normal normal bold 36px Tahoma;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.leftText{
+    font-size: 24px;
+    line-height: 32px;
+    border-left: $primary-color solid 4px;
+    color: $secondary-color;
+    padding-left: 20px;
+    font-weight: bold;
+    margin-right: 50px;
+    margin-top: 25px;
+}
+
+.tabsHeading{
+    color: $primary-color;
+    margin: 20px 10px;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 38px;
+}
+
+.tabsSubHeading{
+    color: $secondary-color;
+    margin: 10px 10px 0px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tabsPara{
+    color: $secondary-color;
+    margin: 0px 10px 3%;
+    font-size: 16px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid $tertiary-color-3;
+}
+
+.tabsPara4{
+    color: $secondary-color;
+    margin: 0px 10px 20px;
+    font-size: 16px;
+    padding-bottom: 3%;
+    
+}
+
+.line{
+    border-right: 2px solid;
+    border-color: #FFFFFF;
+}
+
+.error{
+    color: brown
+}
+
+.nameInput{
+    margin-top: 3%;
+}
+.cardContainer{
+    display: flex;
+}
+
+.cardClass{
+    width: '15rem';
+    margin: "1%";
+    color: "whitesmoke";
+    background-color: $primary-color
+}
+
+.logoPara{
+    color: $secondary-color;
+    text-align: left;
+    font: normal normal bold 24px/28px Tahoma ;
+    letter-spacing: 1.44px;
+    opacity: 1;
+}
+
+.colTabs{
+    background-color: white;
+    overflow:auto;
+    color: $secondary-color;
+    height: calc(100vh - 219px);
+}
+
+@media only screen and (min-width:1400px){
+    .leftText{
+        font-size: 28px;
+    }
+    .tabsHeading{
+        font-size: 28px;
+    }
+
+    .tabsSubHeading{
+        color: $secondary-color;
+        margin: 3% 10px 0px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+    
+    .tabsPara{
+        color: $secondary-color;
+        margin: 2% 10px 2%;
+        padding-bottom: 4%;
+        font-size: 18px;
+        border-bottom: 2px solid $tertiary-color-3;
+    }
+    
+    .tabsPara4{
+        color: $secondary-color;
+        margin: 2% 10px 2%;
+        padding-bottom: 5%;
+        font-size: 18px;
+        
+    }
+}
+
+
+@media only screen and (max-width:650px){
+    .wlcmRow{
+        padding-top: 3vh;
+    }
+    .cardContainer{
+        display: block;
+    }
+
+    .text3{
+        margin-top: 2%;
+        font: normal normal bold 32px Tahoma;
+        text-align:center
+    }
+
+    .line{
+        border-right: none;;
+        border-bottom: 1px solid;
+        border-color: $secondary-color;
+        margin: 0 2% ;
+    }
+
+    .backgrondImage{
+        min-height: 100%;
+        background-position: right
+    }
+
+    .para{
+        font-size: 14px;
+        line-height: 27px;
+    }
+    .para0 {
+        font-size: 18px;
+        line-height: 27px;
+    }
+
+    .leftText{
+        font-size: 18px;
+        line-height: 25px;
+        border-left: $primary-color solid 0px !important;
+        color: $secondary-color;
+        padding-left: 5px;
+        font-weight: bold;
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+
+    
+    .colTabs {
+        background-color: white;
+        overflow:auto;
+        color: $secondary-color;
+    }
+
+
+.tabsHeading{
+    color: $primary-color;
+    margin: 15px 5px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 10px;
+}
+
+.tabsSubHeading{
+    color: $secondary-color;
+    margin: 10px 5px 0px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.tabsPara{
+    color: $secondary-color;
+    margin: 0px 5px 2%;
+    font-size: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $tertiary-color-3;
+}
+
+.tabsPara4{
+    color: $secondary-color;
+    margin: 0px 5px 10px;
+    font-size: 14px;
+    padding-bottom: 2%;
+    
+}
+}
+
+.spinner{
+    display: block;
+    margin: auto;
+    background: none;
+    width: 100px;
+}
+
+.saparator{
+    border-bottom: 2px solid whitesmoke;
+    padding-bottom: 15px;
+    height: 1px;
+}
+
