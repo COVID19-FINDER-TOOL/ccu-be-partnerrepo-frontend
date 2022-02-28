@@ -88,7 +88,6 @@ class UserForm extends React.Component {
 
   getUserId = async () => {
     this.userData = JSON.parse(window.localStorage.getItem("csf_user"))
-
   }
 
   getQuestionData = async () => {
@@ -133,9 +132,7 @@ class UserForm extends React.Component {
       this.state.postcode.length != 0 &&
       this.state.salary.length != 0
       ){
-
         this.saveQuizApiHandler();
-
       } else {
         alert('Please answer all the questions.')
       }
@@ -174,70 +171,68 @@ class UserForm extends React.Component {
     value && value !== '' ? this.setState(() => { return {postcode: value}}) : this.setState(() => { return {postcode: ''}})
   }
 
-  handleChange = (e) => {
-    const index = e.target.selectedIndex;
-    const el = e.target.childNodes[index]
-    const option =  el.getAttribute('id'); 
+  handleChange = (selectedOption, $event) => {
+    const index = selectedOption;
 
-    switch (e.target.id){
+    switch (index.selectId){
       case 'age':
             return this.setState(() => {
               return {
-                age : option
+                age : index.value
               }
             });
       case 'debt':
         return this.setState(() => {
           return {
-            debt : option
+            debt : index.value
           }
         });
       case 'disability':
         return this.setState(() => {
           return {
-            disability : option
+            disability : index.value
           }
         });
       case 'education':
         return this.setState(() => {
           return {
-            education : option
+            education : index.value
           }
         });
       case 'empstatus':
         return this.setState(() => {
           return {
-            emplstatus : option
+            emplstatus : index.value
           }
         });
       case 'ethinicity':
       return this.setState(() => {
         return {
-          ethnicity : option
+          ethnicity : index.value
         }
       });
       case 'gender':
       return this.setState(() => {
         return {
-          gender : option
+          gender : index.value
         }
       });
       case 'illhealth':
         return this.setState(() => {
           return {
-            illhealth : option
+            illhealth : index.value
           }
         });
       case 'loan':
         return this.setState(() => {
           return {
-            loan : option
+            loan : index.value
           }
         });
       case 'salary':
         return this.setState(() => {
           return {
-            salary : option
+            salary : index.value
           }
         });
   
@@ -255,6 +250,13 @@ class UserForm extends React.Component {
     const mobile = window.matchMedia("(max-width: 767px)").matches;
     const btn = <div >
       <CustomButton float={"left"}
+        margin={mobile ? "" : "20px 15px 0 0"}
+        width={mobile ? "100%" : ""}
+        type="submit"
+        onClick={this.handleDisagree}
+        data={litrals.buttons.disagreeButton}>
+      </CustomButton>
+      <CustomButton float={"left"}
         margin={mobile ? "" : "20px 0 0 0"}
         width={mobile ? "100%" : ""}
         type="submit"
@@ -263,9 +265,8 @@ class UserForm extends React.Component {
         disabled={!this.state.disable}
         >
       </CustomButton>
-
-
     </div>
+
     return (
       <div className={classes.backgrondImage}>
         <Header heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header>
@@ -281,11 +282,15 @@ class UserForm extends React.Component {
 
             {this.state.data}
             <Row style={{ width: '100%' }}>
-              
-              <Col xs={12} md={12} className={classes.colTabs}>
+            <Col xs={12} md={6}>
+                <h3 className={classes.leftText}>
+                  Hello I am everything. Hello I am everything. Hello I am everything. Hello I am everything
+                </h3>
+              </Col>
+              <Col xs={12} md={6} className={classes.colTabs}>
                 <div>
                   {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
-                  <h3 className={classes.tabsHeading}>What we need to do</h3>
+                  {/* <h3 className={classes.tabsHeading}>What we need to do</h3> */}
 
               {/* Q.1 starts */}
                   <h5 className={classes.tabsSubHeading}>Q.1 - Which is your age bracket? </h5>
