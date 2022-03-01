@@ -154,7 +154,7 @@ class UserForm extends React.Component {
       loan: this.state.loan,
       postcode: this.state.postcode,
     }
-    await axios.post("https://cft-backendfunction.azurewebsites.net/api/CFTRetriveDataTrigger", respBody)
+    await axios.post("https://cft-backendfunction.azurewebsites.net/api/CFTUserDataInsertTrigger", respBody)
       .then(res => {
         if (window.localStorage.getItem("csf_user")) {
           const user = JSON.parse(window.localStorage.getItem("csf_user"))
