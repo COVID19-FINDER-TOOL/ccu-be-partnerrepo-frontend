@@ -1,14 +1,14 @@
 import React from 'react'
 import Header from '../Header/Header';
-import classes from './WelcomePage.module.scss';
+import classes from './UserForm.module.scss';
 import { Form, Row, Col, Container } from 'react-bootstrap';
 // import CustomRadio from '../CustomRadio/CustomRadio';
 import CustomSelect from '../CustomSelect/CustomSelect';
 import CustomInput from '../CustomInput/CustomInput';
 
 import litrals from '../Litrals/Litrals';
-import Footers from '../../Components/Footers/Footers';
-import { axiosLoginInstance } from '../../AxiosHandler';
+import Footers from '../Footers/Footers';
+import { axiosFormInstance, axiosLoginInstance } from '../../AxiosHandler';
 import moment from "moment";
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
@@ -16,21 +16,28 @@ import { login, onEditInspection } from "../../store/Action/LoginAction";
 import axios from 'axios';
 import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
+
+
+
 // import OptionButtons from '../OptionButtons/OptionButtons';
 // import CustomButton from '../CustomButton/CustomButton';
+
 import Loadable from "react-loadable";
 import Loading from '../Loading/LoadingPage'
-import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
 
+import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
+// import CustomSelect from '../CustomSelect'
 
 const CustomButton = React.lazy(() => import('../CustomButton/CustomButton'));
+// const CustomSelect = React.lazy(() => import('../CustomSelect/CustomSelect'));
 
 // Loadable({
 //   loader:() => import('../CustomButton/CustomButton'),
 //   loading: Loading
 // });
 global.appVersion = packageJson.version;
-class WelcomePage extends React.Component {
+class UserForm extends React.Component {
+
   optionData;
   userData;
 
@@ -39,11 +46,10 @@ class WelcomePage extends React.Component {
 
     this.state = {
       start: false,
-      part: 1, // 1 for 1st page, 2 for user form , 3 for info page
+      part: true,
       agree: 0,
       toggle: 0,
       msg: 0,
-      data: "",
       links: [],
       disagree:0,
       age: '',
@@ -59,7 +65,6 @@ class WelcomePage extends React.Component {
       postcode: '',
       showSpinner: false,
       disable: true
-      
     }
   }
 
@@ -77,22 +82,6 @@ class WelcomePage extends React.Component {
         this.setState(() => { return { links: welcomeLinks } })
 
       });
-
-    // const data = { "question": "mark one testing done" }
-    // axiosInstance.post("generateAnswer", data)
-    //   .then(res => {
-    //     const data = res.data.answers[0];
-    //     this.setState(() => { return { data: data } });
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });
-
-    const user = {
-      user_id: "UID" + moment.utc().format('DDMMYYThhmmssSSS'),
-      creation_time: moment.utc().format('YYYY-MM-DD hh:mm:ss')
-    }
-    window.localStorage.setItem('csf_user', JSON.stringify(user));
-
     this.getUserId()
     this.getQuestionData()
   }
@@ -104,7 +93,7 @@ class WelcomePage extends React.Component {
   getQuestionData = async () => {
     // const data = { "question": "mark one testing done" }
     await this.setState(() => { return {showSpinner: true}})
-    axiosLoginInstance.get("/CFTRetriveDataTrigger")
+    await axios.get("https://cft-backendfunction.azurewebsites.net/api/CFTRetriveDataTrigger")
       .then(res => {
         this.optionData = res.data;
         // this.setState(() => { return { data: [...this.state.users, OptionData], showSpinner: false } });
@@ -113,6 +102,21 @@ class WelcomePage extends React.Component {
       }).catch(error => {
         console.log(error);
       });
+  }
+
+
+  handleNext = () => {
+    this.setState({
+      ...this.state,
+      start: true
+    })
+    if (window.localStorage.getItem("csf_user")) {
+      const user = JSON.parse(window.localStorage.getItem("csf_user"))
+      // this.props.history.push("/Chatbot");
+      this.props.history.push('/Chatbot')
+    } else {
+      this.handleSubmit()
+    }
   }
 
   handleStart = () => {
@@ -134,7 +138,6 @@ class WelcomePage extends React.Component {
       }
   }
 
-
   saveQuizApiHandler = async () => {
     await this.setState(() => { return {showSpinner: true}})
     let respBody = {
@@ -151,9 +154,13 @@ class WelcomePage extends React.Component {
       loan: this.state.loan,
       postcode: this.state.postcode,
     }
-    axiosLoginInstance.post("/CFTUserDataInsertTrigger", respBody)
-      .then(res => { 
-          this.setState(() => { return { part: 3 } })
+    await axios.post("https://cft-backendfunction.azurewebsites.net/api/CFTRetriveDataTrigger", respBody)
+      .then(res => {
+        if (window.localStorage.getItem("csf_user")) {
+          const user = JSON.parse(window.localStorage.getItem("csf_user"))
+          // this.props.history.push("/Chatbot");
+          this.props.history.push('/Chatbot')
+        }
       }).catch(error => {
         console.log(error);
       });
@@ -236,100 +243,12 @@ class WelcomePage extends React.Component {
   }
 
 
-
-  handleStart = () => {
-    this.setState({
-      ...this.state,
-      start: true
-    })
-    if (window.localStorage.getItem("csf_user")) {
-      const user = JSON.parse(window.localStorage.getItem("csf_user"))
-      // this.props.history.push("/Chatbot");
-      this.props.onEditInspection({disagree:this.state.disagree})
-      this.props.history.push('/Chatbot')
-      // this.props.history.push('/UserForm')
-    } else {
-      this.handleSubmit()
-    }
-  }
-
-  handleDisagree = () => {
-
-    
-    this.setState(() => {
-      return {disagree:1}
-  })
-    setTimeout(()=> {
-      this.handleStart();
-    },100)
-    
-    
-    
-  }
-
-
-  generateUID = () => {
-
-    const user = {
-      user_id: "UID" + moment.utc().format('DDMMYYThhmmssSSS'),
-      creation_time: moment.utc().format('YYYY-MM-DD hh:mm:ss')
-    }
-    window.localStorage.setItem('csf_user', JSON.stringify(user));
-    // this.props.history.push("/Chatbot");
-    this.props.onEditInspection({disagree:this.state.disagree})
-    this.props.history.push('/Chatbot')
-    // this.props.history.push('/UserForm')
-    this.props.login({ user: user })
-    axiosLoginInstance.post("CFTUserIdTrigger/user", user)
-      .then(res => {
-        console.log(res.data)
-      }).catch(error => {
-        console.log(error);
-      });
-  }
-
-  handleSubmit = () => {
-    this.generateUID()
-
-  }
-
-  handleBack = () => {
-    this.setState(() => { return { toggle: 0 } });
-  }
-
-  handlePart = () => {
-
-    if(this.state.age.length != 0  && 
-      this.state.debt.length != 0 &&
-      this.state.disability.length != 0 &&
-      this.state.education.length != 0 &&
-      this.state.education.length !=0 &&
-      this.state.ethnicity.length !=0 &&
-      this.state.gender.length != 0 &&
-      this.state.illhealth.length != 0 &&
-      this.state.loan.length != 0 &&
-      this.state.postcode.length != 0 &&
-      this.state.salary.length != 0
-      ){
-        this.saveQuizApiHandler();
-      } else {
-        alert('Please answer all the questions.')
-      }
-  }
-
-  showUserForm = () => {
-    this.setState(() => { return { part: 2 } })
-  }
-
-  showHomeModal = () => {
-    this.setState(() => { return { part: 1 } })
-  }
-
   render() {
+
+    
 
     const mobile = window.matchMedia("(max-width: 767px)").matches;
     const btn = <div >
-
       <CustomButton float={"left"}
         margin={mobile ? "" : "20px 15px 0 0"}
         width={mobile ? "100%" : ""}
@@ -342,90 +261,30 @@ class WelcomePage extends React.Component {
         width={mobile ? "100%" : ""}
         type="submit"
         onClick={this.handleStart}
-        data={litrals.buttons.startButton}>
+        data={litrals.buttons.submitForm}
+        disabled={!this.state.disable}
+        >
       </CustomButton>
     </div>
 
-const btn_second = <div >
-              <CustomButton float={"left"}
-                margin={mobile ? "" : "20px 15px 0 0"}
-                width={mobile ? "100%" : ""}
-                type="submit"
-                onClick={this.showHomeModal}
-                data={litrals.buttons.backNav}>
-              </CustomButton>
-              <CustomButton float={"left"}
-                margin={mobile ? "" : "20px 0 0 0"}
-                width={mobile ? "100%" : ""}
-                type="submit"
-                onClick={this.handlePart}
-                data={litrals.buttons.submitForm}
-                disabled={!this.state.disable}
-                >
-              </CustomButton>
-            </div>
-
     return (
       <div className={classes.backgrondImage}>
-        {this.state.part != 1 ? <Header heading={this.state.part != 1 ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
-        <Container style={{ display: this.state.part == 1 ? "flex" : "none" }} className={classes.wlcmRow1}>
-          <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
-          <h1 className={classes.para}>{litrals.welcome.text1}</h1>
-          {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
-          <CustomButton
-            float={"left"} type="submit"
-            width={mobile ? "100%" : ""}
-            margin={mobile ? "" : "40px 0 0 0"}
-            onClick={this.showUserForm}
-            data={litrals.buttons.getStartedButton}>
+        <Header heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header>
+        
 
-          </CustomButton>
-        </Container>
-
-
-        <div style={{ display: this.state.part == 3 ? "block" : "none" }}>
-          <div className={classes.wlcmRow}>
-            <Row>
-              <Col xs={12} md={6}>
-                <h3 className={classes.leftText}>
-                  {litrals.welcome.text4}
-                </h3>
-              </Col>
-              <Col xs={12} md={6} className={classes.colTabs}>
-                <div>
-                  {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
-                  <h3 className={classes.tabsHeading}>What we need to do</h3>
-                  <h5 className={classes.tabsSubHeading}>Tell us about your situation </h5>
-                  <p className={classes.tabsPara}>None of your personal information will be stored or shared.</p>
-                  <h5 className={classes.tabsSubHeading}>Find appropriate support</h5>
-                  <p className={classes.tabsPara}>Based upon your responses, we’ll send you an email with various support options and guidance to help you deal with your situation.</p>
-                  <h5 className={classes.tabsSubHeading}>Step-by-step action plan</h5>
-                  <p className={classes.tabsPara}>To help you work through the different support options we will provide a set of actions which you can step through in your own time. These will help you manage your current situation, but also help you become more financially, physically or emotionally resilient over time.</p>
-                  <h5 className={classes.tabsSubHeading}>Learn from others </h5>
-                  <p className={classes.tabsPara4}>Learn about other people's experiences and how they overcome similar situations. </p>
-
-                </div>
-                <div>
-                </div>
-              </Col>
-            </Row>
+        <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
+            <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
           </div>
-
-        </div>
-
-
-        <div style={{ display: this.state.part == 2 ? "block" : "none" }}>
-          <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
-              <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
-            </div>
-          <div>
+        <div>
 
           { !this.state.showSpinner ? 
           <div className={classes.wlcmRow}>
-            <Row>
+
+            {this.state.data}
+            <Row style={{ width: '100%' }}>
             <Col xs={12} md={6}>
                 <h3 className={classes.leftText}>
-                Please help us with your personal details
+                  Hello I am everything. Hello I am everything. Hello I am everything. Hello I am everything
                 </h3>
               </Col>
               <Col xs={12} md={6} className={classes.colTabs}>
@@ -541,34 +400,33 @@ const btn_second = <div >
               </Col>
             </Row>
           </div>
-
-          : ''}
+        : ''}
 
         </div>
-      </div>
-
-        {!mobile ? <Footers format={this.state.part != 1} buttonpanel={this.state.part == 2 ? btn_second : btn}></Footers> : this.state.start && btn}
+        {!mobile ? <Footers format={this.state.part} buttonpanel={btn}></Footers> : this.state.start && btn}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { payload: state.surveyData };
-};
+// const mapStateToProps = state => {
+//   return { payload: state.surveyData };
+// };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    login: data => dispatch(login(data)),
-    onEditInspection: data => dispatch(onEditInspection(data)),
-    surveyData: data => dispatch(surveyData(data))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     login: data => dispatch(login(data)),
+//     onEditInspection: data => dispatch(onEditInspection(data)),
+//     surveyData: data => dispatch(surveyData(data))
+//   };
+// };
 
-const WelcomePageData = connect(mapStateToProps, mapDispatchToProps)(WelcomePage);
+// const UserFormData = connect(mapStateToProps, mapDispatchToProps)(UserForm);
 
-WelcomePageData.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// UserFormData.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
-export default (WelcomePageData);
+// export default (UserFormData);
+
+export default UserForm

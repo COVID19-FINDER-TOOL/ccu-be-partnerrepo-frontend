@@ -24,6 +24,7 @@ export const axiosLoginInstance = axios.create({
 
 
 
+
 axiosLoginInstance.defaults.headers.common['cache-control'] = `no-cache, no-store`;
 axiosLoginInstance.defaults.headers.common['Pragma'] = `no-cache`;
 
