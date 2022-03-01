@@ -18,7 +18,6 @@ import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
 // import OptionButtons from '../OptionButtons/OptionButtons';
 // import CustomButton from '../CustomButton/CustomButton';
-
 import Loadable from "react-loadable";
 import Loading from '../Loading/LoadingPage'
 import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
@@ -105,7 +104,7 @@ class WelcomePage extends React.Component {
   getQuestionData = async () => {
     // const data = { "question": "mark one testing done" }
     await this.setState(() => { return {showSpinner: true}})
-    await axios.get("https://cft-backendfunction.azurewebsites.net/api/CFTRetriveDataTrigger")
+    axiosLoginInstance.get("/CFTRetriveDataTrigger")
       .then(res => {
         this.optionData = res.data;
         // this.setState(() => { return { data: [...this.state.users, OptionData], showSpinner: false } });
@@ -152,7 +151,7 @@ class WelcomePage extends React.Component {
       loan: this.state.loan,
       postcode: this.state.postcode,
     }
-    await axios.post("https://cft-backendfunction.azurewebsites.net/api/CFTUserDataInsertTrigger", respBody)
+    axiosLoginInstance.post("/CFTUserDataInsertTrigger", respBody)
       .then(res => { 
           this.setState(() => { return { part: 3 } })
       }).catch(error => {

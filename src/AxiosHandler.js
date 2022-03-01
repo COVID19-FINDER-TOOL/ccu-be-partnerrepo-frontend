@@ -4,7 +4,6 @@ import axios from 'axios';
 export const baseURL = process.env.REACT_APP_BASEURL;
 export const baseUIURL = process.env.REACT_APP_UI;
 export const loginUIURL = process.env.REACT_APP_LOGIN_URL;
-export const formUIURL = process.env.REACT_APP_FORMURL;
 
 export const axiosInstance = axios.create({
   baseURL: baseURL,  //should be window.$keyVault.baseURL
@@ -23,13 +22,6 @@ export const axiosLoginInstance = axios.create({
   }
 });
 
-export const axiosFormInstance = axios.create({
-  baseURL: formUIURL, //should be window.$keyVault.loginURL
-  timeout: 30000,
-  headers: {
-    'Access-Control-Allow-Origin': '*'
-  }
-});
 
 
 
