@@ -152,7 +152,7 @@ class WelcomePage extends React.Component {
       loan: this.state.loan,
       postcode: this.state.postcode,
     }
-    await axios.post("https://cft-backendfunction.azurewebsites.net/api/CFTRetriveDataTrigger", respBody)
+    await axios.post("https://cft-backendfunction.azurewebsites.net/api/CFTUserDataInsertTrigger", respBody)
       .then(res => { 
           this.setState(() => { return { part: 3 } })
       }).catch(error => {
