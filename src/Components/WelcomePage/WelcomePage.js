@@ -426,13 +426,13 @@ const btn_second = <div >
             <Row>
             <Col xs={12} md={6}>
                 <h3 className={classes.leftText}>
-                  Hello I am everything. Hello I am everything. Hello I am everything. Hello I am everything
+                Please help us with some of your personal details
                 </h3>
               </Col>
               <Col xs={12} md={6} className={classes.colTabs}>
                 <div>
                   {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
-                  <h3 className={classes.tabsHeading}>What we need to do</h3>
+                  {/* <h3 className={classes.tabsHeading}>What we need to do</h3> */}
 
               {/* Q.1 starts */}
                   <h5 className={classes.tabsSubHeading}>Q.1 - Which is your age bracket? </h5>
