@@ -426,7 +426,7 @@ const btn_second = <div >
             <Row>
             <Col xs={12} md={6}>
                 <h3 className={classes.leftText}>
-                Please help us with some of your personal details
+                Please help us with your personal details
                 </h3>
               </Col>
               <Col xs={12} md={6} className={classes.colTabs}>
