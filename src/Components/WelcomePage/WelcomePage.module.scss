@@ -40,7 +40,7 @@ body, html {
     margin-top: 5%;
 }
 .para0{
-    font-size: 44px;
+    font-size: 32px;
     font-weight: 900;
     text-align: center;
     color: $secondary-color;
@@ -49,12 +49,16 @@ body, html {
 }
 
 .para{
-    font-size: 44px;
+    font-size: 32px;
     font-weight: 900;
-    text-align: left;
+    text-align: center;
     color: $secondary-color;
     text-shadow: 1px 2px 3px #00000029;
     width: 100%;
+}
+
+.disclaimerPara{
+    font-size: 12px;
 }
 
 .text3{
