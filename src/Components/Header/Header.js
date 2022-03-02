@@ -6,6 +6,7 @@ import CustomButton from "../CustomButton/CustomButton";
 import { surveyData } from "../../store/Action/SurveyAction";
 import { onEditInspection, login } from "../../store/Action/LoginAction";
 import { connect } from "react-redux";
+import CloseIcon from '@material-ui/icons/Close';
 import FloatingButton from '../FloatingButton/FloatingButton';
 
 const heading = {
@@ -48,6 +49,12 @@ const Header = (props) => {
                             <div className={classes.brandImage}>
                                 <h3 className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</h3>
                             </div>
+                            {
+                                props.showCloseIcon ? 
+                                <div onClick={props.backToWelcome}>
+                                    <CloseIcon color="secondary" />
+                                </div>: <></>
+                            }
                             {/* <div className={classes.shareButton}>
                                 <FloatingButton isOpen={true}></FloatingButton>
                             </div> */}

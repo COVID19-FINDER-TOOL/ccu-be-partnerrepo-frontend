@@ -60,6 +60,7 @@ class Chatbot extends React.Component {
             backStack: [],
             change: false,
             showHomeModal: false,
+            showCloseIcon: true,
             section: 0,
             queryIndex: 0,
             queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
@@ -989,7 +990,7 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div className={classes.backgrondImage}>
-                    <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
+                    <Header showCloseIcon={this.state.showCloseIcon} backToWelcome={this.gotoHome} heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
 
                     <div className={classes.chatBotRow}>

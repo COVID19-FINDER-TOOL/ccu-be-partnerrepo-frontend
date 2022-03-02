@@ -47,7 +47,8 @@ class WelcomePage extends React.Component {
             data: "",
             links: [],
             disagree: 0,
-            language: 'English'
+            language: 'English',
+            showCloseIcon: false
         }
     }
 
@@ -177,7 +178,7 @@ class WelcomePage extends React.Component {
 
         return (
             <div className={classes.backgrondImage}>
-                {this.state.part ? <Header heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
+                {this.state.part ? <Header showCloseIcon={this.state.showCloseIcon} heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
                 <Container style={{ display: !this.state.part ? "flex" : "none" }} className={classes.wlcmRow1}>
                     <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
                     <h1 className={classes.para}>{litrals.welcome.text1}</h1>
