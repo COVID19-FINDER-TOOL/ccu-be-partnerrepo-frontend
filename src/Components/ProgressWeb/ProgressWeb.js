@@ -2,11 +2,13 @@ import React from 'react';
 import { Steps } from 'antd';
 import 'antd/dist/antd.css';
 import classes from './ProgressWeb.scss';
+import classesExt from './ProgressWebExtend.module.scss';
 import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import { MenuContext } from 'react-flexible-sliding-menu';
 import CloseIcon from '@material-ui/icons/Close';
+import litrals from '../Litrals/Litrals';
 
 const { Step } = Steps;
 const mobile = window.matchMedia("(max-width: 767px)").matches;
@@ -37,7 +39,7 @@ class ProgressWeb extends React.Component {
     
     const current = this.props.section ? this.props.section > 2 ?  this.props.section-2 :  this.props.section-1  : 0 
     return (
-      <>
+      <div className={classesExt.ssContainer}>
         <Steps current={current}  size="small" onChange={this.onChange} onClick={this.onClick} direction="horizontal">
           <Step title="Situation"  />
           <Step title="Options" />
@@ -45,14 +47,14 @@ class ProgressWeb extends React.Component {
         </Steps>
         {
             this.props.showCloseIcon ? 
-            <div className={classes.closeContainer}>
-                {/* I am uncomfortable with this questionnaire and would like to stop:  */}
-                <div className={classes.closeIcon} onClick={this.props.backToWelcome}>
+            <div className={classesExt.closeContainer}>
+                {litrals.gotoHomeForWelcome}
+                <div className={classesExt.closeIcon} onClick={this.props.backToWelcome}>
                     <CloseIcon color="action" />
                 </div>
             </div>: <></>
         }
-      </>
+      </div>
     );
   }
 }
