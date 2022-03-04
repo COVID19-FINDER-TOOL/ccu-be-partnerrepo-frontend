@@ -184,7 +184,7 @@ class WelcomePage extends React.Component {
                     <h1 className={classes.para}>{litrals.welcome.text1}</h1>
                     <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer} <b>{litrals.welcome.desclaimerBold}</b></p>
                     {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
-                    <Box sx={{ minWidth: 300 }}>
+                    <Box sx={{ minWidth: 200 }}>
                         <FormControl fullWidth>
                             <Select
                                 labelId="language-label"
