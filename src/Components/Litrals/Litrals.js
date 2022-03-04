@@ -16,6 +16,10 @@ const litrals = {
             buttonText: "Next",
             variant: "primary",
         },
+        exit: {
+            buttonText: "Exit",
+            variant: "primary",
+        },
         back: {
             buttonText: "Home",
             variant: "primary",

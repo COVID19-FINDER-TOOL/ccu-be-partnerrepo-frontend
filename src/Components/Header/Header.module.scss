@@ -118,6 +118,19 @@
   // font: normal normal bold 26px/28px Tahoma ;
 }
 
+.closeContainer {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.closeIcon {
+    :hover {
+        cursor: pointer;
+    }
+}
+
+
 @media screen and (max-width: 767px) {
   .brand {
     font-size: 25px;

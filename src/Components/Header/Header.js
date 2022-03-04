@@ -7,6 +7,7 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { onEditInspection, login } from "../../store/Action/LoginAction";
 import { connect } from "react-redux";
 import FloatingButton from '../FloatingButton/FloatingButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const heading = {
     "0": "Breathe Easy",
@@ -20,6 +21,7 @@ const heading = {
 }
 
 const Header = (props) => {
+    console.log(props)
     const mobile = window.matchMedia("(max-width: 767px)").matches;
 
     return (
@@ -48,6 +50,20 @@ const Header = (props) => {
                             <div className={classes.brandImage}>
                                 <h3 className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</h3>
                             </div>
+                            {
+                                props.showCloseIcon ? 
+                                <div className={classes.closeContainer}>
+                                    {/* I am uncomfortable with this questionnaire and would like to stop:  */}
+                                    <div className={classes.closeIcon} onClick={props.backToWelcome}>
+                                        {/* <CloseIcon color="action" /> */}
+                                        <CustomButton type="Submit"
+                                            float={"right"}
+                                            onClick={props.backToWelcome}
+                                            data={litrals.buttons.exit}>
+                                        </CustomButton>
+                                    </div>
+                                </div>: <></>
+                            }
                             {/* <div className={classes.shareButton}>
                                 <FloatingButton isOpen={true}></FloatingButton>
                             </div> */}
