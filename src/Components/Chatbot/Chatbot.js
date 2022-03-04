@@ -61,6 +61,7 @@ class Chatbot extends React.Component {
             change: false,
             showHomeModal: false,
             showCloseIcon: true,
+            gotoHomeText: litrals.gotoHome,
             section: 0,
             queryIndex: 0,
             queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
@@ -867,7 +868,7 @@ class Chatbot extends React.Component {
 
     showHomeModal = () => {
         if (this.state.section && this.state.section != 5) {
-            this.setState(() => { return { showHomeModal: true } })
+            this.setState(() => { return { showHomeModal: true, gotoHomeText: litrals.gotoHome } })
         }
         else {
             this.props.history.push("/")
@@ -886,6 +887,15 @@ class Chatbot extends React.Component {
         })
         this.props.history.push('/')
 
+    }
+
+    backToWelcome = () => {
+        this.setState(() => { 
+            return { 
+                showHomeModal: true,
+                gotoHomeText: litrals.gotoHomeForWelcome
+            } 
+        })
     }
 
     closeHomeModal = () => {
@@ -991,12 +1001,12 @@ class Chatbot extends React.Component {
                 :
                 <div className={classes.backgrondImage}>
                     <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
-                    <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
+                    <ConfirmationModal modalFooter="dualButton" message={this.state.gotoHomeText} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
 
                     <div className={classes.chatBotRow}>
                         <div className={classes.progressBar} >
 
-                            {!this.state.disagree && <ProgressWeb showCloseIcon={this.state.showCloseIcon} backToWelcome={this.gotoHome} section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
+                            {!this.state.disagree && <ProgressWeb showCloseIcon={this.state.showCloseIcon} backToWelcome={this.backToWelcome} section={this.state.section} showHomeModal={this.showHomeModal} ></ProgressWeb>}
                             { 
 
                             // this.state.section == 4 && this.state.showActionPlan  && !this.state.gotoNextJourney && questionStack[questionStack.length - 1]
