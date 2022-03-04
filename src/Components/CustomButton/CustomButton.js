@@ -32,7 +32,7 @@ const CustomButton = (props) => {
 
       {props.data.buttonText == "Action Plan" || props.data.buttonText == "ActionPlan" ? "Next" : props.data.buttonText}
       { props.data.buttonText !== "Back"  && props.data.buttonText !== "No" && props.data.buttonText !== "Exit" ? <i style={{marginLeft:"10px"}} className="fas fa-chevron-right"></i> : null}
-      { props.data.buttonText === "Exit" ? <i style={{marginLeft:"10px"}} className="fas fa-times-circle"></i> : null}
+
     </button>
   );
 };

@@ -26,7 +26,6 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 15%;
 }
 
 .citation{
@@ -56,6 +55,11 @@
     color: black;
     border-bottom:black;
     justify-content: flex-start;
+}
+
+.logoImageNew{
+    width: auto;
+    height: 60px;
 }
 
 .logoImage{

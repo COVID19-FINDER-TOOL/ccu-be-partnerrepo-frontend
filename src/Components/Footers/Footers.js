@@ -28,7 +28,7 @@ const Footers = (props) => {
       <div className={classes.aligner}>
         <div className={classes.images}>
           <img
-            className={classes.logoImage}
+            className={classes.logoImageNew}
             src={require("../../assets/Images/stop.png").default}
             alt="SS logo"
           ></img>
