@@ -65,7 +65,8 @@ class Chatbot extends React.Component {
             section: 0,
             queryIndex: 0,
             // queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
-            queryString: ["87a2e447-085c-4556-aa29-6e19dea72ec6/generateAnswer", '4cddc707-504a-467e-b7e5-5dbe1864a4f8/generateAnswer',"3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            // queryString: ["87a2e447-085c-4556-aa29-6e19dea72ec6/generateAnswer", '4cddc707-504a-467e-b7e5-5dbe1864a4f8/generateAnswer',"3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            queryString: ["38933cc4-37c8-43d0-b1d3-90950adeb861/generateAnswer", '82ce6225-a423-444b-a1af-52b1d83df2fe/generateAnswer','1df33460-086a-4f53-9751-8b272dfa21bf/generateAnswer','','6d46cb61-215c-4402-8166-dd9736aee45e/generateAnswer','53e99d13-c5a1-4b9f-92eb-2dfa0e2cbe46/generateAnswer',"8a9d68bc-9e8d-41be-8e3b-7bb74e1bd095/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
@@ -733,7 +734,6 @@ class Chatbot extends React.Component {
 
         const textarray = topic == 4 ? tempText[0].split("\n") : text.split("\n") ;
         
-        
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
         var texts = [];
@@ -837,11 +837,30 @@ class Chatbot extends React.Component {
     }
 
     displayNextTopic = (topic) => {
-
         const text = this.state.data.answer;
-        const otherText = text.split("\n\n")
-        const textarray = otherText[1] ? otherText[1].split("\n") : text.split("\n");
-        // console.log(otherText[0])
+        let masterArray = [];
+        if(text.includes("$$$$$$$$$$")) {
+            masterArray = text.split("$$$$$$$$$$");
+        } else {
+            masterArray.push(text);
+        }
+        if(masterArray.length > 1) {
+            const res = masterArray.map((item) => {
+                return <div x="xxxxx">
+                    {this.displayNextTopicElement(topic, item)}
+                </div>
+            });
+            console.log(res);
+            return res;
+        } else {
+            return this.displayNextTopicElement(topic, masterArray[0]);
+        }
+    }
+
+    displayNextTopicElement = (topic, processedString) => {
+        const otherText = processedString.split("\n\n")
+        const textarray = otherText[1] ? otherText[1].split("\n") : processedString.split("\n");
+        console.log("textarray", textarray);
         var temp = {}
         var key = ""
         textarray.map((x) => {
@@ -853,7 +872,6 @@ class Chatbot extends React.Component {
             }
         })
         return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
-
     }
 
     gotoFeedback = () => {
