@@ -182,9 +182,9 @@ class WelcomePage extends React.Component {
                 <Container style={{ display: !this.state.part ? "flex" : "none" }} className={classes.wlcmRow1}>
                     <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
                     <h1 className={classes.para}>{litrals.welcome.text1}</h1>
-                    <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer} <b>{litrals.welcome.desclaimerBold}</b></p>
+                    <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer}<br /> <b>{litrals.welcome.desclaimerBold}</b></p>
                     {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
-                    <Box sx={{ minWidth: 200 }}>
+                    <Box sx={{ minWidth: 200, paddingTop: '1em' }}>
                         <FormControl fullWidth>
                             <Select
                                 labelId="language-label"
