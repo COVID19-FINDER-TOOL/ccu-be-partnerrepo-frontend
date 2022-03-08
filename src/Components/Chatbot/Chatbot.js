@@ -730,8 +730,29 @@ class Chatbot extends React.Component {
 
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
-        const tempText = text.split("\n\n######");
+        let masterArray = [];
+        if(text.includes("$$$$$$$$$$")) {
+            masterArray = text.split("$$$$$$$$$$");
+        } else {
+            masterArray.push(text);
+        }
 
+        if(masterArray.length > 1) {
+            const res = masterArray.map((item) => {
+                return <div x="yyyyy">
+                    {this.splitQuestionDataElement(topic, item)}
+                </div>
+            });
+            console.log(res);
+            return res;
+        } else {
+            return this.splitQuestionDataElement(topic, masterArray[0]);
+        }
+    }
+
+    splitQuestionDataElement = (topic, text) => {
+        const tempText = text.split("\n\n######");
+        console.log("tempText", tempText);
         const textarray = topic == 4 ? tempText[0].split("\n") : text.split("\n") ;
         
         const { CREATEJOURNEY } = this.props.payload
@@ -809,7 +830,6 @@ class Chatbot extends React.Component {
             // }
             return <MDReactComponent text={text} onIterate={this.handleIterate} />
         }
-
     }
 
     gotoNextJourney = () =>{
