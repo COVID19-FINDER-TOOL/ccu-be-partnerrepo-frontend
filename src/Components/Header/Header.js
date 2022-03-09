@@ -57,8 +57,8 @@ const Header = (props) => {
                                 <div className={classes.closeContainer}>
                                     {
                                         
-                                        props.heading !== 1 && props.heading !== 0 ? 
-                                        <span style={{marginRight: "10px"}}>Unique Id: {props.uniqueId}</span> : ''
+                                        props.heading !== 1 && props.heading !== 0 && props.uniqueId !== "&nbsp;" ? 
+                                        <span style={{marginRight: "10px"}}>Unique Id: <span>{props.uniqueId}</span></span> : ''
 
                                     }
                                     <div className={classes.closeIcon} onClick={props.backToWelcome}>

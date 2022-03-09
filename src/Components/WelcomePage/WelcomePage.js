@@ -14,11 +14,14 @@ import { login, onEditInspection } from "../../store/Action/LoginAction";
 import axios from 'axios';
 import packageJson from '../../../package.json';
 import PropTypes from 'prop-types';
+import CustomSelect from '../CustomSelect/CustomSelect';
 // import OptionButtons from '../OptionButtons/OptionButtons';
 // import CustomButton from '../CustomButton/CustomButton';
 
 import Loadable from "react-loadable";
 import Loading from '../Loading/LoadingPage'
+import loader from '../../assets/Images/Spinner-1s-200px.svg'; // with import
+
 
 import Box from '@material-ui/core/Box';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -40,7 +43,7 @@ class WelcomePage extends React.Component {
 
         this.state = {
             start: false,
-            part: false,
+            part: 1, // 1 for 1st page, 2 for user form , 3 for info page,
             agree: 0,
             toggle: 0,
             msg: 0,
@@ -49,7 +52,70 @@ class WelcomePage extends React.Component {
             disagree: 0,
             language: 'English',
             required: 'Yes',
-            showCloseIcon: false
+            showCloseIcon: false,
+            disable: true,
+            age: [
+                {
+                  "id": 1,
+                  "value": "18-24"
+                },
+                {
+                  "id": 2,
+                  "value": "25-31"
+                },
+                {
+                  "id": 3,
+                  "value": "32-38"
+                },
+                {
+                  "id": 4,
+                  "value": "39-45"
+                },
+                {
+                  "id": 5,
+                  "value": "46-52"
+                },
+                {
+                  "id": 6,
+                  "value": "53-59"
+                },
+                {
+                  "id": 7,
+                  "value": "65-71"
+                },
+                {
+                  "id": 8,
+                  "value": "72-78"
+                },
+                {
+                  "id": 9,
+                  "value": "79-85"
+                },
+                {
+                  "id": 10,
+                  "value": "85+"
+                }
+              ],
+              indebt: [
+                {"id": 1, "value": "Yes"},
+                {"id": 2, "value": "No"},
+                {"id": 3, "value": "Unsure"}
+              ],
+              contact: [
+                {"id": 1, "value": "Yes"},
+                {"id": 2, "value": "No"},
+                {"id": 3, "value": "Prefer not to answer"}
+              ],
+              Reason: [
+                {"id": 1, "value": "Work/Lack of work in previous country"},
+                {"id": 2, "value": "Education/lack of education in previous country"},
+                {"id": 3, "value": "Threat to physical safety/health in home country"},
+                {"id": 4, "value": "Marriage"},
+                {"id": 5, "value": "Family"},
+                {"id": 6, "value": "Prefer not to say"},
+                {"id": 7, "value": "Involuntary travel"}
+              ],
+
         }
     }
 
@@ -138,12 +204,12 @@ class WelcomePage extends React.Component {
     }
 
     handlePart = () => {
-        this.setState(() => { return { part: true } })
+            this.setState(() => { return { part: 3 } })
     }
 
-    showHomeModal = () => {
-        this.setState(() => { return { part: false } })
-    }
+    // showHomeModal = () => {
+    //     this.setState(() => { return { part: false } })
+    // }
 
     handleLanguageChange = (event) => {
         console.log("Language",event.target.value);
@@ -162,6 +228,14 @@ class WelcomePage extends React.Component {
             };
         })
     };
+
+    showUserForm = () => {
+        this.setState(() => { return { part: 2 } })
+      }
+    
+      showHomeModal = () => {
+        this.setState(() => { return { part: 1 } })
+      }
 
     render() {
 
@@ -186,18 +260,38 @@ class WelcomePage extends React.Component {
 
         </div>
 
+const btn_second = <div>
+                <CustomButton float={"left"}
+                margin={mobile ? "" : "20px 15px 0 0"}
+                width={mobile ? "100%" : ""}
+                type="submit"
+                onClick={this.showHomeModal}
+                data={litrals.buttons.backNav}>
+                </CustomButton>
+                <CustomButton float={"left"}
+                margin={mobile ? "" : "20px 0 0 0"}
+                width={mobile ? "100%" : ""}
+                type="submit"
+                onClick={this.handlePart}
+                data={litrals.buttons.submitForm}
+                disabled={!this.state.disable}
+                >
+                </CustomButton>
+                </div>
+
         return (
             <div className={classes.backgrondImage}>
-                {this.state.part ? <Header showCloseIcon={this.state.showCloseIcon} heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
-                <Container style={{ display: !this.state.part ? "flex" : "none" }} className={classes.wlcmRow1}>
+                {this.state.part != 1 ? <Header showCloseIcon={this.state.showCloseIcon} heading={this.state.part != 1 ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
+                <Container style={{ display: this.state.part == 1 ? "flex" : "none" }} className={classes.wlcmRow1}>
                     {/* <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
                     <h1 className={classes.para0}>{litrals.welcome.text1}</h1> */}
                     <h1 className={classes.para}>{litrals.welcome.textNew}</h1>
                     <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer}<br /> <br/><b>{litrals.welcome.desclaimerBold}</b></p>
                     {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
+                   <div className={classes.queContainer}>
                     <div className={classes.selectContainer}>
                     <label className={classes.selectLabel}>Which of the following nationalities do you associate with?</label>
-                    <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column' }}>
+                    <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column', display: 'table-cell', padding: '10px 20px' }}>
                         <FormControl fullWidth>
                             
                             <Select
@@ -216,13 +310,14 @@ class WelcomePage extends React.Component {
                                 <MenuItem value="Tiếng Việt">Tiếng Việt</MenuItem>
                                 <MenuItem value="Italiano">Italiano</MenuItem>
                                 <MenuItem value="Română">Română</MenuItem>
+                                <MenuItem value="Not_listed">My language is not listed here</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
                     </div>
                     <div className={classes.selectContainer}>
                     <label className={classes.selectLabel}>Do you require immediate help or do you feel unsafe in your current situation?</label>
-                    <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column' }}>
+                    <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column', display: 'table-cell', padding: '10px 20px' }}>
                         <FormControl fullWidth>
                             
                             <Select
@@ -239,11 +334,12 @@ class WelcomePage extends React.Component {
                         </FormControl>
                     </Box>
                     </div>
+                    </div>
                     <CustomButton
                         float={"left"} type="submit"
                         width={mobile ? "100%" : ""}
                         margin={mobile ? "" : "40px 0 0 0"}
-                        onClick={this.handlePart}
+                        onClick={this.showUserForm}
                         data={litrals.buttons.getStartedButton}>
 
                     </CustomButton>
@@ -251,7 +347,7 @@ class WelcomePage extends React.Component {
                 </Container>
 
 
-                <div style={{ display: this.state.part ? "block" : "none" }}>
+                <div style={{ display: this.state.part == 3 ? "block" : "none" }}>
                     <div className={classes.wlcmRow}>
                         <Row>
                             <Col xs={12} md={6}>
@@ -280,7 +376,77 @@ class WelcomePage extends React.Component {
                     </div>
 
                 </div>
-                {!mobile ? <Footers format={this.state.part} buttonpanel={btn}></Footers> : this.state.start && btn}
+
+                <div style={{ display: this.state.part == 2 ? "block" : "none" }}>
+                        {/* <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
+                            <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
+                            </div> */}
+                        <div>
+
+                        { !this.state.showSpinner ? 
+                        <div className={classes.wlcmRow}>
+                            <Row>
+                            <Col xs={12} md={6}>
+                                <h3 className={classes.leftText}>
+                                Please help us with the following details
+                                </h3>
+                            </Col>
+                            <Col xs={12} md={6} className={classes.colTabs}>
+                                <div>
+                                {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
+                                {/* <h3 className={classes.tabsHeading}>What we need to do</h3> */}
+
+                            {/* Q.1 starts */}
+                                <h5 className={classes.tabsSubHeading}>Q.1 - Which is your age bracket? </h5>
+                                <CustomSelect 
+                                    optionValue={this.state.age} 
+                                    id="age"
+                                    onClick={this.handleChange}
+                                />
+                                <p className={classes.tabsPara}></p>
+
+                            {/* Q.2 starts */}
+                                <h5 className={classes.tabsSubHeading}>Q.2 - As a result of your arrival in the UK, are you indebted to someone? </h5>
+                                <CustomSelect 
+                                    optionValue={this.state.indebt} 
+                                    id="indebt"
+                                    onClick={this.handleChange}
+                                />
+                                <p className={classes.tabsPara}></p>
+                                
+                            {/* Q.3 starts */}
+                            <h5 className={classes.tabsSubHeading}>Q.3 - Are you still in contact with the person who arranged for your travel to the UK? </h5>
+                                <CustomSelect 
+                                    optionValue={this.state.contact} 
+                                    id="contact"
+                                    onClick={this.handleChange}
+                                />
+                                <p className={classes.tabsPara}></p>
+
+                                
+                                
+                            {/* Q.4 starts */}
+                            <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK **(multiple options available)?**</h5>
+                                <CustomSelect 
+                                    optionValue={this.state.Reason} 
+                                    id="reason"
+                                    onClick={this.handleChange}
+                                />
+                                <p className={classes.tabsPara}></p>
+                              
+                                </div>
+                                <div>
+                                </div>
+                            </Col>
+                            </Row>
+                        </div>
+
+                        : ''}
+
+                        </div>
+                    </div>
+
+                {!mobile ? <Footers format={this.state.part != 1} buttonpanel={this.state.part == 2 ? btn_second : btn}></Footers> : this.state.start && btn}
             </div>
         );
     }

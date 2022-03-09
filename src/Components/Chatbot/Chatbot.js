@@ -1090,7 +1090,7 @@ class Chatbot extends React.Component {
 
 
                         </div>
-                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to your situation
+                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to <span className={classes.currentJourneySpan}>your situation</span>
                             {/* <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span> */}
                         </p> : null}
 
