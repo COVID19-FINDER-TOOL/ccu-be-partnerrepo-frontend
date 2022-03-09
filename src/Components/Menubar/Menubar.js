@@ -87,13 +87,33 @@ const Menubar = (props) => {
       )
     })
     return Menu
+  };
+
+  const capitalizeFirstLetter = (text) => {
+      const arr = text.split(' ');
+      for (let index = 0; index < arr.length; index++) {
+          const element = arr[index];
+          arr[index] = element.replace(/^./, element[0].toUpperCase());
+      }
+      return arr.join(' ');
   }
 
   const getHeaders = () => {
       console.log(props.headers,props.index);
-      return <h2 className="heading">
-          {litrals.welcome.text5}
-      </h2>
+      if(props.index === 0) {
+        return <>
+        <h2 className="heading">
+            {litrals.welcome.text5}
+        </h2>
+        <h5 className="headerText">
+            {capitalizeFirstLetter(props.headers[props.index])}
+        </h5>
+        </>
+      } else {
+        return <h5 className="headerText">
+            {capitalizeFirstLetter(props.headers[props.index])}
+        </h5>
+      }
   }
 
   const rights = assembleData(props.data);

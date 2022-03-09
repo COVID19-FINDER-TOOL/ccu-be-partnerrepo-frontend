@@ -116,3 +116,13 @@ p{
         margin-top: 3rem;
     }
 }
+
+.headerText {
+    
+    color: #cf022b;
+    text-align: center;
+}
+
+.headerText::first-letter {
+    text-transform:capitalize;
+}
