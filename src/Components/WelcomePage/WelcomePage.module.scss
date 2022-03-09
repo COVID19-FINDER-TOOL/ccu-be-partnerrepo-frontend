@@ -64,15 +64,22 @@ body, html {
     color: #a8a8a7;
 }
 
+.queContainer{
+    display: table;
+}
 .selectContainer{
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 15px;
+    display: table-header-group;
 }
 .selectLabel{
     font-size: 14px;
     margin-right: 20px;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px 0;
 }
 
 label + .MuiInput-formControl {

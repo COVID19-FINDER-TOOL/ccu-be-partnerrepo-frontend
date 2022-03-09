@@ -64,6 +64,10 @@ const litrals = {
         showFeedback:{
             buttonText: "Feedback",
             variant: "primary",
+        },
+        submitForm:{
+            buttonText: "Submit & Proceed",
+            variant: "primary",
         }
 
 
@@ -79,7 +83,7 @@ const litrals = {
         text5: "Thank you for providing details about your situation. These are the steps you can take:",
         text6: "Learn from others:",
         desclaimer: "This assessment is designed to help you, ensuring your safety, security and wellbeing. Tens of thousands of people in the same position as yourself have successfully benefitted from using it and no personal data will be stored or held, meaning there is no risk of the information you enter being tracked back to, or used, against you. The answers given will provide you with a tailored yet anonymous action plan, as well as helping your future case worker to provide you with the best support available to meet your needs in the UK.",
-        desclaimerBold: "Should you feel unsafe or uncomfortable at any point, the exit button (X) at the top right of each page will close the survey and delete all your answers up to that point.",
+        desclaimerBold: "Should you feel unsafe or uncomfortable at any point, the exit button at the top right of each page will close the survey and delete all your answers up to that point.",
         ribbonButtonsPre :["Tell us about yourself","View your options","Know your rights","View you Action Plan","Hear from others"],
         ribbonButtons : [{pretext:"Tell us about yourself",displayText:"We will ask you a few questions about your situation. None of your personal information will be stored or shared."},
                         {pretext:"View your options",displayText:"Based on your responses, we will provide you with a number of free support options and guide you to a set of useful on-line tools."},
