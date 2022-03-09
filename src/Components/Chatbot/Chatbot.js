@@ -740,19 +740,28 @@ class Chatbot extends React.Component {
         }
 
         if(masterArray.length > 1) {
-            const res = masterArray.map((item) => {
-                return <div x="yyyyy">
-                    {this.splitQuestionDataElement(topic, item)}
+            const res = masterArray.map((item, index) => {
+                return <div>
+                    {this.splitQuestionDataElement(topic, item, index)}
                 </div>
             });
             console.log(res);
             return res;
         } else {
-            return this.splitQuestionDataElement(topic, masterArray[0]);
+            return this.splitQuestionDataElement(topic, masterArray[0], 0);
         }
     }
 
-    splitQuestionDataElement = (topic, text) => {
+    capitalizeFirstLetter = (text) => {
+        const arr = text.split(' ');
+        for (let index = 0; index < arr.length; index++) {
+            const element = arr[index];
+            arr[index] = element.replace(/^./, element[0].toUpperCase());
+        }
+        return arr.join(' ');
+    }
+
+    splitQuestionDataElement = (topic, text, index) => {
         const tempText = text.split("\n\n######");
 
         const textarray = topic == 4 ? tempText[0].split("\n") : text.split("\n") ;
@@ -793,12 +802,27 @@ class Chatbot extends React.Component {
                 
                 }]:console.log()
             })
-            console.log("Text", texts);
-            console.log("textarray", textarray);
+            const header = this.state.data.metadata.find((item)=>{
+                return item.name == 'headers'
+            })
+            const tempStr = header.value.replace(/\//g, '');
+            const headerValue = JSON.parse(tempStr.replace(/\s\s+/g, ' '));
             return (
                 <>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan && ! this.state.showNextJourney  ? "block" : "none" }}>
-                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
+                        {index === 0 ? 
+                            <>
+                                <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
+                                <h5 className="headerText">
+                                    {this.capitalizeFirstLetter(headerValue[index])}
+                                </h5>
+                            </>
+                             : 
+                            <h5 className="headerText">
+                                {this.capitalizeFirstLetter(headerValue[index])}
+                            </h5>
+                        }
+                        
                         {
                             texts.map((x) => {
                                 return <MDReactComponent text={x} onIterate={this.handleIterate}/>
@@ -894,7 +918,6 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        console.log(index, this.state);
         const header = this.state.data.metadata.find((item)=>{
             return item.name == 'headers'
         })

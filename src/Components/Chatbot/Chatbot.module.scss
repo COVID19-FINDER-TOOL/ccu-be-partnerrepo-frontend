@@ -291,6 +291,15 @@
     
   }
 
+.headerText {
+    color: #cf022b;
+    text-align: center;
+}
+
+.headerText::first-letter {
+    text-transform:capitalize;
+}
+
 
 @media screen and (max-width:767px){
     .heading{
