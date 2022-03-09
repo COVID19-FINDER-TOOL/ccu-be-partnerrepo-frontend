@@ -6,6 +6,8 @@ import { surveyData } from "../../store/Action/SurveyAction";
 import { connect } from "react-redux";
 import { onEditInspection } from "../../store/Action/LoginAction";
 import { MenuContext } from 'react-flexible-sliding-menu';
+import CloseIcon from '@material-ui/icons/Close';
+
 const { Step } = Steps;
 const mobile = window.matchMedia("(max-width: 767px)").matches;
 class ProgressWeb extends React.Component {
@@ -41,6 +43,7 @@ class ProgressWeb extends React.Component {
           <Step title="Options" />
           <Step title="Action Plan" />
         </Steps>
+        
       </>
     );
   }

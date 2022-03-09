@@ -60,9 +60,13 @@ class Chatbot extends React.Component {
             backStack: [],
             change: false,
             showHomeModal: false,
+            showCloseIcon: true,
+            gotoHomeText: litrals.gotoHome,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            // queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            // queryString: ["87a2e447-085c-4556-aa29-6e19dea72ec6/generateAnswer", '4cddc707-504a-467e-b7e5-5dbe1864a4f8/generateAnswer',"3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
+            queryString: ["38933cc4-37c8-43d0-b1d3-90950adeb861/generateAnswer", '82ce6225-a423-444b-a1af-52b1d83df2fe/generateAnswer','1df33460-086a-4f53-9751-8b272dfa21bf/generateAnswer','','6d46cb61-215c-4402-8166-dd9736aee45e/generateAnswer','53e99d13-c5a1-4b9f-92eb-2dfa0e2cbe46/generateAnswer',"8a9d68bc-9e8d-41be-8e3b-7bb74e1bd095/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
@@ -113,7 +117,7 @@ class Chatbot extends React.Component {
     } 
  
     saveQuestion = (data, response, notFetch) => {
-        // console.log(data)
+    
         console.log(data,response, notFetch,'Save Button');
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
@@ -215,6 +219,9 @@ class Chatbot extends React.Component {
 
             this.props.onEditInspection({ questionStack })
         }
+
+        console.log(this.state.section, this.state.data, 'sachin')
+
     }
 
     handleRadio = (event) => {
@@ -624,6 +631,8 @@ class Chatbot extends React.Component {
         else {
             
                 const radios = prompts.map((x, index) => {
+                    
+
                     let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                     
                     if(this.state.queryIndex === 0 && selectedJourneys != undefined) {
@@ -633,14 +642,14 @@ class Chatbot extends React.Component {
                     }
                     return (
                         <CustomRadio section={this.state.section}
-                            ind = {this.state.queryIndex}
+                            ind = {1}
                             radioLabel={x.displayText}
                             display={this.state.section == 4 && this.state.selectedJourneys.length !==0 ? false : true}
                             id={x.qnaId} key={x.qnaId}
                             name={id}
                             onClick={this.handleRadio}
-                            checked={ checked} 
-                            isCheckBox={this.state.queryIndex === 0 ? true : false}/>
+                            checked={checked} 
+                            isCheckBox={this.state.queryIndex === 0 ? false : false}/>
                     )
                 })
                 return (radios);
@@ -726,10 +735,39 @@ class Chatbot extends React.Component {
 
     splitQuestionData = (topic) => {
         const text = this.state.data.answer;
+        let masterArray = [];
+        if(text.includes("$$$$$$$$$$")) {
+            masterArray = text.split("$$$$$$$$$$");
+        } else {
+            masterArray.push(text);
+        }
+
+        if(masterArray.length > 1) {
+            const res = masterArray.map((item, index) => {
+                return <div>
+                    {this.splitQuestionDataElement(topic, item, index)}
+                </div>
+            });
+            console.log(res);
+            return res;
+        } else {
+            return this.splitQuestionDataElement(topic, masterArray[0], 0);
+        }
+    }
+
+    capitalizeFirstLetter = (text) => {
+        const arr = text.split(' ');
+        for (let index = 0; index < arr.length; index++) {
+            const element = arr[index];
+            arr[index] = element.replace(/^./, element[0].toUpperCase());
+        }
+        return arr.join(' ');
+    }
+
+    splitQuestionDataElement = (topic, text, index) => {
         const tempText = text.split("\n\n######");
 
         const textarray = topic == 4 ? tempText[0].split("\n") : text.split("\n") ;
-        
         
         const { CREATEJOURNEY } = this.props.payload
         var { responseStack, questionStack, selectedJourneys } = CREATEJOURNEY ? CREATEJOURNEY : []
@@ -767,10 +805,29 @@ class Chatbot extends React.Component {
                 
                 }]:console.log()
             })
+            const header = this.state.data.metadata.find((item)=>{
+                return item.name == 'headers'
+            })
+            const tempStr = header.value.replace(/\//g, '');
+            const headerValue = JSON.parse(tempStr.replace(/\s\s+/g, ' '));
             return (
                 <>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan && ! this.state.showNextJourney  ? "block" : "none" }}>
-                        <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
+                        {index === 0 ? 
+                            <>
+                                <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
+                                {headerValue[index] ? <h5 className="headerText" style={{paddingTop: '0.5em'}}>
+                                    {this.capitalizeFirstLetter(headerValue[index])}
+                                </h5> : <></>}
+                            </>
+                             : 
+                            <>
+                                {headerValue[index] ? <h5 className="headerText" style={{paddingTop: '0.5em'}}>
+                                    {this.capitalizeFirstLetter(headerValue[index])}
+                                </h5> : <></>}
+                            </>
+                        }
+                        
                         {
                             texts.map((x) => {
                                 return <MDReactComponent text={x} onIterate={this.handleIterate}/>
@@ -806,7 +863,6 @@ class Chatbot extends React.Component {
             // }
             return <MDReactComponent text={text} onIterate={this.handleIterate} />
         }
-
     }
 
     gotoNextJourney = () =>{
@@ -834,11 +890,29 @@ class Chatbot extends React.Component {
     }
 
     displayNextTopic = (topic) => {
-
         const text = this.state.data.answer;
-        const otherText = text.split("\n\n")
-        const textarray = otherText[1] ? otherText[1].split("\n") : text.split("\n");
-        // console.log(otherText[0])
+        let masterArray = [];
+        if(text.includes("$$$$$$$$$$")) {
+            masterArray = text.split("$$$$$$$$$$");
+        } else {
+            masterArray.push(text);
+        }
+        if(masterArray.length > 1) {
+            const res = masterArray.map((item, index) => {
+                return <div x="xxxxx">
+                    {this.displayNextTopicElement(topic, item, index)}
+                </div>
+            });
+            console.log(res);
+            return res;
+        } else {
+            return this.displayNextTopicElement(topic, masterArray[0], 0);
+        }
+    }
+
+    displayNextTopicElement = (topic, processedString, index) => {
+        const otherText = processedString.split("\n\n")
+        const textarray = otherText[1] ? otherText[1].split("\n") : processedString.split("\n");
         var temp = {}
         var key = ""
         textarray.map((x) => {
@@ -849,8 +923,12 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
-
+        const header = this.state.data.metadata.find((item)=>{
+            return item.name == 'headers'
+        })
+        const tempStr = header.value.replace(/\//g, '');
+        const headerValue = JSON.parse(tempStr.replace(/\s\s+/g, ' '));
+        return <Menubar index={index} headers={headerValue} data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
     }
 
     gotoFeedback = () => {
@@ -866,7 +944,7 @@ class Chatbot extends React.Component {
 
     showHomeModal = () => {
         if (this.state.section && this.state.section != 5) {
-            this.setState(() => { return { showHomeModal: true } })
+            this.setState(() => { return { showHomeModal: true, gotoHomeText: litrals.gotoHome } })
         }
         else {
             this.props.history.push("/")
@@ -887,6 +965,32 @@ class Chatbot extends React.Component {
 
     }
 
+    gotoChatBot = () => {
+        window.location.reload();
+    }
+
+    gotoFeedback_dummy = () => {
+        this.props.history.push('/feedback')
+    }
+
+    backToWelcome = () => {
+        this.setState(() => { 
+            return { 
+                showHomeModal: true,
+                gotoHomeText: litrals.gotoHomeForWelcome
+            } 
+        })
+    }
+
+    backToChatbot = () => {
+        this.setState(() => { 
+            return { 
+                showHomeModal: true,
+                gotoHomeText: litrals.gotoHomeForChatbot
+            } 
+        })
+    }
+
     closeHomeModal = () => {
         this.setState(() => { return { showHomeModal: false } })
     }
@@ -902,7 +1006,6 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        
         let metaIndex = this.state.data.metadata?.find((x) => x.name === "topic")
         const topic = this.state.data.metadata ? metaIndex ? metaIndex.value : 0 : 0;
 
@@ -913,6 +1016,13 @@ class Chatbot extends React.Component {
         var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const btn = (
         <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
+            {this.state.section !== 1 && this.state.section !== 0 ?
+                <CustomButton type="submit"
+                    float={"left"}
+                    onClick={this.gotoChatBot}
+                    data={litrals.buttons.retry}>
+                </CustomButton> : ''
+            }
             {this.state.section > 0 && this.state.showBack && responseStack?.length ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
             {this.state.section < 2 ?
                 <CustomButton type="submit"
@@ -926,6 +1036,13 @@ class Chatbot extends React.Component {
                         data={litrals.buttons.nextStep}>
                     </CustomButton> :  
                 radios && radios.length == 1 & this.state.showActionPlan ? radios : "" 
+            }
+            {this.state.section == 4 ?
+                <CustomButton type="submit"
+                    float={"left"}
+                    onClick={this.gotoFeedback_dummy}
+                    data={litrals.buttons.nextStep}>
+                </CustomButton> : ''
             }
             </div>
 
@@ -989,8 +1106,8 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div className={classes.backgrondImage}>
-                    <Header heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
-                    <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHome} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
+                    <Header showCloseIcon={this.state.showCloseIcon} uniqueId={this.state.data.metadata?.length && this.state.data.metadata[4]?.value} backToWelcome={this.backToWelcome} heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
+                    <ConfirmationModal modalFooter="dualButton" message={this.state.gotoHomeText} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
 
                     <div className={classes.chatBotRow}>
                         <div className={classes.progressBar} >
@@ -1018,7 +1135,9 @@ class Chatbot extends React.Component {
 
 
                         </div>
-                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
+                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to <span className={classes.currentJourneySpan}>your situation</span>
+                            {/* <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span> */}
+                        </p> : null}
 
                         <div style={{ height: "calc(100% - 36px)", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}>

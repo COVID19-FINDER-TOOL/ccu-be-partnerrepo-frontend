@@ -16,6 +16,14 @@ const litrals = {
             buttonText: "Next",
             variant: "primary",
         },
+        exit: {
+            buttonText: "Exit",
+            variant: "primary",
+        },
+        retry: {
+            buttonText: "Edit Questionnaires",
+            variant: "primary",
+        },
         back: {
             buttonText: "Home",
             variant: "primary",
@@ -56,6 +64,10 @@ const litrals = {
         showFeedback:{
             buttonText: "Feedback",
             variant: "primary",
+        },
+        submitForm:{
+            buttonText: "Submit & Proceed",
+            variant: "primary",
         }
 
 
@@ -63,12 +75,15 @@ const litrals = {
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
         text0: "Breathe Easy",
-        text1: "Supporting our members when they need it most",
-        text2: "Powered by Sopra Steria and The University of Edinburgh in collaboration with various charities",
+        text1: "Providing tailored support to those who need it most",
+        textNew: "Vulnerability Indicator Survey powered by Breathe Easy",
+        text2: "Tool created by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
         text4: "This tool has different options and information to provide emotional, health and financial support  ",
         text5: "Thank you for providing details about your situation. These are the steps you can take:",
         text6: "Learn from others:",
+        desclaimer: "This assessment is designed to help you, ensuring your safety, security and wellbeing. Tens of thousands of people in the same position as yourself have successfully benefitted from using it and no personal data will be stored or held, meaning there is no risk of the information you enter being tracked back to, or used, against you. The answers given will provide you with a tailored yet anonymous action plan, as well as helping your future case worker to provide you with the best support available to meet your needs in the UK.",
+        desclaimerBold: "Should you feel unsafe or uncomfortable at any point, the exit button at the top right of each page will close the survey and delete all your answers up to that point.",
         ribbonButtonsPre :["Tell us about yourself","View your options","Know your rights","View you Action Plan","Hear from others"],
         ribbonButtons : [{pretext:"Tell us about yourself",displayText:"We will ask you a few questions about your situation. None of your personal information will be stored or shared."},
                         {pretext:"View your options",displayText:"Based on your responses, we will provide you with a number of free support options and guide you to a set of useful on-line tools."},
@@ -80,6 +95,8 @@ const litrals = {
     actionPlanPara2 : "Action plan to manage your circumstances based on insight from Citizens Advice.",
     actionPlanPara3 : "Action plan based on insights from Citizens Advice",
     gotoHome: "If you go to home page, your current journey will be discarded.\nDo you want to continue?",
+    gotoHomeForWelcome: "I am uncomfortable with this questionnaire and would like to stop",
+    gotoHomeForChatbot: "Want to change your answers? Click submit",
     gotoHomefromFeedback: "If you go to home page, your feedback will not be saved.\nDo you want to continue?",
     optionText:"You can only select one option at a time",
     errorMessage:"*Please select an option",

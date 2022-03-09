@@ -87,6 +87,37 @@ const Menubar = (props) => {
       )
     })
     return Menu
+  };
+
+  const capitalizeFirstLetter = (text) => {
+      if(text.length > 0) {
+          const arr = text.split(' ');
+          for (let index = 0; index < arr.length; index++) {
+              const element = arr[index];
+              arr[index] = element.replace(/^./, element[0].toUpperCase());
+          }
+          return arr.join(' ');
+      } else {
+          return '';
+      }
+  }
+
+  const getHeaders = () => {
+      console.log(props.headers,props.index);
+      if(props.index === 0) {
+        return <>
+        <h2 className="heading">
+            {litrals.welcome.text5}
+        </h2>
+        {props.headers[props.index] ? <h5 className="headerText">
+            {capitalizeFirstLetter(props.headers[props.index])}
+        </h5> : <></> }
+        </>
+      } else {
+        return  props.headers[props.index] ? <h5 className="headerText">
+        {capitalizeFirstLetter(props.headers[props.index])}
+        </h5> : <></> 
+      }
   }
 
   const rights = assembleData(props.data);
@@ -94,9 +125,7 @@ const Menubar = (props) => {
   const topic = props.topic;
   return (
     <>
-    <h2 className="heading">
-        {litrals.welcome.text5}
-      </h2>
+        {getHeaders()}
 
     {props.text && 
       <MDReactComponent
