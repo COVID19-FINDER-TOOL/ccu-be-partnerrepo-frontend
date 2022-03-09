@@ -214,7 +214,8 @@ class Feedback extends React.Component {
                                 </svg>
 
                                 <h5 className={classes.thankYou}>Thank you!</h5>
-                                <h5 className={classes.feedbackImportance}> Your feedback is important to us. </h5>
+                                {/* <h5 className={classes.feedbackImportance}> Your feedback is important to us. </h5> */}
+                                <h5 className={classes.feedbackImportance}>For completing this questionnaire. Your support plans and action plans have now been uploaded into your digital wallet. </h5>
                                 <div className={classes.homebtn}><HomeIcon  onClick={this.gotoHome} style={{ fontSize: "2.7rem" }}></HomeIcon></div>
                             </div>
                         </Col>

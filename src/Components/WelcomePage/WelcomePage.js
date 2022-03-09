@@ -429,7 +429,7 @@ const btn_second = <div>
                                 
                                 
                             {/* Q.4 starts */}
-                            <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK **(multiple options available)?**</h5>
+                            <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK? Please be aware that you can select multiple options.</h5>
                             <p className={classes.queDisclaimer}>We want you to know that no matter what you have experienced there are support services available and these are accessed by all different kinds of people. There is support for things related to how you feel physically, emotionally and then things you may need practically such as work or education.</p>
                                 <CustomSelect 
                                     optionValue={this.state.Reason} 
