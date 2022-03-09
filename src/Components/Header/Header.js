@@ -21,9 +21,9 @@ const heading = {
 }
 
 const Header = (props) => {
-    console.log(props)
+    console.log('myProps', props)
     const mobile = window.matchMedia("(max-width: 767px)").matches;
-
+    // console.log('sachin', props.uniqueId);
     return (
         <div className={classes.Header}>
             
@@ -50,10 +50,17 @@ const Header = (props) => {
                             <div className={classes.brandImage}>
                                 <h3 className={classes.brand}>{props.heading != undefined ? heading[props.heading] : "Welcome"}</h3>
                             </div>
+
+
                             {
                                 props.showCloseIcon ? 
                                 <div className={classes.closeContainer}>
-                                    {/* I am uncomfortable with this questionnaire and would like to stop:  */}
+                                    {
+                                        
+                                        props.heading !== 1 && props.heading !== 0 ? 
+                                        <span style={{marginRight: "10px"}}>Unique Id: {props.uniqueId}</span> : ''
+
+                                    }
                                     <div className={classes.closeIcon} onClick={props.backToWelcome}>
                                         {/* <CloseIcon color="action" /> */}
                                         <CustomButton type="Submit"

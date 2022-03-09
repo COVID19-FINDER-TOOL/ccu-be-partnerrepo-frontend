@@ -20,6 +20,10 @@ const litrals = {
             buttonText: "Exit",
             variant: "primary",
         },
+        retry: {
+            buttonText: "Retry",
+            variant: "primary",
+        },
         back: {
             buttonText: "Home",
             variant: "primary",
@@ -68,7 +72,8 @@ const litrals = {
         heading : "Welcome to Covid-19 Support Finder",
         text0: "Breathe Easy",
         text1: "Providing tailored support to those who need it most",
-        text2: "Powered by Sopra Steria and The University of Edinburgh in collaboration with various charities",
+        textNew: "Vulnerability Indicator Survey powered by Breath Easy",
+        text2: "Tool created by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
         text4: "This tool has different options and information to provide emotional, health and financial support  ",
         text5: "Thank you for providing details about your situation. These are the steps you can take:",
@@ -87,6 +92,7 @@ const litrals = {
     actionPlanPara3 : "Action plan based on insights from Citizens Advice",
     gotoHome: "If you go to home page, your current journey will be discarded.\nDo you want to continue?",
     gotoHomeForWelcome: "I am uncomfortable with this questionnaire and would like to stop",
+    gotoHomeForChatbot: "Want to change your answers? Click submit",
     gotoHomefromFeedback: "If you go to home page, your feedback will not be saved.\nDo you want to continue?",
     optionText:"You can only select one option at a time",
     errorMessage:"*Please select an option",

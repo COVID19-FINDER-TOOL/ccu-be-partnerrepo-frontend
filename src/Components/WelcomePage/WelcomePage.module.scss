@@ -59,8 +59,24 @@ body, html {
 
 .disclaimerPara{
     text-align: justify;
+    text-align-last: center;
     font-size: 12px;
     color: #a8a8a7;
+}
+
+.selectContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+}
+.selectLabel{
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+label + .MuiInput-formControl {
+    margin-top: 0px;
 }
 
 .text3{

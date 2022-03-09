@@ -117,7 +117,7 @@ class Chatbot extends React.Component {
     } 
  
     saveQuestion = (data, response, notFetch) => {
-        // console.log(data)
+        // console.log(this.state.section, this.state.data.metadata[4]?.value, 'sachin')
         console.log(data,response, notFetch,'Save Button');
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
@@ -628,6 +628,8 @@ class Chatbot extends React.Component {
         else {
             
                 const radios = prompts.map((x, index) => {
+                    
+
                     let checked = res && (x.qnaId == res.answer_id.toString().substring(4)) && (x.displayText == res.descriptive_answer) ? "checked" : false
                     
                     if(this.state.queryIndex === 0 && selectedJourneys != undefined) {
@@ -637,14 +639,14 @@ class Chatbot extends React.Component {
                     }
                     return (
                         <CustomRadio section={this.state.section}
-                            ind = {this.state.queryIndex}
+                            ind = {1}
                             radioLabel={x.displayText}
                             display={this.state.section == 4 && this.state.selectedJourneys.length !==0 ? false : true}
                             id={x.qnaId} key={x.qnaId}
                             name={id}
                             onClick={this.handleRadio}
-                            checked={ checked} 
-                            isCheckBox={this.state.queryIndex === 0 ? true : false}/>
+                            checked={checked} 
+                            isCheckBox={this.state.queryIndex === 0 ? false : false}/>
                     )
                 })
                 return (radios);
@@ -935,11 +937,25 @@ class Chatbot extends React.Component {
 
     }
 
+    gotoChatBot = () => {
+        window.location.reload();
+
+    }
+
     backToWelcome = () => {
         this.setState(() => { 
             return { 
                 showHomeModal: true,
                 gotoHomeText: litrals.gotoHomeForWelcome
+            } 
+        })
+    }
+
+    backToChatbot = () => {
+        this.setState(() => { 
+            return { 
+                showHomeModal: true,
+                gotoHomeText: litrals.gotoHomeForChatbot
             } 
         })
     }
@@ -959,7 +975,6 @@ class Chatbot extends React.Component {
     }
 
     render() {
-        
         let metaIndex = this.state.data.metadata?.find((x) => x.name === "topic")
         const topic = this.state.data.metadata ? metaIndex ? metaIndex.value : 0 : 0;
 
@@ -970,6 +985,13 @@ class Chatbot extends React.Component {
         var { responseStack, questionStack } = CREATEJOURNEY ? CREATEJOURNEY : []
         const btn = (
         <div className={classes.buttonpanel}> <div style={{ width: "100%", marginTop: "1rem", display: this.state.showFeedback ? "none" : "flex" }}>
+            {this.state.section !== 1 && this.state.section !== 0 ?
+                <CustomButton type="submit"
+                    float={"left"}
+                    onClick={this.gotoChatBot}
+                    data={litrals.buttons.retry}>
+                </CustomButton> : ''
+            }
             {this.state.section > 0 && this.state.showBack && responseStack?.length ? <CustomButton type="submit" float={"left"} onClick={this.handleBack} data={litrals.buttons.backNav}></CustomButton> : ""}
             {this.state.section < 2 ?
                 <CustomButton type="submit"
@@ -1046,7 +1068,7 @@ class Chatbot extends React.Component {
                 </MenuProvider>
                 :
                 <div className={classes.backgrondImage}>
-                    <Header showCloseIcon={this.state.showCloseIcon} backToWelcome={this.backToWelcome} heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
+                    <Header showCloseIcon={this.state.showCloseIcon} uniqueId={this.state.data.metadata?.length && this.state.data.metadata[4]?.value} backToWelcome={this.backToWelcome} heading={this.state.section} showHomeModal={this.showHomeModal} ></Header>
                     <ConfirmationModal modalFooter="dualButton" message={this.state.gotoHomeText} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
 
                     <div className={classes.chatBotRow}>
@@ -1075,7 +1097,9 @@ class Chatbot extends React.Component {
 
 
                         </div>
-                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to : <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span></p> : null}
+                        {this.state.queryIndex && this.state.currentJourney && !this.state.showNextJourney ? <p className={classes.currentJourney}>Finding support related to your situation
+                            {/* <span className={classes.currentJourneySpan}>{this.state.currentJourney}</span> */}
+                        </p> : null}
 
                         <div style={{ height: "calc(100% - 36px)", }} ref={this.myCustomHTML} id = "myCustomHTML1" className={classes.qnaContainer}>
                             <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
