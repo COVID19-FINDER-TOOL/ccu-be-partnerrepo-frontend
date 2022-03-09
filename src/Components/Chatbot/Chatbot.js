@@ -967,7 +967,10 @@ class Chatbot extends React.Component {
 
     gotoChatBot = () => {
         window.location.reload();
+    }
 
+    gotoFeedback_dummy = () => {
+        this.props.history.push('/feedback')
     }
 
     backToWelcome = () => {
@@ -1033,6 +1036,13 @@ class Chatbot extends React.Component {
                         data={litrals.buttons.nextStep}>
                     </CustomButton> :  
                 radios && radios.length == 1 & this.state.showActionPlan ? radios : "" 
+            }
+            {this.state.section == 4 ?
+                <CustomButton type="submit"
+                    float={"left"}
+                    onClick={this.gotoFeedback_dummy}
+                    data={litrals.buttons.nextStep}>
+                </CustomButton> : ''
             }
             </div>
 

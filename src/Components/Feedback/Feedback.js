@@ -161,7 +161,9 @@ class Feedback extends React.Component {
         const optionButtons = this.createButtons(this.state.section2 ? this.state.positives ? positives : this.state.neutral ? neuterals : negatives : -1);
         return (
             <div className={classes.backgroundImage}>
-                <Header heading={7} showHomeModal={this.showHomeModal}></Header>
+                
+                {this.state.section1 ? <Header heading={7} showHomeModal={this.showHomeModal}></Header>: ''} 
+                
                 <ConfirmationModal modalFooter="dualButton" message={litrals.gotoHomefromFeedback} showModal={this.state.showHomeModal} onClick={this.gotoHome} onHide={this.closeHomeModal} />
                 <Container>
                     <Row>
