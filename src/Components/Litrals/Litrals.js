@@ -21,7 +21,7 @@ const litrals = {
             variant: "primary",
         },
         retry: {
-            buttonText: "Retry",
+            buttonText: "Edit Questionnaires",
             variant: "primary",
         },
         back: {
@@ -76,7 +76,7 @@ const litrals = {
         heading : "Welcome to Covid-19 Support Finder",
         text0: "Breathe Easy",
         text1: "Providing tailored support to those who need it most",
-        textNew: "Vulnerability Indicator Survey powered by Breath Easy",
+        textNew: "Vulnerability Indicator Survey powered by Breathe Easy",
         text2: "Tool created by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
         text4: "This tool has different options and information to provide emotional, health and financial support  ",

@@ -20,10 +20,10 @@ class Feedback extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            section1: true,
-            section2: false,
-            section3: false,
-            section4: false,
+            section1: false, // should be initially true
+            section2: false, // should be initially false
+            section3: false,    // should be initially false
+            section4: true,    // should be initially false
             positives: false,
             neutral: false,
             negatives: false,

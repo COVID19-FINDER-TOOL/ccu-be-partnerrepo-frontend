@@ -117,7 +117,7 @@ class Chatbot extends React.Component {
     } 
  
     saveQuestion = (data, response, notFetch) => {
-        // console.log(this.state.section, this.state.data.metadata[4]?.value, 'sachin')
+    
         console.log(data,response, notFetch,'Save Button');
         var dataBody = {}
         var kb = this.state.disagree ? "kb5" : data.metadata.find((x) => x.name === "idprefix") ? data.metadata.find((x) => x.name === "idprefix").value : "kb0";
@@ -219,6 +219,9 @@ class Chatbot extends React.Component {
 
             this.props.onEditInspection({ questionStack })
         }
+
+        console.log(this.state.section, this.state.data, 'sachin')
+
     }
 
     handleRadio = (event) => {

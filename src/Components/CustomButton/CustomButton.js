@@ -31,7 +31,7 @@ const CustomButton = (props) => {
       { props.data.buttonText === "Back" ? <i style={{marginRight:"10px"}} className="fas fa-chevron-left"></i> : null}
 
       {props.data.buttonText == "Action Plan" || props.data.buttonText == "ActionPlan" ? "Next" : props.data.buttonText}
-      { props.data.buttonText !== "Back"  && props.data.buttonText !== "No" && props.data.buttonText !== "Exit" && props.data.buttonText !== "Retry" ? <i style={{marginLeft:"10px"}} className="fas fa-chevron-right"></i> : null}
+      { props.data.buttonText !== "Back"  && props.data.buttonText !== "No" && props.data.buttonText !== "Exit" && props.data.buttonText !== "Edit Questionnaires" ? <i style={{marginLeft:"10px"}} className="fas fa-chevron-right"></i> : null}
 
     </button>
   );

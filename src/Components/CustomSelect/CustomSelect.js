@@ -53,6 +53,7 @@ const CustomSelect = (props) => {
                     onChange={props.onClick}
                     value={props.firstOption}
                     id={props.id} 
+                    isMulti= {props.isMulti}
                     width="50%"
                 />
         </div>

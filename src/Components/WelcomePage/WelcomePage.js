@@ -435,6 +435,7 @@ const btn_second = <div>
                                     optionValue={this.state.Reason} 
                                     id="reason"
                                     onClick={this.handleChange}
+                                    isMulti="true"
                                 />
                                 <p className={classes.tabsPara}></p>
                               
