@@ -813,14 +813,16 @@ class Chatbot extends React.Component {
                         {index === 0 ? 
                             <>
                                 <p className={classes.actionPlanPara}>{litrals.actionPlanPara3}</p>
-                                <h5 className="headerText">
+                                {headerValue[index] ? <h5 className="headerText" style={{paddingTop: '0.5em'}}>
                                     {this.capitalizeFirstLetter(headerValue[index])}
-                                </h5>
+                                </h5> : <></>}
                             </>
                              : 
-                            <h5 className="headerText">
-                                {this.capitalizeFirstLetter(headerValue[index])}
-                            </h5>
+                            <>
+                                {headerValue[index] ? <h5 className="headerText" style={{paddingTop: '0.5em'}}>
+                                    {this.capitalizeFirstLetter(headerValue[index])}
+                                </h5> : <></>}
+                            </>
                         }
                         
                         {

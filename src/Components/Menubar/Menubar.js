@@ -90,12 +90,16 @@ const Menubar = (props) => {
   };
 
   const capitalizeFirstLetter = (text) => {
-      const arr = text.split(' ');
-      for (let index = 0; index < arr.length; index++) {
-          const element = arr[index];
-          arr[index] = element.replace(/^./, element[0].toUpperCase());
+      if(text.length > 0) {
+          const arr = text.split(' ');
+          for (let index = 0; index < arr.length; index++) {
+              const element = arr[index];
+              arr[index] = element.replace(/^./, element[0].toUpperCase());
+          }
+          return arr.join(' ');
+      } else {
+          return '';
       }
-      return arr.join(' ');
   }
 
   const getHeaders = () => {
@@ -105,14 +109,14 @@ const Menubar = (props) => {
         <h2 className="heading">
             {litrals.welcome.text5}
         </h2>
-        <h5 className="headerText">
+        {props.headers[props.index] ? <h5 className="headerText">
             {capitalizeFirstLetter(props.headers[props.index])}
-        </h5>
+        </h5> : <></> }
         </>
       } else {
-        return <h5 className="headerText">
-            {capitalizeFirstLetter(props.headers[props.index])}
-        </h5>
+        return  props.headers[props.index] ? <h5 className="headerText">
+        {capitalizeFirstLetter(props.headers[props.index])}
+        </h5> : <></> 
       }
   }
 
