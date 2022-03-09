@@ -48,6 +48,7 @@ class WelcomePage extends React.Component {
             links: [],
             disagree: 0,
             language: 'English',
+            required: 'Yes',
             showCloseIcon: false
         }
     }
@@ -144,11 +145,20 @@ class WelcomePage extends React.Component {
         this.setState(() => { return { part: false } })
     }
 
-    handleChange = (event) => {
+    handleLanguageChange = (event) => {
         console.log("Language",event.target.value);
         this.setState(() => {
             return {
                 language: event.target.value
+            };
+        })
+    };
+
+    handleRequireChange = (event) => {
+        console.log("Require",event.target.value);
+        this.setState(() => {
+            return {
+                required: event.target.value
             };
         })
     };
@@ -180,18 +190,23 @@ class WelcomePage extends React.Component {
             <div className={classes.backgrondImage}>
                 {this.state.part ? <Header showCloseIcon={this.state.showCloseIcon} heading={this.state.part ? "8" : undefined} showHomeModal={this.showHomeModal}></Header> : null}
                 <Container style={{ display: !this.state.part ? "flex" : "none" }} className={classes.wlcmRow1}>
-                    <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
-                    <h1 className={classes.para}>{litrals.welcome.text1}</h1>
-                    <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer}<br /> <b>{litrals.welcome.desclaimerBold}</b></p>
+                    {/* <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
+                    <h1 className={classes.para0}>{litrals.welcome.text1}</h1> */}
+                    <h1 className={classes.para}>{litrals.welcome.textNew}</h1>
+                    <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer}<br /> <br/><b>{litrals.welcome.desclaimerBold}</b></p>
                     {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
-                    <Box sx={{ minWidth: 200, paddingTop: '1em' }}>
+                    <div className={classes.selectContainer}>
+                    <label className={classes.selectLabel}>Which of the following nationalities do you associate with?</label>
+                    <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column' }}>
                         <FormControl fullWidth>
+                            
                             <Select
                                 labelId="language-label"
                                 id="language-select"
                                 value={this.state.language}
                                 label="Language"
-                                onChange={this.handleChange}
+                                onChange={this.handleLanguageChange}
+                               
                             >
                                 <MenuItem value="English">English</MenuItem>
                                 <MenuItem value="Español">Español</MenuItem>
@@ -204,6 +219,26 @@ class WelcomePage extends React.Component {
                             </Select>
                         </FormControl>
                     </Box>
+                    </div>
+                    <div className={classes.selectContainer}>
+                    <label className={classes.selectLabel}>Do you require immediate help or do you feel unsafe in your current situation?</label>
+                    <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column' }}>
+                        <FormControl fullWidth>
+                            
+                            <Select
+                                labelId="required-label"
+                                id="required-select"
+                                value={this.state.required}
+                                label="Required"
+                                onChange={this.handleRequireChange}
+                               
+                            >
+                                <MenuItem value="Yes">Yes</MenuItem>
+                                <MenuItem value="No">No</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    </div>
                     <CustomButton
                         float={"left"} type="submit"
                         width={mobile ? "100%" : ""}
