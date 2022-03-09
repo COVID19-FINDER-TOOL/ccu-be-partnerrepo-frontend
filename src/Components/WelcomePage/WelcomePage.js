@@ -398,6 +398,7 @@ const btn_second = <div>
 
                             {/* Q.1 starts */}
                                 <h5 className={classes.tabsSubHeading}>Q.1 - Which is your age bracket? </h5>
+                                <p className={classes.queDisclaimer}> We want you to know that in the UK, there are support services which are different for different ages and we therefore want to ensure your support is specific for you.</p>
                                 <CustomSelect 
                                     optionValue={this.state.age} 
                                     id="age"
@@ -407,6 +408,7 @@ const btn_second = <div>
 
                             {/* Q.2 starts */}
                                 <h5 className={classes.tabsSubHeading}>Q.2 - As a result of your arrival in the UK, are you indebted to someone? </h5>
+                                <p className={classes.queDisclaimer}></p>
                                 <CustomSelect 
                                     optionValue={this.state.indebt} 
                                     id="indebt"
@@ -416,6 +418,7 @@ const btn_second = <div>
                                 
                             {/* Q.3 starts */}
                             <h5 className={classes.tabsSubHeading}>Q.3 - Are you still in contact with the person who arranged for your travel to the UK? </h5>
+                            <p className={classes.queDisclaimer}>We want you to know that support services will always prioritise your safety.</p>
                                 <CustomSelect 
                                     optionValue={this.state.contact} 
                                     id="contact"
@@ -427,6 +430,7 @@ const btn_second = <div>
                                 
                             {/* Q.4 starts */}
                             <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK **(multiple options available)?**</h5>
+                            <p className={classes.queDisclaimer}>We want you to know that no matter what you have experienced there are support services available and these are accessed by all different kinds of people. There is support for things related to how you feel physically, emotionally and then things you may need practically such as work or education.</p>
                                 <CustomSelect 
                                     optionValue={this.state.Reason} 
                                     id="reason"
