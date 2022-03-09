@@ -89,14 +89,19 @@ const Menubar = (props) => {
     return Menu
   }
 
+  const getHeaders = () => {
+      console.log(props.headers,props.index);
+      return <h2 className="heading">
+          {litrals.welcome.text5}
+      </h2>
+  }
+
   const rights = assembleData(props.data);
   const menu = rights[0];
   const topic = props.topic;
   return (
     <>
-    <h2 className="heading">
-        {litrals.welcome.text5}
-      </h2>
+        {getHeaders()}
 
     {props.text && 
       <MDReactComponent
