@@ -754,7 +754,7 @@ class Chatbot extends React.Component {
 
     splitQuestionDataElement = (topic, text) => {
         const tempText = text.split("\n\n######");
-        console.log("tempText", tempText);
+
         const textarray = topic == 4 ? tempText[0].split("\n") : text.split("\n") ;
         
         const { CREATEJOURNEY } = this.props.payload
@@ -793,6 +793,8 @@ class Chatbot extends React.Component {
                 
                 }]:console.log()
             })
+            console.log("Text", texts);
+            console.log("textarray", textarray);
             return (
                 <>
                     <div className={classes.actionPlanFlex} style={{ display: this.state.showActionPlan && ! this.state.showNextJourney  ? "block" : "none" }}>
@@ -867,22 +869,21 @@ class Chatbot extends React.Component {
             masterArray.push(text);
         }
         if(masterArray.length > 1) {
-            const res = masterArray.map((item) => {
+            const res = masterArray.map((item, index) => {
                 return <div x="xxxxx">
-                    {this.displayNextTopicElement(topic, item)}
+                    {this.displayNextTopicElement(topic, item, index)}
                 </div>
             });
             console.log(res);
             return res;
         } else {
-            return this.displayNextTopicElement(topic, masterArray[0]);
+            return this.displayNextTopicElement(topic, masterArray[0], 0);
         }
     }
 
-    displayNextTopicElement = (topic, processedString) => {
+    displayNextTopicElement = (topic, processedString, index) => {
         const otherText = processedString.split("\n\n")
         const textarray = otherText[1] ? otherText[1].split("\n") : processedString.split("\n");
-        console.log("textarray", textarray);
         var temp = {}
         var key = ""
         textarray.map((x) => {
@@ -893,7 +894,13 @@ class Chatbot extends React.Component {
                 temp[key] ? temp[key].push(x.trim()) : temp[key] = [x.trim()]
             }
         })
-        return <Menubar data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
+        console.log(index, this.state);
+        const header = this.state.data.metadata.find((item)=>{
+            return item.name == 'headers'
+        })
+        const tempStr = header.value.replace(/\//g, '');
+        const headerValue = JSON.parse(tempStr.replace(/\s\s+/g, ' '));
+        return <Menubar index={index} headers={headerValue} data={temp} topic={topic} qindex = {this.state.queryIndex} text={otherText[1] ? otherText[0] : ""}></Menubar>
     }
 
     gotoFeedback = () => {
