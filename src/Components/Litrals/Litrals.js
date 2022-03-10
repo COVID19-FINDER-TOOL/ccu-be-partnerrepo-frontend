@@ -21,7 +21,7 @@ const litrals = {
             variant: "primary",
         },
         retry: {
-            buttonText: "Edit Questionnaires",
+            buttonText: "Edit Questionnaire",
             variant: "primary",
         },
         back: {
