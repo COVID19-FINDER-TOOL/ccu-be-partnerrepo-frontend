@@ -80,7 +80,7 @@ const litrals = {
         text2: "Tool created by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
         text4: "This tool has different options and information to provide emotional, health and financial support  ",
-        text5: "Thank you for providing details about your situation. These are the steps you can take:",
+        text5: "Thank you for providing details about your situation. Here are your personalised support plans",
         text6: "Learn from others:",
         desclaimer: "This assessment is designed to help you with regards to your wellbeing, health, safety and security.  Tens of thousands of people in the same position as you have successfully benefitted from the tool and no personal data will be stored or held, meaning there is no risk of the information you enter being tracked back to, or used, against you. The answers given will provide you with a tailored yet anonymous support and action plan, helping you to access the support and services you need.",
         desclaimerBold: "Should you feel unsafe or uncomfortable at any point, the exit button at the top right of each page will close the survey and delete all your answers up to that point.",
