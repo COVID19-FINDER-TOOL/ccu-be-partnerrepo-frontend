@@ -109,11 +109,12 @@ class WelcomePage extends React.Component {
               Reason: [
                 {"id": 1, "value": "Work/Lack of work in previous country"},
                 {"id": 2, "value": "Education/lack of education in previous country"},
-                {"id": 3, "value": "Threat to physical safety/health in home country"},
-                {"id": 4, "value": "Marriage"},
-                {"id": 5, "value": "Family"},
-                {"id": 6, "value": "Prefer not to say"},
-                {"id": 7, "value": "Involuntary travel"}
+                {"id": 3, "value": "Threat to physical safety"},
+                {"id": 4, "value": "Threat to health"},
+                {"id": 5, "value": "Marriage"},
+                {"id": 6, "value": "Family"},
+                {"id": 7, "value": "Prefer not to say"},
+                {"id": 8, "value": "Involuntary travel"}
               ],
 
         }
@@ -290,7 +291,7 @@ const btn_second = <div>
                     {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
                    <div className={classes.queContainer}>
                     <div className={classes.selectContainer}>
-                    <label className={classes.selectLabel}>Which of the following nationalities do you associate with?</label>
+                    <label className={classes.selectLabel}>What is your nationality?</label>
                     <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column', display: 'table-cell', padding: '10px 20px' }}>
                         <FormControl fullWidth>
                             
@@ -388,7 +389,7 @@ const btn_second = <div>
                             <Row>
                             <Col xs={12} md={6}>
                                 <h3 className={classes.leftText}>
-                                Please help us with the following details
+                                Please provide the following details
                                 </h3>
                             </Col>
                             <Col xs={12} md={6} className={classes.colTabs}>
@@ -397,7 +398,7 @@ const btn_second = <div>
                                 {/* <h3 className={classes.tabsHeading}>What we need to do</h3> */}
 
                             {/* Q.1 starts */}
-                                <h5 className={classes.tabsSubHeading}>Q.1 - Which is your age bracket? </h5>
+                                <h5 className={classes.tabsSubHeading}>Q.1 - How old are you? </h5>
                                 <p className={classes.queDisclaimer}> We want you to know that in the UK, there are support services which are different for different ages and we therefore want to ensure your support is specific for you.</p>
                                 <CustomSelect 
                                     optionValue={this.state.age} 
@@ -417,7 +418,7 @@ const btn_second = <div>
                                 <p className={classes.tabsPara}></p>
                                 
                             {/* Q.3 starts */}
-                            <h5 className={classes.tabsSubHeading}>Q.3 - Are you still in contact with the person who arranged for your travel to the UK? </h5>
+                            <h5 className={classes.tabsSubHeading}>Q.3 - Are you still in contact with the person who arranged your travel to the UK? </h5>
                             <p className={classes.queDisclaimer}>We want you to know that support services will always prioritise your safety.</p>
                                 <CustomSelect 
                                     optionValue={this.state.contact} 
@@ -430,7 +431,7 @@ const btn_second = <div>
                                 
                             {/* Q.4 starts */}
                             <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK? Please be aware that you can select multiple options.</h5>
-                            <p className={classes.queDisclaimer}>We want you to know that no matter what you have experienced there are support services available and these are accessed by all different kinds of people. There is support for things related to how you feel physically, emotionally and then things you may need practically such as work or education.</p>
+                            <p className={classes.queDisclaimer}>No matter what you have experienced there are support services available. There is support related to how you feel physically and emotionally, and there is practical support such as education. </p>
                                 <CustomSelect 
                                     optionValue={this.state.Reason} 
                                     id="reason"
