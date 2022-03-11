@@ -116,6 +116,19 @@ class WelcomePage extends React.Component {
                 {"id": 7, "value": "Prefer not to say"},
                 {"id": 8, "value": "Involuntary travel"}
               ],
+              dependents: [
+                {"id": 1, "value": "Yes"},
+                {"id": 2, "value": "No"}
+              ],
+              housing: [
+                {"id": 1, "value": "Yes"},
+                {"id": 2, "value": "No"},
+                {"id": 3, "value": "Unsure"}
+              ],
+              money: [
+                {"id": 1, "value": "Yes"},
+                {"id": 2, "value": "No"}
+              ]
 
         }
     }
@@ -235,7 +248,7 @@ class WelcomePage extends React.Component {
       }
     
       showHomeModal = () => {
-        this.setState(() => { return { part: 1 } })
+        this.setState(() => { return { part: 2 } })
       }
 
     render() {
@@ -254,7 +267,7 @@ class WelcomePage extends React.Component {
                 margin={mobile ? "" : "20px 0 0 0"}
                 width={mobile ? "100%" : ""}
                 type="submit"
-                onClick={this.handleStart}
+                onClick={this.handlePart}
                 data={litrals.buttons.startButton}>
             </CustomButton>
 
@@ -273,7 +286,7 @@ const btn_second = <div>
                 margin={mobile ? "" : "20px 0 0 0"}
                 width={mobile ? "100%" : ""}
                 type="submit"
-                onClick={this.handlePart}
+                onClick={this.handleStart}
                 data={litrals.buttons.submitForm}
                 disabled={!this.state.disable}
                 >
@@ -287,11 +300,13 @@ const btn_second = <div>
                     {/* <h1 className={classes.para0}>{litrals.welcome.text0}</h1>
                     <h1 className={classes.para0}>{litrals.welcome.text1}</h1> */}
                     <h1 className={classes.para}>{litrals.welcome.textNew}</h1>
-                    <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer}<br /> <br/><b>{litrals.welcome.desclaimerBold}</b></p>
+                    <p className={classes.disclaimerPara}>{litrals.welcome.desclaimer}<br /> <br/>
+                        <span className={classes.disclaimerSpan}>{litrals.welcome.desclaimerBold}</span>
+                    </p>
                     {/* <p className={classes.para}>{litrals.welcome.text2}</p> */}
                    <div className={classes.queContainer}>
                     <div className={classes.selectContainer}>
-                    <label className={classes.selectLabel}>What is your nationality?</label>
+                    <label className={classes.selectLabel}>What is your preferred language?</label>
                     <Box sx={{ width: 200, fontSize: '14px !important', flexDirection: 'column', display: 'table-cell', padding: '10px 20px' }}>
                         <FormControl fullWidth>
                             
@@ -311,6 +326,11 @@ const btn_second = <div>
                                 <MenuItem value="Tiếng Việt">Tiếng Việt</MenuItem>
                                 <MenuItem value="Italiano">Italiano</MenuItem>
                                 <MenuItem value="Română">Română</MenuItem>
+                                <MenuItem value="Portuguese">Portuguese</MenuItem>
+                                <MenuItem value="Hindi">Hindi</MenuItem>
+                                <MenuItem value="Urdu">Urdu</MenuItem>
+                                <MenuItem value="Chinese">Chinese </MenuItem>
+                                <MenuItem value="Russian">Russian</MenuItem>
                                 <MenuItem value="Not_listed">My language is not listed here</MenuItem>
                             </Select>
                         </FormControl>
@@ -348,7 +368,7 @@ const btn_second = <div>
                 </Container>
 
 
-                <div style={{ display: this.state.part == 3 ? "block" : "none" }}>
+                <div style={{ display: this.state.part == 2 ? "block" : "none" }}>
                     <div className={classes.wlcmRow}>
                         <Row>
                             <Col xs={12} md={6}>
@@ -359,7 +379,7 @@ const btn_second = <div>
                             <Col xs={12} md={6} className={classes.colTabs}>
                                 <div>
                                     {/* <OptionButtons partition={true} array={litrals.welcome.ribbonButtons} /> */}
-                                    <h3 className={classes.tabsHeading}>What we need to do</h3>
+                                    <h3 className={classes.tabsHeading}>What we will do</h3>
                                     <h5 className={classes.tabsSubHeading}>Tell us about your situation </h5>
                                     <p className={classes.tabsPara}>None of your personal information will be stored or shared.</p>
                                     <h5 className={classes.tabsSubHeading}>Find appropriate support</h5>
@@ -378,7 +398,7 @@ const btn_second = <div>
 
                 </div>
 
-                <div style={{ display: this.state.part == 2 ? "block" : "none" }}>
+                <div style={{ display: this.state.part == 3 ? "block" : "none" }}>
                         {/* <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
                             <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
                             </div> */}
@@ -399,7 +419,7 @@ const btn_second = <div>
 
                             {/* Q.1 starts */}
                                 <h5 className={classes.tabsSubHeading}>Q.1 - How old are you? </h5>
-                                <p className={classes.queDisclaimer}> We want you to know that in the UK, there are support services which are different for different ages and we therefore want to ensure your support is specific for you.</p>
+                                <p className={classes.queDisclaimer}>We want to make sure the support we provide you is suitable.</p>
                                 <CustomSelect 
                                     optionValue={this.state.age} 
                                     id="age"
@@ -430,13 +450,48 @@ const btn_second = <div>
                                 
                                 
                             {/* Q.4 starts */}
-                            <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK? Please be aware that you can select multiple options.</h5>
+                            <h5 className={classes.tabsSubHeading}>Q.4 - What is the reason for your travel to the UK? You can select multiple options.</h5>
                             <p className={classes.queDisclaimer}>No matter what you have experienced there are support services available. There is support related to how you feel physically and emotionally, and there is practical support such as education. </p>
                                 <CustomSelect 
                                     optionValue={this.state.Reason} 
                                     id="reason"
                                     onClick={this.handleChange}
                                     isMulti="true"
+                                />
+                                <p className={classes.tabsPara}></p>
+
+                            {/* Q.5 starts */}
+                            <h5 className={classes.tabsSubHeading}>Q.5 - Do you have any dependents?</h5>
+                            <p className={classes.queDisclaimer}></p>
+                                <CustomSelect 
+                                    optionValue={this.state.dependents} 
+                                    id="dependents"
+                                    onClick={this.handleChange}
+                                    
+                                />
+                                <p className={classes.tabsPara}></p>
+                            
+
+                            {/* Q.6 starts */}
+                            <h5 className={classes.tabsSubHeading}>Q.6 - Do you have housing in the UK?</h5>
+                            <p className={classes.queDisclaimer}></p>
+                                <CustomSelect 
+                                    optionValue={this.state.housing} 
+                                    id="housing"
+                                    onClick={this.handleChange}
+                                    
+                                />
+                                <p className={classes.tabsPara}></p>
+                            
+
+                            {/* Q.7 starts */}
+                            <h5 className={classes.tabsSubHeading}>Q.7 - Do you have money to support yourself and any dependents? </h5>
+                            <p className={classes.queDisclaimer}></p>
+                                <CustomSelect 
+                                    optionValue={this.state.money} 
+                                    id="money"
+                                    onClick={this.handleChange}
+                                    
                                 />
                                 <p className={classes.tabsPara}></p>
                               
@@ -452,7 +507,7 @@ const btn_second = <div>
                         </div>
                     </div>
 
-                {!mobile ? <Footers format={this.state.part != 1} buttonpanel={this.state.part == 2 ? btn_second : btn}></Footers> : this.state.start && btn}
+                {!mobile ? <Footers format={this.state.part != 1} buttonpanel={this.state.part == 3 ? btn_second : btn}></Footers> : this.state.start && btn}
             </div>
         );
     }
