@@ -260,7 +260,7 @@ class WelcomePage extends React.Component {
                 margin={mobile ? "" : "20px 15px 0 0"}
                 width={mobile ? "100%" : ""}
                 type="submit"
-                onClick={this.handleDisagree}
+                onClick={() => this.setState(() => { return { part: 1 } })}
                 data={litrals.buttons.disagreeButton}>
             </CustomButton>
             <CustomButton float={"left"}
