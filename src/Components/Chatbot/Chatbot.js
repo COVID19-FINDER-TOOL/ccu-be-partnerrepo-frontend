@@ -430,7 +430,7 @@ class Chatbot extends React.Component {
                 
                 let meta = metadata && metaIndex ? metaIndex.value : ""
 
-                meta = meta + value?.replace(/ /g, '').slice(0, 3).toLowerCase()
+                meta = meta + value?.replace(/ /g, '').replace('\n','').slice(0, 3).toLowerCase()
                 // console.log(">>>>>>>>>>>",meta)
                 this.props.onEditInspection({ metadata: meta })
                 requestBody = {
