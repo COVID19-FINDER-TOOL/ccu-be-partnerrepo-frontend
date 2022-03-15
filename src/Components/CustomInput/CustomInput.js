@@ -12,7 +12,7 @@ const CustomInput = (props) => {
                     onInput={props.onClick}
                     id={props.id} 
                     name= {props.name}
-                    maxlength="3"
+                    maxlength="2"
                 />
                     
                
