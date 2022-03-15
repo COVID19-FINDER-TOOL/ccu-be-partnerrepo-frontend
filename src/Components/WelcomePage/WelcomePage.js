@@ -115,7 +115,7 @@ class WelcomePage extends React.Component {
       });
   }
 
-  handleStart = () => {
+  /* handleStart = () => {
     if(this.state.age.length != 0  && 
       this.state.debt.length != 0 &&
       this.state.disability.length != 0 &&
@@ -132,7 +132,7 @@ class WelcomePage extends React.Component {
       } else {
         alert('Please answer all the questions.')
       }
-  }
+  } */
 
 
   saveQuizApiHandler = async () => {
@@ -153,7 +153,7 @@ class WelcomePage extends React.Component {
     }
     axiosLoginInstance.post("/CFTUserDataInsertTrigger", respBody)
       .then(res => { 
-          this.setState(() => { return { part: 3 } })
+        this.props.history.push('/Chatbot')
       }).catch(error => {
         console.log(error);
       });
@@ -245,8 +245,9 @@ class WelcomePage extends React.Component {
     if (window.localStorage.getItem("csf_user")) {
       const user = JSON.parse(window.localStorage.getItem("csf_user"))
       // this.props.history.push("/Chatbot");
-      this.props.onEditInspection({disagree:this.state.disagree})
-      this.props.history.push('/Chatbot')
+    //   this.props.onEditInspection({disagree:this.state.disagree})
+      
+      this.setState(() => { return { part: 3 } })
       // this.props.history.push('/UserForm')
     } else {
       this.handleSubmit()
@@ -254,17 +255,12 @@ class WelcomePage extends React.Component {
   }
 
   handleDisagree = () => {
-
-    
     this.setState(() => {
-      return {disagree:1}
-  })
-    setTimeout(()=> {
-      this.handleStart();
-    },100)
-    
-    
-    
+      return {disagree:1, part: 1}
+    })
+    // setTimeout(()=> {
+    //   this.handleStart();
+    // },100)
   }
 
 
@@ -322,7 +318,7 @@ class WelcomePage extends React.Component {
   }
 
   showHomeModal = () => {
-    this.setState(() => { return { part: 1 } })
+    this.setState(() => { return { part: 2 } })
   }
 
   render() {
@@ -383,7 +379,7 @@ const btn_second = <div >
         </Container>
 
 
-        <div style={{ display: this.state.part == 3 ? "block" : "none" }}>
+        <div style={{ display: this.state.part == 2 ? "block" : "none" }}>
           <div className={classes.wlcmRow}>
             <Row>
               <Col xs={12} md={6}>
@@ -414,7 +410,7 @@ const btn_second = <div >
         </div>
 
 
-        <div style={{ display: this.state.part == 2 ? "block" : "none" }}>
+        <div style={{ display: this.state.part == 3 ? "block" : "none" }}>
           <div style={{ display: this.state.showSpinner ? "block" : "none" }}>
               <img alt="Loading...!!! " className={classes.spinner} src={loader}></img>
             </div>
@@ -452,7 +448,7 @@ const btn_second = <div >
                   <p className={classes.tabsPara}></p>
                   
               {/* Q.3 starts */}
-              <h5 className={classes.tabsSubHeading}>Q.3 - What gender you identify as? </h5>
+              <h5 className={classes.tabsSubHeading}>Q.3 - What gender do you identify as? </h5>
                   <CustomSelect 
                     optionValue={this.optionData?.Gender} 
                     id="gender"
@@ -461,7 +457,7 @@ const btn_second = <div >
                   <p className={classes.tabsPara}></p>
 
                 {/* Q.4 starts */}
-              <h5 className={classes.tabsSubHeading}>Q.4 - What are the first three characters of your postcode? </h5>
+              <h5 className={classes.tabsSubHeading}>Q.4 - What are the first 2 digit of a postcode? </h5>
                   <CustomInput
                     id="postcode"
                     type="text"
@@ -525,7 +521,7 @@ const btn_second = <div >
                   <p className={classes.tabsPara}></p>
                   
               {/* Q.11 starts */}
-              <h5 className={classes.tabsSubHeading}>Q.11 - What was the outcome of your loan request? </h5>
+              <h5 className={classes.tabsSubHeading}>Q.11 - Why were you bought to the tool today? </h5>
                   <CustomSelect 
                     optionValue={this.optionData?.Loan} 
                     id="loan"
@@ -547,7 +543,7 @@ const btn_second = <div >
         </div>
       </div>
 
-        {!mobile ? <Footers format={this.state.part != 1} buttonpanel={this.state.part == 2 ? btn_second : btn}></Footers> : this.state.start && btn}
+        {!mobile ? <Footers format={this.state.part != 1} buttonpanel={this.state.part == 3 ? btn_second : btn}></Footers> : this.state.start && btn}
       </div>
     );
   }
