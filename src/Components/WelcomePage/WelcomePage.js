@@ -156,6 +156,7 @@ class WelcomePage extends React.Component {
         this.props.history.push('/Chatbot')
       }).catch(error => {
         console.log(error);
+        this.props.history.push('/Chatbot')
       });
   }
 
