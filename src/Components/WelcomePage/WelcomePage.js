@@ -137,8 +137,10 @@ class WelcomePage extends React.Component {
 
   saveQuizApiHandler = async () => {
     await this.setState(() => { return {showSpinner: true}})
+    const user = JSON.parse(window.localStorage.getItem("csf_user"))
+   
     let respBody = {
-      userid : this.userData.user_id,
+      userid : user.user_id,
       age: this.state.age,
       ethnicity: this.state.ethnicity,
       gender: this.state.gender,
@@ -315,7 +317,14 @@ class WelcomePage extends React.Component {
   }
 
   showUserForm = () => {
-    this.generateUID()
+    this.getUserId()
+    const user = JSON.parse(window.localStorage.getItem("csf_user"))
+    axiosLoginInstance.post("CFTUserIdTrigger/user",user)
+      .then(res => {
+        console.log(res.data)
+      }).catch(error => {
+        console.log(error);
+      });
     this.setState(() => { return { part: 2 } })
   }
 
