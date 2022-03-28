@@ -273,8 +273,8 @@ class WelcomePage extends React.Component {
     }
     window.localStorage.setItem('csf_user', JSON.stringify(user));
     // this.props.history.push("/Chatbot");
-    this.props.onEditInspection({disagree:this.state.disagree})
-    this.props.history.push('/Chatbot')
+    //this.props.onEditInspection({disagree:this.state.disagree})
+    //this.props.history.push('/Chatbot')
     // this.props.history.push('/UserForm')
     this.props.login({ user: user })
     axiosLoginInstance.post("CFTUserIdTrigger/user", user)
@@ -315,6 +315,7 @@ class WelcomePage extends React.Component {
   }
 
   showUserForm = () => {
+    this.generateUID()
     this.setState(() => { return { part: 2 } })
   }
 
