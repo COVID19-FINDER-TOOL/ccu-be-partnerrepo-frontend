@@ -7,7 +7,7 @@ import litrals from "../Litrals/Litrals";
 const creatLinks = () => {
   return (
     <>
-      <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.co.uk/footer/privacy-policy" target="_blanck">
+      <Nav.Link bsPrefix={classes.footerLinks} href="https://steria.sharepoint.com/:w:/r/sites/BreatheEasyPilot-SSLCCU-SopraSteriaPrivateChannel/Shared%20Documents/Sopra%20Steria%20Private%20Channel/02%20-%20GDPR/CCU%20Privacy%20Notice%20v2.docx?d=wa7c4eb35d11144ee9b6ade7eb32e5320&csf=1&web=1&e=u5QCTH" target="_blanck">
         Privacy Policy
       </Nav.Link>
       <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.com/about-us" target="_blanck">
