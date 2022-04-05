@@ -4,16 +4,24 @@ import { Container, Nav } from "react-bootstrap";
 import litrals from "../Litrals/Litrals";
 
 
-const creatLinks = () => {
+const creatLinks = (rou) => {
   return (
     <>
-      <Nav.Link bsPrefix={classes.footerLinks} href="https://steria.sharepoint.com/:w:/r/sites/BreatheEasyPilot-SSLCCU-SopraSteriaPrivateChannel/Shared%20Documents/Sopra%20Steria%20Private%20Channel/02%20-%20GDPR/CCU%20Privacy%20Notice%20v2.docx?d=wa7c4eb35d11144ee9b6ade7eb32e5320&csf=1&web=1&e=u5QCTH" target="_blanck">
+      <p onClick={rou.push("/PrivacyPolicy")}>
         Privacy Policy
-      </Nav.Link>
-      <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.com/about-us" target="_blanck">
+      </p>
+      <Nav.Link
+        bsPrefix={classes.footerLinks}
+        href="https://www.soprasteria.com/about-us"
+        target="_blanck"
+      >
         About us
       </Nav.Link>
-      <Nav.Link bsPrefix={classes.footerLinks} href="https://www.soprasteria.com/footer/terms-of-use" target="_blanck">
+      <Nav.Link
+        bsPrefix={classes.footerLinks}
+        href="https://www.soprasteria.com/footer/terms-of-use"
+        target="_blanck"
+      >
         Terms and Conditions
       </Nav.Link>
     </>
@@ -25,7 +33,7 @@ const Footers = (props) => {
   const img1 = process.env.FOOTER_IMAGE_1;
   const img2 = process.env.FOOTER_IMAGE_2;
 
-  console.log(process.env)
+  console.log('sachin => ',props.navigation)
   return (
     <div className={classes.footers}>
       <div className={classes.aligner}>
@@ -42,7 +50,7 @@ const Footers = (props) => {
           ></img>}
         </div>
         <div className={ props.format ? classes.links : classes.citation}>
-          {props.format ? creatLinks() : <p>{litrals.welcome.text2}</p>}
+          {props.format ? creatLinks(props.history) : <p>{litrals.welcome.text2}</p>}
         </div>
       </div>
       {props.format ? (
