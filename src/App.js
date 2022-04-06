@@ -40,7 +40,7 @@ const FloatingButton = React.lazy(() => import('./Components/FloatingButton/Floa
 //   loading: Loading
 // });
 
-
+const PrivacyPolicy = React.lazy(() => import("./Components/PrivacyPolicy/PrivacyPolicy"));
 
 function App() {
   const [showCover, setShowCover] = useState(true)
@@ -77,23 +77,27 @@ function App() {
 
         return (
           <>
-
-              <Router basename="/">
-                {/* <Header /> */}
-                <div className={classes.App}>
-                  <Container fluid={true}>
-                    <Switch>
-                      <Route path='/chatbot' component={Chatbot} />
-                      <Route path='/userform' component={UserForm} />
-                      <Route path='/feedback' component={Feedback} />
-                      <Route exact path='/' component={WelcomePage} />
-                      <Route component={WelcomePage} />
-                    </Switch>
-                    {mobile ? <div className={classes.floatingButton}><FloatingButton isOpen={true}></FloatingButton></div>:null}
-                  </Container >
-                </div>
-                {/* {!mobile ? <Footers></Footers>:null} */}
-              </Router>
+            <Router basename="/">
+              {/* <Header /> */}
+              <div className={classes.App}>
+                <Container fluid={true}>
+                  <Switch>
+                    <Route path="/chatbot" component={Chatbot} />
+                    <Route path="/userform" component={UserForm} />
+                    <Route path="/feedback" component={Feedback} />
+                    <Route path="/PrivacyPolicy" component={PrivacyPolicy} />
+                    <Route exact path="/" component={WelcomePage} />
+                    <Route component={WelcomePage} />
+                  </Switch>
+                  {mobile ? (
+                    <div className={classes.floatingButton}>
+                      <FloatingButton isOpen={true}></FloatingButton>
+                    </div>
+                  ) : null}
+                </Container>
+              </div>
+              {/* {!mobile ? <Footers></Footers>:null} */}
+            </Router>
           </>
         );
       }}
