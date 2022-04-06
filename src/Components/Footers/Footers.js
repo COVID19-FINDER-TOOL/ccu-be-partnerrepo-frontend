@@ -10,6 +10,7 @@ const creatLinks = () => {
       <Nav.Link
         bsPrefix={classes.footerLinks}
         href="PrivacyPolicy"
+        target="_blanck"
       >
         Privacy Policy</Nav.Link>
       <Nav.Link
