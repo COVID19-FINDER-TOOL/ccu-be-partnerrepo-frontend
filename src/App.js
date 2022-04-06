@@ -86,10 +86,8 @@ function App() {
                     <Route path="/userform" component={UserForm} />
                     <Route path="/feedback" component={Feedback} />
                     <Route path="/PrivacyPolicy" component={PrivacyPolicy} />
-                    {/* <Route exact path="/" component={WelcomePage} />
-                    <Route component={WelcomePage} /> */}
-                    <Route exact path="/" component={PrivacyPolicy} />
-                    <Route component={PrivacyPolicy} />
+                    <Route exact path="/" component={WelcomePage} />
+                    <Route component={WelcomePage} />
                   </Switch>
                   {mobile ? (
                     <div className={classes.floatingButton}>

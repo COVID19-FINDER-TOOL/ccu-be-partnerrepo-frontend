@@ -4,12 +4,14 @@ import { Container, Nav } from "react-bootstrap";
 import litrals from "../Litrals/Litrals";
 
 
-const creatLinks = (rou) => {
+const creatLinks = () => {
   return (
     <>
-      <p onClick={rou.push("/PrivacyPolicy")}>
-        Privacy Policy
-      </p>
+      <Nav.Link
+        bsPrefix={classes.footerLinks}
+        href="PrivacyPolicy"
+      >
+        Privacy Policy</Nav.Link>
       <Nav.Link
         bsPrefix={classes.footerLinks}
         href="https://www.soprasteria.com/about-us"
