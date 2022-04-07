@@ -176,10 +176,8 @@ const PrivacyPolicy = () => {
                     collected for Breathe Easy. This means they are known as the
                     Data Controller. They have tasked Sopra Steria to collect
                     and analyse the data on their behalf. This means Sopra
-                    Steria is known as the Data Processor. CCU can be contacted
-                    at the
+                    Steria is known as the Data Processor. CCU can be contacted at the following address:
                     <br />
-                    following address:
                     <br />
                     Capital Credit Union Ltd
                     <br />
@@ -198,6 +196,7 @@ const PrivacyPolicy = () => {
                     traced back to any person. The person responsible for this
                     data at Sopra Steria can be contacted at the following
                     address or phone number:
+                    <br />
                     <br />
                     Data Protection Officer
                     <br />
@@ -221,7 +220,7 @@ const PrivacyPolicy = () => {
                     action plan based on your answers to the questions.
                     <br />
                     <pre></pre>
-                    The datawhich are collected are processed to understand
+                    The data  which are collected are processed to understand
                     trends in financial vulnerability of CCU’s customers. Most
                     of the data are anonymised, so no-one can be identified from
                     them. The data are then analysed by Sopra Steria. This helps
@@ -265,11 +264,11 @@ const PrivacyPolicy = () => {
                     be covered in plain English to assure it is understood by
                     the intended audience. See suggested headings below.
                     <br />
-                    <pre></pre>
+                    </p>
+                  <h5 className={classes.tabsSubHeading}>
                     What if I am unhappy with how my email address is being
-                    used?
-                    <br />
-                    <pre></pre>
+                    used?</h5>
+                    <p className={classes.tabsPara}>
                     You do not need to give your email address. If you change
                     your mind, you can also ask the CCU agent not to use your
                     email address. This will mean that we cannot send you your
@@ -278,15 +277,13 @@ const PrivacyPolicy = () => {
                     (the Information Commissioner’s Office) at the following
                     address:
                     <br />
-                    <pre></pre>
                     <a href=" https://ico.org.uk/make-a-complaint/data-protection-complaints/" target='_blank'>
-                      {" "}
                       https://ico.org.uk/make-a-complaint/data-protection-complaints/
                     </a>
                     <br />
-                    <pre></pre>
                     or write to the regulator at:
                     <br />
+                    <br/>
                     Information Commissioner's Office
                     <br />
                     Wycliffe House
@@ -299,7 +296,6 @@ const PrivacyPolicy = () => {
                     <br />
                     SK9 5AF
                     <br />
-                    <pre></pre>
                     Telephone: 0303 123 1113
                     <br />
                     Fax: 01625 524510 .{" "}
