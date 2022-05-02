@@ -532,7 +532,7 @@ const btn_second = <div >
                   <p className={classes.tabsPara}></p>
                   
               {/* Q.11 starts */}
-              <h5 className={classes.tabsSubHeading}>Q.11 - Why were you bought to the tool today? </h5>
+              <h5 className={classes.tabsSubHeading}>Q.11 - Why were you brought to the tool today? </h5>
                   <CustomSelect 
                     optionValue={this.optionData?.Loan} 
                     id="loan"
