@@ -62,8 +62,8 @@ class Chatbot extends React.Component {
             showHomeModal: false,
             section: 0,
             queryIndex: 0,
-            queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],
-             /* queryString: ["042d2761-8791-4ef6-a97c-6edabb9ad7f9/generateAnswer", 'aafa576b-8d0c-4586-af50-4e47f56ceca4/generateAnswer', "0c6be717-519a-47d1-a45b-10957b0dc32d/generateAnswer", '3da1cc64-b289-41eb-aef8-7c3cd21d247f/generateAnswer', "92a113b0-4a0e-41ee-93bc-b576784d08c6/generateAnswer", "bf855b48-b569-4349-be23-be9f7e3280ac/generateAnswer"],*/
+           /*  queryString: ["464251aa-1153-4743-95e3-91f755010d59/generateAnswer", '42f93d7a-e090-499d-9982-ef1542831f4c/generateAnswer', "e9699c3a-b42c-4dba-bdc7-c8209b88a1f1/generateAnswer", 'e6dfce19-14c2-4e29-8612-159a795f804a/generateAnswer', "6df58cc9-a5c0-4ae2-ab87-40b45b7a7831/generateAnswer", "3c29bd54-5d47-4e29-ad44-0f719058eb60/generateAnswer"],*/
+             queryString: ["042d2761-8791-4ef6-a97c-6edabb9ad7f9/generateAnswer", 'aafa576b-8d0c-4586-af50-4e47f56ceca4/generateAnswer', "0c6be717-519a-47d1-a45b-10957b0dc32d/generateAnswer", '3da1cc64-b289-41eb-aef8-7c3cd21d247f/generateAnswer', "92a113b0-4a0e-41ee-93bc-b576784d08c6/generateAnswer", "bf855b48-b569-4349-be23-be9f7e3280ac/generateAnswer"],
             disagree: 0,
             showTextArea: 0,
             textAreaValue: "",
