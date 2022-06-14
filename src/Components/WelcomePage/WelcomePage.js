@@ -153,7 +153,7 @@ class WelcomePage extends React.Component {
       loan: this.state.loan,
       postcode: this.state.postcode,
     }
-    axiosLoginInstance.post("/CFTUserDataInsertTrigger", respBody)
+    axiosLoginInstance.post("/CFTSaveDataTrigger", respBody)
       .then(res => { 
         this.props.history.push('/Chatbot')
       }).catch(error => {
