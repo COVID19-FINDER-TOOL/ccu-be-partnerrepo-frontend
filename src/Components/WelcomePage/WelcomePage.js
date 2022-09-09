@@ -86,14 +86,14 @@ class WelcomePage extends React.Component {
   }
 
   handleDisagree = () => {
-
+    this.showHomeModal();
     
-    this.setState(() => {
-      return {disagree:1}
-  })
-    setTimeout(()=> {
-      this.handleStart();
-    },100)
+  //   this.setState(() => {
+  //     return {disagree:1}
+  // })
+  //   setTimeout(()=> {
+  //     this.handleStart();
+  //   },100)
     
     
     
