@@ -7,12 +7,12 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Card from 'react-bootstrap/Card'
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
 import MDReactComponent from 'markdown-react-js';
 import InfoIcon from '@material-ui/icons/Info';
 import { Col, Row } from 'react-bootstrap';
-import * as themeClass from '../../theme.json';
+import primaryColor from '../../theme.json';
+import secondaryColor from '../../theme.json';
+import tertiaryColor2 from '../../theme.json';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -112,7 +112,7 @@ const generateLinks = (data, topic) => {
                     {topic == 3 ?
 
                         <Card.Body style={{ display: "flex", padding: "1rem 1rem 0 1rem", minHeight:"4rem" }}>
-                            <InfoIcon style={{ margin: mobile ? "0px":"-2px", fontSize: mobile ? "2rem":"2.5rem",color:themeClass.primaryColor }}></InfoIcon>
+                            <InfoIcon style={{ margin: mobile ? "0px":"-2px", fontSize: mobile ? "2rem":"2.5rem",color:primaryColor }}></InfoIcon>
                             <Typography gutterBottom variant="body1" component="p" style={{margin: "auto", marginLeft: "0.35em", fontSize: "16px"}} >
                                 <MDReactComponent key={index} text={x} onIterate={handleIterate} />
                             </Typography>
@@ -163,7 +163,7 @@ const generatetabs = (data, value) => {
                     borderRight: "1px solid #f5f5f5",
                     outline: 0,
                     borderLeft: index === 0 ? "1px solid #f5f5f5" : "none",
-                    backgroundColor: value === index ? themeClass.secondaryColor : themeClass.tertiaryColor2,
+                    backgroundColor: value === index ? secondaryColor : tertiaryColor2,
                     fontSize: "14px",
                     paddingTop: mobile ? "15px":"20px",
                     height: mobile ? "70px":"60px",

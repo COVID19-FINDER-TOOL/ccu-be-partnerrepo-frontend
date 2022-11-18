@@ -43,7 +43,7 @@ const Footers = (props) => {
         <div className={classes.images}>
           <img
             className={classes.logoImage}
-            src={require("../../assets/Images/Logo_Capital-Credit-Union.png").default}
+            src={require("../../assets/Images/Logo_Scotwest-Credit-Union.png").default}
             alt="SS logo"
           ></img>
           {img2 && <img

@@ -10,6 +10,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.11.2",
+    "@react-pdf/fontkit": "^2.1.2",
     "@react-pdf/renderer": "^2.0.16",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
@@ -17,16 +18,22 @@
     "animate.css": "^4.1.1",
     "animate.css-react": "^1.1.0",
     "antd": "^4.16.8",
+    "assert": "^2.0.0",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
     "file-saver": "^2.0.5",
-    "fs": "0.0.1-security",
+    "fontkit": "^2.0.2",
+    "fs": "^0.0.1-security",
+    "https-browserify": "^1.0.0",
     "markdown-react-js": "^1.0.2",
     "moment": "^2.29.1",
-    "node-sass": "^6.0.1",
-    "node-sass-json-importer": "^4.3.0",
+    "node-sass": "^8.0.0",
+    "node-sass-json-importer": ">= 4.3.0",
+    "os": "^0.1.2",
+    "os-browserify": "^0.3.0",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",
+    "react-app-rewired": "^2.2.1",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
     "react-flexible-sliding-menu": "^0.1.9",
@@ -39,15 +46,18 @@
     "react-select": "^5.2.2",
     "react-share": "^4.4.0",
     "redux": "^4.1.0",
+    "sass": "^1.56.1",
     "sass-extract": "^2.1.0",
     "sass-extract-loader": "^1.1.0",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "styled-components": "^5.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "prebuild": "npm run generate-build-version",
     "prestart": "npm run generate-build-version",
     "generate-build-version": "node generate-build-version"
@@ -56,7 +66,7 @@
     "extends": "react-app"
   },
   "engines": {
-    "node": "12.18.3"
+    "node": ">= 16.0.0"
   },
   "browserslist": {
     "production": [
@@ -75,6 +85,12 @@
     "fsevents": "^2.3.2"
   },
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "@react-pdf/font": "2.2.0",
+    "@react-pdf/renderer": "2.1.0",
+    "file-loader": "^6.2.0",
+    "sass-loader": "^11.1.1"
+  },
+  "resolutions": {
+    "@react-pdf/font": "2.2.0"
   }
 }
