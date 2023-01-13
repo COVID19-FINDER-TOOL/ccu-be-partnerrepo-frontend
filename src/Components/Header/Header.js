@@ -10,14 +10,14 @@ import FloatingButton from '../FloatingButton/FloatingButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 const heading = {
-    "0": "Breathe Easy",
-    "1": "Breathe Easy",
-    "2": "Breathe Easy",
-    "3": "Breathe Easy",
-    "4": "Breathe Easy",
-    "5": "Breathe Easy",
+    "0": "Support Point",
+    "1": "Support Point",
+    "2": "Support Point",
+    "3": "Support Point",
+    "4": "Support Point",
+    "5": "Support Point",
     "7": "Feedback",
-    "8": "Breathe Easy"
+    "8": "Support Point"
 }
 
 const Header = (props) => {

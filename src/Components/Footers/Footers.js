@@ -34,7 +34,7 @@ const Footers = (props) => {
           ></img> */}
           <img
             className={classes.logoImage}
-            src={require("../../assets/Images/sslogo.png").default}
+            src={require("../../assets/Images/SPLogo.png").default}
             alt="university logo"
           ></img>
         </div>

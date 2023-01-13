@@ -8,7 +8,7 @@
     margin-bottom: 2%;
     font-size: 24px;
     line-height: 36px;
-    color: $secondary-color;
+    color: $secondary-color-1   ;
 }
 
 .message{
@@ -125,7 +125,7 @@
     margin-bottom: 2%;
     font-size: 24px;
     line-height: 36px;
-    color: $secondary-color;
+    color: $secondary-color-1;
 
 }
 .currentJourneySpan{
@@ -187,7 +187,7 @@
     margin: auto;
     align-items: center;
     height: 30px;
-    border-right: $secondary-color 2px solid;
+    border-right: $secondary-color-1 2px solid;
 }
 
 .iconCenter{
@@ -226,7 +226,7 @@
     // text-align: center;
   }
   .logoPara{
-    color: $secondary-color;
+    color: $secondary-color-1;
     text-align: left;
     font: normal normal bold 18px/27px Tahoma ;
     letter-spacing: 1.44px;
@@ -282,7 +282,7 @@
     min-width: 60%;
     height: 5   rem;
     background-color: white;
-    border: 1px solid $secondary-color;
+    border: 1px solid $secondary-color-1;
     border-radius: 5px;
     margin: auto;
     margin-top: 1%;
