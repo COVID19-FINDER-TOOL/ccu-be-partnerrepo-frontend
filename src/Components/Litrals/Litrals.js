@@ -1,11 +1,11 @@
 const litrals = {
     buttons: {
         startButton: {
-            buttonText: "Proceed",
+            buttonText: "Happy to continue",
             variant: "primary",
         },
         disagreeButton: {
-            buttonText: "Not happy to proceed",
+            buttonText: "Exit",
             variant: "primary",
         },
         getStartedButton: {
@@ -66,7 +66,7 @@ const litrals = {
             variant: "primary",
         },
         submitForm:{
-            buttonText: "Submit & Proceed",
+            buttonText: "Submit & Continue",
             variant: "primary",
         }
 
@@ -74,15 +74,15 @@ const litrals = {
     },
     welcome:{
         heading : "Welcome to Covid-19 Support Finder",
-        text0: "Breathe Easy",
+        text0: "Support Point",
         text1: "Providing tailored support to those who need it most",
-        textNew: "Breathe Easy",
+        textNew: "Support Point",
         text2: "Tool created by Sopra Steria and The University of Edinburgh in collaboration with various charities",
         text3: "How does it work?",
-        text4: "This tool has different options and information to provide emotional, health and financial support  ",
-        text5: "Thank you for providing details about your situation. Here are your personalised support plans",
+        text4: "This tool will give you information on support for your practical, financial, health and emotional wellbeing. It’s anonymous and free to use.",
+        text5: "Thank you for sharing information about your situation. We will now share links to online support options relevant to you. This is designed to help you find out more and then access or apply for help. On the next page you can ask us to email this to you as an action plan.",
         text6: "Learn from others:",
-        desclaimer: "This assessment is designed to help you with regards to your wellbeing, health, safety and security.  Tens of thousands of people in the same position as you have successfully benefitted from the tool and no personal data will be stored or held, meaning there is no risk of the information you enter being tracked back to, or used, against you. The answers given will provide you with a tailored yet anonymous support and action plan, helping you to access the support and services you need.",
+        desclaimer: "Welcome to the UK. This tool will help you find the right support as you seek asylum here. We will ask you a few simple questions about your situation. We will then provide you a list of support offered by UK organisations. This service is free and anonymous, so your information and tailored support options can only be seen by you.",
         desclaimerBold: "Should you feel unsafe or uncomfortable at any point, the exit button at the top right of each page will close the survey and delete all your answers up to that point.",
         ribbonButtonsPre :["Tell us about yourself","View your options","Know your rights","View you Action Plan","Hear from others"],
         ribbonButtons : [{pretext:"Tell us about yourself",displayText:"We will ask you a few questions about your situation. None of your personal information will be stored or shared."},

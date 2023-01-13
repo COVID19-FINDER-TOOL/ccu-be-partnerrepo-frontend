@@ -20,7 +20,7 @@ body {
 }
 .headingH1 {
   font-weight: bolder;
-  color: $secondary-color;
+  color: $secondary-color-1;
   line-height: 32px;
   margin-top: 3%;
   text-align: center;
@@ -28,20 +28,20 @@ body {
 
 .headingHx {
   font-weight: bolder;
-  color: $secondary-color;
+  color: $secondary-color-1;
   margin-top: 3%;
   text-align: left;
 }
 
 .headingPara {
   font-weight: bolder;
-  color: $secondary-color;
+  color: $secondary-color-1;
   line-height: 32px;
   text-align: center;
 }
 
 .logoPara {
-  color: $secondary-color;
+  color: $secondary-color-1;
   text-align: left;
   font: normal normal bold 24px/28px Tahoma;
   letter-spacing: 1.44px;
